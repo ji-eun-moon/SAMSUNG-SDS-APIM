@@ -4,11 +4,6 @@ server:
 spring:
   application:
     name: memberService
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://k9c201.p.ssafy.io/itda_member
-    username: c201
-    password: itda1235!@#%
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
