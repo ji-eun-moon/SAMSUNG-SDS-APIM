@@ -14,6 +14,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+    @Column(nullable = false, unique = true)
     private String employeeId;
     private String name;
     private String password;
