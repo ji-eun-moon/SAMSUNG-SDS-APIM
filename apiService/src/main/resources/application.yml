@@ -1,9 +1,9 @@
 server:
-  port: 9002
+  port: 9200
 
 spring:
   application:
-    name: apiService
+    name: api-service
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
