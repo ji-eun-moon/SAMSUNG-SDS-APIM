@@ -1,4 +1,3 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import Button from '.';
 
 export default {
@@ -6,35 +5,49 @@ export default {
   tags: ['autodocs'],
   component: Button,
   argTypes: {
-    children: {
-      description: '버튼 내부에 들어갈 내용',
+    label: {
+      description: '버튼 라벨',
     },
     backgroundColor: {
-      description: '버튼 배경색을 지정합니다',
+      description: '버튼 배경색',
     },
     type: {
-      description:
-        '[fullRounded] border-radius: 1.5rem; [emptyRounded] border-radius: 1rem; [fullStraight] border-radius: 0.5rem;',
+      description: '버튼 타입',
+    },
+    borderColor: {
+      description: 'outline 버튼 border 색상',
+    },
+    textColor: {
+      description: 'outline 버튼 Text 색상',
+    },
+    onButton: {
+      description: '버튼 클릭시 동작할 함수',
     },
   },
-} as ComponentMeta<typeof Button>;
-
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
-
-export const FullRoundedButton = Template.bind({});
-FullRoundedButton.args = {
-  children: <span>Full Rounded Button</span>,
-  type: 'fullRounded',
 };
 
-export const EmptyRoundedButton = Template.bind({});
-EmptyRoundedButton.args = {
-  children: <span>Empty Rounded Button</span>,
-  type: 'emptyRounded',
+export const RoundedButton = {
+  args: {
+    label: 'rounded',
+    type: 'rounded',
+    backgroundColor: 'bg-blue-500',
+    borderColor: 'border-blue-500',
+  },
 };
 
-export const StraightButton = Template.bind({});
-StraightButton.args = {
-  children: <span>Straight Button</span>,
-  type: 'fullStraight',
+export const OutlinedButton = {
+  args: {
+    label: 'outlined',
+    type: 'outlined',
+    borderColor: 'border-blue-500',
+  },
+};
+
+export const StraightButton = {
+  args: {
+    label: 'straight',
+    type: 'straight',
+    backgroundColor: 'bg-blue-500',
+    borderColor: 'border-blue-500',
+  },
 };
