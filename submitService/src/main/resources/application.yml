@@ -1,9 +1,9 @@
 server:
-  port: 9001
+  port: 9100
 
 spring:
   application:
-    name: submitService
+    name: submit-service
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
