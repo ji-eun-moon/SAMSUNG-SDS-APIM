@@ -29,14 +29,19 @@ spring:
 #            - AddRequestHeader=submit-request, submit-request-header2
 #            - AddResponseHeader=submit-request, submit-request-header2
 
-        - id: submitService
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/**
+
+        - id: submit-service
           uri: lb://SUBMIT-SERVICE
           predicates:
             - Path=/submit/**
           filters:
             - CustomFilter
 
-        - id: apiService
+        - id: api-service
           uri: lb://API-SERVICE
           predicates:
             - Path=/server/**
