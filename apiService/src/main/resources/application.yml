@@ -7,7 +7,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://k9c201.p.ssafy.io:3306/itda-api?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://k9c201.p.ssafy.io:3306/itda_api?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: itda1235!@#%
 
