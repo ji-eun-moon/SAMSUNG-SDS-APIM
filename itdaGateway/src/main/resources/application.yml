@@ -33,20 +33,22 @@ spring:
           uri: lb://MEMBER-SERVICE
           predicates:
             - Path=/member/**
+          filters:
+            - RewritePath=/member/(?<segment>.*), /${segment}
 
         - id: submit-service
           uri: lb://SUBMIT-SERVICE
           predicates:
             - Path=/submit/**
           filters:
-            - CustomFilter
+            - RewritePath=/submit/(?<segment>.*), /${segment}
 
         - id: api-service
           uri: lb://API-SERVICE
           predicates:
             - Path=/server/**
           filters:
-            - CustomFilter
+            - RewritePath=/server/(?<segment>.*), /${segment}
             - name: LoggingFilter
               args:
                 baseMessage: HI, I'm LoggerFilter
