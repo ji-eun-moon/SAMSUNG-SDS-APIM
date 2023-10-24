@@ -13,7 +13,7 @@ public class NoticeListResponse {
 
     private Long noticeId;
     private String title;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private boolean check;
 
     // 작성자 정보

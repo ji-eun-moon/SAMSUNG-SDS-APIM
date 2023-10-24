@@ -20,7 +20,7 @@ public class Notice {
     @Column(name = "notice_id")
     private Long id;
 
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private String content;
 
     // 작성자 from

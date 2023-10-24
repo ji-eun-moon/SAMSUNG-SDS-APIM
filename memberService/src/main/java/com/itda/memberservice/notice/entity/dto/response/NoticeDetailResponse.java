@@ -13,7 +13,7 @@ public class NoticeDetailResponse {
 
     private String title;
     private String content;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     // 작성자 정보
     // 작성자 이름 fromName
