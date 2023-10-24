@@ -2,6 +2,9 @@ package com.itda.memberservice.member.entity.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -41,5 +44,8 @@ public class Member {
 
     @Column(length = 30)
     private String email;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 
 }
