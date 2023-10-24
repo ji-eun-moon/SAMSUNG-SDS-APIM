@@ -4,27 +4,29 @@ interface InputProps {
   width?: string;
   backgroundColor?: string;
   isPassword: boolean; // isPassword prop 추가
+  inputWord: string;
 }
 
-function Input({ width, backgroundColor, isPassword = false }: InputProps) {
-  const [inputWord, setInputWord] = useState('');
+function Input({ width, backgroundColor, isPassword = false, inputWord }: InputProps) {
+  const [isFocused, setIsFocused] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  const onInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputWord(e.target.value);
-  };
 
   const onVisibleHandler = () => {
     setVisible(!visible);
   };
 
   return (
-    <div className={`${width} ${backgroundColor} rounded-lg border-2 border-gray-400 flex items-center`}>
+    <div
+      className={`${width} ${backgroundColor} rounded-lg border-2 ${
+        isFocused ? 'border-blue-500' : 'border-gray-400'
+      } flex items-center h-10`}
+    >
       <input
         type={isPassword && !visible ? 'password' : 'text'} // 비밀번호 표시 조건 추가
         value={inputWord}
-        onChange={onInputHandler}
         className="mx-1 outline-none flex-grow"
+        onFocus={() => setIsFocused(true)} // 포커스되면 상태를 true로 변경
+        onBlur={() => setIsFocused(false)} // 포커스가 없어지면 상태를 false로 변경
       />
       {isPassword && ( // isPassword가 true일 때만 아이콘 표시
         <span
