@@ -1,4 +1,3 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import SearchBar from '.';
 
 export default {
@@ -16,12 +15,11 @@ export default {
       description: '검색 아이콘 클릭시 동작할 함수',
     },
   },
-} as ComponentMeta<typeof SearchBar>;
+};
 
-const Template: ComponentStory<typeof SearchBar> = (args) => <SearchBar {...args} />;
-
-export const ShortSearchBar = Template.bind({});
-ShortSearchBar.args = {
-  width: 'w-64',
-  keyword: '',
+export const ShortSearchBar = {
+  args: {
+    width: 'w-64',
+    keyword: '',
+  },
 };
