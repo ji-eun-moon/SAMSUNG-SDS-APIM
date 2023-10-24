@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { ModalProps, AlertModalProps, ConfirmModalProps, CustomModalProps } from '@/types/ModalProps';
+import { ModalProps, AlertModalProps, ConfirmModalProps, CustomModalProps } from '@/types/props/ModalProps';
 import Button from '@/components/atoms/Button';
 import ModalStyle from './Modal.module.scss';
 
