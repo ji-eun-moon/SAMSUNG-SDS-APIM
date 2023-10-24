@@ -1,6 +1,5 @@
 package com.itda.memberservice.member.entity.domain;
 
-import com.itda.memberservice.team.entity.domain.Team;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,20 +14,32 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true, length = 10)
     private String employeeId;
+
+    @Column(nullable = false, length = 20)
     private String name;
+
+    @Column(nullable = false, length = 72)
     private String password;
+
+    @Column(nullable = false, length = 11)
     private String phoneNumber;
+
+    @Column(length = 1000)
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    @Column(length = 20)
     private String department;
+
+    @Column(length = 20)
     private String position;
+
+    @Column(length = 30)
     private String email;
-
-
 
 }
