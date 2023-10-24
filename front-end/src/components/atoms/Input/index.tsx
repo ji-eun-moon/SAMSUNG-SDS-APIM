@@ -5,9 +5,10 @@ interface InputProps {
   backgroundColor?: string;
   isPassword: boolean; // isPassword prop 추가
   inputWord: string;
+  placeholder: string;
 }
 
-function Input({ width, backgroundColor, isPassword = false, inputWord }: InputProps) {
+function Input({ width, backgroundColor, isPassword = false, inputWord, placeholder }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -24,6 +25,7 @@ function Input({ width, backgroundColor, isPassword = false, inputWord }: InputP
       <input
         type={isPassword && !visible ? 'password' : 'text'} // 비밀번호 표시 조건 추가
         value={inputWord}
+        placeholder={placeholder}
         className="mx-1 outline-none flex-grow"
         onFocus={() => setIsFocused(true)} // 포커스되면 상태를 true로 변경
         onBlur={() => setIsFocused(false)} // 포커스가 없어지면 상태를 false로 변경
