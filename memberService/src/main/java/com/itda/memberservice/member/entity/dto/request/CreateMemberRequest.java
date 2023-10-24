@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,8 +23,6 @@ public class CreateMemberRequest {
 
     private String email;
 
-    private Long teamId;
-    private String teamName;
-
+    private List<CreateMemberRequest> team = new ArrayList<>();
 
 }

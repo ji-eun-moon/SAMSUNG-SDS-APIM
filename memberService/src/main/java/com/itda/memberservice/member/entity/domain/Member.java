@@ -29,9 +29,6 @@ public class Member {
     private String position;
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
 
 
 }

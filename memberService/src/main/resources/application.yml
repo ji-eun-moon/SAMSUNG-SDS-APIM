@@ -33,3 +33,9 @@ security:
   jwt:
     secret:
       key: c201c201c201c201c201c201c201c201c201c201
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, mappings
