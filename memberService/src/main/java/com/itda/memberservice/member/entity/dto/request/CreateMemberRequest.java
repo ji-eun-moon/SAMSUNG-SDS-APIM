@@ -1,7 +1,6 @@
 package com.itda.memberservice.member.entity.dto.request;
 
 import com.itda.memberservice.member.entity.domain.Authority;
-import jakarta.persistence.Embedded;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateRequest {
+public class CreateMemberRequest {
 
     private String employeeId;
     private String name;
@@ -20,6 +19,9 @@ public class CreateRequest {
     private String position;
 
     private String email;
+
+    private Long teamId;
+    private String teamName;
 
 
 }

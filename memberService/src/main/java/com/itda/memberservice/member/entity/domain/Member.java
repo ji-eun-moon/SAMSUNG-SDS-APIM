@@ -1,5 +1,6 @@
 package com.itda.memberservice.member.entity.domain;
 
+import com.itda.memberservice.team.entity.domain.Team;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,14 +19,19 @@ public class Member {
     private String employeeId;
     private String name;
     private String password;
+    private String phoneNumber;
     private String imageUrl;
 
-    @Embedded
+    @Enumerated(EnumType.STRING)
     private Authority authority;
 
     private String department;
     private String position;
     private String email;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
 
 }

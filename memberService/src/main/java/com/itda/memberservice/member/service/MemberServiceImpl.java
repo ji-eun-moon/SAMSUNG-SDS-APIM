@@ -1,6 +1,6 @@
 package com.itda.memberservice.member.service;
 
-import com.itda.memberservice.member.entity.dto.request.CreateRequest;
+import com.itda.memberservice.member.entity.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.entity.dto.response.MemberResponse;
 import com.itda.memberservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
-    public MemberResponse createMember(CreateRequest createRequest) {
+    public MemberResponse createMember(CreateMemberRequest createMemberRequest) {
 
         return new MemberResponse();
     }
