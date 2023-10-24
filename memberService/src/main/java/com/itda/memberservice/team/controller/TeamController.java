@@ -28,4 +28,6 @@ public class TeamController {
         teamInfoResponses.add(new TeamInfoResponse(2L, "ITDA 프로젝트-2", memberList.size(), memberList));
         return ResponseEntity.ok(teamInfoResponses);
     }
+
+    //
 }

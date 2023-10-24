@@ -75,6 +75,15 @@ public class MemberController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "전체 회원 조회", description = "전체 회원 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원 조회 결과", content = @Content(schema = @Schema(
+                    implementation = MemberResponse.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     public ResponseEntity<?> members() {
         List<MemberResponse> responses = new ArrayList<>();
         responses.add(new MemberResponse(1L, "0912472", "이찬웅", "010-9678-7667", "imageUrl", Authority.관리자,
@@ -87,6 +96,13 @@ public class MemberController {
     }
 
     @PostMapping("/change-password")
+    @Operation(summary = "비밀번호 변경", description = "비밀번호 변경")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "비밀번호 변경 완료"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     public ResponseEntity<?> changePassword(@RequestBody String pwd) {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
