@@ -7,6 +7,14 @@ interface TextAreaProps {
   placeholder: string;
 }
 
+/**
+ * TextArea 컴포넌트
+ * @param {string} width - TextArea 가로 길이
+ * @param {string} backgroundColor - TextArea 배경색
+ * @param {string} textAreaWord - TextArea 입력값
+ * @param {string} placeholder - TextArea placeholder
+ */
+
 function TextArea({ width, backgroundColor, textAreaWord, placeholder }: TextAreaProps) {
   const [isFocused, setIsFocused] = useState(false);
 

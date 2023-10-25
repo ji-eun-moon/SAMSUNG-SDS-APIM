@@ -1,7 +1,7 @@
 import TextArea from '.';
 
 export default {
-  title: 'stories/TextArea',
+  title: 'atoms/TextArea',
   tags: ['autodocs'],
   component: TextArea,
   argTypes: {
