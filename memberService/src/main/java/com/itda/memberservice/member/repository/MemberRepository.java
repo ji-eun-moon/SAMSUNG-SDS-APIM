@@ -1,7 +1,9 @@
 package com.itda.memberservice.member.repository;
 
-import com.itda.memberservice.member.entity.domain.Member;
+import com.itda.memberservice.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberQueryRepository {
 }
