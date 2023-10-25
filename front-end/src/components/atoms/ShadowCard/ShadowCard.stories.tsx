@@ -1,7 +1,7 @@
 import ShadowCard from '.';
 
 export default {
-  title: 'stories/ShadowCard',
+  title: 'atoms/ShadowCard',
   tags: ['autodocs'],
   component: ShadowCard,
   argTypes: {

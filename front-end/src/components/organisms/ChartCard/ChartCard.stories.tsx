@@ -1,7 +1,7 @@
 import ChartCard from '.';
 
 export default {
-  title: 'stories/ChartCard',
+  title: 'organisms/ChartCard',
   tags: ['autodocs'],
   component: ChartCard,
   argTypes: {
@@ -21,7 +21,7 @@ export const Chart = {
   args: {
     title: 'CPU Usage',
     children: <div>차트</div>,
-    explain: 'CPU Usage에 관한 차트입니다',
-    onclick: 'https://dapi.kakao.com/v2/search/web',
+    explain: <p>CPU Usage에 관한 차트입니다</p>,
+    onclick: () => {},
   },
 };
