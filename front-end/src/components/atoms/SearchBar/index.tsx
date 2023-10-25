@@ -6,6 +6,13 @@ interface SearchBarProps {
   onSearchHandler: () => void;
 }
 
+/**
+ * SearchBar 컴포넌트
+ * @param {string} width - SearchBar 가로 길이
+ * @param {string} keyword - SearchBar 입력값
+ * @param {function} onSearchHandler - Search 누르면 동작할 함수
+ */
+
 function SearchBar({ width, keyword, onSearchHandler }: SearchBarProps) {
   return (
     <div className={`bg-white p-3 rounded-xl border-2 border-gray-400 flex ${width}`}>

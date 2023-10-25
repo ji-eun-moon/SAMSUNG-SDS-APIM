@@ -1,7 +1,7 @@
 import SearchBar from '.';
 
 export default {
-  title: 'stories/SearchBar',
+  title: 'atoms/SearchBar',
   tags: ['autodocs'],
   component: SearchBar,
   argTypes: {

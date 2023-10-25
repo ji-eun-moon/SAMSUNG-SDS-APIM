@@ -1,0 +1,66 @@
+.table {
+  width: 1260px;
+  border-collapse: collapse;
+}
+
+.title {
+  width: 201px;
+
+  padding: 5px;
+
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+
+  background-color: bgItdaBlue;
+
+  border-radius: 15px 15px 0px 0px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 420px 840px;
+
+  min-height: 65px;
+
+  align-items: center;
+
+  word-wrap: break-word; // 단어 내에서 줄 바꿈
+}
+
+.left {
+  height: 100%;
+  padding-right: 20px;
+
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  color: black;
+  font-size: 22px;
+  font-weight: 600;
+
+  border-bottom: 1px solid #9a9a9a;
+
+  background-color: #eaeaea;
+}
+
+.right {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  color: black;
+  font-size: 20px;
+  font-weight: 500;
+
+  border-bottom: 1px solid #9a9a9a;
+
+  padding-left: 20px;
+  padding-right: 30px;
+}
