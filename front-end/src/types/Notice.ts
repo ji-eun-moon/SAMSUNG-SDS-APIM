@@ -9,7 +9,7 @@ export interface IFromDetail extends IFrom {
   fromPosition: string;
 }
 
-interface INotice {
+export interface INotice {
   noticeId: number;
   from: IFrom[];
   check: boolean;

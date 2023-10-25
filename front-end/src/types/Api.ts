@@ -1,4 +1,4 @@
-interface ICategory {
+export interface ICategory {
   categoryName: string;
   categoryId: number;
   description: string;
@@ -6,7 +6,7 @@ interface ICategory {
 
 export type TCategoryList = ICategory[];
 
-interface IApi {
+export interface IApi {
   apiName: string;
   apiAddress: string;
   apiId: number;
@@ -41,3 +41,24 @@ export interface ITestResult {
   response: string;
   result: string;
 }
+
+export interface IApiSearch {
+  apiId: number;
+  apiName: string;
+  categoryId: number;
+  categoryName: string;
+}
+
+export type IApiSearchList = IApiSearch[];
+
+interface IApiStatus {
+  apiId: number;
+  apiName: string;
+  categoryId: number;
+  categoryName: string;
+  responseTime: number;
+  updatedAt: Date;
+  apiStatus: '정상' | '점검' | '오류';
+}
+
+export type IApiStatusList = IApiStatus[];
