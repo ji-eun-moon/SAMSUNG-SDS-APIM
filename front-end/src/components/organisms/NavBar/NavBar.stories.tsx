@@ -1,7 +1,7 @@
 import NavBar from '.';
 
 export default {
-  title: 'stories/NavBar',
+  title: 'organisms/NavBar',
   tags: ['autodocs'],
   component: NavBar,
   argTypes: {

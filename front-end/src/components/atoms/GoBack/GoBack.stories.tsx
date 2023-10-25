@@ -1,7 +1,7 @@
 import GoBack from '.';
 
 export default {
-  title: 'stories/GoBack',
+  title: 'atoms/GoBack',
   tags: ['autodocs'],
   component: GoBack,
   argTypes: {
