@@ -8,6 +8,15 @@ interface InputProps {
   placeholder: string;
 }
 
+/**
+ * Input 컴포넌트
+ * @param {string} width - input 창 가로 길이
+ * @param {string} backgroundColor - input 창 배경색
+ * @param {boolean} isPassword - 비밀번호 창인지 boolean 값
+ * @param {string} inputWord - input 창 내용
+ * @param {string} placeholder - input 창 placeholder
+ */
+
 function Input({ width, backgroundColor, isPassword = false, inputWord, placeholder }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [visible, setVisible] = useState(false);

@@ -1,7 +1,7 @@
 import Input from '.';
 
 export default {
-  title: 'stories/Input',
+  title: 'atoms/Input',
   tags: ['autodocs'],
   component: Input,
   argTypes: {

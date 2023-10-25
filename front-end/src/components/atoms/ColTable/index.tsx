@@ -13,6 +13,12 @@ interface ColTableProps {
   bodyContent: Person[];
 }
 
+/**
+ * ColTable 컴포넌트
+ * @param {[]} headerContent - ColTable header 지정
+ * @param {[]} bodyContent - ColTable body 지정
+ */
+
 function ColTable({ headerContent, bodyContent }: ColTableProps) {
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
   const [bodys, setBodys] = useState<Person[]>([]);
