@@ -11,6 +11,8 @@ public class SkipMemberResponse {
 
     private String employeeId;
     private String name;
+    private String imageUrl;
+    private String email;
     private String department;
     private String position;
 }

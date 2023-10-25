@@ -10,10 +10,10 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamInfoResponse {
+public class TeamListResponse {
 
-     private Long id;
-     private String name;
-     private Integer count;
+     private Long teamId;
+     private String teamName;
+     private Integer teamCount;
      private List<SkipMemberResponse> teamMembers;
 }

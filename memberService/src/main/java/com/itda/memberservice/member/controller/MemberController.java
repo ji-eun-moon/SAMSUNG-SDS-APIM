@@ -6,6 +6,7 @@ import com.itda.memberservice.member.entity.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.entity.dto.response.MemberResponse;
 import com.itda.memberservice.member.entity.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.service.MemberService;
+import com.itda.memberservice.team.entity.dto.response.TeamSkipResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -86,10 +87,13 @@ public class MemberController {
     })
     public ResponseEntity<?> members() {
         List<MemberResponse> responses = new ArrayList<>();
-        responses.add(new MemberResponse(1L, "0912472", "이찬웅", "010-9678-7667", "imageUrl", Authority.관리자,
-                "개발 1팀", "백엔드 개발", "cksdnd10001@naver.com"));
-        responses.add(new MemberResponse(1L, "0912473", "송아람", "010-9678-7667", "imageUrl", Authority.일반,
-                "개발 2팀", "UX/UI 개발", "son9aram@gmail.com"));
+        List<TeamSkipResponse> teamSkipResponses = new ArrayList<>();
+        teamSkipResponses.add(new TeamSkipResponse(1L, "C201"));
+        teamSkipResponses.add(new TeamSkipResponse(1L, "C201"));
+        responses.add(new MemberResponse("0912472", "이찬웅", "imageUrl", Authority.관리자,
+                "개발 1팀", "백엔드 개발", "cksdnd10001@naver.com", teamSkipResponses));
+        responses.add(new MemberResponse("0912473", "송아람", "imageUrl", Authority.일반,
+                "개발 2팀", "UX/UI 개발", "son9aram@gmail.com", teamSkipResponses));
 
 
         return ResponseEntity.ok(responses);
@@ -111,4 +115,7 @@ public class MemberController {
     public ResponseEntity<?> deleteMember(@PathVariable("member-id") Long memberId) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(HttpStatus.NO_CONTENT);
     }
+
+    // 마이 페이지 회원 정보 조회
+    //
 }

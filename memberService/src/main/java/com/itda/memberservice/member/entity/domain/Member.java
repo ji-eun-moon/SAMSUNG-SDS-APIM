@@ -27,9 +27,6 @@ public class Member {
     @Column(nullable = false, length = 72)
     private String password;
 
-    @Column(nullable = false, length = 11)
-    private String phoneNumber;
-
     @Column(length = 1000)
     private String imageUrl;
 
