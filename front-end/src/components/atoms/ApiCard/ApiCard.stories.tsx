@@ -1,4 +1,3 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import ApiCard from '.';
 
 export default {
@@ -15,20 +14,23 @@ export default {
     address: {
       description: 'API 주소',
     },
+    onClick: {
+      description: '클릭시 API 상세 페이지로 이동',
+    },
   },
-} as ComponentMeta<typeof ApiCard>;
-
-const Template: ComponentStory<typeof ApiCard> = (args) => <ApiCard {...args} />;
-
-export const Category = Template.bind({});
-Category.args = {
-  title: '웹문서 검색하기',
-  category: 'Daum 검색하기',
-  address: 'https://dapi.kakao.com/v2/search/web',
 };
 
-export const NoCategory = Template.bind({});
-NoCategory.args = {
-  title: '웹문서 검색하기',
-  address: 'https://dapi.kakao.com/v2/search/web',
+export const Category = {
+  args: {
+    title: '웹문서 검색하기',
+    category: 'Daum 검색하기',
+    address: 'https://dapi.kakao.com/v2/search/web',
+  },
+};
+
+export const NoCategory = {
+  args: {
+    title: '웹문서 검색하기',
+    address: 'https://dapi.kakao.com/v2/search/web',
+  },
 };
