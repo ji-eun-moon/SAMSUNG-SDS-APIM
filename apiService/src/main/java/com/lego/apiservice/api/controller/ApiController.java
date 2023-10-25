@@ -2,6 +2,7 @@ package com.lego.apiservice.api.controller;
 
 import com.lego.apiservice.api.entity.dto.response.ApiDetailResponse;
 import com.lego.apiservice.api.entity.dto.response.ApiSearchResponse;
+import com.lego.apiservice.api.entity.dto.response.ApiTestResponse;
 import com.lego.apiservice.api.entity.dto.response.CategoryApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,23 @@ public class ApiController {
 
     // 사용중 api 리스트 조회
     @GetMapping("/use")
-    public ResponseEntity<?> useApi(@RequestParam(name = "teamId") Long teamId) {
+    public ResponseEntity<?> useApi(@RequestParam(name = "teamId") Long teamId,
+                                    @RequestParam(name = "categoryId") Long categoryId) {
+        List<CategoryApiResponse> categoryApiResponseList = new ArrayList<>();
+        categoryApiResponseList.add(new CategoryApiResponse("맛집 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
+                1L));
+        categoryApiResponseList.add(new CategoryApiResponse("병원 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
+                1L));
+        categoryApiResponseList.add(new CategoryApiResponse("약국 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
+                1L));
+
+        return ResponseEntity.ok(categoryApiResponseList);
+    }
+
+    // 제공중 api 리스트 조회
+    @GetMapping("/provide")
+    public ResponseEntity<?> provideApi(@RequestParam(name = "teamId") Long teamId,
+                                    @RequestParam(name = "categoryId") Long categoryId) {
         List<CategoryApiResponse> categoryApiResponseList = new ArrayList<>();
         categoryApiResponseList.add(new CategoryApiResponse("맛집 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
                 1L));
@@ -51,10 +68,14 @@ public class ApiController {
     }
 
     // api 테스트 조회
+    @GetMapping("/test")
+    public ResponseEntity<?> apiTest(@RequestParam(name = "apiId") Long apiId) {
+        return ResponseEntity.ok(new ApiTestResponse());
+    }
 
     // api 검색
     @GetMapping("/search")
-    public ResponseEntity<?> apiDetail(@RequestParam(name = "apiName") String apiName) {
+    public ResponseEntity<?> apiSearch(@RequestParam(name = "apiName") String apiName) {
         List<ApiSearchResponse> apiSearchResponses = new ArrayList<>();
         apiSearchResponses.add(new ApiSearchResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
                 1L, "다음 검색하기", 2L));

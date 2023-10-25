@@ -22,4 +22,22 @@ public class CategoryController {
 
         return ResponseEntity.ok(responses);
     }
+
+    @GetMapping("/use")
+    public ResponseEntity<?> UseCategory() {
+        List<CategoryListResponse> responses = new ArrayList<>();
+        responses.add(new CategoryListResponse("도하의 api 카테고리", 1L, "도하가 개발한 api들"));
+        responses.add(new CategoryListResponse("시온의 api 카테고리", 1L, "시온이 개발한 api들"));
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/provide")
+    public ResponseEntity<?> ProvideCategory() {
+        List<CategoryListResponse> responses = new ArrayList<>();
+        responses.add(new CategoryListResponse("도하의 api 카테고리", 1L, "도하가 개발한 api들"));
+        responses.add(new CategoryListResponse("시온의 api 카테고리", 1L, "시온이 개발한 api들"));
+
+        return ResponseEntity.ok(responses);
+    }
 }
