@@ -1,19 +1,14 @@
 package com.lego.apiservice.api.entity.dto.response;
 
 import com.lego.apiservice.api.entity.domain.ApiMethod;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiDetailRequest {
+public class ApiDetailResponse {
 
     private Long apiId;
     private String endpoint;
