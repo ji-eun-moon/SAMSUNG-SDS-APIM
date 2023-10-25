@@ -1,1 +1,19 @@
 $itda-blue: #4175c0;
+$itda-text: #5f6165;
+$itda-secondary: #9a9a9a;
+
+.itdaBlue {
+  color: $itda-blue;
+}
+
+.itdaText {
+  color: $itda-text;
+}
+
+.itdaSecondary {
+  color: $itda-secondary;
+}
+
+.bgItdaBlue {
+  background-color: $itda-blue;
+}

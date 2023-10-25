@@ -15,7 +15,7 @@ const shadow = {
 };
 
 function ShadowCard({ type, children }: ShadowCardProps) {
-  let classNames = 'bg-white p-4';
+  let classNames = 'bg-white p-4 w-full';
 
   if (type === 'small') {
     classNames += ' rounded-xl';
