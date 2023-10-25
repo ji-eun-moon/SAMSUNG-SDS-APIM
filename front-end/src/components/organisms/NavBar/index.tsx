@@ -43,8 +43,13 @@ function NavBar(props: NavBarProps) {
           <div className="flex flex-col gap-6">
             {/* 버튼 바로가기 */}
             <div className="flex flex-col justify-center col-span-1 gap-3">
-              <Button type="outlined" label="API 전체보기" onButton={() => router.push('/apis/[categoryId]/list')} />
-              <Button type="rounded" label="쪽지함" onButton={() => {}} />
+              <Button
+                variant="bordered"
+                label="API 전체보기"
+                onClick={() => router.push('/apis/[categoryId]/list')}
+                radius="full"
+              />
+              <Button variant="solid" label="쪽지함" onClick={() => {}} radius="full" />
             </div>
 
             {/* 텍스트 바로가기 */}

@@ -1,49 +1,38 @@
 import React from 'react';
+import { Button } from '@nextui-org/react';
+import styles from './Button.module.scss';
 
 interface ButtonProps {
-  type: 'rounded' | 'outlined' | 'straight';
+  variant: 'solid' | 'bordered';
   label: string | React.ReactNode;
-  backgroundColor?: string;
-  borderColor?: string;
-  textColor?: string;
-  onButton: () => void;
+  radius: 'full' | 'lg' | 'sm' | 'none';
+  onClick: () => void;
 }
 
 /**
  * 버튼 컴포넌트
- * @param {string} type - 버튼 타입 지정
+ * @param {string} variant - 버튼 타입
  * @param {string} label - 버튼 라벨
- * @param {string} backgroundColor - 버튼 배경색
- * @param {string} borderColor - 버튼 테두리 색
- * @param {string} textColor - 버튼 라벨 텍스트 색
- * @param {function} onButton - 버튼 클릭 시 동작할 함수
+ * @param {string} radius - 버튼 둥근 정도
+ * @param {Function} onClick - 버튼 클릭 시 동작할 함수
  */
 
-function Button({ type, label, backgroundColor, borderColor, textColor, onButton }: ButtonProps) {
+function StyledButton({ variant, label, radius, onClick }: ButtonProps) {
   const buttonStyle = () => {
-    if (type === 'rounded') {
-      return `rounded-3xl border text-white px-4 ${backgroundColor} ${borderColor}`;
+    if (variant === 'solid') {
+      return styles.basicButton;
     }
-    if (type === 'outlined') {
-      return `rounded-3xl border ${borderColor} ${textColor}`;
+    if (variant === 'bordered') {
+      return styles.outlinedButton;
     }
-    if (type === 'straight') {
-      return `rounded-xl border text-white ${backgroundColor} ${borderColor}`;
-    }
-    return null;
+    return '';
   };
 
   return (
-    <button type="button" className={`px-4 py-1 text-sm ${buttonStyle()}`} onClick={onButton}>
+    <Button onClick={onClick} radius={radius} variant={variant} className={buttonStyle()}>
       {label}
-    </button>
+    </Button>
   );
 }
 
-Button.defaultProps = {
-  backgroundColor: 'bg-blue-500',
-  textColor: 'text-blue-500',
-  borderColor: 'border-blue-500',
-};
-
-export default Button;
+export default StyledButton;

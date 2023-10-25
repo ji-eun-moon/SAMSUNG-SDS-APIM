@@ -22,9 +22,9 @@ function Modal(props: ModalProps) {
             <Image src="/icons/close.png" alt="close-icon" width={15} height={15} />
           </button>
           <div className="flex flex-col">
-            <div className="my-4 mx-4 font-semibold">{alertMessage}</div>
-            <div className="flex mx-4 justify-end items-end">
-              <Button label="확인" type="rounded" onButton={onClose} />
+            <div className="my-4 mx-4 font-semibold col-span-1">{alertMessage}</div>
+            <div className="flex mx-4 justify-end items-end col-span-1">
+              <Button label="확인" variant="solid" onClick={onClose} radius="full" />
             </div>
           </div>
         </div>
@@ -43,14 +43,8 @@ function Modal(props: ModalProps) {
           <div className="flex flex-col">
             <div className="my-4 mx-4 font-semibold">{confirmMessage}</div>
             <div className="flex mx-4 justify-end items-end gap-2">
-              <Button
-                label="취소"
-                type="outlined"
-                onButton={onClose}
-                borderColor="border-red-400"
-                textColor="text-red-400"
-              />
-              <Button label="확인" type="rounded" onButton={onButton} />
+              <Button label="취소" variant="bordered" onClick={onClose} radius="sm" />
+              <Button label="확인" variant="solid" onClick={onButton} radius="sm" />
             </div>
           </div>
         </div>
@@ -71,7 +65,7 @@ function Modal(props: ModalProps) {
             <div>{children}</div>
           </div>
           <div className="flex justify-center">
-            <Button label={buttonLabel} type="rounded" onButton={onButton} />
+            <Button label={buttonLabel} variant="solid" onClick={onButton} radius="sm" />
           </div>
         </div>
       </div>
