@@ -1,17 +1,15 @@
 package com.itda.memberservice.notice.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Notice {
 
@@ -24,7 +22,10 @@ public class Notice {
 
     // 받는 사람 to
 
-    private Boolean check;
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean isRead;
+
+    @CreatedDate
     private LocalDateTime createdAt;
 
 }
