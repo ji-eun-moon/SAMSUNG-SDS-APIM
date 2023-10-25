@@ -12,3 +12,5 @@ COPY ${JAR_FILE} app.jar
 
 # COPY된 jar파일 실행하기 (컨테이너 실행할 때 동작)
 CMD ["java", "-jar", "./app.jar"]
+
+#test
