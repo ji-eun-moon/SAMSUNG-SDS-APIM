@@ -1,12 +1,12 @@
 package com.itda.memberservice.member.controller;
 
-import com.itda.memberservice.member.entity.domain.Authority;
-import com.itda.memberservice.member.entity.dto.request.CreateMemberRequest;
-import com.itda.memberservice.member.entity.dto.request.LoginMemberRequest;
-import com.itda.memberservice.member.entity.dto.response.MemberResponse;
-import com.itda.memberservice.member.entity.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.entity.Authority;
+import com.itda.memberservice.member.dto.request.CreateMemberRequest;
+import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.MemberResponse;
+import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.service.MemberService;
-import com.itda.memberservice.team.entity.dto.response.TeamSkipResponse;
+import com.itda.memberservice.team.dto.response.TeamSkipResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

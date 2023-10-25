@@ -1,7 +1,7 @@
 package com.itda.memberservice.team.controller;
 
-import com.itda.memberservice.member.entity.dto.response.SkipMemberResponse;
-import com.itda.memberservice.team.entity.dto.response.TeamListResponse;
+import com.itda.memberservice.member.dto.response.SkipMemberResponse;
+import com.itda.memberservice.team.dto.response.TeamListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,7 +1,7 @@
 package com.itda.memberservice.member.service;
 
-import com.itda.memberservice.member.entity.dto.request.CreateMemberRequest;
-import com.itda.memberservice.member.entity.dto.response.MemberResponse;
+import com.itda.memberservice.member.dto.request.CreateMemberRequest;
+import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
