@@ -3,6 +3,7 @@ package com.lego.submitservice.provide.controller;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.State;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
+import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ProvideController {
 
     // 제공 신청
-    @GetMapping("/register")
+    @PostMapping ("/register")
     public ResponseEntity<?> register(@RequestBody CreateProvideRequest createProvideRequest) {
         return ResponseEntity.status(201).body(HttpStatus.CREATED);
     }
@@ -49,5 +50,13 @@ public class ProvideController {
         provideListResponseList.add(new ProvideListResponse());
 
         return ResponseEntity.ok(provideListResponseList);
+    }
+
+    // 제공 신청 상세 조회
+    @GetMapping("/{provide-id}")
+    public ResponseEntity<?> findByProvideId(@PathVariable("provide-id") Long provideId) {
+        return ResponseEntity.ok(new ProvideDetailResponse(1L, "나의 서버", "나의 서버에 대한 설명입니다",
+                "나의 팀", "이찬웅", LocalDateTime.now(),
+                State.거질, ApplyType.신청, "맘에 들지 않아요", "http://k9c201.p.ssafy.io:9100/swagger-ui/index.html"));
     }
 }
