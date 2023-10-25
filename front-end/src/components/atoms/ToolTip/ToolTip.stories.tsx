@@ -1,7 +1,7 @@
 import ToolTip from '.';
 
 export default {
-  title: 'stories/ToolTip',
+  title: 'atoms/ToolTip',
   tags: ['autodocs'],
   component: ToolTip,
   argTypes: {
