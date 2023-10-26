@@ -1,6 +1,8 @@
 package com.itda.memberservice.member.service;
 
+import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
+import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +37,23 @@ public class MemberService {
 
     }
 
+    public String login(LoginMemberRequest request){
+
+        return "로그인";
+
+    }
+
+    public void delete(Long memberId) {
+
+        memberRepository.deleteByMemberId(memberId);
+
+    }
+
+    public void changePassword(ChangePasswordRequest request, String employeeId) {
+
+        memberRepository
+                .findByEmployeeId(employeeId)
+                .changePassword(encoder.encode(request.getChangePassword()));
+
+    }
 }

@@ -1,13 +1,7 @@
 package com.itda.memberservice.member.repository;
 
-import com.itda.memberservice.member.entity.Member;
-import com.itda.memberservice.member.entity.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 import static com.itda.memberservice.member.entity.QMember.member;
 
@@ -19,13 +13,12 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<Member> findAll(){
+    @Override
+    public void deleteByMemberId(Long memberId) {
 
-        return queryFactory
-                .select(member)
-                .from(member)
-                .fetch();
+        queryFactory
+                .delete(member)
+                .where(member.memberId.eq(memberId));
 
     }
-
 }

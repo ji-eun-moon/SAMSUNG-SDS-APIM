@@ -9,4 +9,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberQue
 
     boolean existsMemberByEmployeeId(String employeeId);
 
+    Member findByEmployeeId(String employeeId);
+
 }

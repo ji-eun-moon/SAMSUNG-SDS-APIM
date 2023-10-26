@@ -1,5 +1,6 @@
 package com.itda.memberservice.member.controller;
 
+import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
@@ -131,13 +132,19 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> changePassword(@RequestBody String pwd) {
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+
+        memberService.changePassword(request, "id");
+
+        return ResponseEntity.ok("비밀번호 변경");
     }
 
     @DeleteMapping("/delete/{member-id}")
-    public ResponseEntity<?> deleteMember(@PathVariable("member-id") Long memberId) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> deleteMember(@PathVariable("member-id") Long memberId) {
+
+        memberService.delete(memberId);
+
+        return ResponseEntity.ok("회원 삭제 완료");
     }
 
     // 마이 페이지 회원 정보 조회
