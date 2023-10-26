@@ -1,10 +1,10 @@
 import React from 'react';
 import NavBar from '@/components/organisms/NavBar';
-import { IUserInfo } from '@/types/User';
+import { IUser } from '@/types/User';
 import style from './TopLayout.module.scss';
 
 interface TopLayoutProps {
-  userInfo: IUserInfo | undefined;
+  userInfo: IUser | undefined;
   children: React.ReactNode;
 }
 
