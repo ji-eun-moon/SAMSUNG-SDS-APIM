@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Member {
 
@@ -48,9 +48,9 @@ public class Member {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    List<MemberTeam> memberTeamList = new ArrayList<>();
+    private List<MemberTeam> memberTeamList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    List<Notice> noticeList = new ArrayList<>();
+    private List<Notice> noticeList = new ArrayList<>();
 
 }
