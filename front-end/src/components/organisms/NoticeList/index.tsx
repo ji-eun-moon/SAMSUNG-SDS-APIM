@@ -41,16 +41,15 @@ function NoticeList(props: NoticeListProps) {
     // checkItems 읽음 처리
   };
 
-  console.log(checkedItems.length === noticeList.length, 'checked값 확인');
   return (
     <ShadowCard type="small">
       <div className="p-3">
         <div className="pl-2 pb-4 flex justify-between">
-          <div className="flex">
+          <div className="flex items-center">
             <Checkbox
               color="default"
               isSelected={checkedItems.length === noticeList.length}
-              className="mr-2"
+              className="mr-2 flex"
               onChange={(e) => toggleAllCheckbox(e.target.checked)}
             />
             <div className="itdaText flex">전체선택</div>
