@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import styles from './ApiCard.module.scss';
 
 interface ApiCardProps {
   title: string;
@@ -8,21 +9,11 @@ interface ApiCardProps {
   onClick: () => void;
 }
 
-const border = {
-  border: '1px solid #9a9a9a',
-};
-
-const iconImg = {
-  height: '15px',
-  width: '100%',
-};
-
 function ApiCard({ title, category, address, onClick }: ApiCardProps) {
   return (
     <button
       type="button"
-      className="p-3 flex rounded-md justify-between items-center w-full"
-      style={border}
+      className={`p-3 flex rounded-md justify-between items-center w-full ${styles.border}`}
       onClick={onClick}
     >
       <div className="flex items-baseline">
@@ -31,7 +22,7 @@ function ApiCard({ title, category, address, onClick }: ApiCardProps) {
       </div>
       <div className="flex items-center">
         <div className="itdaSecondary text-sm pr-2">{address}</div>
-        <Image src="/icons/next.png" alt="next-icon" width={10} height={10} style={iconImg} />
+        <Image src="/icons/next.png" alt="next-icon" width={10} height={10} className={styles.iconImg} />
       </div>
     </button>
   );
