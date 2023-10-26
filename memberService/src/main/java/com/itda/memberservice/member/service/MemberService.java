@@ -14,27 +14,16 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void register(List<CreateMemberRequest> requestList){
+    public Member register(CreateMemberRequest request){
 
-        for (CreateMemberRequest request : requestList) {
+        return memberRepository.save(Member.builder()
+                .build());
 
-            if (memberRepository.existsMemberByEmployeeId(request.getEmployeeId())) {
-                continue;
-            }
+    }
 
-            Member save = memberRepository.save(Member.builder()
-                    .employeeId(request.getEmployeeId())
-                    .authority(request.getAuthority())
-                    .name(request.getName())
-                    .email(request.getEmail())
-                    .imageUrl(request.getImageUrl())
-                    .department(request.getDepartment())
-                    .position(request.getPosition())
-                    .build());
+    public boolean employeeIdDuplicateCheck(String employeeId){
 
-            
-
-        }
+        return memberRepository.existsMemberByEmployeeId(employeeId);
 
     }
 

@@ -23,6 +23,6 @@ public class CreateMemberRequest {
 
     private String email;
 
-    private List<CreateMemberRequest> team = new ArrayList<>();
+    private List<String> team = new ArrayList<>();
 
 }

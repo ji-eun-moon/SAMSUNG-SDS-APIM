@@ -13,11 +13,9 @@ import static com.itda.memberservice.member.entity.QMember.member;
 
 public class MemberRepositoryImpl implements MemberQueryRepository {
 
-    private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
     public MemberRepositoryImpl(EntityManager em) {
-        this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
     }
 

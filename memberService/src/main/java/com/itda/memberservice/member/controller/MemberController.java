@@ -5,8 +5,12 @@ import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
+import com.itda.memberservice.memberteam.service.MemberTeamService;
 import com.itda.memberservice.team.dto.response.TeamSkipResponse;
+import com.itda.memberservice.team.entity.Team;
+import com.itda.memberservice.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,6 +32,8 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final TeamService teamService;
+    private final MemberTeamService memberTeamService;
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원 가입", description = "정해진 정보를 통해 회원 가입")
@@ -38,7 +44,25 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<?> signUp(@RequestBody List<CreateMemberRequest> requests) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
+
+        for (CreateMemberRequest request : requests) {
+
+            if (memberService.employeeIdDuplicateCheck(request.getEmployeeId())) {
+                continue;
+            }
+
+            Member member = memberService.register(request);
+
+            for (String teamName : request.getTeam()) {
+                Team team = teamService.registerTeamOrFind(teamName);
+
+                memberTeamService.register(member, team);
+
+            }
+
+        }
+
+        return ResponseEntity.ok("회원등록이 완료되었습니다.");
     }
 
     @PostMapping("/login")
