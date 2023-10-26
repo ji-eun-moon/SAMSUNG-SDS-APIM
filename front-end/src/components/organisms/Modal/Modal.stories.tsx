@@ -1,7 +1,7 @@
 import Modal from '.';
 
 export default {
-  title: 'stories/Modal',
+  title: 'organisms/Modal',
   tags: ['autodocs'],
   component: Modal,
   argTypes: {
