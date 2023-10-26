@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip } from '@nextui-org/react';
-// import Image from 'next/image';
+import Image from 'next/image';
 
 interface ToolTipProps {
   explain: React.ReactNode;
@@ -8,9 +8,10 @@ interface ToolTipProps {
 
 function ToolTip({ explain }: ToolTipProps) {
   return (
-    <Tooltip showArrow content={explain}>
-      {/* <Image src="/icons/tooltip.png" alt="tooltip-icon" width={10} height={10} />; */}
-      <span>툴팁</span>
+    <Tooltip showArrow content={explain} className="flex">
+      <span>
+        <Image src="/icons/tooltip.png" alt="tooltip-icon" width={15} height={15} />
+      </span>
     </Tooltip>
   );
 }
