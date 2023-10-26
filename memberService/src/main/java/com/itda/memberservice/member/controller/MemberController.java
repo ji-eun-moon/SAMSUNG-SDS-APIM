@@ -43,7 +43,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> signUp(@RequestBody List<CreateMemberRequest> requests) {
+    public ResponseEntity<String> signUp(@RequestBody List<CreateMemberRequest> requests) {
 
         for (CreateMemberRequest request : requests) {
 
