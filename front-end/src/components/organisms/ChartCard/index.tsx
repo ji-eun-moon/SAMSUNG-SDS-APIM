@@ -1,4 +1,5 @@
 import React from 'react';
+import BorderCard from '@/components/atoms/BorderCard';
 import ToolTip from '@/components/atoms/ToolTip';
 
 interface ChartCardProps {
@@ -8,19 +9,15 @@ interface ChartCardProps {
   onClick: () => void;
 }
 
-const border = {
-  border: '1px solid #CCC',
-};
-
 function ChartCard({ title, children, explain, onClick }: ChartCardProps) {
   return (
-    <button type="button" className="p-3 flex flex-col rounded w-full" style={border} onClick={onClick}>
-      <div className="flex">
-        <div className="font-bold">{title}</div>
+    <BorderCard onClick={onClick}>
+      <div className="flex align-center">
+        <div className="font-bold pr-2">{title}</div>
         <ToolTip explain={explain} />
       </div>
       <div>{children}</div>
-    </button>
+    </BorderCard>
   );
 }
 

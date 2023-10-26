@@ -1,7 +1,7 @@
 import ColTable from '.';
 
 export default {
-  title: 'stories/ColTable',
+  title: 'atoms/ColTable',
   tags: ['autodocs'],
   component: ColTable,
   argTypes: {

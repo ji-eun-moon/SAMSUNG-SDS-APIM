@@ -1,7 +1,7 @@
 import ApiCard from '.';
 
 export default {
-  title: 'stories/ApiCard',
+  title: 'atoms/ApiCard',
   tags: ['autodocs'],
   component: ApiCard,
   argTypes: {
