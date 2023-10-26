@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavBarProps } from '@/types/props/NavBarProps';
 import Image from 'next/image';
-import Button from '@/components/atoms/Button';
+import StyledButton from '@/components/atoms/StyledButton';
 import { useRouter } from 'next/router';
 import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
@@ -43,13 +43,13 @@ function NavBar(props: NavBarProps) {
           <div className="flex flex-col gap-6">
             {/* 버튼 바로가기 */}
             <div className="flex flex-col justify-center col-span-1 gap-3">
-              <Button
+              <StyledButton
                 variant="bordered"
                 label="API 전체보기"
                 onClick={() => router.push('/apis/[categoryId]/list')}
                 radius="full"
               />
-              <Button variant="solid" label="쪽지함" onClick={() => {}} radius="full" />
+              <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" />
             </div>
 
             {/* 텍스트 바로가기 */}

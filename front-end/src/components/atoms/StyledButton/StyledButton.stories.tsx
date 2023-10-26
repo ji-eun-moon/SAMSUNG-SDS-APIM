@@ -1,9 +1,9 @@
-import Button from '.';
+import StyledButton from '.';
 
 export default {
-  title: 'stories/Button',
+  title: 'stories/StyledButton',
   tags: ['autodocs'],
-  component: Button,
+  component: StyledButton,
   argTypes: {
     label: {
       description: '버튼 라벨',

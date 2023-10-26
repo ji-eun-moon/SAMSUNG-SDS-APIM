@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@nextui-org/react';
-import styles from './Button.module.scss';
+import styles from './StyledButton.module.scss';
 
 interface ButtonProps {
   variant: 'solid' | 'bordered';

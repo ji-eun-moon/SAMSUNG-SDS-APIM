@@ -1,11 +1,3 @@
-export interface ICategory {
-  categoryName: string;
-  categoryId: number;
-  description: string;
-}
-
-export type TCategoryList = ICategory[];
-
 export interface IApi {
   apiName: string;
   apiAddress: string;
@@ -13,6 +5,15 @@ export interface IApi {
 }
 
 export type IApiNameList = IApi[];
+
+export interface ICategory {
+  categoryName: string;
+  categoryId: number;
+  description: string;
+  apiList: IApiNameList;
+}
+
+export type TCategoryList = ICategory[];
 
 export interface IApiDetail {
   apiId: number;
