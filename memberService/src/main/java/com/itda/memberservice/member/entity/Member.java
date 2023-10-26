@@ -48,9 +48,9 @@ public class Member {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberTeam> memberTeamList = new ArrayList<>();
+    private final List<MemberTeam> memberTeamList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Notice> noticeList = new ArrayList<>();
+    private final List<Notice> noticeList = new ArrayList<>();
 
 }
