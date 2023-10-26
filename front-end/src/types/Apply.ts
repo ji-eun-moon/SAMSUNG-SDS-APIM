@@ -11,7 +11,7 @@ export interface IUseApply {
   categoryId: number;
 }
 
-interface IProvide {
+export interface IProvide {
   provideId: number;
   applyType: '신규' | '변경';
   serverName: string;
@@ -23,7 +23,7 @@ interface IProvide {
 
 export type TProvideList = IProvide[];
 
-interface IUse {
+export interface IUse {
   useId: number;
   categoryName: string;
   teamName: string;

@@ -1,7 +1,7 @@
 import LogoWithName from '.';
 
 export default {
-  title: 'stories/LogoWithName',
+  title: 'atoms/LogoWithName',
   tags: ['autodocs'],
   component: LogoWithName,
 };

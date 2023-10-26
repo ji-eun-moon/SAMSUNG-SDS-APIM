@@ -1,7 +1,7 @@
 import ProfileImg from '.';
 
 export default {
-  title: 'stories/ProfileImg',
+  title: 'atoms/ProfileImg',
   tags: ['autodocs'],
   component: ProfileImg,
   argTypes: {
