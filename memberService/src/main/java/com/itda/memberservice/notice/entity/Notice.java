@@ -1,5 +1,6 @@
 package com.itda.memberservice.notice.entity;
 
+import com.itda.memberservice.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,12 +19,12 @@ public class Notice {
 
     private String content;
 
-    // 작성자 from
-
-    // 받는 사람 to
-
     @Column(columnDefinition = "BOOLEAN")
     private boolean isRead;
+
+    @ManyToOne
+    @JoinColumn(name = "memeber_id")
+    private Member member;
 
     @CreatedDate
     private LocalDateTime createdAt;

@@ -1,10 +1,14 @@
 package com.itda.memberservice.member.entity;
 
+import com.itda.memberservice.memberteam.entity.MemberTeam;
+import com.itda.memberservice.notice.entity.Notice;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,5 +46,11 @@ public class Member {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    List<MemberTeam> memberTeamList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    List<Notice> noticeList = new ArrayList<>();
 
 }
