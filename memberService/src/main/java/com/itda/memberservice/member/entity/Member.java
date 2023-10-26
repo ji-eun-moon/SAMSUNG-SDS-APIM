@@ -53,4 +53,8 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private final List<Notice> noticeList = new ArrayList<>();
 
+    public void changePassword(String request){
+        this.password = request;
+    }
+
 }
