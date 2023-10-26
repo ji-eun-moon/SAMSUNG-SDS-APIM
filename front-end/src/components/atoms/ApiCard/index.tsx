@@ -9,7 +9,7 @@ interface ApiCardProps {
 }
 
 const border = {
-  border: '1px solid #9A9A9A',
+  border: '1px solid #9a9a9a',
 };
 
 const iconImg = {
