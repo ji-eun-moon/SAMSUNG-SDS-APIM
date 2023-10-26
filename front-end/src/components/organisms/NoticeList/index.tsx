@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Notice from '@/components/organisms/Notice';
 import ShadowCard from '@/components/atoms/ShadowCard';
-import Button from '@/components/atoms/Button';
+import StyledButton from '@/components/atoms/StyledButton';
 import { Checkbox } from '@nextui-org/react';
 import { NoticeListProps } from '@/types/props/NoticeListProps';
 
@@ -56,21 +56,9 @@ function NoticeList(props: NoticeListProps) {
           </div>
           <div className="flex">
             <div className="mr-2">
-              <Button
-                type="outlined"
-                label="선택읽음"
-                borderColor="bdItdaSecondary"
-                textColor="itdaText"
-                onButton={selectRead}
-              />
+              <StyledButton variant="bordered" label="선택읽음" onClick={selectRead} radius="full" />
             </div>
-            <Button
-              type="outlined"
-              label="선택삭제"
-              borderColor="bdItdaSecondary"
-              textColor="itdaText"
-              onButton={selectDelete}
-            />
+            <StyledButton variant="bordered" label="선택삭제" onClick={selectDelete} radius="full" />
           </div>
         </div>
         <hr />
