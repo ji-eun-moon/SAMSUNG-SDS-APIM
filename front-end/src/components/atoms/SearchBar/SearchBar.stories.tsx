@@ -5,8 +5,8 @@ export default {
   tags: ['autodocs'],
   component: SearchBar,
   argTypes: {
-    width: {
-      description: '검색창 길이를 지정합니다',
+    placeholder: {
+      description: '검색어 창 placeholder',
     },
     keyword: {
       description: '검색어를 받아옵니다.',
@@ -19,7 +19,7 @@ export default {
 
 export const ShortSearchBar = {
   args: {
-    width: 'w-64',
     keyword: '',
+    placeholder: 'API 검색',
   },
 };
