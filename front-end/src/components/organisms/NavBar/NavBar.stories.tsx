@@ -14,6 +14,12 @@ export default {
         type: 'object',
       },
     },
+    noticeCnt: {
+      description: 'notice의 현재 알림 개수 데이터를 넣습니다.',
+    },
+    dropDownList: {
+      description: 'TopNavBar 햄버거 버튼 드롭다운에 들어갈 내용을 넣습니다.',
+    },
   },
 };
 
@@ -26,9 +32,15 @@ export const SideNavBar = {
       employeeId: '0912280',
       department: 'IT 개발',
       position: '1팀',
-      team: ['project 1', 'project 2', 'project 3', 'project 4'],
+      teams: [
+        { teamName: 'project 1' },
+        { teamName: 'project 2' },
+        { teamName: 'project 3' },
+        { teamName: 'project 4' },
+      ],
       authority: '일반',
     },
+    noticeCnt: '6',
   },
 };
 
@@ -41,8 +53,20 @@ export const TopNavBar = {
       employeeId: '0912280',
       department: 'IT 개발',
       position: '1팀',
-      team: ['project 1', 'project 2', 'project 3', 'project 4'],
+      teams: [
+        { teamName: 'project 1' },
+        { teamName: 'project 2' },
+        { teamName: 'project 3' },
+        { teamName: 'project 4' },
+      ],
       authority: '일반',
     },
+    noticeCnt: '6',
+    notices: <div>쪽지 테스트</div>,
+    dropDownList: [
+      { title: '메인', icon: 'home', onClick: () => {} },
+      { title: '통계', icon: 'home', onClick: () => {} },
+      { title: '모니터링', icon: 'home', onClick: () => {} },
+    ],
   },
 };
