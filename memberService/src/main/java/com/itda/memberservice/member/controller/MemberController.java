@@ -1,11 +1,11 @@
 package com.itda.memberservice.member.controller;
 
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
-import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,12 +47,15 @@ public class MemberController {
 
         for (CreateMemberRequest request : requests) {
 
+            // 이미 등록된 회원이라면 스킵
             if (memberService.employeeIdDuplicateCheck(request.getEmployeeId())) {
                 continue;
             }
 
+            // 새로 등록한 멤버인 경우
             Member member = memberService.register(request);
 
+            // 리스트에 있는 팀 생성하거나 가져와서 멤버에 추가
             for (String teamName : request.getTeam()) {
                 Team team = teamService.registerTeamOrFind(teamName);
 
@@ -76,8 +78,22 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> login(@RequestBody LoginMemberRequest loginMemberRequest) {
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    public ResponseEntity<?> login(@RequestBody LoginMemberRequest request) {
+
+        try {
+
+            // 로그인 성공시 토큰 반환
+            String token = memberService.login(request);
+
+            return ResponseEntity.ok(token);
+
+        } catch (Exception e) {
+
+            // 아이디 없거나 비밀번호 틀린경우 오류 메시지 반환
+            return ResponseEntity.ok(e.getMessage());
+
+        }
+
     }
 
     @GetMapping("/find-by-name")
