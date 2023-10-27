@@ -25,8 +25,8 @@ function DropDown({ list }: DropDownProps) {
           <DropdownItem
             key={item.title}
             onClick={item.onClick}
-            // startContent={<Image src={`/icons/${item.icon}.png`} alt="icon" width={13} height={13} />}
-            startContent={<Image src="/icons/home.png" alt="icon" width={13} height={13} />}
+            startContent={<Image src={`/icons/${item.icon}.png`} alt="icon" width={13} height={13} />}
+            // startContent={<Image src="/icons/home.png" alt="icon" width={13} height={13} />}
           >
             {item.title}
           </DropdownItem>
