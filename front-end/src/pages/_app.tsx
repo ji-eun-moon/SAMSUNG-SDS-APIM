@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <NextUIProvider>
       <main className={notoSansKr.className}>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </main>
     </NextUIProvider>
   );
