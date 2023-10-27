@@ -4,6 +4,7 @@ import com.itda.memberservice.common.util.JwtUtil;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
@@ -88,5 +89,11 @@ public class MemberService {
 
     public List<SearchMemberResponse> findByName(String name) {
         return memberRepository.findByName(name);
+    }
+
+    public List<MemberResponse> findAll() {
+
+        return memberRepository.findMemberResponse();
+
     }
 }
