@@ -119,7 +119,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> members() {
+    public ResponseEntity<?> findAll() {
 
         return ResponseEntity.ok(memberService.findAll());
 
@@ -135,7 +135,7 @@ public class MemberController {
     })
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
 
-        memberService.changePassword(request, "id");
+        memberService.changePassword(request.getChangePassword(), "id");
 
         return ResponseEntity.ok("비밀번호 변경");
     }
