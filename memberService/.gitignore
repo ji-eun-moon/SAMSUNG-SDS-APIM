@@ -45,3 +45,6 @@ out/
 
 ### Q Type Entity ###
 /src/main/generated/
+
+### restDocs ###
+/src/main/docs/
