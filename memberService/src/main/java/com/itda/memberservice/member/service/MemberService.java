@@ -4,6 +4,7 @@ import com.itda.memberservice.common.util.JwtUtil;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +84,9 @@ public class MemberService {
 
         return memberRepository.findMemberByEmployeeId(id);
 
+    }
+
+    public List<SearchMemberResponse> findByName(String name) {
+        return memberRepository.findByName(name);
     }
 }

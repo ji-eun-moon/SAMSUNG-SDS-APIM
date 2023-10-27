@@ -1,8 +1,12 @@
 package com.itda.memberservice.member.repository;
 
+import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+
+import java.util.List;
 
 import static com.itda.memberservice.member.entity.QMember.member;
 
@@ -32,5 +36,19 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                 .where(member.employeeId.eq(employeeId))
                 .fetchOne();
 
+    }
+
+    @Override
+    public List<SearchMemberResponse> findByName(String name) {
+        return queryFactory
+                .select(Projections.fields(SearchMemberResponse.class,
+                        member.employeeId,
+                        member.name,
+                        member.department,
+                        member.position,
+                        member.imageUrl))
+                .where(member.name.eq(name))
+                .from(member)
+                .fetch();
     }
 }

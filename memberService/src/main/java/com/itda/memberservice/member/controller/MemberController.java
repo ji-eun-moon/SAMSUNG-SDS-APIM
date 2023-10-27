@@ -106,14 +106,10 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByName(@RequestParam(name = "name", defaultValue = "이찬웅") String name) {
-        List<SearchMemberResponse> responses = new ArrayList<>();
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
+    public ResponseEntity<?> findByName(String name) {
 
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok(memberService.findByName(name));
+
     }
 
     @GetMapping("/all")
