@@ -8,8 +8,20 @@ spring:
     config:
       server:
         git:
-          uri: https://lab.ssafy.com/s09-final/S09P31S106
+          uri: https://lab.ssafy.com/s09-final/S09P31S106.git
           username: token
           password: v7HsttLQ6cHWxLb_vkK_
           search-paths: config
           default-label: BE-config/develop
+
+  rabbitmq:
+    host: k9c201.p.ssafy.io
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

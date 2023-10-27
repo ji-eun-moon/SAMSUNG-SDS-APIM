@@ -1,3 +1,3 @@
 token:
-  expiration_time: 84600
-  secret: user_token_change
+  expiration_time: 846000000
+  secret: springbus-test
