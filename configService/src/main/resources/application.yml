@@ -8,4 +8,8 @@ spring:
     config:
       server:
         git:
-          uri: file://https://lab.ssafy.com/s09-final/S09P31S106/-/tree/BE-config/develop/config
+          uri: https://lab.ssafy.com/s09-final/S09P31S106
+          username: token
+          password: v7HsttLQ6cHWxLb_vkK_
+          search-paths: config
+          default-label: BE-config/develop
