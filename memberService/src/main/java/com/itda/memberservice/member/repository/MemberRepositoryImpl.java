@@ -24,15 +24,6 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public void deleteByMemberId(Long memberId) {
-
-        queryFactory
-                .delete(member)
-                .where(member.memberId.eq(memberId));
-
-    }
-
-    @Override
     public Member findMemberByEmployeeId(String employeeId) {
 
         return queryFactory
