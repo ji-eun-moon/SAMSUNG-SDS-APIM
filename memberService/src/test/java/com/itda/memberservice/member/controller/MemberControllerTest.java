@@ -161,11 +161,9 @@ class MemberControllerTest {
 
         long startTime = System.currentTimeMillis();
 
-        String searchName = "name1";
-
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/auth/find-by-name")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("name", searchName))
+                        .param("name", "name1"))
                         .andExpect(status().isOk())
                         .andReturn();
 
