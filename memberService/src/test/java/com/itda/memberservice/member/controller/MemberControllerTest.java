@@ -67,7 +67,7 @@ class MemberControllerTest {
 
         for (int i = 1; i <= 2; i++) {
 
-            List<String> teamListName = null;
+            List<String> teamListName;
 
             if (i == 1) {
                 teamListName = teamList1;
