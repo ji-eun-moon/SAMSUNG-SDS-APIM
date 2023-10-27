@@ -1,15 +1,16 @@
 package com.lego.apiservice.api.controller;
 
-import com.lego.apiservice.api.entity.dto.response.ApiDetailResponse;
-import com.lego.apiservice.api.entity.dto.response.ApiSearchResponse;
-import com.lego.apiservice.api.entity.dto.response.ApiTestResponse;
-import com.lego.apiservice.api.entity.dto.response.CategoryApiResponse;
+import com.lego.apiservice.api.entity.domain.ApiStatus;
+import com.lego.apiservice.api.entity.dto.response.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,5 +89,17 @@ public class ApiController {
     }
 
     // api 상태 조회 - 필터 api이름, 상태, 페이지 네이션, 전체 페이지
+    @GetMapping("/status")
+    public ResponseEntity<?> apiStatus(@RequestParam(name = "apiName", required = false) String apiName) {
+        List<ApiStatusResponse> apiStatusResponses = new ArrayList<>();
+        apiStatusResponses.add(new ApiStatusResponse("점심메뉴조히", "https:/~~", 1L, "나의 카테고리", 1L,
+                ApiStatus.정상, LocalDateTime.now(), 0.123456));
+        apiStatusResponses.add(new ApiStatusResponse("점심메뉴조히", "https:/~~", 1L, "나의 카테고리", 1L,
+                ApiStatus.정상, LocalDateTime.now(), 0.123456));
+        apiStatusResponses.add(new ApiStatusResponse("점심메뉴조히", "https:/~~", 1L, "나의 카테고리", 1L,
+                ApiStatus.정상, LocalDateTime.now(), 0.123456));
 
+        ApiStatusListResponse apiStatusListResponse = new ApiStatusListResponse(apiStatusResponses, 1, 2);
+        return ResponseEntity.ok(apiStatusListResponse);
+    }
 }

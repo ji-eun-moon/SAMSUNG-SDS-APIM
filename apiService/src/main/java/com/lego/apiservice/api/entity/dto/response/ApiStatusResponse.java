@@ -20,6 +20,4 @@ public class ApiStatusResponse {
     private ApiStatus apiStatus;
     private LocalDateTime updatedAt;
     private double responseTime;
-    private Integer currentPage;
-    private Integer totalPage;
 }
