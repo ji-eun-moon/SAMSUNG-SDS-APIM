@@ -56,4 +56,10 @@ public class MemberService {
                 .changePassword(encoder.encode(request.getChangePassword()));
 
     }
+
+    public Member findByEmployeeId(String id){
+
+        return memberRepository.findByEmployeeId(id);
+
+    }
 }
