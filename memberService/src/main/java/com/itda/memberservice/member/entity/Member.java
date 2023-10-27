@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@ToString(of = {"memberId", "employeeId"})
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,10 +48,10 @@ public class Member {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private final List<MemberTeam> memberTeamList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private final List<Notice> noticeList = new ArrayList<>();
 
     public void changePassword(String request){
