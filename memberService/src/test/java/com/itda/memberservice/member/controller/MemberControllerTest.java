@@ -155,5 +155,25 @@ class MemberControllerTest {
 
     }
 
+    @Test
+    @DisplayName("회원 이름으로 검색")
+    public void search_name() throws Exception {
+
+        long startTime = System.currentTimeMillis();
+
+        String searchName = "name1";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/auth/find-by-name")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("name", searchName))
+                        .andExpect(status().isOk())
+                        .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+
+        System.out.println(System.currentTimeMillis() - startTime + "ms");
+
+    }
+
 
 }
