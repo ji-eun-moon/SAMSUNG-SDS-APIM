@@ -5,11 +5,9 @@ import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
-import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
-import com.itda.memberservice.team.dto.response.TeamSkipResponse;
 import com.itda.memberservice.team.entity.Team;
 import com.itda.memberservice.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -122,18 +119,10 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> members() {
-        List<MemberResponse> responses = new ArrayList<>();
-        List<TeamSkipResponse> teamSkipResponses = new ArrayList<>();
-        teamSkipResponses.add(new TeamSkipResponse(1L, "C201"));
-        teamSkipResponses.add(new TeamSkipResponse(1L, "C201"));
-        responses.add(new MemberResponse("0912472", "이찬웅", "imageUrl", Authority.관리자,
-                "개발 1팀", "백엔드 개발", "cksdnd10001@naver.com", teamSkipResponses));
-        responses.add(new MemberResponse("0912473", "송아람", "imageUrl", Authority.일반,
-                "개발 2팀", "UX/UI 개발", "son9aram@gmail.com", teamSkipResponses));
+    public ResponseEntity<?> findAll() {
 
+        return ResponseEntity.ok(memberService.findAll());
 
-        return ResponseEntity.ok(responses);
     }
 
     @PostMapping("/change-password")
@@ -146,7 +135,7 @@ public class MemberController {
     })
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
 
-        memberService.changePassword(request, "id");
+        memberService.changePassword(request.getChangePassword(), "id");
 
         return ResponseEntity.ok("비밀번호 변경");
     }

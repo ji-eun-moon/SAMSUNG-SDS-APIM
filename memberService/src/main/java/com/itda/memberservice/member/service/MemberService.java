@@ -1,9 +1,9 @@
 package com.itda.memberservice.member.service;
 
 import com.itda.memberservice.common.util.JwtUtil;
-import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
@@ -26,7 +26,6 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
     @Value("${security.jwt.secret.key}")
     private String secretKey;
-    private final Long accessExpiration = (long) (60 * 60 * 24 * 7);
 
     public Member register(CreateMemberRequest request){
 
@@ -59,6 +58,7 @@ public class MemberService {
         Key key = new SecretKeySpec(secretKeyByte, SignatureAlgorithm.HS256.getJcaName());
 
         if (encoder.matches(request.getPwd(), member.getPassword())) {
+            Long accessExpiration = (long) (60 * 60 * 24 * 7);
             return JwtUtil.createToken(request.getEmployeeId(), key, accessExpiration);
         } else {
             throw new RuntimeException("비밀번호가 일치하지않습니다.");
@@ -72,11 +72,11 @@ public class MemberService {
 
     }
 
-    public void changePassword(ChangePasswordRequest request, String employeeId) {
+    public void changePassword(String password, String employeeId) {
 
         memberRepository
                 .findMemberByEmployeeId(employeeId)
-                .changePassword(encoder.encode(request.getChangePassword()));
+                .changePassword(encoder.encode(password));
 
     }
 
@@ -88,5 +88,11 @@ public class MemberService {
 
     public List<SearchMemberResponse> findByName(String name) {
         return memberRepository.findByName(name);
+    }
+
+    public List<MemberResponse> findAll() {
+
+        return memberRepository.findMemberResponse();
+
     }
 }

@@ -67,7 +67,7 @@ class MemberControllerTest {
 
         for (int i = 1; i <= 2; i++) {
 
-            List<String> teamListName = null;
+            List<String> teamListName;
 
             if (i == 1) {
                 teamListName = teamList1;
@@ -98,7 +98,7 @@ class MemberControllerTest {
     }
 
     @Test
-    @DisplayName("회원 등록")
+    @DisplayName("멤버 등록")
     public void member_register() throws Exception {
 
         long startTime = System.currentTimeMillis();
@@ -134,7 +134,7 @@ class MemberControllerTest {
     }
 
     @Test
-    @DisplayName("회원 로그인")
+    @DisplayName("멤버 로그인")
     public void member_login() throws Exception {
 
         long startTime = System.currentTimeMillis();
@@ -156,7 +156,7 @@ class MemberControllerTest {
     }
 
     @Test
-    @DisplayName("회원 이름으로 검색")
+    @DisplayName("멤버 이름으로 검색")
     public void search_name() throws Exception {
 
         long startTime = System.currentTimeMillis();
@@ -166,6 +166,22 @@ class MemberControllerTest {
                         .param("name", "name1"))
                         .andExpect(status().isOk())
                         .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+
+        System.out.println(System.currentTimeMillis() - startTime + "ms");
+
+    }
+
+    @Test
+    @DisplayName("전체 멤버 조회")
+    public void find_member_all() throws Exception {
+
+        long startTime = System.currentTimeMillis();
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/auth/all"))
+                .andExpect(status().isOk())
+                .andReturn();
 
         System.out.println(result.getResponse().getContentAsString());
 

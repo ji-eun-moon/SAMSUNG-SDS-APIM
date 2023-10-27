@@ -1,5 +1,6 @@
 package com.itda.memberservice.member.repository;
 
+import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 
@@ -13,4 +14,5 @@ public interface MemberQueryRepository {
 
     List<SearchMemberResponse> findByName(String name);
 
+    List<MemberResponse> findMemberResponse();
 }
