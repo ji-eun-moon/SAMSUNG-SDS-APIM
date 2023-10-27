@@ -1,11 +1,11 @@
 import React from 'react';
 import NavBar from '@/components/organisms/NavBar';
-import { IUserInfo } from '@/types/User';
+import { IUser } from '@/types/User';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import style from './MainPage.module.scss';
 
 interface MainPageProps {
-  userInfo: IUserInfo | undefined;
+  userInfo: IUser | undefined;
 }
 
 /**
