@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamSkipResponse {
-
-    private Long teamId;
+public class TeamResponse {
     private String teamName;
 }
