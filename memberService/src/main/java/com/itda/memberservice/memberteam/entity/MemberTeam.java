@@ -16,8 +16,6 @@ public class MemberTeam {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberTeamId;
 
-    private String teamName;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

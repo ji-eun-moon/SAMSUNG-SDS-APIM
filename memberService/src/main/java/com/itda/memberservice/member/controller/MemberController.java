@@ -1,12 +1,17 @@
 package com.itda.memberservice.member.controller;
 
-import com.itda.memberservice.member.entity.Authority;
+import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.entity.Authority;
+import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
+import com.itda.memberservice.memberteam.service.MemberTeamService;
 import com.itda.memberservice.team.dto.response.TeamSkipResponse;
+import com.itda.memberservice.team.entity.Team;
+import com.itda.memberservice.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +19,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +32,8 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final TeamService teamService;
+    private final MemberTeamService memberTeamService;
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원 가입", description = "정해진 정보를 통해 회원 가입")
@@ -37,8 +43,29 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> signUp(@RequestBody List<CreateMemberRequest> requests) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
+    public ResponseEntity<String> signUp(@RequestBody List<CreateMemberRequest> requests) {
+
+        for (CreateMemberRequest request : requests) {
+
+            // 이미 등록된 회원이라면 스킵
+            if (memberService.employeeIdDuplicateCheck(request.getEmployeeId())) {
+                continue;
+            }
+
+            // 새로 등록한 멤버인 경우
+            Member member = memberService.register(request);
+
+            // 리스트에 있는 팀 생성하거나 가져와서 멤버에 추가
+            for (String teamName : request.getTeam()) {
+                Team team = teamService.registerTeamOrFind(teamName);
+
+                memberTeamService.register(member, team);
+
+            }
+
+        }
+
+        return ResponseEntity.ok("회원등록이 완료되었습니다.");
     }
 
     @PostMapping("/login")
@@ -51,8 +78,22 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> login(@RequestBody LoginMemberRequest loginMemberRequest) {
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    public ResponseEntity<?> login(@RequestBody LoginMemberRequest request) {
+
+        try {
+
+            // 로그인 성공시 토큰 반환
+            String token = memberService.login(request);
+
+            return ResponseEntity.ok(token);
+
+        } catch (Exception e) {
+
+            // 아이디 없거나 비밀번호 틀린경우 오류 메시지 반환
+            return ResponseEntity.ok(e.getMessage());
+
+        }
+
     }
 
     @GetMapping("/find-by-name")
@@ -65,14 +106,10 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByName(@RequestParam(name = "name", defaultValue = "이찬웅") String name) {
-        List<SearchMemberResponse> responses = new ArrayList<>();
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
-        responses.add(new SearchMemberResponse("0916995", "송아람", "광주 2반", "C201", "image"));
+    public ResponseEntity<?> findByName(String name) {
 
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok(memberService.findByName(name));
+
     }
 
     @GetMapping("/all")
@@ -107,13 +144,19 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> changePassword(@RequestBody String pwd) {
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+
+        memberService.changePassword(request, "id");
+
+        return ResponseEntity.ok("비밀번호 변경");
     }
 
     @DeleteMapping("/delete/{member-id}")
-    public ResponseEntity<?> deleteMember(@PathVariable("member-id") Long memberId) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> deleteMember(@PathVariable("member-id") Long memberId) {
+
+        memberService.delete(memberId);
+
+        return ResponseEntity.ok("회원 삭제 완료");
     }
 
     // 마이 페이지 회원 정보 조회

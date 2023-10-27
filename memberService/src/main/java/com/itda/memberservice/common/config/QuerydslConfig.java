@@ -1,4 +1,4 @@
-package com.itda.memberservice.config;
+package com.itda.memberservice.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
