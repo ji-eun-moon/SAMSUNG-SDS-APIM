@@ -7,6 +7,9 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
 
+#token:
+#  secret: "member-token"
+
 spring:
   application:
     name: gateway-service
@@ -19,29 +22,56 @@ spring:
             baseMessage: Spring Cloud Gateway Global Filter
             preLogger: true
             postLogger: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://k9c201.p.ssafy.io:3000", "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTIONS
+            allowedHeaders: '*'
+            allow-credentials: true
+        add-to-simple-url-handler-mapping: true
 
       routes:
-#        - id: submitService
-#          uri: http://localhost:9001/
-#          predicates:
-#            - Path=/submit/**
-#          filters:
-#            - AddRequestHeader=submit-request, submit-request-header2
-#            - AddResponseHeader=submit-request, submit-request-header2
+        - id: login
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/login
+            - Method=POST
+          filters:
+#            - RemoveRequestHeader=Cookie
+            - RewritePath=/member/(?<segment>.*), /${segment}
+
+        - id: member-actuator
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/actuator/**
+            - Method=GET,POST
+          filters:
+#            - RemoveRequestHeader=Cookie
+            - RewritePath=/member/(?<segment>.*), /${segment}
 
         - id: member-service
           uri: lb://MEMBER-SERVICE
           predicates:
             - Path=/member/**
           filters:
+            - RemoveRequestHeader=Cookie
             - RewritePath=/member/(?<segment>.*), /${segment}
+#            - AuthorizationHeaderFilter
 
         - id: submit-service
           uri: lb://SUBMIT-SERVICE
           predicates:
             - Path=/submit/**
           filters:
+            - RemoveRequestHeader=Cookie
             - RewritePath=/submit/(?<segment>.*), /${segment}
+#            - AuthorizationHeaderFilter
 
         - id: api-service
           uri: lb://API-SERVICE
@@ -49,9 +79,16 @@ spring:
             - Path=/server/**
           filters:
             - RewritePath=/server/(?<segment>.*), /${segment}
-            - name: LoggingFilter
-              args:
-                baseMessage: HI, I'm LoggerFilter
-                preLogger: true
-                postLogger: true
+            - RemoveRequestHeader=Cookie
+#            - AuthorizationHeaderFilter
+  rabbitmq:
+    host: k9c201.p.ssafy.io
+    port: 5672
+    username: guest
+    password: guest
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpExchanges, busRefresh

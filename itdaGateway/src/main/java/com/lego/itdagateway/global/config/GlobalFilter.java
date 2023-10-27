@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,11 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Config> {
+    Environment env;
 
-    public GlobalFilter() {
+    public GlobalFilter(Environment env) {
         super(Config.class);
+        this.env = env;
     }
 
     @Override
@@ -25,6 +28,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
             ServerHttpResponse response = exchange.getResponse();
 
             log.info("Global Pre Filter : request id -> {}", config.getBaseMessage());
+            log.info(env.getProperty("token.secret"));
 
             if (config.isPreLogger()) {
                 log.info("Global Filter Start : request id -> {}", request.getId());
