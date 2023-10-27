@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 interface InputProps {
-  width?: string;
+  // width?: string;
   backgroundColor?: string;
   isPassword: boolean; // isPassword prop 추가
   inputWord: string;
   placeholder: string;
+  onChange: (value: string) => void;
 }
 
 /**
@@ -17,7 +18,7 @@ interface InputProps {
  * @param {string} placeholder - input 창 placeholder
  */
 
-function Input({ width, backgroundColor, isPassword = false, inputWord, placeholder }: InputProps) {
+function Input({ backgroundColor, isPassword = false, inputWord, placeholder, onChange }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -25,9 +26,14 @@ function Input({ width, backgroundColor, isPassword = false, inputWord, placehol
     setVisible(!visible);
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    onChange(newValue); // 입력 값 변경 시 부모 컴포넌트로 전달
+  };
+
   return (
     <div
-      className={`${width} ${backgroundColor} rounded-lg border-2 ${
+      className={`${backgroundColor} w-full rounded-lg border-2 ${
         isFocused ? 'border-blue-500' : 'border-gray-400'
       } flex items-center h-10`}
     >
@@ -38,6 +44,7 @@ function Input({ width, backgroundColor, isPassword = false, inputWord, placehol
         className="mx-1 outline-none flex-grow"
         onFocus={() => setIsFocused(true)} // 포커스되면 상태를 true로 변경
         onBlur={() => setIsFocused(false)} // 포커스가 없어지면 상태를 false로 변경
+        onChange={handleInputChange}
       />
       {isPassword && ( // isPassword가 true일 때만 아이콘 표시
         <span
@@ -82,7 +89,6 @@ function Input({ width, backgroundColor, isPassword = false, inputWord, placehol
 }
 
 Input.defaultProps = {
-  width: 'w-64',
   backgroundColor: '',
 };
 
