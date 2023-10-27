@@ -3,6 +3,7 @@ import { IUserInfo } from '../User';
 export interface NavBarProps {
   userInfo: IUserInfo;
   position: 'side' | 'top';
+  noticeCnt: string;
 }
 
 export interface ProfileImgProps {

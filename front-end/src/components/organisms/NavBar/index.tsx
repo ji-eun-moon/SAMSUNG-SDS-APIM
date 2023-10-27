@@ -3,17 +3,20 @@ import { NavBarProps } from '@/types/props/NavBarProps';
 import Image from 'next/image';
 import StyledButton from '@/components/atoms/StyledButton';
 import { useRouter } from 'next/router';
+import CountBadge from '@/components/atoms/CountBadge';
+import SelectBox from '@/components/atoms/SelectBox';
+import DropDown from '@/components/atoms/DropDown';
 import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import styles from './NavBar.module.scss';
 
 function NavBar(props: NavBarProps) {
   const router = useRouter();
-  const { userInfo, position } = props;
+  const { userInfo, position, noticeCnt } = props;
 
   if (position === 'side') {
     return (
-      <div className={styles.navBarBody}>
+      <div className={styles.navSideBody}>
         <LogoWithName />
 
         {/* 프로필 이미지 */}
@@ -37,7 +40,9 @@ function NavBar(props: NavBarProps) {
             </div>
 
             <div className="col-span-1 font-semibold itdaSecondary">팀명</div>
-            <div className="col-span-3 itdaText">셀렉트 박스</div>
+            <div className="col-span-3 itdaText">
+              <SelectBox list={userInfo.team} onClick={() => {}} />
+            </div>
           </div>
 
           <div className="flex flex-col gap-6">
@@ -74,7 +79,51 @@ function NavBar(props: NavBarProps) {
   }
 
   if (position === 'top') {
-    return <div>상단 네비바</div>;
+    return (
+      <div className={styles.navTopBody}>
+        <LogoWithName />
+        <div className="flex items-center">
+          <div className="mr-10">
+            <SelectBox list={userInfo.team} onClick={() => {}} width="w-40" />
+          </div>
+          <div className="mr-3">
+            <ProfileImg src={userInfo.imageUrl} width={40} height={40} />
+          </div>
+          <div className="flex flex-col mr-3 text-sm">
+            <div className="itdaText text-left font-semibold">{userInfo.name}</div>
+            <div className="flex itdaSecondary">
+              <div>{userInfo.department}</div>&nbsp;|&nbsp;
+              <div>{userInfo.position}</div>
+            </div>
+          </div>
+          <div className={styles.updown} />
+          <svg
+            className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+            // onClick={onSearchHandler}
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+          <div className="flex mr-6">
+            <CountBadge count={noticeCnt}>
+              <Image src="/icons/notice.png" alt="notice-icon" width={27} height={20} />
+            </CountBadge>
+          </div>
+          <div className="mr-3">
+            <DropDown list={[]} />
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

@@ -14,6 +14,12 @@ export default {
         type: 'object',
       },
     },
+    teamList: {
+      description: 'selectbox에 들어갈 데이터리스트를 넣습니다.',
+    },
+    noticeCnt: {
+      description: 'notice의 현재 알림 개수 데이터를 넣습니다.',
+    },
   },
 };
 
@@ -44,5 +50,6 @@ export const TopNavBar = {
       team: ['project 1', 'project 2', 'project 3', 'project 4'],
       authority: '일반',
     },
+    noticeCnt: '6',
   },
 };

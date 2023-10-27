@@ -1,7 +1,7 @@
 import StyledButton from '.';
 
 export default {
-  title: 'stories/StyledButton',
+  title: 'atoms/StyledButton',
   tags: ['autodocs'],
   component: StyledButton,
   argTypes: {
