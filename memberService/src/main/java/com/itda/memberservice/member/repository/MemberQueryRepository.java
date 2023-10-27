@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface MemberQueryRepository {
 
-    void deleteByMemberId(Long memberId);
-
     Member findMemberByEmployeeId(String employeeId);
 
     List<SearchMemberResponse> findByName(String name);
