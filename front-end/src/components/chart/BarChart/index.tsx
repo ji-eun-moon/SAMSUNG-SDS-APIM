@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { BarChartProps } from '@/types/props/ChartProps';
 import * as echarts from 'echarts';
 
-function BarChart({ title, chartDataValue, chartDataName }: BarChartProps) {
+function BarChart({ title, chartDataValue, chartDataName, barColors }: BarChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   // eslint-disable-next-line consistent-return
@@ -32,7 +32,7 @@ function BarChart({ title, chartDataValue, chartDataName }: BarChartProps) {
               color(params: echarts.EChartOption.Tooltip.Format) {
                 if (typeof params.dataIndex === 'number') {
                   // 각 데이터 항목마다 다른 색상을 지정
-                  const colors = ['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF'];
+                  const colors = barColors;
                   return colors[params.dataIndex];
                 }
                 return '#000'; // 기본 색상 설정 또는 다른 예외 처리
@@ -46,7 +46,7 @@ function BarChart({ title, chartDataValue, chartDataName }: BarChartProps) {
         chart.dispose();
       };
     }
-  }, [title, chartDataValue, chartDataName]);
+  }, [title, chartDataValue, chartDataName, barColors]);
 
   return <div ref={chartRef} style={{ width: '100%', height: '400px' }} />;
 }

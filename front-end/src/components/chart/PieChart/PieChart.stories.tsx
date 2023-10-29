@@ -1,7 +1,7 @@
 import PieChart from '.';
 
 export default {
-  title: 'organisms/chart/PieChart',
+  title: 'chart/PieChart',
   tags: ['autodocs'],
   component: PieChart,
   argTypes: {
