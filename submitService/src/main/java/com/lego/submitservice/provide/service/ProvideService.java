@@ -33,6 +33,9 @@ public class ProvideService {
 
     @Transactional
     public void register(String employeeId, CreateProvideRequest createProvideRequest) {
+        // 해당 회원이 팀인지 확인하는 로직 - 팀이라면 이름 반환
+
+
         provideRepository.save(Provide.builder()
                         .serverName(createProvideRequest.getServerName())
                         .description(createProvideRequest.getDescription())
@@ -41,6 +44,7 @@ public class ProvideService {
                         .employeeId(employeeId)
                         .state(State.대기)
                         .applyType(ApplyType.신청)
+
                         .createdAt(LocalDateTime.now())
                 .build());
     }
@@ -56,7 +60,7 @@ public class ProvideService {
     public void acceptState(String employeeId, Long provideId) {
         try {
             // 회원이 관리자임을 확인하는 로직
-
+            checkAuthority(employeeId);
             Provide provide = provideRepository.findById(provideId).orElseThrow();
             provide.changeState(State.승인);
             provideRepository.save(provide);
@@ -69,7 +73,7 @@ public class ProvideService {
     public void denyState(String employeeId, Long provideId, String denyReason) {
         try {
             // 회원이 관리자임을 확인하는 로직
-
+            checkAuthority(employeeId);
             Provide provide = provideRepository.findById(provideId).orElseThrow();
             provide.changeState(State.거질);
             provide.setDenyReason(denyReason);
@@ -80,18 +84,23 @@ public class ProvideService {
     }
 
     public Page<ProvideListResponse> findAllByTeam(Pageable pageable, String teamName) {
-        Page<Provide> provides = provideRepository.findAllByTeamNameOrderByCreatedAt(pageable);
+        Page<Provide> provides = provideRepository.findAllByTeamNameOrderByCreatedAt(teamName, pageable);
 
         provides.getPageable().getPageNumber();
         return provides.map(ProvideListResponse::new);
     }
 
-//    public ProvideDetailResponse findDetailByProvideId(Long provideId, String employeeId) {
-//        ProvideDetailResponse provideDetailResponse =
-//                new ProvideDetailResponse(provideRepository.findById(provideId).orElseThrow());
-//
-//
-//        memberServiceClient.getMember(employeeId);
-//    }
+    public ProvideDetailResponse findDetailByProvideId(Long provideId) {
+        return new ProvideDetailResponse(provideRepository.findById(provideId).orElseThrow());
+    }
 
+    public void checkAuthority(String employeeId) {
+        if (memberServiceClient.checkAuthority(employeeId).equals("일반")) {
+            throw new IllegalArgumentException("일반 회원은 수정을 할 수 없습니다.");
+        }
+    }
+
+    public void deleteAll() {
+        provideRepository.deleteAll();
+    }
 }

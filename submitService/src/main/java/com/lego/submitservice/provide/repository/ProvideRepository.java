@@ -10,5 +10,5 @@ public interface ProvideRepository extends JpaRepository<Provide, Long> {
 
     Page<Provide> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
-    Page<Provide> findAllByTeamNameOrderByCreatedAt(Pageable pageable);
+    Page<Provide> findAllByTeamNameOrderByCreatedAt(String teamName, Pageable pageable);
 }

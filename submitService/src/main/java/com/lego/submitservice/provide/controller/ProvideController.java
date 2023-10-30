@@ -8,7 +8,9 @@ import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.service.ProvideService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/provide")
 @RequiredArgsConstructor
+@Slf4j
 public class ProvideController {
 
     private final ProvideService provideService;
@@ -42,9 +46,9 @@ public class ProvideController {
     // 제공 신청 변경 - 승인
     @PutMapping("/accept")
     public ResponseEntity<?> acceptState(
-            @RequestHeader("member-id") String employeeId,
+            @RequestHeader Map<String, String> headers,
             @RequestParam(name = "provideId") Long provideId) {
-
+        String employeeId = headers.get("member-id");
         provideService.acceptState(employeeId, provideId);
 
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
@@ -68,11 +72,15 @@ public class ProvideController {
         return ResponseEntity.ok(provideService.findAllByTeam(pageable, teamName));
     }
 
-//    // 제공 신청 상세 조회
-//    @GetMapping("/{provide-id}")
-//    public ResponseEntity<?> findByProvideId(@PathVariable("provide-id") Long provideId) {
-//
-//
-//        return ResponseEntity.ok();
-//    }
+    // 제공 신청 상세 조회
+    @GetMapping("/{provide-id}")
+    public ResponseEntity<?> findByProvideId(@PathVariable("provide-id") Long provideId) {
+        return ResponseEntity.ok(provideService.findDetailByProvideId(provideId));
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteAll() {
+        provideService.deleteAll();
+        return ResponseEntity.status(204).body(HttpStatus.NO_CONTENT);
+    }
 }

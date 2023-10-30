@@ -1,5 +1,6 @@
 package com.lego.submitservice.provide.entity.dto.response;
 
+import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.Provide;
 import com.lego.submitservice.provide.entity.domain.State;
@@ -29,5 +30,6 @@ public class ProvideListResponse {
         this.createdAt = provide.getCreatedAt();
         this.state = provide.getState();
         this.applyType = provide.getApplyType();
+        this.providerName = provide.getProviderName();
     }
 }

@@ -25,6 +25,7 @@ public class Provide {
     private String endpoint;
 
     private String employeeId;
+    private String providerName;
     private String teamName;
 
     private LocalDateTime createdAt;

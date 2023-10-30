@@ -37,9 +37,7 @@ public class ProvideDetailResponse {
         this.modifiedAt = provide.getModifiedAt();
         this.denyReason = provide.getDenyReason();
         this.apiDocs = provide.getEndpoint() + "/swagger-ui/index.html";
+        this.providerName = provide.getProviderName();
     }
 
-    public void setProviderName(String name) {
-        this.providerName = name;
-    }
 }
