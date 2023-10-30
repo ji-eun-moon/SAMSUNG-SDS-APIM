@@ -7,13 +7,14 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Copy from '@/components/atoms/Copy';
+import { login } from '@/utils/axios/auth';
 
 export default function Login() {
   const [employeeId, setEmployeeId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleLogin = async () => {
-    // 로그인 로직 작성
+    await login({ employeeId, password });
   };
 
   return (
