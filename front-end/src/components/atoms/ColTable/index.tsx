@@ -9,7 +9,7 @@ interface Person {
 }
 
 interface ColTableProps {
-  headerContent: ['이름', '나이', '성별'];
+  headerContent: string[];
   bodyContent: Person[];
 }
 
