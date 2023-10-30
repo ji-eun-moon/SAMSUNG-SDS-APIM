@@ -143,9 +143,16 @@ public class MemberController {
     @DeleteMapping("/delete/{member-id}")
     public ResponseEntity<String> deleteMember(@PathVariable("member-id") Long memberId) {
 
-        memberService.delete(memberId);
+        try {
+            memberService.delete(memberId);
 
-        return ResponseEntity.ok("회원 삭제 완료");
+            return ResponseEntity.ok("회원 삭제 완료");
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(e.getMessage());
+
+        }
+
     }
 
     // 마이 페이지 회원 정보 조회

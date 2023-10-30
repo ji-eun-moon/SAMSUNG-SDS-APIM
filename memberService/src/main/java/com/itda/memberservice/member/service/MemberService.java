@@ -8,11 +8,14 @@ import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.persistence.EntityManager;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -20,12 +23,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
     @Value("${security.jwt.secret.key}")
     private String secretKey;
+    private final EntityManager entityManager;
 
     public Member register(CreateMemberRequest request){
 
@@ -44,7 +50,7 @@ public class MemberService {
 
     public boolean employeeIdDuplicateCheck(String employeeId){
 
-        return memberRepository.existsMemberByEmployeeId(employeeId);
+        return memberRepository.existsByEmployeeId(employeeId);
 
     }
 
@@ -68,7 +74,14 @@ public class MemberService {
 
     public void delete(Long memberId) {
 
-        memberRepository.deleteByMemberId(memberId);
+        log.info("{멤버 삭제} : memberId = " + memberId);
+
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new RuntimeException("해당 회원은 존재하지않습니다."));
+
+        log.info("{멤버 삭제} : member = " + member);
+
+        memberRepository.delete(member);
 
     }
 
