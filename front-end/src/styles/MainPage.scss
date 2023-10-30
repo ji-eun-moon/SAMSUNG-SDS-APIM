@@ -1,0 +1,33 @@
+.page {
+  background-color: #fbfbfb;
+  display: flex;
+  width: 100%;
+}
+
+.pageContainer {
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  min-height: 60px;
+
+  width: 100%;
+}
+
+.firstPart {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+.imgContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+}
+
+.iconImg {
+  height: 122px;
+  width: 118px;
+}
