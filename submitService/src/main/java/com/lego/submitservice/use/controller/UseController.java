@@ -7,6 +7,8 @@ import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.use.entity.dto.request.CreateUseRequest;
 import com.lego.submitservice.use.entity.dto.response.UseDetailResponse;
 import com.lego.submitservice.use.entity.dto.response.UseListResponse;
+import com.lego.submitservice.use.service.UseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +19,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/use")
+@RequiredArgsConstructor
 public class UseController {
+
+    private final UseService useService;
 
     // 사용 신청
     @PostMapping ("/register")
-    public ResponseEntity<?> register(@RequestBody CreateUseRequest createUseRequest) {
+    public ResponseEntity<?> register(
+            @RequestHeader("member-id") String employeeId,
+            @RequestBody CreateUseRequest createUseRequest) {
+
+        useService.register(createUseRequest, employeeId);
         return ResponseEntity.status(201).body(HttpStatus.CREATED);
     }
 

@@ -50,4 +50,8 @@ public class Provide {
     public void setDenyReason(String s) {
         this.denyReason = s;
     }
+
+    public void setModifiedAt() {
+        this.modifiedAt = LocalDateTime.now();
+    }
 }

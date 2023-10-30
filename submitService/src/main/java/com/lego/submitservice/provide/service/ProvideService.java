@@ -79,6 +79,7 @@ public class ProvideService {
             log.info("수정 되나?");
             Provide provide = provideRepository.findById(provideId).orElseThrow();
             provide.changeState(State.승인);
+            provide.setModifiedAt();
             provideRepository.save(provide);
         } catch (Exception e) {
             log.info(e.toString());
@@ -94,6 +95,7 @@ public class ProvideService {
             Provide provide = provideRepository.findById(provideId).orElseThrow();
             provide.changeState(State.거절);
             provide.setDenyReason(denyReason);
+            provide.setModifiedAt();
             provideRepository.save(provide);
         } catch (Exception e) {
             log.info(e.toString());

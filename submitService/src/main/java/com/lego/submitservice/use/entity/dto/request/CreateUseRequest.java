@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateUseRequest {
 
-    private Long teamId;
+    private String teamName;
     private Long categoryId;
     private String content;
 }
