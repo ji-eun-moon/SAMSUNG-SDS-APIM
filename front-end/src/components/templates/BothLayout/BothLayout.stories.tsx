@@ -4,19 +4,9 @@ export default {
   title: 'templates/BothLayout',
   tags: ['autodocs'],
   component: BothLayout,
-  argTypes: {
-    totalPage: {
-      description: '페이지의 총 길이',
-    },
-    currentPage: {
-      description: '현재 페이지',
-    },
-  },
+  argTypes: {},
 };
 
 export const DefaultBothLayout = {
-  args: {
-    totalPage: 10,
-    currentPage: 1,
-  },
+  args: {},
 };

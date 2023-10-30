@@ -33,7 +33,8 @@ export interface IUser {
   department: string;
   position: string;
   teams: TTeamList;
-  authority: '일반' | '관리자';
+  // authority: '일반' | '관리자';
+  authority: string;
 }
 
 // 관리자 - 전체 사원
