@@ -35,6 +35,8 @@ public class MemberService {
 
     public Member register(CreateMemberRequest request){
 
+        log.info("{MemberService} : register 실행");
+
         return memberRepository.save(Member.builder()
                         .employeeId(request.getEmployeeId())
                         .name(request.getName())
