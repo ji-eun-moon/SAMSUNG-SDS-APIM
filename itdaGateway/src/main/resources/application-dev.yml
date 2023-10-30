@@ -5,7 +5,8 @@ spring:
 
 eureka:
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    hostname: 127.0.0.1
+
   client:
     service-url:
       defaultZone: https://k9c201.p.ssafy.io/discovery/eureka

@@ -45,7 +45,7 @@ spring:
             - Path=/member/login
             - Method=POST
           filters:
-#            - RemoveRequestHeader=Cookie
+            - RemoveRequestHeader=Cookie
             - RewritePath=/member/(?<segment>.*), /${segment}
 
         - id: member-actuator
@@ -54,7 +54,7 @@ spring:
             - Path=/member/actuator/**
             - Method=GET,POST
           filters:
-#            - RemoveRequestHeader=Cookie
+            - RemoveRequestHeader=Cookie
             - RewritePath=/member/(?<segment>.*), /${segment}
 
         - id: member-service
