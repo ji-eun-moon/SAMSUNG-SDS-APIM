@@ -1,0 +1,6 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: https://k9c201.p.ssafy.io/discovery/eureka
+    register-with-eureka: true
+    fetch-registry: true
