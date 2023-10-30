@@ -3,6 +3,7 @@ package com.itda.memberservice.member.controller;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
@@ -84,13 +85,16 @@ public class MemberController {
         try {
 
             // 로그인 성공시 토큰 반환
-            String token = memberService.login(request);
+            LoginMemberResponse response = memberService.login(request);
 
-            return ResponseEntity.ok(token);
+            log.info("로그인 성공");
+
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
 
             // 아이디 없거나 비밀번호 틀린경우 오류 메시지 반환
+            log.error("로그인 실패");
             return ResponseEntity.ok(e.getMessage());
 
         }
