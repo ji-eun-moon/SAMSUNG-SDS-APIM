@@ -59,8 +59,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                         member.authority,
                         member.department,
                         member.position,
-                        member.email,
-                        member.memberTeamList
+                        member.email
                 ))
                 .from(member)
                 .fetch();
@@ -71,7 +70,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
 
             List<TeamResponse> teamResponses = queryFactory
                     .select(Projections.fields(TeamResponse.class,
-                            team.name))
+                            team.name.as("teamName")))
                     .from(team)
                     .where((JPAExpressions.select(memberTeam.team)
                             .from(memberTeam)
@@ -83,6 +82,37 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
         }
 
         return results;
+
+    }
+
+    @Override
+    public MemberResponse findMemberResponseByEmployeeId(String employeeId) {
+        MemberResponse response = queryFactory
+                .select(Projections.fields(MemberResponse.class,
+                        member.memberId,
+                        member.employeeId,
+                        member.name,
+                        member.imageUrl,
+                        member.authority,
+                        member.department,
+                        member.position,
+                        member.email))
+                .from(member)
+                .where(member.employeeId.eq(employeeId))
+                .fetchOne();
+
+        List<TeamResponse> teamResponses = queryFactory
+                .select(Projections.fields(TeamResponse.class,
+                        team.name.as("teamName")))
+                .from(team)
+                .where((JPAExpressions.select(memberTeam.team)
+                        .from(memberTeam)
+                        .where(memberTeam.member.memberId.eq(response.getMemberId()))).contains(team))
+                .fetch();
+
+        response.setTeams(teamResponses);
+
+        return response;
 
     }
 }

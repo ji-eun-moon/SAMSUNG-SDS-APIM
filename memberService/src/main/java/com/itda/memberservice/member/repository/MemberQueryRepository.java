@@ -13,4 +13,7 @@ public interface MemberQueryRepository {
     List<SearchMemberResponse> findByName(String name);
 
     List<MemberResponse> findMemberResponse();
+
+    MemberResponse findMemberResponseByEmployeeId(String employeeId);
+
 }
