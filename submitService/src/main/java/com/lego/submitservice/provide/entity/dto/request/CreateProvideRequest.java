@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateProvideRequest {
 
-    private Long teamId;
+    private String teamName;
     private String serverName;
     private String description;
     private String endpoint;

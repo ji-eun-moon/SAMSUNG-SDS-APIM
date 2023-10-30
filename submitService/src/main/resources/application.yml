@@ -7,7 +7,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://k9c201.p.ssafy.io:3306/itda_member?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://k9c201.p.ssafy.io:3306/itda_submit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: itda1235!@#%
 
@@ -21,8 +21,14 @@ spring:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
 eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://k9c201.p.ssafy.io/discovery/eureka
+
+logging:
+  level:
+    com.lego.submitservice.client: DEBUG
