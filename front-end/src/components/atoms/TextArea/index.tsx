@@ -5,6 +5,7 @@ interface TextAreaProps {
   backgroundColor?: string;
   textAreaWord: string;
   placeholder: string;
+  onChange: (value: string) => void;
 }
 
 /**
@@ -15,8 +16,13 @@ interface TextAreaProps {
  * @param {string} placeholder - TextArea placeholder
  */
 
-function TextArea({ width, backgroundColor, textAreaWord, placeholder }: TextAreaProps) {
+function TextArea({ width, backgroundColor, textAreaWord, placeholder, onChange }: TextAreaProps) {
   const [isFocused, setIsFocused] = useState(false);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = event.target.value;
+    onChange(newValue); // 입력 값 변경 시 부모 컴포넌트로 전달
+  };
 
   return (
     <textarea
@@ -27,6 +33,7 @@ function TextArea({ width, backgroundColor, textAreaWord, placeholder }: TextAre
       } flex items-center h-10`}
       onFocus={() => setIsFocused(true)} // 포커스되면 상태를 true로 변경
       onBlur={() => setIsFocused(false)} // 포커스가 없어지면 상태를 false로 변경
+      onChange={handleInputChange}
     />
   );
 }
