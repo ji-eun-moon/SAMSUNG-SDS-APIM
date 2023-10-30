@@ -80,6 +80,7 @@ dependencyManagement {
     }
 }
 
+// test task 실행 시, API 문서 생성 Snippet 디렉토리 경로를 설정
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
@@ -90,6 +91,10 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
 }
 
 asciidoctor { // asciidoctor 설정 task
