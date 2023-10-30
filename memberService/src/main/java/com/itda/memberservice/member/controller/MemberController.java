@@ -25,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -113,7 +114,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByEmployeeId(String employeeId) {
+    public ResponseEntity<?> findByEmployeeId(@RequestParam String employeeId) {
 
         return ResponseEntity.ok(new SkipMemberResponse(memberService.findByEmployeeId(employeeId)));
 
@@ -192,7 +193,8 @@ public class MemberController {
     }
 
     @GetMapping("/check-authority")
-    public ResponseEntity<?> checkAuthority(String employeeId) {
+    public ResponseEntity<String> checkAuthority(@RequestParam String employeeId) {
+        log.info(employeeId);
         return ResponseEntity.ok(memberService.findByEmployeeId(employeeId).getAuthority().toString());
     }
 
