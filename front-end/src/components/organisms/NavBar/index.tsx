@@ -56,9 +56,10 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
                 label="API 전체보기"
                 onClick={() => router.push('/apis/[categoryId]/list')}
                 radius="full"
+                type="button"
               />
               <CountBadge count={noticeCnt}>
-                <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" />
+                <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" type="button" />
               </CountBadge>
             </div>
 
