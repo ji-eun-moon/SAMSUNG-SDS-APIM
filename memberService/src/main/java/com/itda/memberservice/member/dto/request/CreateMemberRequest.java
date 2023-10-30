@@ -24,6 +24,6 @@ public class CreateMemberRequest {
 
     private String email;
 
-    private List<String> team;
+    private List<String> teamList;
 
 }
