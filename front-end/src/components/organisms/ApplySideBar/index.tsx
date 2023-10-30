@@ -29,7 +29,9 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
           <SideBarMenu title="사용 신청 내역" conditionList={useCondition} />
           <SideBarMenu title="제공 신청 내역" conditionList={provideCondition} />
         </div>
-        {isUser && <StyledButton variant="solid" radius="full" label="제공 신청 하기" onClick={() => {}} />}
+        {isUser && (
+          <StyledButton variant="solid" radius="full" label="제공 신청 하기" onClick={() => {}} type="button" />
+        )}
       </div>
     </SideBarBody>
   );
