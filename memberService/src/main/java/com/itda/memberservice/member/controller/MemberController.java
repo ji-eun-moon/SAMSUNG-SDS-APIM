@@ -101,6 +101,22 @@ public class MemberController {
 
     }
 
+    @GetMapping("/find-by-employeeID")
+    @Operation(summary = "회원 조회", description = "사번을 통한 회원 검색")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원 검색 결과", content = @Content(schema = @Schema(
+                    implementation = Member.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> findByEmployeeId(String employeeId) {
+
+        return ResponseEntity.ok(memberService.findByEmployeeId(employeeId));
+
+    }
+
     @GetMapping("/find-by-name")
     @Operation(summary = "회원 검색", description = "이름을 통한 회원 검색")
     @ApiResponses(value = {
