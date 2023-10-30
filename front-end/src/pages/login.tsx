@@ -12,6 +12,10 @@ export default function Login() {
   const [employeeId, setEmployeeId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const handleLogin = async () => {
+    // 로그인 로직 작성
+  };
+
   return (
     <div className="my-16 mx-20">
       <div className="flex justify-start">
@@ -42,7 +46,7 @@ export default function Login() {
             </div>
           </div>
           <div className="w-96 mt-8">
-            <StyledButton label="로그인" radius="sm" variant="solid" onClick={() => {}} />
+            <StyledButton label="로그인" radius="sm" variant="solid" onClick={handleLogin} />
           </div>
         </div>
       </div>
