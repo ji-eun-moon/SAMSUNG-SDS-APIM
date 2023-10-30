@@ -18,42 +18,11 @@ function BothLayout({ children }: { children: React.ReactNode[] }) {
     <div className={`${style.page}`}>
       {/* Top NavBar */}
       {children && children[0]}
-      {/* <NavBar
-        position="top"
-        userInfo={userInfo}
-        noticeCnt="6"
-        notices="hi"
-        dropDownList={[
-          {
-            title: '메인',
-            icon: 'home',
-            onClick: function onClick() {
-              // 클릭 시 실행할 동작 정의
-            },
-          },
-          // 다른 항목들 추가
-        ]}
-      /> */}
       <div className={`${style.bottomPage}`}>
         {/* Side NavBar */}
         {children && children[1]}
-
-        {/* <NavBar
-          position="side" // 혹은 "top"
-          userInfo={userInfo}
-          noticeCnt="6"
-          notices=[]
-          dropDownList={[
-            {
-              title: '메인',
-              icon: 'home',
-              onClick: function onClick() {
-                // 클릭 시 실행할 동작 정의
-              },
-            },
-            // 다른 드롭다운 항목들 추가
-          ]}
-        /> */}
+        {/* Side NavBar 오른쪽 부분 */}
+        <div className={`${style.pageContainer}`}>{children && children[2]}</div>
       </div>
     </div>
   );
