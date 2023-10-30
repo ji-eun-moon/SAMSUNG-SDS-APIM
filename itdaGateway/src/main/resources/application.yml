@@ -61,7 +61,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/member/(?<segment>.*), /${segment}
-            - AuthorizationHeaderFilter
+#            - AuthorizationHeaderFilter
 
         - id: submit-service
           uri: lb://SUBMIT-SERVICE
@@ -70,7 +70,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/submit/(?<segment>.*), /${segment}
-            - AuthorizationHeaderFilter
+#            - AuthorizationHeaderFilter
 
         - id: api-service
           uri: lb://API-SERVICE
@@ -79,7 +79,7 @@ spring:
           filters:
             - RewritePath=/server/(?<segment>.*), /${segment}
             - RemoveRequestHeader=Cookie
-            - AuthorizationHeaderFilter
+#            - AuthorizationHeaderFilter
   rabbitmq:
     host: k9c201.p.ssafy.io
     port: 5672
