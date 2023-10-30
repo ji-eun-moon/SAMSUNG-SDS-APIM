@@ -7,8 +7,6 @@ server:
 #    register-with-eureka: true
 #    fetch-registry: true
 
-#token:
-#  secret: "member-token"
 
 spring:
   application:
