@@ -8,13 +8,19 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Copy from '@/components/atoms/Copy';
 import { login } from '@/utils/axios/auth';
+import { getUserInfo } from '@/utils/axios/user';
+import { useRouter } from 'next/router';
 
 export default function Login() {
+  const router = useRouter();
   const [employeeId, setEmployeeId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     await login({ employeeId, password });
+    await getUserInfo();
+    await router.push(`/`);
   };
 
   return (
@@ -32,24 +38,27 @@ export default function Login() {
           </Slider>
         </div>
         {/* 로그인 폼 */}
-        <div className="flex flex-col w-full items-center px-52">
-          <div className="itdaBlue flex flex-col text-5xl font-bold">LOGIN</div>
-          <div className="mt-5">
-            <p className="itdaText font-medium text-lg">사번</p>
-            <div className="w-96">
-              <Input placeholder="사번" isPassword={false} inputWord={employeeId} onChange={setEmployeeId} />
+
+        <form onSubmit={handleLogin}>
+          <div className="flex flex-col w-full items-center px-52">
+            <div className="itdaBlue flex flex-col text-5xl font-bold">LOGIN</div>
+            <div className="mt-5">
+              <p className="itdaText font-medium text-lg">사번</p>
+              <div className="w-96">
+                <Input placeholder="사번" isPassword={false} inputWord={employeeId} onChange={setEmployeeId} />
+              </div>
+            </div>
+            <div className="mt-5">
+              <p className="itdaText font-medium text-lg">비밀번호</p>
+              <div className="w-96">
+                <Input placeholder="비밀번호" isPassword inputWord={password} onChange={setPassword} />
+              </div>
+            </div>
+            <div className="w-96 mt-8">
+              <StyledButton label="로그인" radius="sm" variant="solid" type="submit" />
             </div>
           </div>
-          <div className="mt-5">
-            <p className="itdaText font-medium text-lg">비밀번호</p>
-            <div className="w-96">
-              <Input placeholder="비밀번호" isPassword inputWord={password} onChange={setPassword} />
-            </div>
-          </div>
-          <div className="w-96 mt-8">
-            <StyledButton label="로그인" radius="sm" variant="solid" onClick={handleLogin} />
-          </div>
-        </div>
+        </form>
       </div>
 
       <div className="my-20 flex items-center border p-3 justify-between rounded-md font-normal">
