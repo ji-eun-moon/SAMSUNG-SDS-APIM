@@ -9,7 +9,7 @@ export default {
       description: '카드 내부에 들어갈 내용',
     },
     type: {
-      description: '[small] border-radius: 0.5rem; [big] border-radius: 0.25rem;',
+      description: '[small] border-radius: 1.5rem; [big] border-radius: 0.25rem;',
     },
   },
 };
