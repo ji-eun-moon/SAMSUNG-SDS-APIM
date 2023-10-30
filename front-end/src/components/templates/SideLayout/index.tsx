@@ -20,11 +20,13 @@ function SideLayout({ userInfo, children }: SideLayoutProps) {
   return (
     <div className={`${style.page}`}>
       <NavBar position="side" userInfo={userInfo} />
-      {!children ? (
+      <div className={`${style.pageContainer}`}>{children}</div>
+
+      {/* {!children ? (
         <div className={`${style.pageContainer}`}>{children}</div>
       ) : (
         <div>Loading Spinner 들어갈 부분...</div>
-      )}
+      )} */}
     </div>
   );
 }
