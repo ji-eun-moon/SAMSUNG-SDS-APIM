@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -111,9 +112,9 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByEmployeeId(String employeeId) {
+    public ResponseEntity<?> findByEmployeeId(Authentication authentication) {
 
-        return ResponseEntity.ok(memberService.findByEmployeeId(employeeId));
+        return ResponseEntity.ok(memberService.findByEmployeeId(authentication.getName()));
 
     }
 
@@ -179,6 +180,14 @@ public class MemberController {
 
     }
 
-    // 마이 페이지 회원 정보 조회
-    //
+    @GetMapping("/mypage")
+    public ResponseEntity<?> myPage(Authentication authentication){
+
+        log.info("{MemberController} : 마이페이지 \n" +
+                "employeeId = " + authentication.getName());
+
+        return ResponseEntity.ok(memberService.myInformation(authentication.getName()));
+
+    }
+
 }
