@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @Tag(name = "AUTH", description = "회원 관련 api")
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -42,6 +44,8 @@ public class MemberController {
     })
     public ResponseEntity<String> signUp(@RequestBody List<CreateMemberRequest> requests) {
 
+        log.info("회원가입 실행");
+
         for (CreateMemberRequest request : requests) {
 
             // 이미 등록된 회원이라면 스킵
@@ -53,7 +57,7 @@ public class MemberController {
             Member member = memberService.register(request);
 
             // 리스트에 있는 팀 생성하거나 가져와서 멤버에 추가
-            for (String teamName : request.getTeam()) {
+            for (String teamName : request.getTeamList()) {
                 Team team = teamService.registerTeamOrFind(teamName);
 
                 memberTeamService.register(member, team);
