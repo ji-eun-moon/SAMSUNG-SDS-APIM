@@ -2,6 +2,7 @@ package com.lego.itdagateway.global.config;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.env.Environment;
@@ -15,6 +16,9 @@ import reactor.core.publisher.Mono;
 public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Config> {
     Environment env;
 
+    @Value("${security.jwt.secret.key}")
+    String key;
+
     public GlobalFilter(Environment env) {
         super(Config.class);
         this.env = env;
@@ -22,13 +26,14 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 
     @Override
     public GatewayFilter apply(Config config) {
+
         // Custom Pre Filter
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
             log.info("Global Pre Filter : request id -> {}", config.getBaseMessage());
-            log.info(env.getProperty("token.secret"));
+            log.info(key);
 
             if (config.isPreLogger()) {
                 log.info("Global Filter Start : request id -> {}", request.getId());
