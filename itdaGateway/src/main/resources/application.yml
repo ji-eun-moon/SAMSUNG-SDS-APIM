@@ -17,6 +17,7 @@ spring:
   cloud:
     gateway:
       default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
         - name: GlobalFilter
           args:
             baseMessage: Spring Cloud Gateway Global Filter
@@ -28,6 +29,7 @@ spring:
             allowedOrigins:
               - "http://k9c201.p.ssafy.io:3000"
               - "http://localhost:3000"
+              - "https://k9c201.p.ssafy.io"
             allowedMethods:
               - GET
               - POST
