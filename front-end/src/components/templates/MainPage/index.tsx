@@ -1,18 +1,54 @@
 import React from 'react';
-import { IUser } from '@/types/User';
+// import { IUser } from '@/types/User';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import Image from 'next/image';
+import NavBar from '@/components/organisms/NavBar';
 import SideLayout from '../SideLayout';
 import style from './MainPage.module.scss';
 
-interface MainPageProps {
-  userInfo: IUser | undefined;
-}
+// interface MainPageProps {
+//   userInfo: IUser | undefined;
+// }
 
 /**
  * MainPage 컴포넌트
  * @param {object} userInfo - 사원 정보
  */
+
+const userInfo = {
+  name: '송사원',
+  imageUrl: '/images/profileImg.png',
+  email: 'abc@naver.com',
+  employeeId: '0912280',
+  department: 'IT 개발',
+  position: '1팀',
+  teams: [
+    {
+      teamName: 'project 1',
+      teamId: 1,
+      teamCount: 1,
+      teamMembers: [
+        {
+          name: '양시온',
+          imageUrl: '/images/user1.png',
+          email: 'user1@example.com',
+          employeeId: '1001',
+          department: 'IT 개발',
+          position: '팀원',
+        },
+        {
+          name: '문지은',
+          imageUrl: '/images/user2.png',
+          email: 'user2@example.com',
+          employeeId: '1002',
+          department: 'IT 개발',
+          position: '팀원',
+        },
+      ],
+    },
+  ],
+  authority: '일반',
+};
 
 const firstPart = () => (
   <div>
@@ -117,15 +153,17 @@ const thirdPart = () => (
   </div>
 );
 
-function MainPage({ userInfo }: MainPageProps) {
-  if (!userInfo) {
-    return <div>Loading...</div>;
-  }
+function MainPage() {
   return (
-    <SideLayout userInfo={userInfo}>
-      <div className={`${style.pageContainer}`}>
-        {firstPart()} {secondPart()} {thirdPart()}
-      </div>
+    <SideLayout>
+      {[
+        <NavBar position="side" userInfo={userInfo} noticeCnt="6" />,
+        <div className={`${style.pageContainer}`}>
+          {firstPart()}
+          {secondPart()}
+          {thirdPart()}
+        </div>,
+      ]}
     </SideLayout>
   );
 }
