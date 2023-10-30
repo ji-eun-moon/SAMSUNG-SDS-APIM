@@ -67,7 +67,7 @@ public class MemberService {
         Key key = new SecretKeySpec(secretKeyByte, SignatureAlgorithm.HS256.getJcaName());
 
         if (encoder.matches(request.getPwd(), member.getPassword())) {
-            Long accessExpiration = (long) (60 * 60 * 24 * 7);
+            Long accessExpiration = (long) (60 * 60 * 24 * 7 * 1000);
             return LoginMemberResponse.builder()
                     .token(JwtUtil.createToken(request.getEmployeeId(), key, accessExpiration))
                     .build();
@@ -111,6 +111,12 @@ public class MemberService {
     public List<MemberResponse> findAll() {
 
         return memberRepository.findMemberResponse();
+
+    }
+
+    public MemberResponse myInformation(String employeeId){
+
+        return memberRepository.findMemberResponseByEmployeeId(employeeId);
 
     }
 }
