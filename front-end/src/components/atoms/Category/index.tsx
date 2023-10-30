@@ -17,7 +17,7 @@ function Category({ categoryName, categoryId, apiList, isOpen }: CategoryProps) 
         <p
           onClick={() => router.push(`/apis/list?category=${categoryId}`)}
           aria-hidden
-          className={`my-1 itdaText cursor-pointer ${
+          className={`my-2 itdaText cursor-pointer text-sm ${
             currentPath === `/apis/list?category=${categoryId}` ? 'font-semibold' : ''
           }`}
         >
@@ -29,7 +29,7 @@ function Category({ categoryName, categoryId, apiList, isOpen }: CategoryProps) 
               key={item.apiId}
               onClick={() => router.push(`/apis/${item.apiId}/detail`)}
               aria-hidden
-              className={`my-1 itdaText cursor-pointer ${
+              className={`my-2 itdaText cursor-pointer text-sm ${
                 currentPath === `/apis/${item.apiId}/detail` ? 'font-semibold' : ''
               }`}
             >
