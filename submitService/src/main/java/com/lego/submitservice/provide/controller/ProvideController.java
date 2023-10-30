@@ -3,6 +3,7 @@ package com.lego.submitservice.provide.controller;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.State;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
+import com.lego.submitservice.provide.entity.dto.response.DenyResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.service.ProvideService;
@@ -38,29 +39,40 @@ public class ProvideController {
         return ResponseEntity.ok(provideService.findAll(pageable));
     }
 
-    // 제공 신청 변경
-    @PutMapping("")
-    public ResponseEntity<?> changeState(@RequestParam(name = "provideId") Long provideId) {
+    // 제공 신청 변경 - 승인
+    @PutMapping("/accept")
+    public ResponseEntity<?> acceptState(
+            @RequestHeader("member-id") String employeeId,
+            @RequestParam(name = "provideId") Long provideId) {
+
+        provideService.acceptState(employeeId, provideId);
+
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+
+    // 제공 신청 변경 - 승인
+    @PutMapping("/deny")
+    public ResponseEntity<?> denyState(
+            @RequestHeader("member-id") String employeeId,
+            @RequestBody DenyResponse denyResponse) {
+
+        provideService.denyState(employeeId, denyResponse.getProvideId(), denyResponse.getDenyReason());
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
 
     // 팀당 제공 신청 내역
     @GetMapping("/team")
-    public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamId") Long teamId) {
-        List<ProvideListResponse> provideListResponseList = new ArrayList<>();
-        provideListResponseList.add(new ProvideListResponse(1L, "나의 서버", "나의 팀", "이찬웅", LocalDateTime.now(),
-                State.대기, ApplyType.신청));
-        provideListResponseList.add(new ProvideListResponse());
-
-        return ResponseEntity.ok(provideListResponseList);
+    public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName,
+                                           Pageable pageable) {
+        return ResponseEntity.ok(provideService.findAllByTeam(pageable, teamName));
     }
 
-    // 제공 신청 상세 조회
-    @GetMapping("/{provide-id}")
-    public ResponseEntity<?> findByProvideId(@PathVariable("provide-id") Long provideId) {
-        return ResponseEntity.ok(new ProvideDetailResponse(1L, "나의 서버", "나의 서버에 대한 설명입니다",
-                "나의 팀", "이찬웅", LocalDateTime.now(),
-                State.거질, ApplyType.신청, "맘에 들지 않아요", "http://k9c201.p.ssafy.io:9100/swagger-ui/index.html"));
-    }
+//    // 제공 신청 상세 조회
+//    @GetMapping("/{provide-id}")
+//    public ResponseEntity<?> findByProvideId(@PathVariable("provide-id") Long provideId) {
+//
+//
+//        return ResponseEntity.ok();
+//    }
 }

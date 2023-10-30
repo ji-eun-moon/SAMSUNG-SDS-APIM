@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProvideRepository extends JpaRepository<Provide, Long> {
 
     Page<Provide> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    Page<Provide> findAllByTeamNameOrderByCreatedAt(Pageable pageable);
 }

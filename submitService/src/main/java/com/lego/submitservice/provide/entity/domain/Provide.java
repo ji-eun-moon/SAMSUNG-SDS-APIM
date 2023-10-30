@@ -29,9 +29,24 @@ public class Provide {
 
     private LocalDateTime createdAt;
 
+    @Column(nullable = true)
+    private LocalDateTime modifiedAt;
+
     @Enumerated(EnumType.STRING)
     private State state;
 
     @Enumerated(EnumType.STRING)
     private ApplyType applyType;
+
+    @Column(nullable = true)
+    private String denyReason;
+
+
+    public void changeState(State state) {
+        this.state = state;
+    }
+
+    public void setDenyReason(String s) {
+        this.denyReason = s;
+    }
 }

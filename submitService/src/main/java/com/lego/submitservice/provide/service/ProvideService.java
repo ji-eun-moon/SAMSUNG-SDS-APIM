@@ -7,6 +7,7 @@ import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.Provide;
 import com.lego.submitservice.provide.entity.domain.State;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
+import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.repository.ProvideRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,4 +51,47 @@ public class ProvideService {
         provides.getPageable().getPageNumber();
         return provides.map(ProvideListResponse::new);
     }
+
+    @Transactional
+    public void acceptState(String employeeId, Long provideId) {
+        try {
+            // 회원이 관리자임을 확인하는 로직
+
+            Provide provide = provideRepository.findById(provideId).orElseThrow();
+            provide.changeState(State.승인);
+            provideRepository.save(provide);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void denyState(String employeeId, Long provideId, String denyReason) {
+        try {
+            // 회원이 관리자임을 확인하는 로직
+
+            Provide provide = provideRepository.findById(provideId).orElseThrow();
+            provide.changeState(State.거질);
+            provide.setDenyReason(denyReason);
+            provideRepository.save(provide);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+    }
+
+    public Page<ProvideListResponse> findAllByTeam(Pageable pageable, String teamName) {
+        Page<Provide> provides = provideRepository.findAllByTeamNameOrderByCreatedAt(pageable);
+
+        provides.getPageable().getPageNumber();
+        return provides.map(ProvideListResponse::new);
+    }
+
+//    public ProvideDetailResponse findDetailByProvideId(Long provideId, String employeeId) {
+//        ProvideDetailResponse provideDetailResponse =
+//                new ProvideDetailResponse(provideRepository.findById(provideId).orElseThrow());
+//
+//
+//        memberServiceClient.getMember(employeeId);
+//    }
+
 }
