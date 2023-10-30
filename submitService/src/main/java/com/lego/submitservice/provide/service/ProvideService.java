@@ -3,6 +3,7 @@ package com.lego.submitservice.provide.service;
 import com.lego.submitservice.client.api.ApiServiceClient;
 import com.lego.submitservice.client.api.dto.CategoryListResponse;
 import com.lego.submitservice.client.member.MemberServiceClient;
+import com.lego.submitservice.client.member.dto.SkipMemberResponse;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.Provide;
 import com.lego.submitservice.provide.entity.domain.State;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +37,9 @@ public class ProvideService {
     @Transactional
     public void register(String employeeId, CreateProvideRequest createProvideRequest) {
         // 해당 회원이 팀인지 확인하는 로직 - 팀이라면 이름 반환
-
+        Map<String, String> params = new HashMap<>();
+        params.put("employeeId", employeeId);
+        SkipMemberResponse skipMemberResponse = memberServiceClient.getMemberByEmployeeId(params);
 
         provideRepository.save(Provide.builder()
                         .serverName(createProvideRequest.getServerName())
@@ -42,6 +47,7 @@ public class ProvideService {
                         .endpoint(createProvideRequest.getEndpoint())
                         .teamName(createProvideRequest.getTeamName())
                         .employeeId(employeeId)
+                        .providerName(skipMemberResponse.getName())
                         .state(State.대기)
                         .applyType(ApplyType.신청)
 
@@ -56,16 +62,27 @@ public class ProvideService {
         return provides.map(ProvideListResponse::new);
     }
 
+    public Page<ProvideListResponse> findAllByState(Pageable pageable, State state) {
+        Page<Provide> provides = provideRepository.findAllByStateOrderByCreatedAtDesc(state, pageable);
+
+        provides.getPageable().getPageNumber();
+        return provides.map(ProvideListResponse::new);
+    }
+
     @Transactional
     public void acceptState(String employeeId, Long provideId) {
+
+        log.info(employeeId + " : 사번");
         try {
             // 회원이 관리자임을 확인하는 로직
             checkAuthority(employeeId);
+            log.info("수정 되나?");
             Provide provide = provideRepository.findById(provideId).orElseThrow();
             provide.changeState(State.승인);
             provideRepository.save(provide);
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.info(e.toString());
+            throw new RuntimeException("실패");
         }
     }
 
@@ -75,31 +92,44 @@ public class ProvideService {
             // 회원이 관리자임을 확인하는 로직
             checkAuthority(employeeId);
             Provide provide = provideRepository.findById(provideId).orElseThrow();
-            provide.changeState(State.거질);
+            provide.changeState(State.거절);
             provide.setDenyReason(denyReason);
             provideRepository.save(provide);
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.info(e.toString());
+            throw new RuntimeException("실패");
         }
     }
 
     public Page<ProvideListResponse> findAllByTeam(Pageable pageable, String teamName) {
-        Page<Provide> provides = provideRepository.findAllByTeamNameOrderByCreatedAt(teamName, pageable);
+        Page<Provide> provides = provideRepository.findAllByTeamNameOrderByCreatedAtDesc(teamName, pageable);
 
         provides.getPageable().getPageNumber();
         return provides.map(ProvideListResponse::new);
     }
+
+    public Page<ProvideListResponse> findAllByTeamAndState(Pageable pageable, String teamName, State state) {
+        Page<Provide> provides = provideRepository.findAllByTeamNameAndStateOrderByCreatedAtDesc(teamName, state, pageable);
+
+        provides.getPageable().getPageNumber();
+        return provides.map(ProvideListResponse::new);
+    }
+
 
     public ProvideDetailResponse findDetailByProvideId(Long provideId) {
         return new ProvideDetailResponse(provideRepository.findById(provideId).orElseThrow());
     }
 
     public void checkAuthority(String employeeId) {
-        if (memberServiceClient.checkAuthority(employeeId).equals("일반")) {
+        Map<String, String> params = new HashMap<>();
+        params.put("employeeId", employeeId);
+        log.info(memberServiceClient.checkAuthority(params));
+        if (memberServiceClient.checkAuthority(params).equals("일반")) {
             throw new IllegalArgumentException("일반 회원은 수정을 할 수 없습니다.");
         }
     }
 
+    @Transactional
     public void deleteAll() {
         provideRepository.deleteAll();
     }

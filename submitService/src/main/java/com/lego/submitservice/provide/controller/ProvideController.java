@@ -1,5 +1,6 @@
 package com.lego.submitservice.provide.controller;
 
+import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.State;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
@@ -9,6 +10,7 @@ import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.service.ProvideService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +30,7 @@ import java.util.Map;
 public class ProvideController {
 
     private final ProvideService provideService;
+    private final MemberServiceClient memberServiceClient;
 
     // 제공 신청
     @PostMapping ("/register")
@@ -39,16 +43,23 @@ public class ProvideController {
 
     // 제공 신청 내역 조회
     @GetMapping("")
-    public ResponseEntity<?> findAll(Pageable pageable) {
-        return ResponseEntity.ok(provideService.findAll(pageable));
+    public ResponseEntity<?> findAll(@RequestParam(required = false, name = "state") State state,
+                                     Pageable pageable) {
+        Page<ProvideListResponse> pages;
+        if (state == null) {
+            pages = provideService.findAll(pageable);
+        } else {
+            pages = provideService.findAllByState(pageable, state);
+        }
+        return ResponseEntity.ok(pages);
     }
 
     // 제공 신청 변경 - 승인
     @PutMapping("/accept")
     public ResponseEntity<?> acceptState(
-            @RequestHeader Map<String, String> headers,
+            @RequestHeader("member-id") String employeeId,
             @RequestParam(name = "provideId") Long provideId) {
-        String employeeId = headers.get("member-id");
+
         provideService.acceptState(employeeId, provideId);
 
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
@@ -68,8 +79,15 @@ public class ProvideController {
     // 팀당 제공 신청 내역
     @GetMapping("/team")
     public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName,
+                                           @RequestParam(required = false, name = "state") State state,
                                            Pageable pageable) {
-        return ResponseEntity.ok(provideService.findAllByTeam(pageable, teamName));
+        Page<ProvideListResponse> pages;
+        if (state == null) {
+            pages = provideService.findAllByTeam(pageable, teamName);
+        } else {
+            pages = provideService.findAllByTeamAndState(pageable, teamName, state);
+        }
+        return ResponseEntity.ok(pages);
     }
 
     // 제공 신청 상세 조회

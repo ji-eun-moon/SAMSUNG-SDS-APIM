@@ -2,10 +2,14 @@ package com.lego.submitservice.client.member;
 
 import com.lego.submitservice.client.member.dto.SearchMemberResponse;
 import com.lego.submitservice.client.member.dto.SkipMemberResponse;
+import feign.Param;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(name = "member-service")
 public interface MemberServiceClient {
@@ -14,8 +18,8 @@ public interface MemberServiceClient {
     List<SearchMemberResponse> getMemberByName(String name);
 
     @GetMapping("/auth/find-by-employeeId")
-    SkipMemberResponse getMemberByEmployeeId(String employeeId);
+    SkipMemberResponse getMemberByEmployeeId(@SpringQueryMap Map<String, String> params);
 
     @GetMapping("/auth/check-authority")
-    String checkAuthority(String employeeId);
+    String checkAuthority(@SpringQueryMap Map<String, String> params);
 }

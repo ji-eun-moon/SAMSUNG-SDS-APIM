@@ -58,6 +58,6 @@ public class UseController {
     public ResponseEntity<?> findByProvideId(@PathVariable("use-id") Long useId) {
         return ResponseEntity.ok(new UseDetailResponse(1L, "나의 카테고리", "나의 카테고리에 대한 설명입니다",
                 "나의 팀", "이찬웅", LocalDateTime.now(),
-                State.거질, "맘에 들지 않아요"));
+                State.거절, "맘에 들지 않아요"));
     }
 }
