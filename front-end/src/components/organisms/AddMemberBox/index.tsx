@@ -102,7 +102,7 @@ export default function MemberAdd() {
               <MemberTable headerContent={header} bodyContent={body} />
               <div className="mt-5 flex justify-end">
                 <div className="w-36">
-                  <StyledButton variant="solid" label="회원 생성하기" radius="sm" onClick={() => {}} />
+                  <StyledButton type='button' variant="solid" label="회원 생성하기" radius="sm" onClick={() => {}} />
                 </div>
               </div>
             </div>
