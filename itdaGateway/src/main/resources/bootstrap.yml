@@ -1,7 +1,8 @@
 spring:
+  profiles:
+    active: dev
   cloud:
     config:
       uri: https://k9c201.p.ssafy.io/config/
       name:
         - itda
-        - defaultSetting

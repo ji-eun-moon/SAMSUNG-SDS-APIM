@@ -11,6 +11,8 @@ server:
 spring:
   application:
     name: gateway-service
+  profiles:
+    default: dev
 
   cloud:
     gateway:
