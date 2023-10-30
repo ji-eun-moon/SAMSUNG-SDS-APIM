@@ -1,12 +1,22 @@
 import Image from 'next/image';
 
-function LogoWithName() {
+interface LogoWithNameProps {
+  size?: number;
+  textSize?: string;
+}
+
+function LogoWithName({ size, textSize }: LogoWithNameProps) {
   return (
     <div className="flex justify-center items-center gap-2">
-      <Image src="/images/logo.png" alt="itda logo" width={35} height={35} />
-      <p className="font-bold text-xl">ITDA</p>
+      <Image src="/images/logo.png" alt="itda logo" width={size} height={size} />
+      <p className={`font-bold ${textSize}`}>ITDA</p>
     </div>
   );
 }
+
+LogoWithName.defaultProps = {
+  size: 35,
+  textSize: 'text-xl',
+};
 
 export default LogoWithName;
