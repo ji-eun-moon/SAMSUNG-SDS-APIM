@@ -1,6 +1,5 @@
 import React from 'react';
 import { Pagination } from '@nextui-org/react';
-import style from './StyledPagination.module.scss';
 
 interface StyledPaginationProps {
   totalPage: number;
