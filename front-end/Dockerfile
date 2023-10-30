@@ -10,5 +10,6 @@ COPY . .
 
 EXPOSE 3000
 
+RUN npm build
 # pakage.json 'prod' 스크립트를 사용하여 빌드 후 시작
-CMD [ "npm", "run", "prod" ]
+CMD [ "npm", "run", "start" ]

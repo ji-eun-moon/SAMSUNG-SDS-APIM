@@ -10,8 +10,7 @@
     "format": "prettier --check ./src",
     "format:fix": "prettier --write ./src",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prod": "npm run build && npm run start"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.4",
