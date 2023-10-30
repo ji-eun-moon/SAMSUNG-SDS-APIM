@@ -15,10 +15,10 @@ function Category({ categoryName, categoryId, apiList, isOpen }: CategoryProps) 
         title={<p className="itdaBlue font-medium">{categoryName}</p>}
       >
         <p
-          onClick={() => router.push(`/apis/list?category=${categoryId}`)}
+          onClick={() => router.push(`/category/${categoryId}`)}
           aria-hidden
           className={`my-2 itdaText cursor-pointer text-sm ${
-            currentPath === `/apis/list?category=${categoryId}` ? 'font-semibold' : ''
+            currentPath === `/category/${categoryId}` ? 'font-semibold' : ''
           }`}
         >
           전체 보기
