@@ -6,6 +6,7 @@ import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.dto.response.SkipMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
@@ -102,7 +103,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/find-by-employeeID")
+    @GetMapping("/find-by-employeeId")
     @Operation(summary = "회원 조회", description = "사번을 통한 회원 검색")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 검색 결과", content = @Content(schema = @Schema(
@@ -112,9 +113,9 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByEmployeeId(Authentication authentication) {
+    public ResponseEntity<?> findByEmployeeId(String employeeId) {
 
-        return ResponseEntity.ok(memberService.findByEmployeeId(authentication.getName()));
+        return ResponseEntity.ok(new SkipMemberResponse(memberService.findByEmployeeId(employeeId)));
 
     }
 
@@ -188,6 +189,11 @@ public class MemberController {
 
         return ResponseEntity.ok(memberService.myInformation(authentication.getName()));
 
+    }
+
+    @GetMapping("/check-authority")
+    public ResponseEntity<?> checkAuthority(String employeeId) {
+        return ResponseEntity.ok(memberService.findByEmployeeId(employeeId).getAuthority().toString());
     }
 
 }

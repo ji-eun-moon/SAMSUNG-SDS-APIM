@@ -71,7 +71,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.3'
 
     // 스프링 클라우드 버스
-    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp:4.0.1'
 }
 
 dependencyManagement {
