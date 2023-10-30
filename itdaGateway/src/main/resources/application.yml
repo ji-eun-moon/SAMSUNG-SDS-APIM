@@ -18,11 +18,11 @@ spring:
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - name: GlobalFilter
-          args:
-            baseMessage: Spring Cloud Gateway Global Filter
-            preLogger: true
-            postLogger: true
+#        - name: GlobalFilter
+#          args:
+#            baseMessage: Spring Cloud Gateway Global Filter
+#            preLogger: true
+#            postLogger: true
       globalcors:
         cors-configurations:
           '[/**]':
@@ -44,7 +44,7 @@ spring:
         - id: login
           uri: lb://MEMBER-SERVICE
           predicates:
-            - Path=/member/login
+            - Path=/member/auth/login
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
@@ -66,7 +66,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/member/(?<segment>.*), /${segment}
-#            - AuthorizationHeaderFilter
+            - AuthorizationHeaderFilter
 
         - id: submit-service
           uri: lb://SUBMIT-SERVICE
@@ -75,7 +75,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/submit/(?<segment>.*), /${segment}
-#            - AuthorizationHeaderFilter
+            - AuthorizationHeaderFilter
 
         - id: api-service
           uri: lb://API-SERVICE
@@ -84,7 +84,7 @@ spring:
           filters:
             - RewritePath=/server/(?<segment>.*), /${segment}
             - RemoveRequestHeader=Cookie
-#            - AuthorizationHeaderFilter
+            - AuthorizationHeaderFilter
   rabbitmq:
     host: k9c201.p.ssafy.io
     port: 5672
