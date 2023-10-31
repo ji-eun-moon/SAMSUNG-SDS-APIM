@@ -13,6 +13,7 @@ function LineChart({ title, isSmooth, isBackground, chartColor, chartDataValue, 
         xAxis: {
           type: 'category',
           data: chartDataName,
+          boundaryGap: false,
         },
         yAxis: {
           type: 'value',
