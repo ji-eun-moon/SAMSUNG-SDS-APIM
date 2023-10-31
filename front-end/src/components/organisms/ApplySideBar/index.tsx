@@ -10,15 +10,15 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
   const useCondition = [
     { conditionId: '1', title: '전체 보기', url: '/apply/use/list' },
     { conditionId: '2', title: '대기 보기', url: '/apply/use/list?filter=대기' },
-    { conditionId: '2', title: '승인 내역 보기', url: '/apply/use/list?filter=승인' },
-    { conditionId: '2', title: '거절 내역 보기', url: '/apply/use/list?filter=거절' },
+    { conditionId: '3', title: '승인 내역 보기', url: '/apply/use/list?filter=승인' },
+    { conditionId: '4', title: '거절 내역 보기', url: '/apply/use/list?filter=거절' },
   ];
 
   const provideCondition = [
     { conditionId: '1', title: '전체 보기', url: '/apply/provide/list' },
     { conditionId: '2', title: '대기 보기', url: '/apply/provide/list?filter=대기' },
-    { conditionId: '2', title: '승인 내역 보기', url: '/apply/provide/list?filter=점검' },
-    { conditionId: '2', title: '거절 내역 보기', url: '/apply/provide/list?filter=오류' },
+    { conditionId: '3', title: '승인 내역 보기', url: '/apply/provide/list?filter=점검' },
+    { conditionId: '4', title: '거절 내역 보기', url: '/apply/provide/list?filter=오류' },
   ];
 
   return (
