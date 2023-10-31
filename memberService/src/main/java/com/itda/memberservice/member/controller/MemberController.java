@@ -204,7 +204,7 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<?> myPage(@RequestHeader("member-id") String memberId){
+    public ResponseEntity<?> myPage(@RequestHeader("member-id") Long memberId){
 
         log.info("{MemberController} : 마이페이지 \n" +
                 "memberId = " + memberId);
