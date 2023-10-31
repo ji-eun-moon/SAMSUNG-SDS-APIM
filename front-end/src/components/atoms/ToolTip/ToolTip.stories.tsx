@@ -5,7 +5,7 @@ export default {
   tags: ['autodocs'],
   component: ToolTip,
   argTypes: {
-    explain: {
+    children: {
       description: 'ToolTip 설명에 들어갈 내용',
     },
   },
@@ -13,6 +13,6 @@ export default {
 
 export const ArrowToolTip = {
   args: {
-    explain: '밑에 화살표 있는 모양',
+    children: '밑에 화살표 있는 모양',
   },
 };

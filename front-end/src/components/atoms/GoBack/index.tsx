@@ -8,7 +8,7 @@ interface IProps {
 function GoBack({ label }: IProps) {
   const router = useRouter();
   return (
-    <div className="flex gap-5 items-center">
+    <div className="flex gap-4 items-center">
       <Image
         src="/icons/back.png"
         alt="back icon"
@@ -16,9 +16,9 @@ function GoBack({ label }: IProps) {
         height={25}
         onClick={() => router.back()}
         className="cursor-pointer"
-        style={{ width: '20px', height: '20px' }}
+        style={{ width: '18px', height: '18px' }}
       />
-      <p className="text-2xl font-bold itdaText">{label}</p>
+      <p className="text-2xl font-semibold itdaText">{label}</p>
     </div>
   );
 }
