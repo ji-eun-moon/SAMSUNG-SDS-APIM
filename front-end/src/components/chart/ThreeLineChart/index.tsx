@@ -16,9 +16,16 @@ function ThreeLineChart({ chartDataValue1, chartDataValue2, chartDataValue3, cha
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
       const options: echarts.EChartOption = {
+        tooltip: {
+          trigger: 'axis', // x축을 기준으로 정보를 표시
+          axisPointer: {
+            type: 'cross', // cross 형태의 포인터를 사용
+          },
+        },
         xAxis: {
           type: 'category',
           data: chartDataTime,
+          boundaryGap: false,
         },
         yAxis: {
           type: 'value',
