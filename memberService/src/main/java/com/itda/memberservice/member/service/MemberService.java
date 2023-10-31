@@ -111,9 +111,9 @@ public class MemberService {
 
     }
 
-    public MemberResponse myInformation(String employeeId){
+    public MemberResponse myInformation(Long memberId){
 
-        return memberRepository.findMemberResponseByEmployeeId(employeeId);
+        return memberRepository.findMemberResponseByMemberId(memberId);
 
     }
 }
