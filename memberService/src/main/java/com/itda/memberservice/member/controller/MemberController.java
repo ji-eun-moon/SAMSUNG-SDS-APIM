@@ -3,7 +3,6 @@ package com.itda.memberservice.member.controller;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
-import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
@@ -17,6 +16,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -81,16 +82,24 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> login(@RequestBody LoginMemberRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginMemberRequest request, HttpServletResponse response) {
 
         try {
 
             // 로그인 성공시 토큰 반환
-            LoginMemberResponse response = memberService.login(request);
+            String token = memberService.login(request);
+
+            Cookie cookie = new Cookie("authToken", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setDomain("localhost");
 
             log.info("로그인 성공");
 
-            return ResponseEntity.ok(response);
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok().body("로그인 성공");
 
         } catch (Exception e) {
 
@@ -145,6 +154,8 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<?> findAll() {
+
+//        log.info("token = " + token);
 
         return ResponseEntity.ok(memberService.findAll());
 
