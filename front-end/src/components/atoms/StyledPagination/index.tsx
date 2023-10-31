@@ -3,16 +3,20 @@ import { Pagination } from '@nextui-org/react';
 
 interface StyledPaginationProps {
   totalPage: number;
-  currentPage: number;
+  clickPage: number;
+  onClickPage: (page: number) => void;
 }
-
 /**
  * StyledPagination 컴포넌트
  * @param {number} totalPage - 페이지의 총 길이
- * @param {number} currentPage - 현재 페이지
  */
 
-function StyledPagination({ totalPage, currentPage }: StyledPaginationProps) {
+function StyledPagination({ totalPage, clickPage, onClickPage }: StyledPaginationProps) {
+  // const handlePageClick = (event: React.ChangeEvent<HTMLButtonElement>) => {
+  //   console.log('zz', event);
+  //   const page = event.currentTarget.value;
+  //   onClickPage(page);
+  // };
   return (
     <div>
       <Pagination
@@ -21,11 +25,12 @@ function StyledPagination({ totalPage, currentPage }: StyledPaginationProps) {
         showControls
         total={totalPage}
         initialPage={1}
-        page={currentPage}
+        page={clickPage}
         siblings={2}
         boundaries={0}
         dotsJump={totalPage}
         color="primary"
+        onChange={onClickPage}
       />
     </div>
   );

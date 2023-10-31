@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import style from './ColTable.module.scss';
 
-interface Person {
-  이름: string;
-  성별: '남' | '여';
-  나이: number;
-  [key: string]: string | number;
-}
-
 interface ColTableProps {
-  headerContent: ['이름', '나이', '성별'];
-  bodyContent: Person[];
+  headerContent: string[];
+  bodyContent: (string[] | number[] | Date[] | { [key: string]: string | number | Date })[];
 }
 
 /**
@@ -21,14 +14,21 @@ interface ColTableProps {
 
 function ColTable({ headerContent, bodyContent }: ColTableProps) {
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
-  const [bodys, setBodys] = useState<Person[]>([]);
+  const [bodys, setBodys] = useState<
+    null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
+  >(null);
 
   useEffect(() => {
-    if (headerContent && headerContent.length) {
+    // headerContent 값 받아오기
+    if (Array.isArray(headerContent)) {
       const newHeaders = headerContent.map((content) => ({ text: content, value: content }));
       setHeaders(newHeaders);
-      console.log('headers', newHeaders);
+    } else {
+      const newHeaders = Object.keys(headerContent).map((key) => ({ text: headerContent[key], value: key }));
+      setHeaders(newHeaders);
     }
+
+    // bodyContent 값 받아오기
     if (bodyContent && bodyContent.length) {
       const newBodys = bodyContent;
       setBodys(newBodys);
@@ -44,7 +44,8 @@ function ColTable({ headerContent, bodyContent }: ColTableProps) {
         {bodys &&
           bodys.map((body) => (
             <tr key={JSON.stringify(body)} className={`${style.body}`}>
-              {headers && headers.map((header) => <td key={header.text}>{body[header.text as keyof Person]}</td>)}
+              {headers &&
+                headers.map((header) => <td key={header.text}>{(body as Record<string, string>)[header.value]}</td>)}
             </tr>
           ))}
       </tbody>
