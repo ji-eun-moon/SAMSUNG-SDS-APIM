@@ -86,7 +86,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public MemberResponse findMemberResponseByEmployeeId(String employeeId) {
+    public MemberResponse findMemberResponseByMemberId(Long memberId) {
         MemberResponse response = queryFactory
                 .select(Projections.fields(MemberResponse.class,
                         member.memberId,
@@ -98,7 +98,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                         member.position,
                         member.email))
                 .from(member)
-                .where(member.employeeId.eq(employeeId))
+                .where(member.memberId.eq(memberId))
                 .fetchOne();
 
         List<TeamResponse> teamResponses = queryFactory
