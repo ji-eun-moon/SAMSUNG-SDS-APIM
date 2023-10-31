@@ -89,11 +89,11 @@ public class MemberController {
             // 로그인 성공시 토큰 반환
             String token = memberService.login(request);
 
-            Cookie cookie = new Cookie("authToken", token);
+            Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
             cookie.setPath("/");
-            cookie.setDomain("localhost");
+            cookie.setDomain("k9c201.p.ssafy.io");
 
             log.info("로그인 성공");
 
@@ -217,6 +217,22 @@ public class MemberController {
     public ResponseEntity<String> checkAuthority(@RequestParam String employeeId) {
         log.info(employeeId);
         return ResponseEntity.ok(memberService.findByEmployeeId(employeeId).getAuthority().toString());
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setDomain("k9c201.p.ssafy.io");
+
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("로그아웃 완료");
+
     }
 
 }
