@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { LineChartProps } from '@/types/props/ChartProps';
 import * as echarts from 'echarts';
 
-function LineChart({ title, isSmooth, chartColor, chartDataValue, chartDataName }: LineChartProps) {
+function LineChart({ title, isSmooth, isBackground, chartColor, chartDataValue, chartDataName }: LineChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   // eslint-disable-next-line consistent-return
@@ -22,7 +22,7 @@ function LineChart({ title, isSmooth, chartColor, chartDataValue, chartDataName 
             data: chartDataValue,
             type: 'line',
             smooth: isSmooth,
-            areaStyle: {},
+            areaStyle: isBackground ? {} : undefined,
             itemStyle: {
               color: chartColor,
             },
@@ -34,8 +34,9 @@ function LineChart({ title, isSmooth, chartColor, chartDataValue, chartDataName 
         chart.dispose();
       };
     }
-  }, [title, isSmooth, chartColor, chartDataName, chartDataValue]);
+  }, [title, isSmooth, isBackground, chartColor, chartDataName, chartDataValue]);
 
   return <div ref={chartRef} style={{ width: '100%', height: '400px' }} />;
 }
+
 export default LineChart;

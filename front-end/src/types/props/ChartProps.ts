@@ -21,4 +21,5 @@ export interface LineChartProps {
   chartColor: string;
   chartDataValue: number[];
   chartDataName: string[];
+  isBackground: boolean;
 }
