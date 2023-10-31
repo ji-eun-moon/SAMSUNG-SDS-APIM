@@ -3,6 +3,7 @@ package com.itda.memberservice.member.controller;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.dto.response.SkipMemberResponse;
@@ -82,7 +83,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> login(@RequestBody LoginMemberRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> logina(@RequestBody LoginMemberRequest request, HttpServletResponse response) {
 
         try {
 
@@ -90,15 +91,17 @@ public class MemberController {
             String token = memberService.login(request);
 
             Cookie cookie = new Cookie("token", token);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
+//            cookie.setHttpOnly(true);
+//            cookie.setSecure(true);
             cookie.setPath("/");
 
             log.info("로그인 성공");
 
             response.addCookie(cookie);
 
-            return ResponseEntity.ok().body("로그인 성공");
+            return ResponseEntity.ok().body(LoginMemberResponse.builder()
+                    .token(token)
+                    .build());
 
         } catch (Exception e) {
 
