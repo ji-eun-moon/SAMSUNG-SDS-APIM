@@ -87,11 +87,12 @@ public class MemberService {
 
     }
 
-    public void changePassword(String password, String employeeId) {
+    public void changePassword(String password, Long memberId) {
 
-        memberRepository
-                .findMemberByEmployeeId(employeeId)
-                .changePassword(encoder.encode(password));
+        memberRepository.findById(memberId)
+                .orElseThrow(() ->
+                    new RuntimeException("회원이 존재하지 않습니다.")
+                ).changePassword(encoder.encode(password));
 
     }
 
