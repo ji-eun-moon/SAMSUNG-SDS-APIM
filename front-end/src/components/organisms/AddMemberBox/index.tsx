@@ -1,9 +1,12 @@
 import React, { useState, DragEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
+import Papa from 'papaparse';
+import { HeaderMapping } from '@/types/User';
+// import { createMembers } from '@/utils/axios/user';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
-import Papa from 'papaparse';
 import MemberTable from '@/components/atoms/MemberTable';
+import ToolTip from '@/components/atoms/ToolTip';
 import styles from './AddMemberBox.module.scss';
 
 // 파일 삭제 버튼
@@ -72,7 +75,7 @@ export default function MemberAdd() {
   // 파일 다운로드
   const downloadCSV = () => {
     const csvData = [
-      ['사번', '성명', '부서', '직무', '팀', '이메일', '권한', '사진주소'],
+      ['사번', '성명', '부서', '직무', '팀', '이메일', '권한', '사진url'],
       ['231030', '김사원', 'IT 개발', '프론트엔드', '"1팀, 2팀"', 'ssafy.itda@gmail.com', '일반', 'url'],
     ];
 
@@ -85,59 +88,103 @@ export default function MemberAdd() {
     link.click();
   };
 
+  const headerMapping: HeaderMapping = {
+    사번: 'employeeId',
+    성명: 'name',
+    사진url: 'imageUrl',
+    권한: 'authority',
+    부서: 'department',
+    직무: 'position',
+    이메일: 'email',
+    팀: 'teamList',
+  };
+
+  function convertHeader(headers: (keyof HeaderMapping)[]): string[] {
+    if (Array.isArray(headers)) {
+      return headers.map((head) => headerMapping[head] || head);
+    }
+    return headers;
+  }
+
+  const signUp = async () => {
+    const headerList = await convertHeader(header);
+    const mappedData = await body
+      .map((rowData) => {
+        if (rowData.length === headerList.length) {
+          return Object.fromEntries(
+            headerList.map((head, index) => {
+              if (head === 'teamList') {
+                if (rowData[index].includes(',')) {
+                  const teams = rowData[index].split(',').map((team) => ({ teamName: team.trim() }));
+                  return [head, teams];
+                }
+                return [head, [{ teamName: rowData[index] }]];
+              }
+              return [head, rowData[index]];
+            }),
+          );
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    console.log(mappedData);
+    // createMembers
+  };
+
   return (
-    <div className="m-10">
+    <div className="mt-8 ml-8">
       <ShadowCard type="big">
-        <div className="px-12 py-8">
-          {file && (
-            <div>
-              <button
-                type="button"
-                onClick={() => setFile(null)}
-                className={`${styles.fileName} flex items-center my-5`}
-              >
-                <div className="mr-5 cursor-pointer">{file.name}</div>
-                <Cancel />
-              </button>
-              <MemberTable headerContent={header} bodyContent={body} />
-              <div className="mt-5 flex justify-end">
-                <div className="w-36">
-                  <StyledButton type="button" variant="solid" label="회원 생성하기" radius="sm" onClick={() => {}} />
-                </div>
+        {file && (
+          <div className="px-10 py-6">
+            <button type="button" onClick={() => setFile(null)} className={`${styles.fileName} flex items-center mb-4`}>
+              <div className="mr-5 idtaText cursor-pointer">{file.name}</div>
+              <Cancel />
+            </button>
+            <MemberTable headerContent={header} bodyContent={body} height="400px" />
+            <div className="mt-5 flex justify-end">
+              <div className="w-36">
+                <StyledButton
+                  type="button"
+                  variant="solid"
+                  label="회원 생성하기"
+                  radius="sm"
+                  onClick={() => signUp()}
+                />
               </div>
             </div>
-          )}
-          {!file && (
-            <div>
-              <div className="pb-5">사원 생성을 위한 CSV 파일을 업로드 해주세요</div>
-              <label
-                htmlFor="fileInput"
-                className={`mb-5 ${styles.filebox} ${isActive ? 'active' : ''}`}
-                onDragEnter={handleDragStart}
-                onDragLeave={handleDragEnd}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              >
-                <Image src="/images/upload.png" alt="upload-img" width={200} height={200} />
-                <div>또는</div>
-                <div>파일을 여기로 드래그합니다</div>
-                <input
-                  type="file"
-                  accept=".csv"
-                  id="fileInput"
-                  className={styles.file}
-                  onChange={handleFileInputChange}
-                />
-              </label>
-
-              {/* 클릭시 csv 파일 양식 다운로드 */}
-              <button type="button" onClick={downloadCSV} className={styles.download}>
+          </div>
+        )}
+        {!file && (
+          <div className="px-12 py-8 h-full flex flex-col justify-between">
+            <div className="pb-5">사원 생성을 위한 CSV 파일을 업로드 해주세요</div>
+            <label
+              htmlFor="fileDrag"
+              className={`mb-5 ${styles.filebox} ${isActive ? 'active' : ''}`}
+              onDragEnter={handleDragStart}
+              onDragLeave={handleDragEnd}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              <Image src="/images/upload.png" alt="upload-img" width={200} height={200} />
+              <div className={styles.fileBtn}>파일 선택</div>
+              <div className="mb-2 text-gray-400">또는</div>
+              <div className="itdaText">파일을 여기로 드래그합니다</div>
+              <input type="file" accept=".csv" id="fileDrag" className={styles.file} onChange={handleFileInputChange} />
+            </label>
+            <div className="flex">
+              <button type="button" onClick={downloadCSV} className={`${styles.download} mr-2`}>
                 혹시 CSV 파일 양식을 가지고 있지 않나요?
               </button>
-              <div>권한은 일반 또는 관리자로 구분하여 입력하시면 됩니다</div>
+              <ToolTip>
+                <div className="text-sm text-gray-500">
+                  <div>권한은 &apos;일반&apos; 또는 &apos;관리자&apos;로 구분하여 입력하시면 됩니다.</div>
+                  <div>여러 팀에 소속된 경우 팀에 &apos; , &apos; 기호로 구분하여 적으시면 됩니다.</div>
+                </div>
+              </ToolTip>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </ShadowCard>
     </div>
   );

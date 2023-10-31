@@ -10,7 +10,7 @@
   background-color: #fff;
   border-radius: 5px;
   border: 3px dashed #eee;
-  padding: 70px;
+  padding: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,6 +34,19 @@
   border-radius: 12px;
   padding: 4px 32px;
   cursor: pointer;
+}
+
+.fileBtn {
+  padding: 6px 20px;
+  border-radius: 30px;
+  background-color: #6e89e9;
+  color: #fff;
+  cursor: pointer;
+  margin: 10px 0;
+
+  &:hover {
+    background-color: #647dd7;
+  }
 }
 
 .download {
