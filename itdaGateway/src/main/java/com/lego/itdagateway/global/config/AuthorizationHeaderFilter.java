@@ -38,7 +38,13 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
             HttpCookie httpCookie = exchange.getRequest().getCookies().getFirst("token");
 
-            if (httpCookie.getValue() == null) {
+            if(httpCookie == null){
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                log.info("httpCookie가 존재하지 않습니다.");
+                return exchange.getResponse().setComplete();
+            }
+
+            if (httpCookie.getValue().isEmpty()) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 log.info("토큰이 없습니다.");
                 return exchange.getResponse().setComplete();
