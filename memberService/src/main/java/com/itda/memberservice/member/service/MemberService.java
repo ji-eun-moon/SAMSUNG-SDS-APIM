@@ -3,7 +3,6 @@ package com.itda.memberservice.member.service;
 import com.itda.memberservice.common.util.JwtUtil;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
-import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
@@ -57,7 +56,7 @@ public class MemberService {
 
     }
 
-    public LoginMemberResponse login(LoginMemberRequest request){
+    public String login(LoginMemberRequest request){
 
         Member member = memberRepository.findByEmployeeId(request.getEmployeeId())
                 .orElseThrow(() -> new RuntimeException("해당하는 회원이 존재하지 않습니다."));
@@ -68,9 +67,7 @@ public class MemberService {
 
         if (encoder.matches(request.getPwd(), member.getPassword())) {
             Long accessExpiration = (long) (60 * 60 * 24 * 7 * 1000);
-            return LoginMemberResponse.builder()
-                    .token(JwtUtil.createToken(request.getEmployeeId(), key, accessExpiration))
-                    .build();
+            return JwtUtil.createToken(request.getEmployeeId(), key, accessExpiration);
         } else {
             throw new RuntimeException("비밀번호가 일치하지않습니다.");
         }
