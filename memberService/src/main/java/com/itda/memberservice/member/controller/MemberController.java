@@ -93,7 +93,6 @@ public class MemberController {
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
             cookie.setPath("/");
-            cookie.setDomain("localhost");
 
             log.info("로그인 성공");
 
@@ -227,7 +226,6 @@ public class MemberController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setDomain("localhost");
 
         response.addCookie(cookie);
 
