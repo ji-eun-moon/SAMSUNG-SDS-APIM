@@ -16,7 +16,6 @@ public class CreateMemberRequest {
 
     private String employeeId;
     private String name;
-    private String password;
     private String imageUrl;
     private Authority authority;
     private String department;
