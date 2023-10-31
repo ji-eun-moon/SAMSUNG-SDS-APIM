@@ -87,9 +87,9 @@ public class MemberService {
 
     }
 
-    public void changePassword(String password, Long memberId) {
+    public void changePassword(String password, String employeeId) {
 
-        memberRepository.findById(memberId)
+        memberRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() ->
                     new RuntimeException("회원이 존재하지 않습니다.")
                 ).changePassword(encoder.encode(password));
@@ -111,9 +111,9 @@ public class MemberService {
 
     }
 
-    public MemberResponse myInformation(Long memberId){
+    public MemberResponse myInformation(String employeeId){
 
-        return memberRepository.findMemberResponseByMemberId(memberId);
+        return memberRepository.findMemberResponseByEmployeeId(employeeId);
 
     }
 }
