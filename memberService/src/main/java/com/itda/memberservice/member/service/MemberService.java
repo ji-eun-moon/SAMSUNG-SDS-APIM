@@ -98,7 +98,6 @@ public class MemberService {
     public Member findByEmployeeId(String id){
 
         return memberRepository.findMemberByEmployeeId(id);
-
     }
 
     public List<SearchMemberResponse> findByName(String name) {
