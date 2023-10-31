@@ -93,7 +93,7 @@ public class MemberController {
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
             cookie.setPath("/");
-            cookie.setDomain("k9c201.p.ssafy.io");
+            cookie.setDomain("localhost");
 
             log.info("로그인 성공");
 
@@ -175,12 +175,12 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> changePassword(@RequestHeader("member-id") Long memberId, @RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<?> changePassword(@RequestHeader("member-id") String employeeId, @RequestBody ChangePasswordRequest request) {
 
         log.info("{MemberController} : 비밀번호 변경 \n" +
-                "memberId = " + memberId);
+                "employeeId = " + employeeId);
 
-        memberService.changePassword(request.getChangePassword(), memberId);
+        memberService.changePassword(request.getChangePassword(), employeeId);
 
         return ResponseEntity.ok("비밀번호 변경");
     }
@@ -204,12 +204,12 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<?> myPage(@RequestHeader("member-id") Long memberId){
+    public ResponseEntity<?> myPage(@RequestHeader("member-id") String employeeId){
 
         log.info("{MemberController} : 마이페이지 \n" +
-                "memberId = " + memberId);
+                "employeeId = " + employeeId);
 
-        return ResponseEntity.ok(memberService.myInformation(memberId));
+        return ResponseEntity.ok(memberService.myInformation(employeeId));
 
     }
 
@@ -227,7 +227,7 @@ public class MemberController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setDomain("k9c201.p.ssafy.io");
+        cookie.setDomain("localhost");
 
         response.addCookie(cookie);
 
