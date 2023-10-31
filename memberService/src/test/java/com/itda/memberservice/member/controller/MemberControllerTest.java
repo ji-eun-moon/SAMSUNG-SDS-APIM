@@ -3,7 +3,6 @@ package com.itda.memberservice.member.controller;
 import com.itda.memberservice.common.ControllerTest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
-import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.entity.Authority;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.xml.bind.DatatypeConverter;
@@ -25,7 +24,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -163,9 +163,7 @@ public class MemberControllerTest extends ControllerTest {
                 .build();
 
         when(memberService.login(any()))
-                .thenReturn(LoginMemberResponse.builder()
-                        .token("token")
-                        .build());
+                .thenReturn("token");
 
         ResultActions resultActions = mvc.perform(MockMvcRequestBuilders
                         .post("/auth/login")
@@ -179,9 +177,6 @@ public class MemberControllerTest extends ControllerTest {
                                 requestFields(
                                         fieldWithPath("employeeId").description("사원 번호"),
                                         fieldWithPath("pwd").description("비밀 번호")
-                                ),
-                                responseFields(
-                                        fieldWithPath("token").description("토큰 발급")
                                 )
                         )
                 )
