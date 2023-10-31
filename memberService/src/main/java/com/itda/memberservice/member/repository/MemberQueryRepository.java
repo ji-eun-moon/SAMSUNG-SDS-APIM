@@ -14,6 +14,6 @@ public interface MemberQueryRepository {
 
     List<MemberResponse> findMemberResponse();
 
-    MemberResponse findMemberResponseByMemberId(Long memberId);
+    MemberResponse findMemberResponseByEmployeeId(String employeeId);
 
 }
