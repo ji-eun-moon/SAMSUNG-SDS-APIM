@@ -23,8 +23,8 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
         <LogoWithName />
 
         {/* 프로필 이미지 */}
-        <div className="flex justify-center my-12">
-          <ProfileImg src={userInfo.imageUrl} width={132.936} height={128.288} />
+        <div className="flex justify-center mt-10 mb-6">
+          <ProfileImg src={userInfo.imageUrl} width={120} height={115} />
         </div>
 
         {/* 회원 정보 */}
