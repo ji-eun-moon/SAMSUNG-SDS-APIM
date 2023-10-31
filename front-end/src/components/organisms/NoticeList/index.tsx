@@ -56,9 +56,9 @@ function NoticeList(props: NoticeListProps) {
           </div>
           <div className="flex">
             <div className="mr-2">
-              <StyledButton variant="bordered" label="선택읽음" onClick={selectRead} radius="full" />
+              <StyledButton variant="bordered" label="선택읽음" onClick={selectRead} radius="full" type="button" />
             </div>
-            <StyledButton variant="bordered" label="선택삭제" onClick={selectDelete} radius="full" />
+            <StyledButton variant="bordered" label="선택삭제" onClick={selectDelete} radius="full" type="button" />
           </div>
         </div>
         <hr />
