@@ -62,7 +62,6 @@ public class MemberControllerTest extends ControllerTest {
             requestList.add(CreateMemberRequest
                     .builder()
                     .employeeId("employeeTest" + i)
-                    .password("passwordTest" + i)
                     .department("department" + i)
                     .name("name" + i)
                     .email("email" + i)
@@ -112,7 +111,6 @@ public class MemberControllerTest extends ControllerTest {
             requestList.add(CreateMemberRequest
                     .builder()
                     .employeeId("employee" + i)
-                    .password("password" + i)
                     .department("department" + i)
                     .name("name" + i)
                     .email("email" + i)
@@ -135,7 +133,6 @@ public class MemberControllerTest extends ControllerTest {
                                 preprocessRequest(prettyPrint()),
                                 requestFields(
                                         fieldWithPath("[].employeeId").description("사원 번호"),
-                                        fieldWithPath("[].password").description("비밀 번호"),
                                         fieldWithPath("[].department").description("부서 명"),
                                         fieldWithPath("[].name").description("이름"),
                                         fieldWithPath("[].email").description("이메일"),
