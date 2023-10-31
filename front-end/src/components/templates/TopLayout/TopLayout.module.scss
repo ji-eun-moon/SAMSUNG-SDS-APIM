@@ -1,16 +1,16 @@
 .page {
   background-color: #fbfbfb;
   display: grid;
-  grid-template-rows: 72px 1fr;
-  width: 100vw;
+  grid-template-rows: 65px 1fr;
+  width: 100%;
   height: 100vh;
 }
 
 .pageContainer {
-  margin-left: 200px;
-  margin-right: 200px;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  min-height: 60px;
-  border: 1px solid #9a9a9a;
+  margin-left: 130px;
+  margin-right: 130px;
+  margin-top: 45px;
+  margin-bottom: 45px;
+  min-height: 45px;
+  // border: 1px solid #9a9a9a;
 }

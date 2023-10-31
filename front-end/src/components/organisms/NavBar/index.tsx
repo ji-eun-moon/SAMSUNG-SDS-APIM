@@ -29,26 +29,34 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
 
         {/* 회원 정보 */}
         <div className="grid grid-cols-1 content-between h-full">
-          <div className="grid grid-cols-4 gap-4 my-4 col-span-1">
-            <div className="col-span-1 font-semibold itdaSecondary">이름</div>
-            <div className="col-span-3 itdaText">{userInfo.name}</div>
-
-            <div className="col-span-1 font-semibold itdaSecondary">사번</div>
-            <div className="col-span-3 itdaText">{userInfo.employeeId}</div>
-
-            <div className="col-span-1 font-semibold itdaSecondary">부서</div>
-            <div className="col-span-3 flex gap-1 itdaText">
-              <div>{userInfo.department}</div>
-              <div>{userInfo.position}</div>
+          <div className="grid grid-cols-4 gap-3 my-3 col-span-1">
+            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="col-span-1 font-semibold itdaSecondary text-sm">이름</div>
+              <div className="col-span-3 itdaText">{userInfo.name}</div>
             </div>
 
-            <div className="flex items-center col-span-1 font-semibold itdaSecondary">팀명</div>
-            <div className="col-span-3 itdaText flex items-center">
-              <SelectBox list={teamList} onClick={() => {}} />
+            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="col-span-1 font-semibold itdaSecondary text-sm">사번</div>
+              <div className="col-span-3 itdaText">{userInfo.employeeId}</div>
+            </div>
+
+            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="col-span-1 font-semibold itdaSecondary text-sm">부서</div>
+              <div className="col-span-3 flex gap-1 itdaText">
+                <div>{userInfo.department}</div>
+                <div>{userInfo.position}</div>
+              </div>
+            </div>
+
+            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
+              <div className="col-span-3 itdaText flex items-center w-9/12">
+                <SelectBox list={teamList} onClick={() => {}} />
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-10">
             {/* 버튼 바로가기 */}
             <div className="flex flex-col justify-center col-span-1 gap-3">
               <StyledButton
@@ -56,25 +64,26 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
                 label="API 전체보기"
                 onClick={() => router.push('/apis/[categoryId]/list')}
                 radius="full"
+                type="button"
               />
               <CountBadge count={noticeCnt}>
-                <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" />
+                <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" type="button" />
               </CountBadge>
             </div>
 
             {/* 텍스트 바로가기 */}
             <div className="itdaText flex flex-col gap-3">
               <div className="flex justify-between" onClick={() => {}} aria-hidden>
-                <div>팀정보</div>
-                <Image src="/icons/user.png" alt="user icon" width={22} height={20} />
+                <div className="text-sm">팀정보</div>
+                <Image src="/icons/user.png" alt="user icon" width={20} height={16} />
               </div>
               <div className="flex justify-between" onClick={() => router.push('/mypage')} aria-hidden>
-                <div>마이페이지</div>
-                <Image src="/icons/setting.png" alt="setting icon" width={25} height={25} />
+                <div className="text-sm">마이페이지</div>
+                <Image src="/icons/setting.png" alt="setting icon" width={23} height={21} />
               </div>
               <div className="flex justify-between" onClick={() => {}} aria-hidden>
-                <div>로그아웃</div>
-                <Image src="/icons/logout.png" alt="setting icon" width={20} height={16} />
+                <div className="text-sm">로그아웃</div>
+                <Image src="/icons/logout.png" alt="setting icon" width={18} height={12} />
               </div>
             </div>
           </div>

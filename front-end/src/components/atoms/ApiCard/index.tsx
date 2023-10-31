@@ -13,7 +13,7 @@ function ApiCard({ title, category, address, onClick }: ApiCardProps) {
   return (
     <button
       type="button"
-      className={`p-3 flex rounded-md justify-between items-center w-full ${styles.border}`}
+      className={`p-3 flex rounded-md justify-between items-center w-full h-14 ${styles.border}`}
       onClick={onClick}
     >
       <div className="flex items-baseline">

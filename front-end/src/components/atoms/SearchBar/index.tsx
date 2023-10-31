@@ -17,12 +17,12 @@ interface SearchBarProps {
 function SearchBar({ placeholder, keyword, onSearchHandler }: SearchBarProps) {
   return (
     <Input
-      variant="bordered"
+      variant="underlined"
       placeholder={placeholder}
       value={keyword}
       endContent={
         <svg
-          className="w-6 h-6 ml-3 text-gray-400 dark:text-white self-center cursor-pointer"
+          className="w-5 h-5 ml-3 text-gray-400 dark:text-white self-center cursor-pointer"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
