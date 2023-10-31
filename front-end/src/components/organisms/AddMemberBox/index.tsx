@@ -79,7 +79,7 @@ export default function MemberAdd() {
       ['231030', '김사원', 'IT 개발', '프론트엔드', '"1팀, 2팀"', 'ssafy.itda@gmail.com', '일반', 'url'],
     ];
 
-    const csvContent = `data:text/csv;charset=utf-8,\uFEFF${csvData.map((row) => row.join(',')).join('\n')}`;
+    const csvContent = `data:text/csv;charset=utf-8,\uFEFF${csvData?.map((row) => row.join(',')).join('\n')}`;
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
@@ -101,21 +101,21 @@ export default function MemberAdd() {
 
   function convertHeader(headers: (keyof HeaderMapping)[]): string[] {
     if (Array.isArray(headers)) {
-      return headers.map((head) => headerMapping[head] || head);
+      return headers?.map((head) => headerMapping[head] || head);
     }
     return headers;
   }
 
   const signUp = async () => {
-    const headerList = await convertHeader(header);
+    const headerList = await convertHeader(header as (keyof HeaderMapping)[]);
     const mappedData = await body
-      .map((rowData) => {
+      ?.map((rowData) => {
         if (rowData.length === headerList.length) {
           return Object.fromEntries(
-            headerList.map((head, index) => {
+            headerList?.map((head, index) => {
               if (head === 'teamList') {
                 if (rowData[index].includes(',')) {
-                  const teams = rowData[index].split(',').map((team) => ({ teamName: team.trim() }));
+                  const teams = rowData[index]?.split(',')?.map((team) => ({ teamName: team.trim() }));
                   return [head, teams];
                 }
                 return [head, [{ teamName: rowData[index] }]];
