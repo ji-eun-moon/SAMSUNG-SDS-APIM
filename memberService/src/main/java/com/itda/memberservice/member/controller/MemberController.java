@@ -22,11 +22,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -125,6 +123,9 @@ public class MemberController {
     })
     public ResponseEntity<?> findByEmployeeId(@RequestParam String employeeId) {
 
+        log.info("{MemberController} : 회원조회 \n" +
+                "employeeId = " + employeeId);
+
         return ResponseEntity.ok(new SkipMemberResponse(memberService.findByEmployeeId(employeeId)));
 
     }
@@ -140,6 +141,9 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<?> findByName(String name) {
+
+        log.info("{MemberController} : 회원 검색 " +
+                "name = " + name);
 
         return ResponseEntity.ok(memberService.findByName(name));
 
@@ -157,7 +161,7 @@ public class MemberController {
     })
     public ResponseEntity<?> findAll() {
 
-//        log.info("token = " + token);
+        log.info("{MemberController} : 전체 회원 조회");
 
         return ResponseEntity.ok(memberService.findAll());
 
@@ -171,15 +175,21 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<?> changePassword(@RequestHeader("member-id") Long memberId, @RequestBody ChangePasswordRequest request) {
 
-        memberService.changePassword(request.getChangePassword(), "id");
+        log.info("{MemberController} : 비밀번호 변경 \n" +
+                "memberId = " + memberId);
+
+        memberService.changePassword(request.getChangePassword(), memberId);
 
         return ResponseEntity.ok("비밀번호 변경");
     }
 
     @DeleteMapping("/delete/{member-id}")
     public ResponseEntity<String> deleteMember(@PathVariable("member-id") Long memberId) {
+
+        log.info("{MemberController} : 회원삭제 \n" +
+                "memberId = " + memberId);
 
         try {
             memberService.delete(memberId);
@@ -194,12 +204,12 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<?> myPage(Authentication authentication){
+    public ResponseEntity<?> myPage(@RequestHeader("member-id") String memberId){
 
         log.info("{MemberController} : 마이페이지 \n" +
-                "employeeId = " + authentication.getName());
+                "memberId = " + memberId);
 
-        return ResponseEntity.ok(memberService.myInformation(authentication.getName()));
+        return ResponseEntity.ok(memberService.myInformation(memberId));
 
     }
 
