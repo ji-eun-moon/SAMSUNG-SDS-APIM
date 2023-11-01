@@ -5,6 +5,7 @@ import com.itda.memberservice.notice.entity.Notice;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @ToString(of = {"memberId", "employeeId"})
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,8 +53,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private final List<MemberTeam> memberTeamList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private final List<Notice> noticeList = new ArrayList<>();
+    @OneToMany(mappedBy = "sender")
+    private final List<Notice> sendList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver")
+    private final List<Notice> ReceiveList = new ArrayList<>();
 
     public void changePassword(String request){
         this.password = request;
