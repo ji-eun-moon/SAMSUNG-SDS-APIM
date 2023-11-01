@@ -1,6 +1,7 @@
 package com.itda.memberservice.memberteam.service;
 
 import com.itda.memberservice.member.entity.Member;
+import com.itda.memberservice.memberteam.dto.request.MemberTeamCheckRequest;
 import com.itda.memberservice.memberteam.entity.MemberTeam;
 import com.itda.memberservice.memberteam.repository.MemberTeamRepository;
 import com.itda.memberservice.team.entity.Team;
@@ -25,6 +26,12 @@ public class MemberTeamService {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+
+    }
+
+    public Boolean check(MemberTeamCheckRequest request){
+
+        return memberTeamRepository.check(request.getEmployeeId(), request.getTeamName());
 
     }
 
