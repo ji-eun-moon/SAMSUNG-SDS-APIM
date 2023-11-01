@@ -37,32 +37,31 @@ function UserInfo({ userInfo }: UserInfoProps) {
       </div>
       <div className="flex ml-10 gap-5">
         <div className="flex flex-col w-1/6 items-center mr-10">
-          <Image src={userInfo.imageUrl} alt="userImg" width={160} height={160} className="mb-4" />
+          <Image src={userInfo?.imageUrl} alt="userImg" width={160} height={160} className="mb-4" />
           <StyledButton type="button" radius="full" label="사진 변경" variant="bordered" onClick={() => {}} />
         </div>
 
         <div className="flex flex-col w-full grid gap-3">
           <div className="flex">
             <div className="w-1/12 itdaSecondary mr-4">이름</div>
-            <div className="itdaText">{userInfo.name}</div>
+            <div className="itdaText">{userInfo?.name}</div>
           </div>
 
           <div className="flex">
             <div className="w-1/12 itdaSecondary mr-4">사번</div>
-            <div className="itdaText">{userInfo.employeeId}</div>
+            <div className="itdaText">{userInfo?.employeeId}</div>
           </div>
 
           <div className="flex">
             <div className="w-1/12 itdaSecondary mr-4">부서</div>
             <div className="flex itdaText">
-              <div>{userInfo.department}</div>
-              <div>{userInfo.position}</div>
+              <div>{userInfo?.department}</div>
             </div>
           </div>
 
           <div className="flex">
             <div className="w-1/12 itdaSecondary mr-4">이메일</div>
-            <div className="itdaText">{userInfo.email}</div>
+            <div className="itdaText">{userInfo?.email}</div>
           </div>
 
           <div className="flex">
