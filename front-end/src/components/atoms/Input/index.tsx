@@ -34,14 +34,15 @@ function Input({ backgroundColor, isPassword = false, inputWord, placeholder, bo
 
   return (
     <div
-      className={`${backgroundColor} w-full rounded-lg border-2 ${isFocused ? 'border-blue-400' : 'border-gray-200'}
-      flex items-center h-10`}
+      className={`${backgroundColor} w-full rounded-lg border-2 ${
+        isFocused ? 'border-black' : 'border-gray-200'
+      } flex items-center h-10`}
     >
       <input
         type={isPassword && !visible ? 'password' : 'text'} // 비밀번호 표시 조건 추가
         value={inputWord}
         placeholder={placeholder}
-        className={`mx-3 outline-none flex-grow ${backgroundColor}`}
+        className={`mx-1 outline-none flex-grow px-2 ${backgroundColor}`}
         onFocus={() => setIsFocused(true)} // 포커스되면 상태를 true로 변경
         onBlur={() => setIsFocused(false)} // 포커스가 없어지면 상태를 false로 변경
         onChange={handleInputChange}
