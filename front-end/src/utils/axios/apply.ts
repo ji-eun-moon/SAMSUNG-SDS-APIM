@@ -52,36 +52,17 @@ export async function getProvideApplyList(currentPage: number) {
   }
 }
 
-export async function fetchData() {
+// 제공 신청 내역 상세
+export async function getProvideApplyDetail(provideid: number) {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: '/submit/provide/team',
-      params: {
-        teamName: 'teamA',
-        page: 0,
-        size: 5,
-      },
-      headers: {
-        'member-id': 'employee1',
-      },
+      url: `/submit/provide/${provideid}`,
     });
-    console.log('제공신청내역', response.data);
+    console.log('제공신청내역상세', response.data.content);
     return response.data;
   } catch (error) {
     console.error('error', error);
-    return [
-      {
-        provideId: 1,
-        applyType: '신규',
-        serverName: 'hi',
-        teamName: 'hiTeam',
-        providerName: 'hiProv',
-        createdAt: '2023-10-31',
-        state: '승인',
-      },
-    ];
+    return null;
   }
 }
-
-fetchData();
