@@ -5,7 +5,7 @@ spring:
 
 eureka:
   instance:
-    hostname: 127.0.0.1
+    hostname: k9c201.p.ssafy.io
 
   client:
     service-url:
