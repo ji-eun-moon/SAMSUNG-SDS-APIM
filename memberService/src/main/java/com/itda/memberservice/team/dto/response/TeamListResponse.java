@@ -1,6 +1,6 @@
 package com.itda.memberservice.team.dto.response;
 
-import com.itda.memberservice.member.dto.response.SkipMemberResponse;
+import com.itda.memberservice.member.dto.response.TeamMemberResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +15,5 @@ public class TeamListResponse {
      private Long teamId;
      private String teamName;
      private Integer teamCount;
-     private List<SkipMemberResponse> teamMembers;
+     private List<TeamMemberResponse> teamMembers;
 }
