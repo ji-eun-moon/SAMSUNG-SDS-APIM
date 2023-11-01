@@ -1,5 +1,6 @@
 package com.itda.memberservice.notice.controller;
 
+import com.itda.memberservice.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NoticeController {
 
+    private final NoticeService noticeService;
+
     // 안읽은 쪽지 수 조회
+//    @GetMapping("/unread-notice")
+//    public ResponseEntity<?> unreadNoticeCount(@RequestHeader("member-id") String employeeId){
+//
+//
+//
+//    }
 
     // 받은 쪽지 - 안읽은 쪽지 조회
 

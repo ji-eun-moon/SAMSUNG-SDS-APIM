@@ -4,6 +4,7 @@ import com.itda.memberservice.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -12,19 +13,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Notice {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeId;
 
+    private String title;
     private String content;
 
     @Column(columnDefinition = "BOOLEAN")
     private boolean isRead;
 
     @ManyToOne
-    @JoinColumn(name = "memeber_id")
-    private Member member;
+    @JoinColumn(name = "sender_id", insertable = false, updatable = false)
+    private Member sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", insertable = false, updatable = false)
+    private Member receiver;
 
     @CreatedDate
     private LocalDateTime createdAt;
