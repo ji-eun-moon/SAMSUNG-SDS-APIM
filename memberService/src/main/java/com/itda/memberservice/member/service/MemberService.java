@@ -10,7 +10,6 @@ import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.persistence.EntityManager;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,6 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
     @Value("${security.jwt.secret.key}")
     private String secretKey;
-    private final EntityManager entityManager;
 
     public Member register(CreateMemberRequest request){
 
