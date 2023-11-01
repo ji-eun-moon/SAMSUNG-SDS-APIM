@@ -4,6 +4,7 @@ import com.itda.memberservice.common.util.JwtUtil;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
 import com.itda.memberservice.member.entity.Member;
@@ -103,7 +104,7 @@ public class MemberService {
 
     }
 
-    public Member findByEmployeeId(String id){
+    public EmployeeSearchResponse findByEmployeeId(String id){
 
         return memberRepository.findMemberByEmployeeId(id);
     }
