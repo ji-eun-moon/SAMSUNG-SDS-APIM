@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { IUser } from '@/types/User';
-=======
-// import axios from 'axios';
->>>>>>> a9c2338a729655c911b2f2917907c8a15ef63047
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
