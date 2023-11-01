@@ -14,7 +14,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select c " +
             "from Category c " +
-            "where c.server.employeeId = :employeeId")
-    List<Category> findAllByServer(@Param("employeeId") String employeeId);
+            "where c.server.teamName = :teamName")
+    List<Category> findAllByServer(@Param("teamName") String teamName);
 
 }

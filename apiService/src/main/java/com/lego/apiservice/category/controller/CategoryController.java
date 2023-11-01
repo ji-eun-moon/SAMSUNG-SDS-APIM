@@ -28,7 +28,13 @@ public class CategoryController {
     }
 
     @GetMapping("/provide")
-    public ResponseEntity<?> ProvideCategory(@RequestHeader("member-id") String employeeId) {
-        return ResponseEntity.ok(categoryService.provideCategory(employeeId));
+    public ResponseEntity<?> ProvideCategory(@RequestParam(name = "teamName") String teamName) {
+        return ResponseEntity.ok(categoryService.provideCategory(teamName));
     }
+
+    @GetMapping("/category-name")
+    public ResponseEntity<?> CategoryNameToId(@RequestParam Long categoryId) {
+        return ResponseEntity.ok(categoryService.categoryNameToId(categoryId));
+    }
+
 }

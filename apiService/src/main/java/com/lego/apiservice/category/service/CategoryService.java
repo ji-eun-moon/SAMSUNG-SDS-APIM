@@ -36,10 +36,10 @@ public class CategoryService {
         return categoryList;
     }
 
-    public List<CategoryListResponse> provideCategory(String employeeId) {
+    public List<CategoryListResponse> provideCategory(String teamName) {
         List<CategoryListResponse> categoryList = new ArrayList<>();
 
-        List<Category> categories = categoryRepository.findAllByServer(employeeId);
+        List<Category> categories = categoryRepository.findAllByServer(teamName);
 
         categories.forEach(category -> {
             categoryList.add(new CategoryListResponse(category.getName(), category.getId(), category.getDescription(), apiToCategory(category)));
@@ -58,6 +58,10 @@ public class CategoryService {
         });
 
         return categoryList;
+    }
+
+    public String categoryNameToId(Long id) {
+        return categoryRepository.findById(id).orElseThrow().getName();
     }
 
 
