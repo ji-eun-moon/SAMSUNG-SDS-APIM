@@ -5,9 +5,8 @@ import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.entity.domain.Category;
 import com.lego.apiservice.category.entity.dto.response.CategoryListResponse;
 import com.lego.apiservice.category.repository.CategoryRepository;
-import com.lego.apiservice.usage.entity.domain.Usage;
-import com.lego.apiservice.usage.repository.UsageRepository;
-import lombok.AllArgsConstructor;
+import com.lego.apiservice.using.entity.domain.UseCheck;
+import com.lego.apiservice.using.repository.UseCheckRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ApiRepository apiRepository;
-    private final UsageRepository usageRepository;
+    private final UseCheckRepository useCheckRepository;
 
     public List<CategoryListResponse> allCategory() {
         List<CategoryListResponse> categoryList = new ArrayList<>();
@@ -52,10 +51,10 @@ public class CategoryService {
     public List<CategoryListResponse> useCategory(String teamName) {
         List<CategoryListResponse> categoryList = new ArrayList<>();
 
-        List<Usage> usages = usageRepository.findAllByTeamName(teamName);
+        List<UseCheck> useChecks = useCheckRepository.findAllByTeamName(teamName);
 
-        usages.forEach(usage -> {
-            categoryList.add(new CategoryListResponse(usage.getCategory().getName(), usage.getCategory().getId(), usage.getCategory().getDescription(), apiToCategory(usage.getCategory())));
+        useChecks.forEach(useCheck -> {
+            categoryList.add(new CategoryListResponse(useCheck.getCategory().getName(), useCheck.getCategory().getId(), useCheck.getCategory().getDescription(), apiToCategory(useCheck.getCategory())));
         });
 
         return categoryList;

@@ -1,7 +1,6 @@
-package com.lego.apiservice.usage.entity.domain;
+package com.lego.apiservice.using.entity.domain;
 
 import com.lego.apiservice.category.entity.domain.Category;
-import com.lego.apiservice.server.entity.Server;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,10 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Usage {
+public class UseCheck {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "use_check_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
