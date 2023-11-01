@@ -1,7 +1,6 @@
-import axios from 'axios';
 import axiosInstance from './axiosInstance';
 
-export async function getGetegoryList() {
+export async function getCategoryList() {
   try {
     const response = await axiosInstance({
       method: 'GET',
@@ -14,13 +13,31 @@ export async function getGetegoryList() {
   }
 }
 
-export async function getGetegoryListTest() {
+export async function getUseCategoryList(teamName: string) {
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: 'GET',
-      url: 'http://localhost:3001/categoryList',
+      url: '/server/category/use',
+      params: {
+        teamName,
+      },
     });
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getProvideCategoryList(teamName: string) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/category/provide',
+      params: {
+        teamName,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);

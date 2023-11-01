@@ -21,7 +21,7 @@ function DropDown({ list }: DropDownProps) {
         </Button>
       </DropdownTrigger>
       <DropdownMenu variant="flat">
-        {list.map((item) => (
+        {list?.map((item) => (
           <DropdownItem
             key={item.title}
             onClick={item.onClick}
