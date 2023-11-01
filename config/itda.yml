@@ -4,11 +4,6 @@ security:
       key: c201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itda
 
 spring:
-  application:
-    name: gateway-service
-  profiles:
-    default: dev
-
   cloud:
     gateway:
       default-filters:
