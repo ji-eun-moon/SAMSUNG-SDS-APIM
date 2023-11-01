@@ -30,18 +30,17 @@ function UserInfo({ userInfo }: UserInfoProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center mb-8">
+      <div className="flex items-center mb-7">
         <Icon />
         <div className="ml-2 text-lg itdaText text-semibold">개인정보 확인</div>
       </div>
       <div className="flex ml-10 gap-5">
         <div className="flex flex-col w-1/6 items-center mr-10">
           <ProfileImg src={userInfo?.imageUrl} width={170} height={170} />
-          {/* <div className="itdaText">{userInfo?.name}</div> */}
         </div>
 
         <div className="flex flex-col w-full gap-3">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div className="flex items-center">
               <div className="w-1/6 itdaSecondary mr-4">이름</div>
               <div className="itdaText">{userInfo?.name}</div>
