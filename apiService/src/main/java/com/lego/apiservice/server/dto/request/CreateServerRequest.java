@@ -12,6 +12,7 @@ public class CreateServerRequest {
     private String serverName;
     private String description;
     private String endPoint;
+    private String itdaEndpoint;
     private String employeeId;
     private String teamName;
 }

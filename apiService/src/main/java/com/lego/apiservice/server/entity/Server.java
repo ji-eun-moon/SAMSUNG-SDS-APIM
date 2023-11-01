@@ -25,6 +25,7 @@ public class Server {
     private String serverName;
     private String description;
     private String endPoint;
+    private String serviceEndpoint;
     private String employeeId;
     private String teamName;
 

@@ -48,7 +48,7 @@ public class ServerService {
         Server server = serverRegister(createServerRequest);
         OpenAPI openAPI = apidocsConnect(createServerRequest.getEndPoint());
         categoryRegister(openAPI.getTags(), server);
-        apiRegister(openAPI.getPaths(), createServerRequest.getEndPoint(), openAPI.getComponents());
+        apiRegister(openAPI.getPaths(), createServerRequest.getEndPoint(), createServerRequest.getItdaEndpoint(), openAPI.getComponents());
     }
 
     public OpenAPI apidocsConnect(String endpoint) {
@@ -131,6 +131,7 @@ public class ServerService {
                         .serverName(createServerRequest.getServerName())
                         .description(createServerRequest.getDescription())
                         .endPoint(createServerRequest.getEndPoint())
+                        .serviceEndpoint(createServerRequest.getItdaEndpoint())
                         .employeeId(createServerRequest.getEmployeeId())
                         .teamName(createServerRequest.getTeamName())
                 .build());
@@ -150,7 +151,7 @@ public class ServerService {
     }
 
     @Transactional
-    public void apiRegister(Paths paths, String endpoint, Components components) {
+    public void apiRegister(Paths paths, String endpoint, String itdaEndpoint, Components components) {
         paths.forEach((uri, pathItem) -> {
             List<ParameterInfo> parameterInfoList = new ArrayList<>();
             MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -199,7 +200,7 @@ public class ServerService {
                                         .replace(")", "}")
                                         .replace("=", ":"))
                                 .outputExample(status.get("output"))
-                                .endpoint(endpoint+uri)
+                                .endpoint(itdaEndpoint+uri)
                                 .apiMethod(ApiMethod.GET)
                                 .apiStatus(apiStatus)
                                 .category(categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow())
