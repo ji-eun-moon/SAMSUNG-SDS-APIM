@@ -11,7 +11,7 @@ export async function login({ employeeId, password }: ILogin) {
       data: { employeeId, pwd: password },
     });
     const { token } = response.data;
-    Cookies.set('authToken', token);
+    Cookies.set('accessToken', token);
     return response.data;
   } catch (error) {
     console.error(error);
