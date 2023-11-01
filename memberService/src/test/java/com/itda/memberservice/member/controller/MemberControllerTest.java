@@ -4,6 +4,7 @@ import com.itda.memberservice.common.ControllerTest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.entity.Authority;
+import com.itda.memberservice.member.entity.Member;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.xml.bind.DatatypeConverter;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -24,8 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -174,6 +176,9 @@ public class MemberControllerTest extends ControllerTest {
                                 requestFields(
                                         fieldWithPath("employeeId").description("사원 번호"),
                                         fieldWithPath("pwd").description("비밀 번호")
+                                ),
+                                responseFields(
+                                        fieldWithPath("token").description("토큰 발급")
                                 )
                         )
                 )
@@ -187,40 +192,67 @@ public class MemberControllerTest extends ControllerTest {
     }
 
 
-//
-//    @Test
-//    @DisplayName("멤버 이름으로 검색")
-//    public void search_name() throws Exception {
-//
-//        long startTime = System.currentTimeMillis();
-//
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/auth/find-by-name")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .param("name", "name1"))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        System.out.println(result.getResponse().getContentAsString());
-//
-//        System.out.println(System.currentTimeMillis() - startTime + "ms");
-//
-//    }
-//
-//    @Test
-//    @DisplayName("전체 멤버 조회")
-//    public void find_member_all() throws Exception {
-//
-//        long startTime = System.currentTimeMillis();
-//
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/auth/all"))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        System.out.println(result.getResponse().getContentAsString());
-//
-//        System.out.println(System.currentTimeMillis() - startTime + "ms");
-//
-//    }
+
+    @Test
+    @DisplayName("사원번호로 검색")
+    @WithMockUser
+    public void search_name() throws Exception {
+
+        Member member = Member.builder()
+                .email("email1")
+                .memberId(10000L)
+                .name("name1")
+                .position("position1")
+                .department("department1")
+                .authority(Authority.일반)
+                .imageUrl("image1")
+                .employeeId("employeeId1")
+                .build();
+
+        when(memberService.findByEmployeeId(any()))
+                .thenReturn(member);
+
+        mvc.perform(RestDocumentationRequestBuilders
+                        .get("/auth/find-by-employeeId")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("employeeId", "employeeId"))
+                .andDo(
+                        document("auth/find-by-employeeId",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                RequestDocumentation.queryParameters(
+                                        RequestDocumentation.parameterWithName("employeeId").description("사원 번호")
+                                ),
+                                responseFields(
+                                        fieldWithPath("employeeId").description("사원 번호"),
+                                        fieldWithPath("name").description("이름"),
+                                        fieldWithPath("imageUrl").description("이미지"),
+                                        fieldWithPath("email").description("이메일"),
+                                        fieldWithPath("department").description("부서"),
+                                        fieldWithPath("position").description("직급")
+                                )
+                        )
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("전체 멤버 조회")
+    @WithMockUser
+    public void find_member_all() throws Exception {
+
+        long startTime = System.currentTimeMillis();
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/auth/all"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+
+        System.out.println(System.currentTimeMillis() - startTime + "ms");
+
+    }
 //
 //    @Test
 //    @DisplayName("비밀번호 변경")
