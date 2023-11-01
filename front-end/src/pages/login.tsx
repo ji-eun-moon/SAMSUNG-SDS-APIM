@@ -8,7 +8,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Copy from '@/components/atoms/Copy';
 import { login } from '@/utils/axios/auth';
-import { getUserInfo } from '@/utils/axios/user';
 import { useRouter } from 'next/router';
 
 export default function Login() {
@@ -19,7 +18,6 @@ export default function Login() {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await login({ employeeId, password });
-    await getUserInfo();
     await router.push(`/`);
   };
 

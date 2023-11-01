@@ -9,10 +9,11 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // 요청 전에 처리해야 할 작업
-    const authToken = Cookies.get('authToken');
-    if (authToken) {
+    const accessToken = Cookies.get('accessToken');
+    if (accessToken) {
       const newConfig = { ...config };
-      newConfig.headers.Authorization = `Bearer ${authToken}`;
+      newConfig.headers.Authorization = `Bearer ${accessToken}`;
+      newConfig.headers.Cookies = `token=${accessToken}; path=/;`;
       return newConfig;
     }
     return config;

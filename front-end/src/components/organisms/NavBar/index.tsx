@@ -32,27 +32,29 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
           <div className="grid grid-cols-4 gap-3 my-3 col-span-1">
             <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="col-span-1 font-semibold itdaSecondary text-sm">이름</div>
-              <div className="col-span-3 itdaText">{userInfo.name}</div>
+              <div className="col-span-3 itdaText">{userInfo?.name}</div>
             </div>
 
             <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="col-span-1 font-semibold itdaSecondary text-sm">사번</div>
-              <div className="col-span-3 itdaText">{userInfo.employeeId}</div>
+              <div className="col-span-3 itdaText">{userInfo?.employeeId}</div>
             </div>
 
             <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="col-span-1 font-semibold itdaSecondary text-sm">부서</div>
               <div className="col-span-3 flex gap-1 itdaText">
-                <div>{userInfo.department}</div>
-                <div>{userInfo.position}</div>
+                <div>{userInfo?.department}</div>
+                <div>{userInfo?.position}</div>
               </div>
             </div>
 
             <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
-              <div className="col-span-3 itdaText flex items-center w-9/12">
-                <SelectBox list={teamList} onClick={() => {}} />
-              </div>
+              {teamList && (
+                <div className="col-span-3 itdaText flex items-center w-9/12">
+                  <SelectBox list={teamList} onClick={() => {}} />
+                </div>
+              )}
             </div>
           </div>
 
@@ -101,19 +103,21 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
         <LogoWithName />
         <div className="flex items-center">
           {/* 팀 선택 */}
-          <div className="mr-10">
-            <SelectBox list={teamList} onClick={() => {}} width="w-40" />
-          </div>
+          {teamList && (
+            <div className="mr-10">
+              <SelectBox list={teamList} onClick={() => {}} width="w-40" />
+            </div>
+          )}
           {/* 프로필 이미지 */}
           <div className="mr-3">
-            <ProfileImg src={userInfo.imageUrl} width={40} height={40} />
+            <ProfileImg src={userInfo?.imageUrl} width={40} height={40} />
           </div>
           {/* 회원정보 */}
           <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
-            <div className="itdaText text-left font-semibold">{userInfo.name}</div>
+            <div className="itdaText text-left font-semibold">{userInfo?.name}</div>
             <div className="flex itdaSecondary">
-              <div>{userInfo.department}</div>&nbsp;|&nbsp;
-              <div>{userInfo.position}</div>
+              <div>{userInfo?.department}</div>&nbsp;|&nbsp;
+              <div>{userInfo?.position}</div>
             </div>
           </button>
           <div className={styles.updown} />

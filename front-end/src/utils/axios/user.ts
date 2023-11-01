@@ -1,10 +1,11 @@
+// import axios from 'axios';
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: 'https://k9c201.p.ssafy.io/api/member/auth/all',
+      url: '/member/auth/mypage',
     });
     console.log(response.data);
     return response.data;
