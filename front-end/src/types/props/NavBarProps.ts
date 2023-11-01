@@ -4,6 +4,7 @@ export interface SideNavBarProps {
   userInfo: IUser;
   position: 'side';
   noticeCnt: string;
+  firstCategory: number;
 }
 export interface TopNavBarProps {
   userInfo: IUser;

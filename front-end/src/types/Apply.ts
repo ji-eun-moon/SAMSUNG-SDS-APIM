@@ -24,7 +24,7 @@ export interface IProvide {
 export type TProvideList = IProvide[];
 
 export interface IUse {
-  useId: number;
+  useApplyId: number;
   categoryName: string;
   teamName: string;
   userName: string;
