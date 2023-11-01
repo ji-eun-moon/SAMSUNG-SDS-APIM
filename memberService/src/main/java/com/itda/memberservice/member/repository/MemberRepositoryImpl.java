@@ -2,7 +2,7 @@ package com.itda.memberservice.member.repository;
 
 import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
-import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.team.dto.response.TeamResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -60,15 +60,15 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public List<SearchMemberResponse> findByName(String name) {
+    public List<NameSearchResponse> findByName(String name) {
         return queryFactory
-                .select(Projections.fields(SearchMemberResponse.class,
+                .select(Projections.fields(NameSearchResponse.class,
                         member.employeeId,
                         member.name,
                         member.department,
                         member.position,
                         member.imageUrl))
-                .where(member.name.eq(name))
+                .where(member.name.contains(name))
                 .from(member)
                 .fetch();
     }

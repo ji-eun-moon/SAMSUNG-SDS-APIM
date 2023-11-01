@@ -6,7 +6,7 @@ import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
-import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -109,7 +109,7 @@ public class MemberService {
         return memberRepository.findMemberByEmployeeId(id);
     }
 
-    public List<SearchMemberResponse> findByName(String name) {
+    public List<NameSearchResponse> findByName(String name) {
         return memberRepository.findByName(name);
     }
 
