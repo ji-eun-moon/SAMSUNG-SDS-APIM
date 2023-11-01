@@ -20,7 +20,9 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
 
     return (
       <div className={styles.navSideBody}>
-        <LogoWithName />
+        <button type="button" onClick={() => router.push('/')}>
+          <LogoWithName />
+        </button>
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">
@@ -44,14 +46,13 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
               <div className="col-span-1 font-semibold itdaSecondary text-sm">부서</div>
               <div className="col-span-3 flex gap-1 itdaText">
                 <div>{userInfo.department}</div>
-                <div>{userInfo.position}</div>
               </div>
             </div>
 
             <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
               <div className="col-span-3 itdaText flex items-center w-9/12">
-                <SelectBox list={teamList} onClick={() => {}} />
+                <SelectBox list={teamList} onChange={() => {}} />
               </div>
             </div>
           </div>
@@ -73,15 +74,15 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
 
             {/* 텍스트 바로가기 */}
             <div className="itdaText flex flex-col gap-3">
-              <div className="flex justify-between" onClick={() => {}} aria-hidden>
+              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/mypage')} aria-hidden>
                 <div className="text-sm">팀정보</div>
                 <Image src="/icons/user.png" alt="user icon" width={20} height={16} />
               </div>
-              <div className="flex justify-between" onClick={() => router.push('/mypage')} aria-hidden>
+              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/mypage')} aria-hidden>
                 <div className="text-sm">마이페이지</div>
                 <Image src="/icons/setting.png" alt="setting icon" width={23} height={21} />
               </div>
-              <div className="flex justify-between" onClick={() => {}} aria-hidden>
+              <div className="flex justify-between cursor-pointer" onClick={() => {}} aria-hidden>
                 <div className="text-sm">로그아웃</div>
                 <Image src="/icons/logout.png" alt="setting icon" width={18} height={12} />
               </div>
@@ -102,7 +103,7 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
         <div className="flex items-center">
           {/* 팀 선택 */}
           <div className="mr-10">
-            <SelectBox list={teamList} onClick={() => {}} width="w-40" />
+            <SelectBox list={teamList} onChange={() => {}} width="w-40" />
           </div>
           {/* 프로필 이미지 */}
           <div className="mr-3">
