@@ -1,9 +1,6 @@
 package com.itda.memberservice.member.controller;
 
-import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
-import com.itda.memberservice.member.dto.request.CreateMemberRequest;
-import com.itda.memberservice.member.dto.request.EmployeeSearchRequest;
-import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.request.*;
 import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
@@ -132,12 +129,12 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByName(String name) {
+    public ResponseEntity<?> findByName(@ModelAttribute NameSearchRequest request) {
 
         log.info("{MemberController} : 회원 검색 " +
-                "name = " + name);
+                "name = " + request.getName());
 
-        return ResponseEntity.ok(memberService.findByName(name));
+        return ResponseEntity.ok(memberService.findByName(request.getName()));
 
     }
 
