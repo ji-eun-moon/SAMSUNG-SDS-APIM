@@ -115,10 +115,10 @@ export default function MemberAdd() {
             headerList?.map((head, index) => {
               if (head === 'teamList') {
                 if (rowData[index].includes(',')) {
-                  const teams = rowData[index]?.split(',')?.map((team) => ({ teamName: team.trim() }));
+                  const teams = rowData[index]?.split(',')?.map((team) => team.trim());
                   return [head, teams];
                 }
-                return [head, [{ teamName: rowData[index] }]];
+                return [head, [rowData[index]]];
               }
               return [head, rowData[index]];
             }),

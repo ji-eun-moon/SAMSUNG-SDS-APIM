@@ -29,7 +29,6 @@ export async function getMemebers() {
   }
 }
 
-// interface MemberTable
 export async function createMembers(props: IUser) {
   try {
     const response = await axiosInstance({

@@ -3,6 +3,7 @@ import { TopNavBarProps, SideNavBarProps } from '@/types/props/NavBarProps';
 import Image from 'next/image';
 import StyledButton from '@/components/atoms/StyledButton';
 import { useRouter } from 'next/router';
+import { logout } from '@/utils/axios/auth';
 import CountBadge from '@/components/atoms/CountBadge';
 import SelectBox from '@/components/atoms/SelectBox';
 import NoticeDropDown from '@/components/atoms/NoticeDropDown';
@@ -13,6 +14,11 @@ import styles from './NavBar.module.scss';
 
 function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
   const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    await router.push(`/login`);
+  };
 
   if (position === 'side') {
     const { userInfo, noticeCnt } = props as SideNavBarProps;
@@ -53,7 +59,7 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
               <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
               {teamList && (
                 <div className="col-span-3 itdaText flex items-center w-9/12">
-                  <SelectBox list={teamList} onClick={() => {}} />
+                  <SelectBox list={teamList} onChange={() => {}} />
                 </div>
               )}
             </div>
@@ -84,7 +90,7 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
                 <div className="text-sm">마이페이지</div>
                 <Image src="/icons/setting.png" alt="setting icon" width={23} height={21} />
               </div>
-              <div className="flex justify-between cursor-pointer" onClick={() => {}} aria-hidden>
+              <div className="flex justify-between cursor-pointer" onClick={handleLogout} aria-hidden>
                 <div className="text-sm">로그아웃</div>
                 <Image src="/icons/logout.png" alt="setting icon" width={18} height={12} />
               </div>

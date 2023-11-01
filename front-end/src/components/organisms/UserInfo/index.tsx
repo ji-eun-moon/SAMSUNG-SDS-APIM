@@ -1,8 +1,7 @@
 import React from 'react';
 import { IUser } from '@/types/User';
-import Image from 'next/image';
+import ProfileImg from '@/components/atoms/ProfileImg';
 import TeamSelect from '@/components/organisms/TeamSelect';
-import StyledButton from '@/components/atoms/StyledButton';
 
 interface UserInfoProps {
   userInfo: IUser;
@@ -37,31 +36,36 @@ function UserInfo({ userInfo }: UserInfoProps) {
       </div>
       <div className="flex ml-10 gap-5">
         <div className="flex flex-col w-1/6 items-center mr-10">
-          <Image src={userInfo?.imageUrl} alt="userImg" width={160} height={160} className="mb-4" />
-          <StyledButton type="button" radius="full" label="사진 변경" variant="bordered" onClick={() => {}} />
+          <ProfileImg src={userInfo?.imageUrl} width={170} height={170} />
+          {/* <div className="itdaText">{userInfo?.name}</div> */}
         </div>
 
-        <div className="flex flex-col w-full grid gap-3">
-          <div className="flex">
-            <div className="w-1/12 itdaSecondary mr-4">이름</div>
-            <div className="itdaText">{userInfo?.name}</div>
-          </div>
-
-          <div className="flex">
-            <div className="w-1/12 itdaSecondary mr-4">사번</div>
-            <div className="itdaText">{userInfo?.employeeId}</div>
-          </div>
-
-          <div className="flex">
-            <div className="w-1/12 itdaSecondary mr-4">부서</div>
-            <div className="flex itdaText">
-              <div>{userInfo?.department}</div>
+        <div className="flex flex-col w-full gap-3">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center">
+              <div className="w-1/6 itdaSecondary mr-4">이름</div>
+              <div className="itdaText">{userInfo?.name}</div>
             </div>
-          </div>
-
-          <div className="flex">
-            <div className="w-1/12 itdaSecondary mr-4">이메일</div>
-            <div className="itdaText">{userInfo?.email}</div>
+            <div className="flex items-center">
+              <div className="w-1/6 itdaSecondary mr-4">부서</div>
+              <div className="flex itdaText">
+                <div>{userInfo?.department}</div>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-1/6 itdaSecondary mr-4">사번</div>
+              <div className="itdaText">{userInfo?.employeeId}</div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-1/6 itdaSecondary mr-4">직무</div>
+              <div className="flex itdaText">
+                <div>{userInfo?.position}</div>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-1/6 itdaSecondary mr-4">이메일</div>
+              <div className="itdaText">{userInfo?.email}</div>
+            </div>
           </div>
 
           <div className="flex">

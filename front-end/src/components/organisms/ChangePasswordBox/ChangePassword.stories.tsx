@@ -1,9 +1,9 @@
-import ChangePassword from '.';
+import ChangePasswordBox from '.';
 
 export default {
-  title: 'organisms/ChangePassword',
+  title: 'organisms/ChangePasswordBox',
   tags: ['autodocs'],
-  component: ChangePassword,
+  component: ChangePasswordBox,
   argTypes: {},
 };
 
