@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { IUser } from '@/types/User';
+=======
 // import axios from 'axios';
+>>>>>>> a9c2338a729655c911b2f2917907c8a15ef63047
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
@@ -29,12 +33,13 @@ export async function getMemebers() {
   }
 }
 
-export async function createMembers() {
+// interface MemberTable
+export async function createMembers(props: IUser) {
   try {
     const response = await axiosInstance({
       method: 'post',
       url: 'https://k9c201.p.ssafy.io/api/member/auth/sign-up',
-      data: {},
+      data: props,
     });
     console.log(response.data);
     return response.data;
