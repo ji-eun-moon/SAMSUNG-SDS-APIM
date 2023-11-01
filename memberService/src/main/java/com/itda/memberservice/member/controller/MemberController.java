@@ -7,7 +7,6 @@ import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
-import com.itda.memberservice.member.dto.response.SkipMemberResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
@@ -19,7 +18,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -120,12 +118,12 @@ public class MemberController {
         log.info("{MemberController} : 회원조회 \n" +
                 "employeeId = " + request.getEmployeeId());
 
-        return ResponseEntity.ok(new SkipMemberResponse(memberService.findByEmployeeId(request.getEmployeeId())));
+        return ResponseEntity.ok(memberService.findByEmployeeId(request.getEmployeeId()));
 
     }
 
     @GetMapping("/find-by-name")
-    @Operation(summary = "회원 검색", description = "이름을 통한 회원 검색")
+    @Operation(summary = "회원 검색", description = "이름을 통한 회원 검색 / 쪽지용")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 검색 결과", content = @Content(schema = @Schema(
                     implementation = SearchMemberResponse.class
@@ -214,15 +212,7 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-
-        Cookie cookie = new Cookie("token", null);
-        cookie.setMaxAge(0);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-
-        response.addCookie(cookie);
+    public ResponseEntity<?> logout() {
 
         return ResponseEntity.ok("로그아웃 완료");
 

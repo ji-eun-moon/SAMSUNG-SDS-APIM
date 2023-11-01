@@ -1,8 +1,8 @@
 package com.itda.memberservice.member.repository;
 
+import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.SearchMemberResponse;
-import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.team.dto.response.TeamResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -24,13 +24,38 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public Member findMemberByEmployeeId(String employeeId) {
+    public EmployeeSearchResponse findMemberByEmployeeId(String employeeId) {
 
-        return queryFactory
-                .select(member)
+        EmployeeSearchResponse response = queryFactory
+                .select(Projections.fields(EmployeeSearchResponse.class,
+                        member.employeeId,
+                        member.name,
+                        member.imageUrl,
+                        member.email,
+                        member.department,
+                        member.position,
+                        member.authority))
                 .from(member)
                 .where(member.employeeId.eq(employeeId))
                 .fetchOne();
+
+        if (response == null) {
+            throw new RuntimeException("해당하는 회원이 존재하지 않습니다.");
+        }
+
+        List<String> teamList = JPAExpressions
+                .select(team.name)
+                .from(team)
+                .where(team.in(JPAExpressions.select(memberTeam.team)
+                        .from(memberTeam)
+                        .where(memberTeam.member.employeeId.eq(employeeId))
+                        .fetch()
+                ))
+                .fetch();
+
+        response.setTeamList(teamList);
+
+        return response;
 
     }
 
