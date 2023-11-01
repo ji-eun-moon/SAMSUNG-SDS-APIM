@@ -7,14 +7,6 @@ export function middleware(request: NextRequest) {
   if (!accessToken) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
-  // const requestHeaders = new Headers(request.headers);
-  // requestHeaders.set('Content-Type', 'application/json');
-  // requestHeaders.set('Cookies', `token=${accessToken}`);
-  // return NextResponse.next({
-  //   request: {
-  //     headers: requestHeaders,
-  //   },
-  // });
   return null;
 }
 
