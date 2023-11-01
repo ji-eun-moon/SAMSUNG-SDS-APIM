@@ -1,14 +1,13 @@
 package com.lego.submitservice.provide.service;
 
 import com.lego.submitservice.client.api.ApiServiceClient;
-import com.lego.submitservice.client.api.dto.CategoryListResponse;
 import com.lego.submitservice.client.api.dto.CreateServerRequest;
 import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.client.member.dto.EmployeeSearchResponse;
-import com.lego.submitservice.client.member.dto.SkipMemberResponse;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.Provide;
 import com.lego.submitservice.provide.entity.domain.State;
+import com.lego.submitservice.provide.entity.dto.request.AcceptRequest;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
 import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideIdResponse;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,48 +73,40 @@ public class ProvideService {
     }
 
     @Transactional
-    public void acceptState(String employeeId, Long provideId) {
+    public void acceptState(String employeeId, AcceptRequest acceptRequest) {
 
         log.info(employeeId + " : 사번");
-        try {
-            // 회원이 관리자임을 확인하는 로직
-            checkAuthority(employeeId);
 
-            Provide provide = provideRepository.findById(provideId).orElseThrow();
-            HttpStatus httpStatus = apiServiceClient.register(new CreateServerRequest(provide.getServerName(), provide.getDescription(), provide.getEndpoint(),
-                    provide.getEmployeeId(), provide.getTeamName()));
-            if (httpStatus.is2xxSuccessful()) {
-                provide.changeState(State.승인);
-                provide.setModifiedAt();
-                provide.setDenyReason(null);
-                provideRepository.save(provide);
-            } else {
-                provide.changeState(State.거절);
-                provide.setDenyReason("테스트가 실패 했습니다.");
-                provide.setModifiedAt();
-                provideRepository.save(provide);
-                throw new RuntimeException();
-            }
-        } catch (Exception e) {
-            log.info(e.toString());
-            e.printStackTrace();
+        // 회원이 관리자임을 확인하는 로직
+        checkAuthority(employeeId);
+
+        Provide provide = provideRepository.findById(acceptRequest.getProvideId()).orElseThrow();
+        HttpStatus httpStatus = apiServiceClient.register(new CreateServerRequest(provide.getServerName(), provide.getDescription(), provide.getEndpoint(),
+                acceptRequest.getEndpoint(), provide.getEmployeeId(), provide.getTeamName()));
+        if (httpStatus.is2xxSuccessful()) {
+            provide.changeState(State.승인);
+            provide.setModifiedAt();
+            provide.setDenyReason(null);
+            provideRepository.save(provide);
+        } else {
+            provide.changeState(State.거절);
+            provide.setDenyReason("테스트가 실패 했습니다.");
+            provide.setModifiedAt();
+            provideRepository.save(provide);
+            throw new RuntimeException();
         }
+
     }
 
     @Transactional
     public void denyState(String employeeId, Long provideId, String denyReason) {
-        try {
-            // 회원이 관리자임을 확인하는 로직
-            checkAuthority(employeeId);
-            Provide provide = provideRepository.findById(provideId).orElseThrow();
-            provide.changeState(State.거절);
-            provide.setDenyReason(denyReason);
-            provide.setModifiedAt();
-            provideRepository.save(provide);
-        } catch (Exception e) {
-            log.info(e.toString());
-            throw new RuntimeException("실패");
-        }
+        // 회원이 관리자임을 확인하는 로직
+        checkAuthority(employeeId);
+        Provide provide = provideRepository.findById(provideId).orElseThrow();
+        provide.changeState(State.거절);
+        provide.setDenyReason(denyReason);
+        provide.setModifiedAt();
+        provideRepository.save(provide);
     }
 
     public Page<ProvideListResponse> findAllByTeam(Pageable pageable, String teamName) {

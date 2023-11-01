@@ -3,6 +3,7 @@ package com.lego.submitservice.provide.controller;
 import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.State;
+import com.lego.submitservice.provide.entity.dto.request.AcceptRequest;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
 import com.lego.submitservice.provide.entity.dto.response.DenyResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
@@ -58,14 +59,14 @@ public class ProvideController {
     @PutMapping("/accept")
     public ResponseEntity<?> acceptState(
             @RequestHeader("member-id") String employeeId,
-            @RequestParam(name = "provideId") Long provideId) {
+            @RequestBody AcceptRequest acceptRequest) {
 
-        provideService.acceptState(employeeId, provideId);
+        provideService.acceptState(employeeId, acceptRequest);
 
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
-    // 제공 신청 변경 - 승인
+    // 제공 신청 변경 - 거절
     @PutMapping("/deny")
     public ResponseEntity<?> denyState(
             @RequestHeader("member-id") String employeeId,

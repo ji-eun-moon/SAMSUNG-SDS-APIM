@@ -31,6 +31,8 @@ public class UseApply {
 
     @Column(nullable = true)
     private LocalDateTime modifiedAt;
+
+    @Enumerated(EnumType.STRING)
     private State state;
 
     @Column(nullable = true)
