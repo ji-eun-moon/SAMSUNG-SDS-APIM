@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import style from './RowTable.module.scss';
 
-interface Info {
-  처리상태: string;
-  처리내용: string;
-}
-
 interface RowTableProps {
   title: string;
-  headerContent: [];
-  bodyContent: Info[];
+  headerContent: string[];
+  bodyContent: (string[] | number[] | Date[] | { [key: string]: string | number | Date })[];
 }
 
 /**
@@ -21,13 +16,17 @@ interface RowTableProps {
 
 function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
-  const [bodys, setBodys] = useState<Info[]>([]);
+  const [bodys, setBodys] = useState<
+    null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
+  >(null);
 
   useEffect(() => {
-    if (headerContent && headerContent.length) {
+    if (Array.isArray(headerContent)) {
       const newHeaders = headerContent.map((content) => ({ text: content, value: content }));
       setHeaders(newHeaders);
-      console.log('headers', newHeaders);
+    } else {
+      const newHeaders = Object.keys(headerContent).map((key) => ({ text: headerContent[key], value: key }));
+      setHeaders(newHeaders);
     }
     if (bodyContent && bodyContent.length) {
       const newBodys = bodyContent;
@@ -50,7 +49,7 @@ function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
                     </div>
                     <div className={`${style.right}`} style={index === 0 ? { borderTop: '1px solid #9a9a9a' } : {}}>
                       <div style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
-                        {body[header.text as keyof Info]}
+                        {(body as Record<string, string>)[header.text]}
                       </div>
                     </div>
                   </div>

@@ -1,0 +1,13 @@
+.moduleContainer {
+  display: grid;
+  grid-template-rows: 70px 200px 70px;
+  gap: 15px;
+  width: 600px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding: 1px 5px;
+}
+
+.inputTitle {
+  margin-bottom: 3px;
+}
