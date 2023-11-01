@@ -9,7 +9,7 @@ function LogoWithName({ size, textSize }: LogoWithNameProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <Image src="/images/logo.png" alt="itda logo" width={size} height={size} />
-      <p className={`font-bold ${textSize}`}>ITDA</p>
+      <div className={`font-bold ${textSize}`}>ITDA</div>
     </div>
   );
 }

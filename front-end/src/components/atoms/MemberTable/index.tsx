@@ -4,11 +4,14 @@ import styles from './MemberTable.module.scss';
 interface MemberTableProps {
   headerContent: string[];
   bodyContent: string[][];
+  height?: string;
 }
 
-function MemberTable({ headerContent, bodyContent }: MemberTableProps) {
+function MemberTable({ headerContent, bodyContent, height }: MemberTableProps) {
   const [headers, setHeaders] = useState<string[]>([]);
   const [bodys, setBodys] = useState<string[][]>([]);
+
+  const heightStyle = { height };
 
   useEffect(() => {
     if (headerContent && headerContent.length) {
@@ -21,31 +24,41 @@ function MemberTable({ headerContent, bodyContent }: MemberTableProps) {
   }, [headerContent, bodyContent]);
 
   return (
-    <table className="w-full">
-      <thead className={styles.header}>
-        <tr>
-          {headers &&
-            headers.map((header) => (
-              <th key={header} className={styles.th}>
-                {header}
-              </th>
-            ))}
-        </tr>
-      </thead>
-      <tbody className="bg-white">
-        {bodys &&
-          bodys.map((body) => (
-            <tr key={body[0]}>
-              {body.map((cell) => (
-                <td key={cell} className={styles.tr}>
-                  {cell}
-                </td>
+    <div className={styles.tableWrapper} style={heightStyle}>
+      <table className="w-full">
+        <thead className={`${styles.header} w-full`}>
+          <tr>
+            {headers &&
+              headers.map((header) => (
+                <th key={header} className={styles.th}>
+                  {header}
+                </th>
               ))}
-            </tr>
-          ))}
-      </tbody>
-    </table>
+          </tr>
+        </thead>
+        <tbody className="bg-white w-full">
+          {bodys &&
+            bodys.map((body) => (
+              <tr key={body[0]}>
+                {body.map((cell, index) => (
+                  <td
+                    key={cell}
+                    className={`${styles.tr} text-sm`}
+                    style={index === 6 ? { maxWidth: '150px', wordWrap: 'break-word' } : {}}
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
+
+MemberTable.defaultProps = {
+  height: '100%',
+};
 
 export default MemberTable;
