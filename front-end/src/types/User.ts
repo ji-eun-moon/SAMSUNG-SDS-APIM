@@ -48,3 +48,15 @@ export interface ITeamToken {
 }
 
 export type TTeamTokenList = ITeamToken[];
+
+// createMembers 헤더매핑
+export interface HeaderMapping {
+  사번: string;
+  성명: string;
+  사진url: string;
+  권한: string;
+  부서: string;
+  직무: string;
+  이메일: string;
+  팀: string;
+}

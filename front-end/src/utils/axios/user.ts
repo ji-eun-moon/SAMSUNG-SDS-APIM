@@ -28,3 +28,18 @@ export async function getMemebers() {
     return null;
   }
 }
+
+export async function createMembers() {
+  try {
+    const response = await axiosInstance({
+      method: 'post',
+      url: 'https://k9c201.p.ssafy.io/api/member/auth/sign-up',
+      data: {},
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

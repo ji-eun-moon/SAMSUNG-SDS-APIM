@@ -3,12 +3,12 @@ import { Tooltip } from '@nextui-org/react';
 import Image from 'next/image';
 
 interface ToolTipProps {
-  explain: React.ReactNode;
+  children: React.ReactNode;
 }
 
-function ToolTip({ explain }: ToolTipProps) {
+function ToolTip({ children }: ToolTipProps) {
   return (
-    <Tooltip showArrow content={explain} className="flex">
+    <Tooltip showArrow content={children} className="flex">
       <span>
         <Image src="/icons/tooltip.png" alt="tooltip-icon" width={15} height={15} />
       </span>
