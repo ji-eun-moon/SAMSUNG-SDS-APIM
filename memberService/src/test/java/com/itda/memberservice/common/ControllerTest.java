@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itda.memberservice.member.controller.MemberController;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
+import com.itda.memberservice.notice.service.NoticeService;
 import com.itda.memberservice.team.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -25,5 +26,6 @@ public abstract class ControllerTest {
     @MockBean protected MemberService memberService;
     @MockBean protected MemberTeamService memberTeamService;
     @MockBean protected TeamService teamService;
+    @MockBean protected NoticeService noticeService;
 
 }
