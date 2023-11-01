@@ -1,9 +1,0 @@
-spring:
-  cloud:
-      routes:
-        - id: first-submit
-          uri: lb://FIRST-SUBMIT-SERVICE
-          predicates:
-            - Path=/movie/**
-          filters:
-            - RewritePath=/movie/(?<segment>.*), /${segment}

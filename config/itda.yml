@@ -2,3 +2,13 @@ security:
   jwt:
     secret:
       key: c201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itda
+
+spring:
+  cloud:
+    routes:
+      - id: first-submit
+        uri: lb://FIRST-SUBMIT-SERVICE
+        predicates:
+          - Path=/movie/**
+        filters:
+          - RewritePath=/movie/(?<segment>.*), /${segment}
