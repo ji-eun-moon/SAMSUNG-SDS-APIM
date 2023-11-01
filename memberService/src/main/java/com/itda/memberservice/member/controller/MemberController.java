@@ -115,7 +115,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByEmployeeId(EmployeeSearchRequest request) {
+    public ResponseEntity<?> findByEmployeeId(@ModelAttribute EmployeeSearchRequest request) {
 
         log.info("{MemberController} : 회원조회 \n" +
                 "employeeId = " + request.getEmployeeId());
