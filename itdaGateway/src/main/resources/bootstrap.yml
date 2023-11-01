@@ -2,4 +2,4 @@ spring:
   cloud:
     config:
       uri: https://k9c201.p.ssafy.io/config
-      name: itda, gatewayFilter
+      name: itda
