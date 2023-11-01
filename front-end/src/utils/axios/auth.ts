@@ -33,7 +33,7 @@ export async function logout() {
   }
 }
 
-export async function ChangePassword(props) {
+export async function ChangePassword(props: object) {
   try {
     const response = await axiosInstance({
       method: 'POST',
