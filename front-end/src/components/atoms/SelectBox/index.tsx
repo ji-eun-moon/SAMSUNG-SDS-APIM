@@ -10,7 +10,7 @@ interface SelectBoxProps {
 function SelectBox({ list, width, onClick }: SelectBoxProps) {
   return (
     <Select variant="bordered" labelPlacement="outside" defaultSelectedKeys={[list[0]]} className={width}>
-      {list.map((item) => (
+      {list?.map((item) => (
         <SelectItem key={item} onClick={onClick}>
           {item}
         </SelectItem>

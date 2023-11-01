@@ -1,12 +1,12 @@
 import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 export async function getGetegoryList() {
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: 'GET',
-      url: 'http://localhost:3001/categoryList',
+      url: '/server/category',
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -14,7 +14,7 @@ export async function getGetegoryList() {
   }
 }
 
-export async function getApiList() {
+export async function getGetegoryListTest() {
   try {
     const response = await axios({
       method: 'GET',
