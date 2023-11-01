@@ -4,9 +4,83 @@ security:
       key: c201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itda
 
 spring:
+  application:
+    name: gateway-service
+  profiles:
+    default: dev
+
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://k9c201.p.ssafy.io:3000"
+              - "http://localhost:3000"
+              - "https://k9c201.p.ssafy.io"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTIONS
+            allowedHeaders: '*'
+            allow-credentials: true
+        add-to-simple-url-handler-mapping: true
+
       routes:
+        - id: login
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/auth/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member/(?<segment>.*), /${segment}
+
+        - id: member-actuator
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member/(?<segment>.*), /${segment}
+
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member/(?<segment>.*), /${segment}
+            - AuthorizationHeaderFilter
+
+        - id: submit-service
+          uri: lb://SUBMIT-SERVICE
+          predicates:
+            - Path=/submit/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/submit/(?<segment>.*), /${segment}
+            - AuthorizationHeaderFilter
+
+        - id: api-service
+          uri: lb://API-SERVICE
+          predicates:
+            - Path=/server/**
+          filters:
+            - RewritePath=/server/(?<segment>.*), /${segment}
+            - RemoveRequestHeader=Cookie
+            - AuthorizationHeaderFilter
+            
         - id: first-submit
           uri: lb://FIRST-SUBMIT-SERVICE
           predicates:
