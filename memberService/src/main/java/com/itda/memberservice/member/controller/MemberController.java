@@ -3,7 +3,7 @@ package com.itda.memberservice.member.controller;
 import com.itda.memberservice.member.dto.request.*;
 import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
-import com.itda.memberservice.member.dto.response.SearchMemberResponse;
+import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
@@ -123,7 +123,7 @@ public class MemberController {
     @Operation(summary = "회원 검색", description = "이름을 통한 회원 검색 / 쪽지용")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 검색 결과", content = @Content(schema = @Schema(
-                    implementation = SearchMemberResponse.class
+                    implementation = NameSearchResponse.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
