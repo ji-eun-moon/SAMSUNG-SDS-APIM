@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TopNavBarProps, SideNavBarProps } from '@/types/props/NavBarProps';
 import Image from 'next/image';
 import StyledButton from '@/components/atoms/StyledButton';
@@ -10,25 +10,36 @@ import NoticeDropDown from '@/components/atoms/NoticeDropDown';
 import DropDown from '@/components/atoms/DropDown';
 import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
+import useUserStore from '@/store/useUserStore';
+import Link from 'next/link';
 import styles from './NavBar.module.scss';
 
-function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
+function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | TopNavBarProps) {
   const router = useRouter();
+  const { selectedTeam, setSelectedTeam } = useUserStore();
+
+  const handleSelectTeam = (team: string) => {
+    setSelectedTeam(team);
+  };
 
   const handleLogout = async () => {
     await logout();
     await router.push(`/login`);
   };
 
-  if (position === 'side') {
-    const { userInfo, noticeCnt } = props as SideNavBarProps;
-    const teamList = userInfo?.teams?.map((team) => team.teamName);
+  const teamList = userInfo?.teams?.map((team) => team.teamName);
 
+  useEffect(() => {
+    if (teamList && teamList.length > 0 && !selectedTeam) {
+      setSelectedTeam(teamList[0]);
+    }
+  }, [setSelectedTeam, teamList, selectedTeam]);
+
+  if (position === 'side') {
+    const { firstCategory } = props as SideNavBarProps;
     return (
       <div className={styles.navSideBody}>
-        <button type="button" onClick={() => router.push('/')}>
-          <LogoWithName />
-        </button>
+        <LogoWithName />
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">
@@ -59,7 +70,7 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
               <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
               {teamList && (
                 <div className="col-span-3 itdaText flex items-center w-9/12">
-                  <SelectBox list={teamList} onChange={() => {}} />
+                  <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} />
                 </div>
               )}
             </div>
@@ -71,7 +82,7 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
               <StyledButton
                 variant="bordered"
                 label="API 전체보기"
-                onClick={() => router.push('/apis/[categoryId]/list')}
+                onClick={() => router.push(`/category/${firstCategory}`)}
                 radius="full"
                 type="button"
               />
@@ -102,17 +113,18 @@ function NavBar({ position, ...props }: SideNavBarProps | TopNavBarProps) {
   }
 
   if (position === 'top') {
-    const { userInfo, noticeCnt, notices, dropDownList } = props as TopNavBarProps;
-    const teamList = userInfo?.teams?.map((team) => team.teamName);
+    const { notices, dropDownList } = props as TopNavBarProps;
 
     return (
       <div className={styles.navTopBody}>
-        <LogoWithName />
+        <Link href="/">
+          <LogoWithName />
+        </Link>
         <div className="flex items-center">
           {/* 팀 선택 */}
           {teamList && (
             <div className="mr-10">
-              <SelectBox list={teamList} onChange={() => {}} width="w-40" />
+              <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
             </div>
           )}
           {/* 프로필 이미지 */}

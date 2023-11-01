@@ -5,11 +5,11 @@ export default {
   tags: ['autodocs'],
   component: SideBar,
   argTypes: {
-    my: {
-      description: 'myAPI를 보여줄 것인지 여부',
-    },
     openCategory: {
       description: '열어 놓을 카테고리의 id',
+    },
+    openMyCategory: {
+      description: '열어 놓을 My 카테고리의 id',
     },
     categoryList: {
       description: '카테고리 전체 리스트, my = false 일 때 필수 값',
