@@ -5,6 +5,8 @@ import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.entity.domain.Category;
 import com.lego.apiservice.category.entity.dto.response.CategoryListResponse;
 import com.lego.apiservice.category.repository.CategoryRepository;
+import com.lego.apiservice.usage.entity.domain.Usage;
+import com.lego.apiservice.usage.repository.UsageRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ApiRepository apiRepository;
+    private final UsageRepository usageRepository;
 
     public List<CategoryListResponse> allCategory() {
         List<CategoryListResponse> categoryList = new ArrayList<>();
@@ -45,6 +48,19 @@ public class CategoryService {
 
         return categoryList;
     }
+
+    public List<CategoryListResponse> useCategory(String teamName) {
+        List<CategoryListResponse> categoryList = new ArrayList<>();
+
+        List<Usage> usages = usageRepository.findAllByTeamName(teamName);
+
+        usages.forEach(usage -> {
+            categoryList.add(new CategoryListResponse(usage.getCategory().getName(), usage.getCategory().getId(), usage.getCategory().getDescription(), apiToCategory(usage.getCategory())));
+        });
+
+        return categoryList;
+    }
+
 
 
 
