@@ -1,5 +1,6 @@
 package com.lego.submitservice.client.member;
 
+import com.lego.submitservice.client.member.dto.EmployeeSearchResponse;
 import com.lego.submitservice.client.member.dto.SearchMemberResponse;
 import com.lego.submitservice.client.member.dto.SkipMemberResponse;
 import feign.Param;
@@ -18,7 +19,7 @@ public interface MemberServiceClient {
     List<SearchMemberResponse> getMemberByName(String name);
 
     @GetMapping("/auth/find-by-employeeId")
-    SkipMemberResponse getMemberByEmployeeId(@SpringQueryMap Map<String, String> params);
+    EmployeeSearchResponse getMemberByEmployeeId(@SpringQueryMap Map<String, String> params);
 
     @GetMapping("/auth/check-authority")
     String checkAuthority(@SpringQueryMap Map<String, String> params);

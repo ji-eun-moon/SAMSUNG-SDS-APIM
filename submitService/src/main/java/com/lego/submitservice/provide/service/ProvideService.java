@@ -4,6 +4,7 @@ import com.lego.submitservice.client.api.ApiServiceClient;
 import com.lego.submitservice.client.api.dto.CategoryListResponse;
 import com.lego.submitservice.client.api.dto.CreateServerRequest;
 import com.lego.submitservice.client.member.MemberServiceClient;
+import com.lego.submitservice.client.member.dto.EmployeeSearchResponse;
 import com.lego.submitservice.client.member.dto.SkipMemberResponse;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.Provide;
@@ -43,7 +44,7 @@ public class ProvideService {
         // 해당 회원이 팀인지 확인하는 로직 - 팀이라면 이름 반환
         Map<String, String> params = new HashMap<>();
         params.put("employeeId", employeeId);
-        SkipMemberResponse skipMemberResponse = memberServiceClient.getMemberByEmployeeId(params);
+        EmployeeSearchResponse employeeSearchResponse = memberServiceClient.getMemberByEmployeeId(params);
 
         provideRepository.save(Provide.builder()
                         .serverName(createProvideRequest.getServerName())
@@ -51,7 +52,7 @@ public class ProvideService {
                         .endpoint(createProvideRequest.getEndpoint())
                         .teamName(createProvideRequest.getTeamName())
                         .employeeId(employeeId)
-                        .providerName(skipMemberResponse.getName())
+                        .providerName(employeeSearchResponse.getName())
                         .state(State.대기)
                         .applyType(ApplyType.신청)
 
@@ -87,6 +88,7 @@ public class ProvideService {
             if (httpStatus.is2xxSuccessful()) {
                 provide.changeState(State.승인);
                 provide.setModifiedAt();
+                provide.setDenyReason(null);
                 provideRepository.save(provide);
             } else {
                 provide.changeState(State.거절);

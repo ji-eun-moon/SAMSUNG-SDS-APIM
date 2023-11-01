@@ -1,14 +1,13 @@
 package com.lego.submitservice.use.controller;
 
-import com.lego.submitservice.provide.entity.domain.ApplyType;
 import com.lego.submitservice.provide.entity.domain.State;
-import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
-import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
-import com.lego.submitservice.use.entity.dto.request.CreateUseRequest;
-import com.lego.submitservice.use.entity.dto.response.UseDetailResponse;
-import com.lego.submitservice.use.entity.dto.response.UseListResponse;
-import com.lego.submitservice.use.service.UseService;
+import com.lego.submitservice.provide.entity.dto.response.DenyResponse;
+import com.lego.submitservice.use.entity.dto.request.CreateUseApplyRequest;
+import com.lego.submitservice.use.entity.dto.response.UseApplyDetailResponse;
+import com.lego.submitservice.use.entity.dto.response.UseApplyListResponse;
+import com.lego.submitservice.use.service.UseApplyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,51 +21,54 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UseController {
 
-    private final UseService useService;
+    private final UseApplyService useApplyService;
 
     // 사용 신청
     @PostMapping ("/register")
     public ResponseEntity<?> register(
             @RequestHeader("member-id") String employeeId,
-            @RequestBody CreateUseRequest createUseRequest) {
+            @RequestBody CreateUseApplyRequest createUseApplyRequest) {
 
-        useService.register(createUseRequest, employeeId);
+        System.out.println("employeeId : " + employeeId);
+        System.out.println("categoryId : " + createUseApplyRequest.getCategoryId());
+        System.out.println("Content : " + createUseApplyRequest.getContent());
+        System.out.println("TeamName : " + createUseApplyRequest.getTeamName());
+
+        useApplyService.register(createUseApplyRequest, employeeId);
         return ResponseEntity.status(201).body(HttpStatus.CREATED);
     }
 
     // 사용 신청 내역
     @GetMapping("")
-    public ResponseEntity<?> findAll() {
-        List<UseListResponse> useListResponses = new ArrayList<>();
-        useListResponses.add(new UseListResponse(1L, "나의 카테고리", "나의 팀", "이찬웅", LocalDateTime.now(),
-                State.대기));
-        useListResponses.add(new UseListResponse());
-
-        return ResponseEntity.ok(useListResponses);
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        return ResponseEntity.ok(useApplyService.findAll(pageable));
     }
 
     // 사용 신청 변경
-    @PutMapping("")
-    public ResponseEntity<?> changeState(@RequestParam(name = "useId") Long useId) {
+    @PutMapping("/accept")
+    public ResponseEntity<?> acceptState(@RequestHeader("member-id") String employeeId,
+                                         @RequestParam(name = "useId") Long useId) {
+
+        useApplyService.acceptState(useId, employeeId);
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/deny")
+    public ResponseEntity<?> denyState(@RequestHeader("member-id") String employeeId,
+                                       @RequestBody DenyResponse denyResponse) {
+        useApplyService.denyState(denyResponse, employeeId);
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
     // 팀당 사용 신청 내역
     @GetMapping("/team")
-    public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamId") Long teamId) {
-        List<UseListResponse> useListResponses = new ArrayList<>();
-        useListResponses.add(new UseListResponse(1L, "나의 카테고리", "나의 팀", "이찬웅", LocalDateTime.now(),
-                State.대기));
-        useListResponses.add(new UseListResponse());
-
-        return ResponseEntity.ok(useListResponses);
+    public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName, Pageable pageable) {
+        return ResponseEntity.ok(useApplyService.findAllByTeam(teamName, pageable));
     }
 
     // 사용 신청 상세 조회
-    @GetMapping("/{use-id}")
-    public ResponseEntity<?> findByProvideId(@PathVariable("use-id") Long useId) {
-        return ResponseEntity.ok(new UseDetailResponse(1L, "나의 카테고리", "나의 카테고리에 대한 설명입니다",
-                "나의 팀", "이찬웅", LocalDateTime.now(),
-                State.거절, "맘에 들지 않아요"));
+    @GetMapping("/{use-apply-id}")
+    public ResponseEntity<?> findByUseApplyId(@PathVariable("use-apply-id") Long useApplyId) {
+        return ResponseEntity.ok(useApplyService.findByUseApplyId(useApplyId));
     }
 }

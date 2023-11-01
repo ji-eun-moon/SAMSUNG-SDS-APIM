@@ -71,7 +71,7 @@ public class ProvideController {
             @RequestHeader("member-id") String employeeId,
             @RequestBody DenyResponse denyResponse) {
 
-        provideService.denyState(employeeId, denyResponse.getProvideId(), denyResponse.getDenyReason());
+        provideService.denyState(employeeId, denyResponse.getId(), denyResponse.getDenyReason());
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 

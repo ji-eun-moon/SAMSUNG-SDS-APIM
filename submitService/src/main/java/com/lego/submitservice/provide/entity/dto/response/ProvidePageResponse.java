@@ -1,6 +1,5 @@
 package com.lego.submitservice.provide.entity.dto.response;
 
-import com.lego.submitservice.use.entity.dto.response.UseListResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

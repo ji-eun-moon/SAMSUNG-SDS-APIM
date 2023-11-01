@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DenyResponse {
 
-    private Long provideId;
+    private Long id;
     private String denyReason;
 }

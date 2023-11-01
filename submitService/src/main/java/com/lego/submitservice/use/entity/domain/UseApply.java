@@ -14,19 +14,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Use {
+public class UseApply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "use_id")
+    @Column(name = "use_apply_id")
     private Long id;
     private Long categoryId;
+    private String categoryName;
     private String description;
     private String teamName;
+
+    @Column(nullable = true)
     private String userName;
     private LocalDateTime createdAt;
+
+    @Column(nullable = true)
     private LocalDateTime modifiedAt;
     private State state;
+
+    @Column(nullable = true)
     private String denyReason;
 
     public void changeState(State state) {

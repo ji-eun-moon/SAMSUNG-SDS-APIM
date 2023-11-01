@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsageRequest {
+public class UseCheckRequest {
 
     private Long categoryId;
     private String teamName;
