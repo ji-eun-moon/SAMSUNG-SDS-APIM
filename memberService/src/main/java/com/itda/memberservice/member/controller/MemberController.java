@@ -90,15 +90,6 @@ public class MemberController {
             // 로그인 성공시 토큰 반환
             String token = memberService.login(request);
 
-            Cookie cookie = new Cookie("token", token);
-//            cookie.setHttpOnly(true);
-//            cookie.setSecure(true);
-            cookie.setPath("/");
-
-            log.info("로그인 성공");
-
-            response.addCookie(cookie);
-
             return ResponseEntity.ok().body(LoginMemberResponse.builder()
                     .token(token)
                     .build());
