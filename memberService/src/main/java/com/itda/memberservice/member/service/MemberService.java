@@ -1,6 +1,7 @@
 package com.itda.memberservice.member.service;
 
 import com.itda.memberservice.common.util.JwtUtil;
+import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.MemberResponse;
@@ -87,12 +88,18 @@ public class MemberService {
 
     }
 
-    public void changePassword(String password, String employeeId) {
+    public void changePassword(ChangePasswordRequest request, String employeeId) {
 
-        memberRepository.findByEmployeeId(employeeId)
+        Member member = memberRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() ->
-                    new RuntimeException("회원이 존재하지 않습니다.")
-                ).changePassword(encoder.encode(password));
+                        new RuntimeException("회원이 존재하지 않습니다.")
+                );
+
+        if (!encoder.matches(request.getOriginalPassword(), member.getPassword())) {
+            throw new RuntimeException("올바르지 않은 비밀번호입니다.");
+        }
+
+        member.changePassword(encoder.encode(request.getChangePassword()));
 
     }
 

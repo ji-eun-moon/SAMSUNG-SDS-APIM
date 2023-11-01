@@ -2,6 +2,7 @@ package com.itda.memberservice.member.controller;
 
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
+import com.itda.memberservice.member.dto.request.EmployeeSearchRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
 import com.itda.memberservice.member.dto.response.LoginMemberResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
@@ -114,12 +115,12 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByEmployeeId(@RequestParam String employeeId) {
+    public ResponseEntity<?> findByEmployeeId(EmployeeSearchRequest request) {
 
         log.info("{MemberController} : 회원조회 \n" +
-                "employeeId = " + employeeId);
+                "employeeId = " + request.getEmployeeId());
 
-        return ResponseEntity.ok(new SkipMemberResponse(memberService.findByEmployeeId(employeeId)));
+        return ResponseEntity.ok(new SkipMemberResponse(memberService.findByEmployeeId(request.getEmployeeId())));
 
     }
 
@@ -173,7 +174,7 @@ public class MemberController {
         log.info("{MemberController} : 비밀번호 변경 \n" +
                 "employeeId = " + employeeId);
 
-        memberService.changePassword(request.getChangePassword(), employeeId);
+        memberService.changePassword(request, employeeId);
 
         return ResponseEntity.ok("비밀번호 변경");
     }
