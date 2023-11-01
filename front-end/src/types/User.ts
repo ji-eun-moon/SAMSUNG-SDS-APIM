@@ -60,3 +60,16 @@ export interface HeaderMapping {
   이메일: string;
   팀: string;
 }
+
+export interface IUserData {
+  employeeId: string;
+  name: string;
+  imageUrl: string;
+  email: string;
+  teamList: string[];
+  position: string;
+  department: string;
+  authority: string;
+}
+
+export type TUserDataList = IUserData[];

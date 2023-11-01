@@ -1,4 +1,4 @@
-import { IUser } from '@/types/User';
+import { TUserDataList } from '@/types/User';
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
@@ -29,7 +29,7 @@ export async function getMemebers() {
   }
 }
 
-export async function createMembers(props: IUser) {
+export async function createMembers(props: TUserDataList) {
   try {
     const response = await axiosInstance({
       method: 'post',
