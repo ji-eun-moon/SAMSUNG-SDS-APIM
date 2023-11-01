@@ -6,10 +6,4 @@ spring:
           predicates:
             - Path=/movie/**
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/movie/(?<segment>.*), /${segment}
-            - name: LoggingFilter
-              args:
-                baseMessage: HI
-                preLogger: true
-                postLogger: true
