@@ -10,6 +10,7 @@ import com.lego.submitservice.provide.entity.domain.Provide;
 import com.lego.submitservice.provide.entity.domain.State;
 import com.lego.submitservice.provide.entity.dto.request.CreateProvideRequest;
 import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
+import com.lego.submitservice.provide.entity.dto.response.ProvideIdResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.repository.ProvideRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,5 +148,13 @@ public class ProvideService {
     @Transactional
     public void deleteAll() {
         provideRepository.deleteAll();
+    }
+
+    public List<ProvideIdResponse> findAllIds() {
+        return provideRepository.findAll().stream().map(ProvideIdResponse::new).collect(Collectors.toList());
+    }
+
+    public List<Long> findAllIdsToLong() {
+        return provideRepository.findAll().stream().map(Provide::getId).collect(Collectors.toList());
     }
 }

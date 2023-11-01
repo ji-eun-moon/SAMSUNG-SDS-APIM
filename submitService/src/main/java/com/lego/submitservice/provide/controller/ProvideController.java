@@ -101,4 +101,13 @@ public class ProvideController {
         provideService.deleteAll();
         return ResponseEntity.status(204).body(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/ids-object")
+    public ResponseEntity<?> findAllIds() {
+        return ResponseEntity.ok(provideService.findAllIds());
+    }
+    @GetMapping("/ids-array")
+    public ResponseEntity<?> findAllIdsToLong() {
+        return ResponseEntity.ok(provideService.findAllIdsToLong());
+    }
 }
