@@ -1,7 +1,7 @@
 $itda-blue: #4175c0;
 $itda-text: #5f6165;
 $itda-secondary: #9a9a9a;
-$itda-border: #c9c6c6;
+$itda-border: #dddddd;
 
 .itdaBlue {
   color: $itda-blue;
@@ -17,6 +17,18 @@ $itda-border: #c9c6c6;
 
 .bgItdaBlue {
   background-color: $itda-blue;
+}
+
+.bgItdaSecondary {
+  background-color: $itda-secondary;
+}
+
+.bgItdaBorder {
+  background-color: $itda-border;
+}
+
+.bgItdaInput {
+  background-color: #e5e7eb;
 }
 
 .bdItdaSecondary {

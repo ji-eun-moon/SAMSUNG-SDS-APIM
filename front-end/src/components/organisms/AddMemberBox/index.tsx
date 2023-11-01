@@ -1,8 +1,8 @@
 import React, { useState, DragEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
 import Papa from 'papaparse';
-import { HeaderMapping } from '@/types/User';
-// import { createMembers } from '@/utils/axios/user';
+import { HeaderMapping, IUser } from '@/types/User';
+import { createMembers } from '@/utils/axios/user';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
 import MemberTable from '@/components/atoms/MemberTable';
@@ -128,8 +128,7 @@ export default function MemberAdd() {
       })
       .filter(Boolean);
 
-    console.log(mappedData);
-    // createMembers
+    createMembers(mappedData);
   };
 
   return (

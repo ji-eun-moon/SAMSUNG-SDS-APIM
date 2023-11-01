@@ -4,14 +4,14 @@ import { Select, SelectItem } from '@nextui-org/react';
 interface SelectBoxProps {
   list: string[];
   width?: string;
-  onClick: () => void;
+  onChange: (team: string) => void;
 }
 
-function SelectBox({ list, width, onClick }: SelectBoxProps) {
+function SelectBox({ list, width, onChange }: SelectBoxProps) {
   return (
     <Select variant="bordered" labelPlacement="outside" defaultSelectedKeys={[list[0]]} className={width}>
-      {list?.map((item) => (
-        <SelectItem key={item} onClick={onClick}>
+      {list.map((item) => (
+        <SelectItem key={item} onClick={() => onChange(item)}>
           {item}
         </SelectItem>
       ))}
