@@ -23,7 +23,22 @@ export async function logout() {
   try {
     const response = await axiosInstance({
       method: 'POST',
-      url: 'https://k9c201.p.ssafy.io/api',
+      url: 'https://k9c201.p.ssafy.io/api/member/auth/logout',
+    });
+    Cookies.remove('accessToken');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function ChangePassword(props) {
+  try {
+    const response = await axiosInstance({
+      method: 'POST',
+      url: 'https://k9c201.p.ssafy.io/api/member/auth/change-password',
+      data: props,
     });
     console.log(response.data);
     return response.data;
