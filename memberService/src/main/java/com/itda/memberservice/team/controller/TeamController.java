@@ -16,10 +16,10 @@ public class TeamController {
 
     private final TeamService teamService;
 
-    @GetMapping("/{team-id}")
-    public ResponseEntity<?> getTeamMembers(@PathVariable("team-id") Long teamId) {
+    @GetMapping("/{teamName}")
+    public ResponseEntity<?> getTeamMembers(@PathVariable("teamName") String teamName) {
 
-        return ResponseEntity.ok(teamService.findMembers(teamId));
+        return ResponseEntity.ok(teamService.findMembers(teamName));
 
     }
 

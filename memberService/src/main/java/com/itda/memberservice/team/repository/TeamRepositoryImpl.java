@@ -19,7 +19,7 @@ public class TeamRepositoryImpl implements TeamQueryRepository{
     }
 
     @Override
-    public List<TeamMemberResponse> findMembers(Long teamId) {
+    public List<TeamMemberResponse> findMembers(String teamName) {
 
         return queryFactory
                 .select(Projections.fields(TeamMemberResponse.class,
@@ -30,7 +30,7 @@ public class TeamRepositoryImpl implements TeamQueryRepository{
                         member.department,
                         member.position))
                 .from(memberTeam.member, member)
-                .where(memberTeam.team.teamId.eq(teamId))
+                .where(memberTeam.team.name.eq(teamName))
                 .fetch();
 
     }

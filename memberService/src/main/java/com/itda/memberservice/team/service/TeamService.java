@@ -26,9 +26,9 @@ public class TeamService {
 
     }
 
-    public List<TeamMemberResponse> findMembers(Long teamId){
+    public List<TeamMemberResponse> findMembers(String teamName){
 
-        return teamRepository.findMembers(teamId);
+        return teamRepository.findMembers(teamName);
 
     }
 

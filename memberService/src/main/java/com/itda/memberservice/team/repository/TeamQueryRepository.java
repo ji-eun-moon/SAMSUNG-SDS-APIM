@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TeamQueryRepository {
 
-    List<TeamMemberResponse> findMembers(Long teamId);
+    List<TeamMemberResponse> findMembers(String teamName);
 
 }
