@@ -74,6 +74,7 @@ spring:
             - RewritePath=/server/(?<segment>.*), /${segment}
             - RemoveRequestHeader=Cookie
             - AuthorizationHeaderFilter
+
   rabbitmq:
     host: k9c201.p.ssafy.io
     port: 5672
