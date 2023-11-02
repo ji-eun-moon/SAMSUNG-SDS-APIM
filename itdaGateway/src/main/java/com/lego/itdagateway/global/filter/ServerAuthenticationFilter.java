@@ -49,9 +49,11 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
 
             String decode = null;
             try {
-                decode = aes128Config.decryptAes(header);
+                decode = aes128Config.decrypt(header);
                 String[] info =  decode.split("&");
                 if (info.length != 2) {
+                    log.info(decode);
+                    log.info(String.valueOf(info.length));
                     log.info("잘못된 길이의 토큰입니다.");
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();

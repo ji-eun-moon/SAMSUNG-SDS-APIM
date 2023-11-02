@@ -31,11 +31,11 @@ public class RedisController {
 
     @GetMapping("/encode")
     public ResponseEntity<?> encode(@RequestParam(name = "key") String key) throws BusinessLogicException {
-        return ResponseEntity.ok(aes128Config.encryptAes(key));
+        return ResponseEntity.ok(aes128Config.encrypt(key));
     }
 
     @GetMapping("/decode")
     public ResponseEntity<?> decode(@RequestParam(name = "key") String key) throws BusinessLogicException {
-        return ResponseEntity.ok(aes128Config.decryptAes(key));
+        return ResponseEntity.ok(aes128Config.decrypt(key));
     }
 }
