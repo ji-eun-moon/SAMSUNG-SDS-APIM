@@ -24,7 +24,6 @@ const ApiStatus: NextPage = () => {
 
   return (
     <BothLayout>
-      <div>Top Nav 들어갈 부분</div>
       <StatusSideBar />
       <div>
         <GoBack label="API 상태확인" />
