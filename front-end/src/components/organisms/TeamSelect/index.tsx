@@ -15,6 +15,8 @@ function TeamSelect({ list }: TeamSelectProps) {
     setIsModalOpen(!isModalOpen);
   };
 
+  console.log(team);
+
   return (
     <div className="w-full flex items-center">
       <div className="w-4/12">
@@ -23,8 +25,8 @@ function TeamSelect({ list }: TeamSelectProps) {
           onChange={(selectedTeam) => {
             setTeam(selectedTeam);
           }}
-          defaultSelect={team}
           width="w-full"
+          defaultSelect={list[0]}
         />
       </div>
       <button type="button" className={`${styles.button} text-sm`} onClick={onModalOpenHandler}>

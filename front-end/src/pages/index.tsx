@@ -1,6 +1,4 @@
 import React from 'react';
-import { IUser } from '@/types/User';
-import NavBar from '@/components/organisms/NavBar';
 import style from '@/styles/MainPage.module.scss';
 import SideLayout from '@/components/templates/SideLayout';
 import ShortCuts from '@/components/organisms/ShortCuts';
@@ -8,8 +6,9 @@ import ApplySummary from '@/components/organisms/ApplySummary';
 import StatusSummary from '@/components/organisms/StatusSummary';
 import { NextPage, GetServerSideProps } from 'next';
 import { getUserInfo } from '@/utils/axios/user';
-import { QueryClient, useQuery } from 'react-query';
+import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
+<<<<<<< HEAD
 import { getApiStatus, getCategoryList } from '@/utils/axios/api';
 import { TCategoryList, IApiStatusList } from '@/types/Api';
 import PageLoading from '@/components/atoms/PageLoading';
@@ -44,6 +43,24 @@ const Home: NextPage = () => {
     </main>
   );
 };
+=======
+import { getCategoryList } from '@/utils/axios/api';
+
+const Home: NextPage = () => (
+  <main>
+    <SideLayout>
+      <div className={`${style.pageContainer}`}>
+        {/* 바로가기 탭 */}
+        <ShortCuts />
+        {/* API 신청 내역 */}
+        <ApplySummary />
+        {/* API 상태 */}
+        <StatusSummary />
+      </div>
+    </SideLayout>
+  </main>
+);
+>>>>>>> 2ffe985768d057a4f4584e49a278e11a810d0928
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();

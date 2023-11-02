@@ -30,10 +30,11 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
   const teamList = userInfo?.teams?.map((team) => team.teamName);
 
   useEffect(() => {
-    if (teamList && teamList.length > 0 && !selectedTeam) {
+    if (!selectedTeam) {
       setSelectedTeam(teamList[0]);
     }
-  }, [setSelectedTeam, teamList, selectedTeam]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (position === 'side') {
     const { firstCategory } = props as SideNavBarProps;
@@ -137,7 +138,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
             <div className="itdaText text-left font-semibold">{userInfo?.name}</div>
             <div className="flex itdaSecondary">
-              <div>{userInfo?.department}</div>&nbsp;|&nbsp;
+              <div>{userInfo?.department}</div>
             </div>
           </button>
           <div className={styles.updown} />

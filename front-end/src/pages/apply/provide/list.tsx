@@ -77,7 +77,6 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
 
   return (
     <BothLayout>
-      <div>Top Nav 들어갈 부분</div>
       <ApplySideBar isUser={isUser} />
       <div className={`${style.listContainer}`}>
         <div className={`${style.label}`}>
