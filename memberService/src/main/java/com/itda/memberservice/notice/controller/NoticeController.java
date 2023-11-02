@@ -1,6 +1,7 @@
 package com.itda.memberservice.notice.controller;
 
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
+import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
 import com.itda.memberservice.notice.dto.response.NoticeListResponse;
 import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
 import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
@@ -78,6 +79,17 @@ public class NoticeController {
     }
 
     // 받은 쪽지 상세 조회
+    @GetMapping("/{notice_id}")
+    public ResponseEntity<NoticeDetailResponse> detail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
+
+        log.info("{NoticeController} : 쪽지 상세 조회 \n" +
+                "employeeId = " + employeeId);
+
+        NoticeDetailResponse response = noticeService.detail(employeeId, noticeId);
+
+        return ResponseEntity.ok(response);
+
+    }
 
     // 보낸 쪽지 - 안읽은 쪽지 조회
 

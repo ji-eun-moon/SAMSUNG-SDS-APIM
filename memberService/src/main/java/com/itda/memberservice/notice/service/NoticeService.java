@@ -2,6 +2,7 @@ package com.itda.memberservice.notice.service;
 
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
+import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
 import com.itda.memberservice.notice.dto.response.NoticeListResponse;
 import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
 import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
@@ -61,6 +62,43 @@ public class NoticeService {
                     .build());
 
         }
+
+    }
+
+    public NoticeDetailResponse detail(String employeeId, Long noticeId) {
+
+        changeReadNotice(employeeId, noticeId);
+
+        return noticeRepository.detail(employeeId, noticeId);
+
+    }
+
+    public void changeReadNotice(String employeeId, Long noticeId) {
+
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 쪽지입니다."));
+
+        if (!notice.getReceiver().getEmployeeId().equals(employeeId)) {
+            throw new IllegalArgumentException("조회할 수 없는 쪽지입니다.");
+        }
+
+        if (!notice.isRead()) {
+
+            noticeRepository.save(Notice.builder()
+                    .noticeId(notice.getNoticeId())
+                    .title(notice.getTitle())
+                    .content(notice.getContent())
+                    .isRead(true)
+                    .sender(notice.getSender())
+                    .receiver(notice.getReceiver())
+                    .isSenderDeleted(notice.isSenderDeleted())
+                    .isReceiverDeleted(notice.isReceiverDeleted())
+                    .createdAt(notice.getCreatedAt())
+                    .build());
+
+        }
+
+
 
     }
 }

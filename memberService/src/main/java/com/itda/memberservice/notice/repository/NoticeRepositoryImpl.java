@@ -1,5 +1,6 @@
 package com.itda.memberservice.notice.repository;
 
+import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
 import com.itda.memberservice.notice.dto.response.NoticeListResponse;
 import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
 import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
@@ -97,6 +98,30 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .leftJoin(notice.sender, member)
                 .where(notice.receiver.employeeId.eq(employeeId))
                 .fetch();
+
+    }
+
+    @Override
+    public NoticeDetailResponse detail(String employeeId, Long noticeId) {
+
+        return queryFactory
+                .select(
+                        Projections.fields(NoticeDetailResponse.class,
+                                member.memberId,
+                                member.name.as("memberName"),
+                                member.department.as("memberDepartment"),
+                                member.position.as("memberPosition"),
+                                member.imageUrl.as("memberImage"),
+                                notice.title,
+                                notice.content,
+                                notice.createdAt))
+                .from(notice)
+                .leftJoin(notice.sender, member)
+                .where(
+                        notice.noticeId.eq(noticeId)
+                                .and(notice.receiver.employeeId.eq(employeeId))
+                )
+                .fetchOne();
 
     }
 
