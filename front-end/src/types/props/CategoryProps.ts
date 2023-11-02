@@ -5,4 +5,5 @@ export interface CategoryProps {
   apiList: IApiNameList;
   categoryId: number;
   isOpen: boolean;
+  my: boolean;
 }
