@@ -5,7 +5,7 @@ interface StatusProps {
 }
 
 const Icon = ({ color }: { color: string }) => (
-  <svg height="18" width="18">
+  <svg height="19" width="19">
     <circle cx="9" cy="9" r="9" fill={color} />
   </svg>
 );
