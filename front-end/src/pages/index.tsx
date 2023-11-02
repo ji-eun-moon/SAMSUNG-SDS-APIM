@@ -10,15 +10,16 @@ import { NextPage, GetServerSideProps } from 'next';
 import { getUserInfo } from '@/utils/axios/user';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { getCategoryList } from '@/utils/axios/api';
-import { TCategoryList } from '@/types/Api';
+import { getApiStatus, getCategoryList } from '@/utils/axios/api';
+import { TCategoryList, IApiStatusList } from '@/types/Api';
 import PageLoading from '@/components/atoms/PageLoading';
 
 const Home: NextPage = () => {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
+  const { data: apiStatus } = useQuery<IApiStatusList>('apiStatus', getApiStatus);
 
-  if (!userInfo) {
+  if (!userInfo || !apiStatus) {
     return <PageLoading />;
   }
 
@@ -37,7 +38,7 @@ const Home: NextPage = () => {
           {/* API 신청 내역 */}
           <ApplySummary />
           {/* API 상태 */}
-          <StatusSummary />
+          <StatusSummary statusList={apiStatus} />
         </div>
       </SideLayout>
     </main>
@@ -48,6 +49,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery('userInfo', getUserInfo);
   await queryClient.prefetchQuery('categoryList', getCategoryList);
+  const apiStatus = await getApiStatus();
+  queryClient.setQueryData('apiStatus', apiStatus);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
