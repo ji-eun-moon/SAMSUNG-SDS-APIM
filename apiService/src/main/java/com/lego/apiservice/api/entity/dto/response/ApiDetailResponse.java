@@ -21,8 +21,6 @@ public class ApiDetailResponse {
     private ApiMethod method;
     private Long categoryId;
 
-    private boolean availableCheck;
-
     public ApiDetailResponse(Api api) {
         this.apiId = api.getId();
         this.endpoint = api.getEndpoint();
@@ -35,7 +33,4 @@ public class ApiDetailResponse {
         this.categoryId = api.getCategory().getId();
     }
 
-    public void setAvailableCheck(boolean check) {
-        this.availableCheck = check;
-    }
 }

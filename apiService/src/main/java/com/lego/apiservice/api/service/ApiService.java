@@ -29,12 +29,13 @@ public class ApiService {
     private final CategoryRepository categoryRepository;
     private final UseCheckRepository useCheckRepository;
 
-    public ApiDetailResponse apiDetail(Long apiId, String teamName) {
+    public ApiDetailResponse apiDetail(Long apiId) {
         Api api = apiRepository.findById(apiId).orElseThrow();
-        ApiDetailResponse apiDetailResponse = new ApiDetailResponse(api);
-        apiDetailResponse.setAvailableCheck(useCheckRepository.findByTeamNameAndCategory(teamName, api.getCategory().getId()).isEmpty());
+        return new ApiDetailResponse(api);
+    }
 
-        return apiDetailResponse;
+    public boolean apiAvailable(Long apiId, String teamName) {
+        return useCheckRepository.findByTeamNameAndCategory(teamName, apiRepository.findById(apiId).orElseThrow().getCategory().getId()).isEmpty();
     }
 
     public ApiTestResponse apiTest(Long apiId) {

@@ -16,7 +16,7 @@ public interface UseCheckRepository extends JpaRepository<UseCheck, Long> {
     List<UseCheck> findAllByTeamName(@Param("teamName") String teamName);
 
     @Query("select u " +
-            "from UseCheck u " +
+            "from UseCheck u, Api a " +
             "where u.teamName = :teamName and u.category.id = :categoryId")
     Optional<UseCheck> findByTeamNameAndCategory(@Param("teamName") String teamName, @Param("categoryId") Long categoryId);
 }

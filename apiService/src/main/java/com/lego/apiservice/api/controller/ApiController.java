@@ -28,8 +28,15 @@ public class ApiController {
 
     @GetMapping("/detail")
     @Operation(summary = "api 상세 조회")
-    public ResponseEntity<?> apiDetail(@RequestParam(name = "apiId") Long apiId, @RequestParam(name = "teamName") String teamName) {
-        return ResponseEntity.ok(apiService.apiDetail(apiId, teamName));
+    public ResponseEntity<?> apiDetail(@RequestParam(name = "apiId") Long apiId) {
+        return ResponseEntity.ok(apiService.apiDetail(apiId));
+    }
+
+    @GetMapping("/available")
+    @Operation(summary = "api 사용 신청 가능 여부 조회")
+    public ResponseEntity<?> apiAvailable(@RequestParam(name = "apiId") Long apiId,
+                                          @RequestParam(name = "teamName") String teamName) {
+        return ResponseEntity.ok(apiService.apiAvailable(apiId, teamName));
     }
 
     @GetMapping("/test")
