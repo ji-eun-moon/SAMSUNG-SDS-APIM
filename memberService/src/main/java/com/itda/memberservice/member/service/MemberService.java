@@ -137,7 +137,6 @@ public class MemberService {
 
     public void sendEmailPassword(String email, String password) throws MessagingException {
 
-        String setFrom = "victoryddh@google.com";
         String title = "[ITDA] 임시 비밀번호 안내";
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -157,9 +156,9 @@ public class MemberService {
                 "        <div style='font-size:50px'>\n" + password +"   \n" +
                 "        </div>\n" +
                 "     <br>  \n" +
-                "     <h4 style='font-weight: 600;'>인증 코드 오류가 생긴 경우 고객센터로 문의바랍니다</h4>";
+                "     <h4 style='font-weight: 600;'>인증 코드 오류가 생긴 경우 고객센터로 문의바랍니다</h4> \n" +
+                "     <button style=\"margin-top: 10px; background-color: white; border-radius: 4px; border: none;\"><a href=\"https://k9c201.p.ssafy.io/\" style=\"text-decoration: none; color: blue;\">홈페이지 바로가기</a></button>\n ";
 
-        message.setFrom();
         message.setText(emailMsg, "utf-8", "html");
 
         javaMailSender.send(message);
