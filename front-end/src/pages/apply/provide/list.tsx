@@ -80,7 +80,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
       <ApplySideBar isUser={isUser} />
       <div className={`${style.listContainer}`}>
         <div className={`${style.label}`}>
-          <GoBack label="API 제공 신청 내역" />
+          <GoBack label="서버 제공 신청 내역" />
         </div>
         <ColTable headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
         <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
