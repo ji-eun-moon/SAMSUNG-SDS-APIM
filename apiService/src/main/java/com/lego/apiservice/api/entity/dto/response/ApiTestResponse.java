@@ -1,5 +1,6 @@
 package com.lego.apiservice.api.entity.dto.response;
 
+import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +18,13 @@ public class ApiTestResponse {
     private String title;
     private ApiMethod method;
     private String categoryToken;
+
+    public ApiTestResponse(Api api) {
+        this.apiId = api.getId();
+        this.endpoint = api.getEndpoint();
+        this.input = api.getInput();
+        this.outputExample = api.getOutputExample();
+        this.title = api.getTitle();
+        this.categoryToken = "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91";
+    }
 }

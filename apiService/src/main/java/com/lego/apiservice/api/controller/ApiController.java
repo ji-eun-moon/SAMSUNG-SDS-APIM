@@ -2,9 +2,13 @@ package com.lego.apiservice.api.controller;
 
 import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.entity.dto.response.*;
-import org.springframework.data.repository.query.Param;
+import com.lego.apiservice.api.service.ApiService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,90 +20,42 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/apis")
+@RequiredArgsConstructor
+@Tag(name = "API", description = "API 정보 관련")
 public class ApiController {
 
-    // 전체 api 리스트 조회 categoryId을 통해 조회
-    @GetMapping("/all")
-    public ResponseEntity<?> findApiByCategory(@RequestParam(name = "categoryId") Long categoryId) {
-        List<CategoryApiResponse> categoryApiResponseList = new ArrayList<>();
-        categoryApiResponseList.add(new CategoryApiResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-        categoryApiResponseList.add(new CategoryApiResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-        categoryApiResponseList.add(new CategoryApiResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
+    private final ApiService apiService;
 
-        return ResponseEntity.ok(categoryApiResponseList);
-    }
-
-    // 사용중 api 리스트 조회
-    @GetMapping("/use")
-    public ResponseEntity<?> useApi(@RequestParam(name = "teamId") Long teamId,
-                                    @RequestParam(name = "categoryId") Long categoryId) {
-        List<CategoryApiResponse> categoryApiResponseList = new ArrayList<>();
-        categoryApiResponseList.add(new CategoryApiResponse("맛집 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-        categoryApiResponseList.add(new CategoryApiResponse("병원 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-        categoryApiResponseList.add(new CategoryApiResponse("약국 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-
-        return ResponseEntity.ok(categoryApiResponseList);
-    }
-
-    // 제공중 api 리스트 조회
-    @GetMapping("/provide")
-    public ResponseEntity<?> provideApi(@RequestParam(name = "teamId") Long teamId,
-                                    @RequestParam(name = "categoryId") Long categoryId) {
-        List<CategoryApiResponse> categoryApiResponseList = new ArrayList<>();
-        categoryApiResponseList.add(new CategoryApiResponse("맛집 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-        categoryApiResponseList.add(new CategoryApiResponse("병원 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-        categoryApiResponseList.add(new CategoryApiResponse("약국 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L));
-
-        return ResponseEntity.ok(categoryApiResponseList);
-    }
-
-    // api 상세 조회
     @GetMapping("/detail")
-    public ResponseEntity<?> apiDetail(@RequestParam(name = "apiId") Long apiId) {
-        return ResponseEntity.ok(new ApiDetailResponse());
+    @Operation(summary = "api 상세 조회")
+    public ResponseEntity<?> apiDetail(@RequestParam(name = "apiId") Long apiId, @RequestParam(name = "teamName") String teamName) {
+        return ResponseEntity.ok(apiService.apiDetail(apiId, teamName));
     }
 
-    // api 테스트 조회
     @GetMapping("/test")
+    @Operation(summary = "api 테스트 조회")
     public ResponseEntity<?> apiTest(@RequestParam(name = "apiId") Long apiId) {
-        return ResponseEntity.ok(new ApiTestResponse());
+        return ResponseEntity.ok(apiService.apiTest(apiId));
     }
 
-    // api 검색
     @GetMapping("/search")
-    public ResponseEntity<?> apiSearch(@RequestParam(name = "apiName") String apiName) {
-        List<ApiSearchResponse> apiSearchResponses = new ArrayList<>();
-        apiSearchResponses.add(new ApiSearchResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L, "다음 검색하기", 2L));
-        apiSearchResponses.add(new ApiSearchResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L, "다음 검색하기", 2L));
-        apiSearchResponses.add(new ApiSearchResponse("밤톨이 건강상테 조회하기", "https://k9c201.p.ssafy.io/api/bamtol/health-check",
-                1L, "다음 검색하기", 2L));
-
-        return ResponseEntity.ok(apiSearchResponses);
+    @Operation(summary = "api 검색")
+    public ResponseEntity<?> apiSearch(@RequestParam(name = "apiName", required = false) String apiName) {
+        if (apiName == null) {
+            return ResponseEntity.ok(apiService.apiAll());
+        } else {
+            return ResponseEntity.ok(apiService.apiSearch(apiName));
+        }
     }
 
-    // api 상태 조회 - 필터 api이름, 상태, 페이지 네이션, 전체 페이지
     @GetMapping("/status")
-    public ResponseEntity<?> apiStatus(@RequestParam(name = "apiName", required = false) String apiName) {
-        List<ApiStatusResponse> apiStatusResponses = new ArrayList<>();
-        apiStatusResponses.add(new ApiStatusResponse("점심메뉴조히", "https:/~~", 1L, "나의 카테고리", 1L,
-                ApiStatus.정상, LocalDateTime.now(), 0.123456));
-        apiStatusResponses.add(new ApiStatusResponse("점심메뉴조히", "https:/~~", 1L, "나의 카테고리", 1L,
-                ApiStatus.정상, LocalDateTime.now(), 0.123456));
-        apiStatusResponses.add(new ApiStatusResponse("점심메뉴조히", "https:/~~", 1L, "나의 카테고리", 1L,
-                ApiStatus.정상, LocalDateTime.now(), 0.123456));
-
-        ApiStatusListResponse apiStatusListResponse = new ApiStatusListResponse(apiStatusResponses, 1, 2);
-        return ResponseEntity.ok(apiStatusListResponse);
+    @Operation(summary = "api 상태 조회 - 이름, 상태, 페이지 네이션")
+    public ResponseEntity<?> apiStatus(@RequestParam(name = "status", required = false) ApiStatus status,
+                                       Pageable pageable) {
+        if (status == null) {
+            return ResponseEntity.ok(apiService.apiStatusAll(pageable));
+        } else {
+            return ResponseEntity.ok(apiService.apiStatusByStatus(status, pageable));
+        }
     }
 }

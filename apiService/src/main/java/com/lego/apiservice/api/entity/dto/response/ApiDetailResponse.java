@@ -1,5 +1,6 @@
 package com.lego.apiservice.api.entity.dto.response;
 
+import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +14,28 @@ public class ApiDetailResponse {
     private Long apiId;
     private String endpoint;
     private String input;
-    private String inputExample;
     private String output;
     private String outputExample;
     private String title;
     private String content;
     private ApiMethod method;
+    private Long categoryId;
 
-    // 사용 가능 하면 true
     private boolean availableCheck;
+
+    public ApiDetailResponse(Api api) {
+        this.apiId = api.getId();
+        this.endpoint = api.getEndpoint();
+        this.input = api.getInput();
+        this.output = api.getOutput();
+        this.outputExample = api.getOutputExample();
+        this.title = api.getTitle();
+        this.content = api.getContent();
+        this.method = api.getApiMethod();
+        this.categoryId = api.getCategory().getId();
+    }
+
+    public void setAvailableCheck(boolean check) {
+        this.availableCheck = check;
+    }
 }
