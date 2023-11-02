@@ -13,14 +13,19 @@ import StyledButton from '@/components/atoms/StyledButton';
 import PageLoading from '@/components/atoms/PageLoading';
 import useStore from '@/hooks/useStore';
 import useUserStore from '@/store/useUserStore';
+import Modal from '@/components/organisms/Modal';
+import TextArea from '@/components/atoms/TextArea';
+import { useState } from 'react';
+import shouldShowApplyButton from '@/utils/category';
 
 type SSGProps = {
-  // category: ICategory;
   openCategory: number;
   openMyCategory: number;
 };
 
 const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textWord, setTextWord] = useState('');
   const selectedTeam = useStore(useUserStore, (state) => state.selectedTeam);
   const router = useRouter();
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
@@ -55,42 +60,79 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
     return null;
   }
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const useApplySubmit = () => {
+    // 사용 신청 로직
+  };
+
   return (
-    <BothLayout>
-      {/* Side Nav */}
-      <ApiSideBar
-        useCategoryList={useCategoryList}
-        provideCategoryList={provideCategoryList}
-        openCategory={openCategory}
-        categoryList={categoryList}
-        defaultSelectedKey={(router.query.defaultSelectedKey as string) || 'all'}
-        openMyCategory={openMyCategory}
-      />
-      {/* Page Content */}
-      <CategoryLayout>
-        <GoBack label={category?.categoryName} />
-        <ShadowCard type="small">
-          <div className="m-3">
-            <div>{category?.description}</div>
-            <div className="flex justify-end">
-              <div className="w-fit">
-                <StyledButton type="button" label="사용 신청하기" radius="lg" variant="solid" onClick={() => {}} />
+    <div>
+      <BothLayout>
+        {/* Side Nav */}
+        <ApiSideBar
+          useCategoryList={useCategoryList}
+          provideCategoryList={provideCategoryList}
+          openCategory={openCategory}
+          categoryList={categoryList}
+          defaultSelectedKey={(router.query.defaultSelectedKey as string) || 'all'}
+          openMyCategory={openMyCategory}
+        />
+        {/* Page Content */}
+        <CategoryLayout>
+          <GoBack label={category?.categoryName} />
+          <ShadowCard type="small">
+            <div className="m-3">
+              <div>{category?.description}</div>
+              <div className="flex justify-end">
+                {shouldShowApplyButton(category, useCategoryList, provideCategoryList) && (
+                  <div className="w-fit">
+                    <StyledButton
+                      type="button"
+                      label="사용 신청하기"
+                      radius="lg"
+                      variant="solid"
+                      onClick={() => setIsModalOpen(true)}
+                    />
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </ShadowCard>
-        {category?.apiList?.map((api) => (
-          <div className="my-3">
-            <ApiCard
-              key={api.apiId}
-              title={api.apiName}
-              address={api.apiAddress}
-              onClick={() => router.push(`/apis/${api.apiId}/detail`)}
+          </ShadowCard>
+          {category?.apiList?.map((api) => (
+            <div className="my-3">
+              <ApiCard
+                key={api.apiId}
+                title={api.apiName}
+                address={api.apiAddress}
+                onClick={() => router.push(`/apis/${api.apiId}/detail`)}
+              />
+            </div>
+          ))}
+        </CategoryLayout>
+      </BothLayout>
+      {isModalOpen && (
+        <Modal
+          type="custom"
+          title="API 사용 신청"
+          onClose={closeModal}
+          buttonLabel="신청하기"
+          onButton={useApplySubmit}
+        >
+          <div className="my-5" style={{ width: '500px' }}>
+            <TextArea
+              width="w-full"
+              backgroundColor="#ffffff"
+              textAreaWord={textWord}
+              placeholder="신청 내용을 입력하세요."
+              onChange={setTextWord}
             />
           </div>
-        ))}
-      </CategoryLayout>
-    </BothLayout>
+        </Modal>
+      )}
+    </div>
   );
 };
 
