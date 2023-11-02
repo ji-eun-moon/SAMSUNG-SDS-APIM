@@ -1,4 +1,4 @@
-package com.itda.memberservice.memberteam.repository;
+package com.itda.memberservice.memberTeam.repository;
 
 import com.itda.memberservice.memberteam.entity.MemberTeam;
 import org.springframework.data.jpa.repository.JpaRepository;
