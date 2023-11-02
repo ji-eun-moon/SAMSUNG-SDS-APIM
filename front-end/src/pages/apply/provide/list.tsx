@@ -44,7 +44,6 @@ const ProvideList: NextPage<SSRProps> = ({ lists, totalPage, isUser }: SSRProps)
 
   return (
     <BothLayout>
-      <div>Top Nav 들어갈 부분</div>
       <ApplySideBar isUser={isUser} />
       <div className={`${style.listContainer}`}>
         <GoBack label="API 제공 신청 내역" />

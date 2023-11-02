@@ -12,5 +12,17 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/category/:path*', '/', '/apis/search'],
+  matcher: [
+    '/',
+    '/apis/search',
+    '/apis/:path*',
+    '/apply/:path*',
+    '/category/:path*',
+    '/member/:path*',
+    '/notice/:path*',
+    '/statistics/:path*',
+    '/loadtest',
+    '/monitoring',
+    '/mypage',
+  ],
 };

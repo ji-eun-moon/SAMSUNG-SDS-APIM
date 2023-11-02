@@ -1,6 +1,4 @@
 import React from 'react';
-import { IUser } from '@/types/User';
-import NavBar from '@/components/organisms/NavBar';
 import style from '@/styles/MainPage.module.scss';
 import SideLayout from '@/components/templates/SideLayout';
 import ShortCuts from '@/components/organisms/ShortCuts';
@@ -12,15 +10,9 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getCategoryList } from '@/utils/axios/api';
 import { TCategoryList } from '@/types/Api';
-import PageLoading from '@/components/atoms/PageLoading';
 
 const Home: NextPage = () => {
-  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
-
-  if (!userInfo) {
-    return <PageLoading />;
-  }
 
   let firstCategory = 0;
   if (categoryList) {
@@ -30,7 +22,6 @@ const Home: NextPage = () => {
   return (
     <main>
       <SideLayout>
-        <NavBar position="side" userInfo={userInfo} noticeCnt="6" firstCategory={firstCategory} />
         <div className={`${style.pageContainer}`}>
           {/* 바로가기 탭 */}
           <ShortCuts firstCategory={firstCategory} />

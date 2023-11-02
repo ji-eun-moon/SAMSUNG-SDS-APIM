@@ -89,7 +89,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
               <div>
                 <div className={`${style.inputTitle}`}>타겟 서버</div>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <SelectBox list={['http', 'https']} width="w-32" onChange={() => {}} defaultSelect="http" />
+                  <SelectBox list={['http', 'https']} width="w-32" onChange={() => {}} />
                   <Input
                     backgroundColor="#ffffff"
                     isPassword={false}
