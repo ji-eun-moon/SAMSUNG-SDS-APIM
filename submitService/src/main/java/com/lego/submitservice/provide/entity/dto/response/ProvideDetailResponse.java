@@ -33,7 +33,7 @@ public class ProvideDetailResponse {
         this.teamName = provide.getTeamName();
         this.createdAt = provide.getCreatedAt();
         this.state = provide.getState();
-        this.applyType = getApplyType();
+        this.applyType = provide.getApplyType();
         this.modifiedAt = provide.getModifiedAt();
         this.denyReason = provide.getDenyReason();
         this.apiDocs = provide.getEndpoint() + "/swagger-ui/index.html";
