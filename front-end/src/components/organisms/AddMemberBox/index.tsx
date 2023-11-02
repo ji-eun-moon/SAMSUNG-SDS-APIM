@@ -1,10 +1,12 @@
 import React, { useState, DragEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
 import Papa from 'papaparse';
+import { useRouter } from 'next/router';
 import { HeaderMapping } from '@/types/User';
 import { createMembers } from '@/utils/axios/user';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
+// import Modal from '@/components/organisms/Modal';
 import MemberTable from '@/components/atoms/MemberTable';
 import ToolTip from '@/components/atoms/ToolTip';
 import styles from './AddMemberBox.module.scss';
@@ -28,10 +30,13 @@ const Cancel = () => (
 );
 
 export default function MemberAdd() {
+  const router = useRouter();
   const [isActive, setActive] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [header, setHeader] = useState<string[]>([]);
   const [body, setBody] = useState<string[][]>([]);
+  // const [modalContent, ]
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
@@ -127,7 +132,11 @@ export default function MemberAdd() {
         return null;
       })
       .filter(Boolean);
-    createMembers(mappedData);
+
+    const res = await createMembers(mappedData);
+    if (res === '회원등록이 완료되었습니다.') {
+      router.push(`/member/list`);
+    }
   };
 
   return (

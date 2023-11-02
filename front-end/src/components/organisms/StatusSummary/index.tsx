@@ -1,12 +1,36 @@
 import ShadowCard from '@/components/atoms/ShadowCard';
+import { IApiStatusList } from '@/types/Api';
+import { useRouter } from 'next/router';
+import Status from '@/components/atoms/Status';
 import style from '@/styles/MainPage.module.scss';
 
-function StatusSummary() {
+interface StatusSummaryProps {
+  statusList: IApiStatusList;
+}
+
+function StatusSummary({ statusList }: StatusSummaryProps) {
+  const { apiStatusResponses, page, totalPage } = statusList;
+  console.log(page, totalPage, '확인');
+  const router = useRouter();
+
+  const formatUpdatedAt = (dateString: Date) => {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
   return (
     <div>
       <div className={style.partTop}>
         <span className={`${style.partTitle}`}>API 상태 확인</span>
-        <span className={style.goDetail}>
+        <button type="button" className={style.goDetail} onClick={() => router.push('/apis/status')}>
           상세보기
           <svg
             className="w-3 h-3 pl-2 text-gray-500 dark:text-white"
@@ -23,31 +47,34 @@ function StatusSummary() {
               d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1"
             />
           </svg>
-        </span>
+        </button>
       </div>
       <div className={`${style.thirdPart}`}>
         <ShadowCard type="small">
           <div className={style.contents}>
-            <div className={style.thirdContent}>
-              <div className={style.thirdInContent} style={{ justifyContent: 'start', paddingLeft: '30px' }}>
-                잔액 조회 API
+            {apiStatusResponses.map((status, index) => (
+              <div
+                key={status.apiId}
+                style={{ margin: '0 10px', padding: index === apiStatusResponses.length - 1 ? '8px 0' : '' }}
+                className={`${style.thirdContent} ${index !== apiStatusResponses.length - 1 ? style.divider : ''}`}
+              >
+                <div className={style.thirdInContent} style={{ justifyContent: 'start', paddingLeft: '8px' }}>
+                  {status.apiName}
+                </div>
+                <span className={style.thirdInContent}>
+                  <div className="flex items-center justify-center">
+                    <Status status={status.apiStatus} />
+                    <div className="ml-2">{status.apiStatus}</div>
+                  </div>
+                </span>
+                <span className={style.thirdInContent}>&nbsp;</span>
+                <span className={style.thirdInContent}>{status.responseTime}ms</span>
+                <span className={style.thirdInContent}>&nbsp;</span>
+                <span className={style.thirdInContent} style={{ paddingRight: '8px' }}>
+                  {formatUpdatedAt(status.updatedAt)}
+                </span>
               </div>
-              <span className={style.thirdInContent}>🟢정상</span>
-              <span className={style.thirdInContent}>|</span>
-              <span className={style.thirdInContent}>2738ms</span>
-              <span className={style.thirdInContent}>|</span>
-              <span className={style.thirdInContent}>2023-10-16 08:15:25</span>
-            </div>
-            <div className={style.thirdContent}>
-              <div className={style.thirdInContent} style={{ justifyContent: 'start', paddingLeft: '30px' }}>
-                계좌 실행 조회 API
-              </div>
-              <span className={style.thirdInContent}>🔴오류</span>
-              <span className={style.thirdInContent}>|</span>
-              <span className={style.thirdInContent}>2738ms</span>
-              <span className={style.thirdInContent}>|</span>
-              <span className={style.thirdInContent}>2023-10-16 08:15:25</span>
-            </div>
+            ))}
           </div>
         </ShadowCard>
       </div>

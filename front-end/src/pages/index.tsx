@@ -6,29 +6,28 @@ import ApplySummary from '@/components/organisms/ApplySummary';
 import StatusSummary from '@/components/organisms/StatusSummary';
 import { NextPage, GetServerSideProps } from 'next';
 import { getUserInfo } from '@/utils/axios/user';
+import PageLoading from '@/components/atoms/PageLoading';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { getCategoryList } from '@/utils/axios/api';
-import { TCategoryList } from '@/types/Api';
+import { getCategoryList, getApiStatus } from '@/utils/axios/api';
+import { IApiStatusList } from '@/types/Api';
 
 const Home: NextPage = () => {
-  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
+  const { data: apiStatus } = useQuery<IApiStatusList>('apiStatus', getApiStatus);
 
-  let firstCategory = 0;
-  if (categoryList) {
-    firstCategory = categoryList[0]?.categoryId || 0;
+  if (!apiStatus) {
+    return <PageLoading />;
   }
-
   return (
     <main>
       <SideLayout>
         <div className={`${style.pageContainer}`}>
           {/* 바로가기 탭 */}
-          <ShortCuts firstCategory={firstCategory} />
+          <ShortCuts />
           {/* API 신청 내역 */}
           <ApplySummary />
           {/* API 상태 */}
-          <StatusSummary />
+          <StatusSummary statusList={apiStatus} />
         </div>
       </SideLayout>
     </main>
@@ -39,6 +38,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery('userInfo', getUserInfo);
   await queryClient.prefetchQuery('categoryList', getCategoryList);
+  const apiStatus = await getApiStatus();
+  queryClient.setQueryData('apiStatus', apiStatus);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),

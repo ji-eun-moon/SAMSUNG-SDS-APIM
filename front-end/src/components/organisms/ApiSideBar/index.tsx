@@ -19,18 +19,18 @@ function ApiSideBar({
         <Tab key="all" title="전체 API">
           <SearchBar onSearchHandler={() => {}} placeholder="API 검색" />
           <div className="my-5">
-            <CategoryList categoryList={categoryList} openCategory={openCategory} />
+            <CategoryList categoryList={categoryList} openCategory={openCategory} my={false} />
           </div>
         </Tab>
         <Tab key="my" title="MY API">
           <SearchBar onSearchHandler={() => {}} placeholder="API 검색" />
           <div className="mt-5">
             <div className="font-medium itdaText my-2">사용 API</div>
-            <CategoryList categoryList={useCategoryList} openCategory={openMyCategory} />
+            <CategoryList categoryList={useCategoryList} openCategory={openMyCategory} my />
           </div>
           <div className="mt-5">
             <div className="font-medium itdaText my-2">제공 API</div>
-            <CategoryList categoryList={provideCategoryList} openCategory={-1} />
+            <CategoryList categoryList={provideCategoryList} openCategory={-1} my />
           </div>
         </Tab>
       </Tabs>

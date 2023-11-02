@@ -12,13 +12,11 @@ import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
 import Link from 'next/link';
-import useStore from '@/hooks/useStore';
 import styles from './NavBar.module.scss';
 
 function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | TopNavBarProps) {
   const router = useRouter();
-  const { setSelectedTeam } = useUserStore();
-  const selectedTeam = useStore(useUserStore, (state) => state.selectedTeam);
+  const { selectedTeam, setSelectedTeam } = useUserStore();
 
   const handleSelectTeam = (team: string) => {
     setSelectedTeam(team);
@@ -32,7 +30,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
   const teamList = userInfo?.teams?.map((team) => team.teamName);
 
   useEffect(() => {
-    if (teamList && teamList.length > 0 && !selectedTeam) {
+    if (!selectedTeam) {
       setSelectedTeam(teamList[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +40,9 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
     const { firstCategory } = props as SideNavBarProps;
     return (
       <div className={styles.navSideBody}>
-        <LogoWithName />
+        <button type="button" onClick={() => router.push('/')}>
+          <LogoWithName />
+        </button>
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">
@@ -73,7 +73,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
               <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
               {teamList && (
                 <div className="col-span-3 itdaText flex items-center w-9/12">
-                  <SelectBox list={teamList} onChange={handleSelectTeam} />
+                  <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} />
                 </div>
               )}
             </div>
@@ -127,7 +127,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           {/* 팀 선택 */}
           {teamList && (
             <div className="mr-10">
-              <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" />
+              <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
             </div>
           )}
           {/* 프로필 이미지 */}

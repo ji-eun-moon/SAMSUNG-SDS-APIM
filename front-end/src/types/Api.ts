@@ -52,14 +52,19 @@ export interface IApiSearch {
 
 export type IApiSearchList = IApiSearch[];
 
-interface IApiStatus {
+export interface IApiStatus {
   apiId: number;
   apiName: string;
   categoryId: number;
   categoryName: string;
   responseTime: number;
   updatedAt: Date;
+  apiAddress: string;
   apiStatus: '정상' | '점검' | '오류';
 }
 
-export type IApiStatusList = IApiStatus[];
+export interface IApiStatusList  {
+  apiStatusResponses: IApiStatus[];
+  page: number;
+  totalPage: number;
+}
