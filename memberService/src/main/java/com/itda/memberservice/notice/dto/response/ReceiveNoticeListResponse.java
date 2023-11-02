@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UnReadNoticeResponse {
+public class ReceiveNoticeListResponse {
 
     private Long noticeId;
     private Long memberId;
+    private String title;
     private String senderName;
     private String senderImage;
-    private String title;
     private LocalDateTime createdAt;
+    private boolean isRead;
 
 }
