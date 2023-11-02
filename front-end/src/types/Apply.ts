@@ -12,16 +12,25 @@ export interface IUseApply {
 }
 
 export interface IProvide {
-  provideId: number;
-  applyType: '신규' | '변경';
+  provideId: string | number;
+  applyType: '신규' | '변경' | string;
   serverName: string;
   teamName: string;
   providerName: string;
   createdAt: Date;
-  state: '승인' | '대기' | '거절';
+  state: '승인' | '대기' | '거절' | string;
 }
 
 export type TProvideList = IProvide[];
+
+export interface IResponseProvide {
+  content: TProvideList;
+  totalPages: number;
+}
+
+export interface IProvideId {
+  provideId: number;
+}
 
 export interface IUse {
   useApplyId: number;
