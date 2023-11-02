@@ -1,4 +1,4 @@
-package com.itda.memberservice.memberteam.repository;
+package com.itda.memberservice.memberTeam.repository;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
