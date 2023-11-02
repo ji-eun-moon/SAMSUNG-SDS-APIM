@@ -94,7 +94,7 @@ public class MemberController {
 
             // 아이디 없거나 비밀번호 틀린경우 오류 메시지 반환
             log.error("로그인 실패");
-            return ResponseEntity.ok(e.getMessage());
+            return ResponseEntity.status(401).body(e.getMessage());
 
         }
 
