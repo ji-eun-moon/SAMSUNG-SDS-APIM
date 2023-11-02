@@ -72,6 +72,10 @@ dependencies {
 
     // 스프링 클라우드 버스
     implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp:4.0.1'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
 }
 
 dependencyManagement {
