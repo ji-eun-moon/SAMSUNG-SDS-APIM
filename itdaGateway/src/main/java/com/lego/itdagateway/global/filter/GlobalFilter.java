@@ -1,4 +1,4 @@
-package com.lego.itdagateway.global.config;
+package com.lego.itdagateway.global.filter;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,6 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
             ServerHttpResponse response = exchange.getResponse();
 
             log.info("Global Pre Filter : request id -> {}", config.getBaseMessage());
-            log.info(key);
 
             if (config.isPreLogger()) {
                 log.info("Global Filter Start : request id -> {}", request.getId());

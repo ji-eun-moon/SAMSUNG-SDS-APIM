@@ -2,6 +2,12 @@ server:
   port: 8000
 
 spring:
+  data:
+    redis:
+      password: itda1235!@#%
+      port: '6379'
+      host: k9c201.p.ssafy.io
+
   application:
     name: gateway-service
   profiles:
@@ -90,3 +96,8 @@ management:
     web:
       exposure:
         include: refresh, health, beans, httpExchanges, busRefresh
+
+security:
+  jwt:
+    secret:
+      key: c201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itda
