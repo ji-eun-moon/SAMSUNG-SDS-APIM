@@ -18,7 +18,7 @@ function GoBack({ label }: IProps) {
         className="cursor-pointer"
         style={{ width: '18px', height: '18px' }}
       />
-      <p className="text-2xl font-semibold itdaText">{label}</p>
+      <div className="text-2xl font-semibold itdaText">{label}</div>
     </div>
   );
 }
