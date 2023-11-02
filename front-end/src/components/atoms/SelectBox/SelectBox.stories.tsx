@@ -14,9 +14,6 @@ export default {
     onChange: {
       description: '클릭시 실행할 함수',
     },
-    defaultSelect: {
-      description: '기본 선택 값',
-    },
   },
 };
 

@@ -12,11 +12,13 @@ import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
 import Link from 'next/link';
+import useStore from '@/hooks/useStore';
 import styles from './NavBar.module.scss';
 
 function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | TopNavBarProps) {
   const router = useRouter();
-  const { selectedTeam, setSelectedTeam } = useUserStore();
+  const { setSelectedTeam } = useUserStore();
+  const selectedTeam = useStore(useUserStore, (state) => state.selectedTeam);
 
   const handleSelectTeam = (team: string) => {
     setSelectedTeam(team);
@@ -33,7 +35,8 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
     if (teamList && teamList.length > 0 && !selectedTeam) {
       setSelectedTeam(teamList[0]);
     }
-  }, [setSelectedTeam, teamList, selectedTeam]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (position === 'side') {
     const { firstCategory } = props as SideNavBarProps;
@@ -70,7 +73,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
               <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
               {teamList && (
                 <div className="col-span-3 itdaText flex items-center w-9/12">
-                  <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} />
+                  <SelectBox list={teamList} onChange={handleSelectTeam} />
                 </div>
               )}
             </div>
@@ -124,7 +127,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           {/* 팀 선택 */}
           {teamList && (
             <div className="mr-10">
-              <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
+              <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" />
             </div>
           )}
           {/* 프로필 이미지 */}
@@ -135,7 +138,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
             <div className="itdaText text-left font-semibold">{userInfo?.name}</div>
             <div className="flex itdaSecondary">
-              <div>{userInfo?.department}</div>&nbsp;|&nbsp;
+              <div>{userInfo?.department}</div>
             </div>
           </button>
           <div className={styles.updown} />
