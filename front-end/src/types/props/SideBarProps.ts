@@ -12,6 +12,7 @@ export interface ApiSideBarProps {
 export interface CategoryListProps {
   categoryList: TCategoryList;
   openCategory: number;
+  my: boolean;
 }
 
 export interface IFilterCondition {

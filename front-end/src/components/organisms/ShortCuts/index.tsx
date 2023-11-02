@@ -1,13 +1,23 @@
 import ShadowCard from '@/components/atoms/ShadowCard';
 import Image from 'next/image';
 import style from '@/styles/MainPage.module.scss';
-import Link from 'next/link';
+import { TCategoryList } from '@/types/Api';
+import { useQuery } from 'react-query';
+import { getCategoryList } from '@/utils/axios/api';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Modal from '../Modal';
 
-interface Props {
-  firstCategory: number;
-}
+function ShortCuts() {
+  const router = useRouter();
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
 
-function ShortCuts({ firstCategory }: Props) {
+  let firstCategory = 0;
+  if (categoryList) {
+    firstCategory = categoryList[0]?.categoryId || 0;
+  }
+
   const urlList = {
     ApiStatus: `/apis/status`,
     statistics: `/statistics/${firstCategory}`,
@@ -16,13 +26,18 @@ function ShortCuts({ firstCategory }: Props) {
     allApi: `/category/${firstCategory}`,
   };
 
+  const closeModal = () => {
+    setAlertOpen(false);
+  };
+
   return (
     <div>
+      {alertOpen && <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={closeModal} />}
       <div className={style.partTop}>
         <span className={`${style.partTitle}`}>바로가기</span>
       </div>
       <div className={`${style.firstPart}`}>
-        <Link href={urlList.ApiStatus}>
+        <div onClick={() => router.push(urlList.ApiStatus)} aria-hidden>
           <div className={style.cardContainer}>
             <ShadowCard type="small">
               <div className={style.imgContainer}>
@@ -31,9 +46,18 @@ function ShortCuts({ firstCategory }: Props) {
             </ShadowCard>
             <p className={style.cardtitle}>API 상태</p>
           </div>
-        </Link>
+        </div>
 
-        <Link href={urlList.statistics}>
+        <div
+          onClick={() => {
+            if (firstCategory === 0) {
+              setAlertOpen(true);
+            } else {
+              router.push(urlList.statistics);
+            }
+          }}
+          aria-hidden
+        >
           <div className={style.cardContainer}>
             <ShadowCard type="small">
               <div className={style.imgContainer}>
@@ -42,9 +66,9 @@ function ShortCuts({ firstCategory }: Props) {
             </ShadowCard>
             <p className={style.cardtitle}>통계</p>
           </div>
-        </Link>
+        </div>
 
-        <Link href={urlList.monitoring}>
+        <div onClick={() => router.push(urlList.monitoring)} aria-hidden>
           <div className={style.cardContainer}>
             <ShadowCard type="small">
               <div className={style.imgContainer}>
@@ -59,9 +83,9 @@ function ShortCuts({ firstCategory }: Props) {
             </ShadowCard>
             <p className={style.cardtitle}>서버 모니터링</p>
           </div>
-        </Link>
+        </div>
 
-        <Link href={urlList.applyList}>
+        <div onClick={() => router.push(urlList.applyList)} aria-hidden>
           <div className={style.cardContainer}>
             <ShadowCard type="small">
               <div className={style.imgContainer}>
@@ -70,9 +94,18 @@ function ShortCuts({ firstCategory }: Props) {
             </ShadowCard>
             <p className={style.cardtitle}>신청내역</p>
           </div>
-        </Link>
+        </div>
 
-        <Link href={urlList.allApi}>
+        <div
+          onClick={() => {
+            if (firstCategory === 0) {
+              setAlertOpen(true);
+            } else {
+              router.push(urlList.allApi);
+            }
+          }}
+          aria-hidden
+        >
           <div className={style.cardContainer}>
             <ShadowCard type="small">
               <div className={style.imgContainer}>
@@ -81,7 +114,7 @@ function ShortCuts({ firstCategory }: Props) {
             </ShadowCard>
             <p className={style.cardtitle}>API 목록</p>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );
