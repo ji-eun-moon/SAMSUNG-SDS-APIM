@@ -22,6 +22,12 @@ spring:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
+  data:
+    redis:
+      password: itda1235!@#%
+      port: '6379'
+      host: k9c201.p.ssafy.io
+
 logging:
   level:
     org.hibernate.SQL: debug

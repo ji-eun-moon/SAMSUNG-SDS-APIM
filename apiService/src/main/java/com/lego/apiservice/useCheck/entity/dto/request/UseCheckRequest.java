@@ -1,4 +1,4 @@
-package com.lego.apiservice.using.entity.dto.request;
+package com.lego.apiservice.useCheck.entity.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

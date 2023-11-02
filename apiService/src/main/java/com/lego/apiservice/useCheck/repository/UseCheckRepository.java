@@ -1,6 +1,6 @@
-package com.lego.apiservice.using.repository;
+package com.lego.apiservice.useCheck.repository;
 
-import com.lego.apiservice.using.entity.domain.UseCheck;
+import com.lego.apiservice.useCheck.entity.domain.UseCheck;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

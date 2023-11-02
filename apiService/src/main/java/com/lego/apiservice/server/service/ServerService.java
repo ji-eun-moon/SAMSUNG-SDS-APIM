@@ -7,6 +7,7 @@ import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.entity.domain.Category;
 import com.lego.apiservice.category.repository.CategoryRepository;
+import com.lego.apiservice.redis.service.RedisService;
 import com.lego.apiservice.server.dto.request.CreateServerRequest;
 import com.lego.apiservice.server.dto.request.ParameterInfo;
 import com.lego.apiservice.server.entity.Server;
@@ -41,6 +42,7 @@ public class ServerService {
     private final ServerRepository serverRepository;
     private final CategoryRepository categoryRepository;
     private final ApiRepository apiRepository;
+    private final RedisService redisService;
 
     @Transactional
     public void register(CreateServerRequest createServerRequest) {
@@ -187,8 +189,8 @@ public class ServerService {
                     Schema schema = (Schema) value;
                     output.add(new ParameterInfo(key.toString(), schema.getDescription(), String.valueOf(schema.getExample()), schema.getType()));
                 });
-
-                apiRepository.save(Api.builder()
+                Category category = categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow();
+                Api saveApi = apiRepository.save(Api.builder()
                                 .title(pathItem.getGet().getSummary())
                                 .content(pathItem.getGet().getDescription())
                                 .input(parameterInfoList.toString().replace("ParameterInfo", "")
@@ -203,9 +205,12 @@ public class ServerService {
                                 .endpoint(itdaEndpoint+uri)
                                 .apiMethod(ApiMethod.GET)
                                 .apiStatus(apiStatus)
-                                .category(categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow())
+                                .category(category)
                                 .responseTime(status.get("diff"))
                         .build());
+
+                redisService.setValue(itdaEndpoint.replace("https://k9c201.p.ssafy.io/api", "") + uri,
+                        String.valueOf(category.getId()));
             }
 
         });

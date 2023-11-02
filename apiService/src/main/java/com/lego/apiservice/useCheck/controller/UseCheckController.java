@@ -1,7 +1,8 @@
-package com.lego.apiservice.using.controller;
+package com.lego.apiservice.useCheck.controller;
 
-import com.lego.apiservice.using.entity.dto.request.UseCheckRequest;
-import com.lego.apiservice.using.service.UseCheckService;
+import com.lego.apiservice.global.exception.BusinessLogicException;
+import com.lego.apiservice.useCheck.entity.dto.request.UseCheckRequest;
+import com.lego.apiservice.useCheck.service.UseCheckService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class UseCheckController {
     private final UseCheckService useCheckService;
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> register(@RequestBody UseCheckRequest useCheckRequest) {
+    public ResponseEntity<HttpStatus> register(@RequestBody UseCheckRequest useCheckRequest) throws BusinessLogicException {
         useCheckService.register(useCheckRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
     }

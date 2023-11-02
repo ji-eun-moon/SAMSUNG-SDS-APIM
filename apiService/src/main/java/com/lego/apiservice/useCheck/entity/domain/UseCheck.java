@@ -1,4 +1,4 @@
-package com.lego.apiservice.using.entity.domain;
+package com.lego.apiservice.useCheck.entity.domain;
 
 import com.lego.apiservice.category.entity.domain.Category;
 import jakarta.persistence.*;
@@ -21,4 +21,6 @@ public class UseCheck {
     private Category category;
 
     private String teamName;
+
+    private String secretKey;
 }
