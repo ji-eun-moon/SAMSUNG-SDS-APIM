@@ -138,7 +138,7 @@ public class MemberService {
     public void sendEmailPassword(String email, String password) throws MessagingException {
 
         String setFrom = "victoryddh@google.com";
-        String title = "ITDA 비밀번호 안내드립니다.";
+        String title = "[ITDA] 임시 비밀번호 안내";
 
         MimeMessage message = javaMailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, email);
@@ -159,7 +159,7 @@ public class MemberService {
                 "     <br>  \n" +
                 "     <h4 style='font-weight: 600;'>인증 코드 오류가 생긴 경우 고객센터로 문의바랍니다</h4>";
 
-        message.setFrom();
+        message.setFrom(setFrom);
         message.setText(emailMsg, "utf-8", "html");
 
         javaMailSender.send(message);
