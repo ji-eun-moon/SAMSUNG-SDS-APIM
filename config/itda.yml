@@ -66,6 +66,7 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/submit/(?<segment>.*), /${segment}
             - AuthorizationHeaderFilter
+            - ServerAuthenticationFilter
 
         - id: api-service
           uri: lb://API-SERVICE
