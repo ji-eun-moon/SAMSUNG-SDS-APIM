@@ -33,6 +33,12 @@ public class Notice {
     @JoinColumn(name = "receiver_id", insertable = false, updatable = false)
     private Member receiver;
 
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean isSenderDeleted;
+
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean isReceiverDeleted;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

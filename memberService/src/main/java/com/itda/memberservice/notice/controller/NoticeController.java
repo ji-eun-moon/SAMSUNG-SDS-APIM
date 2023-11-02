@@ -1,5 +1,6 @@
 package com.itda.memberservice.notice.controller;
 
+import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.response.NoticeListResponse;
 import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
 import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
@@ -7,10 +8,7 @@ import com.itda.memberservice.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,19 @@ import java.util.List;
 public class NoticeController {
 
     private final NoticeService noticeService;
+
+    // 쪽지 보내기
+    @PostMapping("/send")
+    public ResponseEntity<String> sendNotice(@RequestHeader("member-id") String employeeId, @RequestBody NoticeCreateRequest request) {
+
+        log.info(("{NoticeController} : 쪽지 보내기 \n" +
+                "employeeId = " + employeeId));
+
+        noticeService.sendNotice(employeeId, request);
+
+        return ResponseEntity.ok("쪽지 보내는거 성공");
+
+    }
 
     // 안읽은 쪽지 개수 조회
     @GetMapping("/unread-count")

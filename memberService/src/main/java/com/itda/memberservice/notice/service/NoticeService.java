@@ -1,11 +1,15 @@
 package com.itda.memberservice.notice.service;
 
+import com.itda.memberservice.member.repository.MemberRepository;
+import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.response.NoticeListResponse;
 import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
 import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
+import com.itda.memberservice.notice.entity.Notice;
 import com.itda.memberservice.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 
@@ -14,6 +18,7 @@ import java.util.List;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final MemberRepository memberRepository;
 
     public long unreadNoticeCount(String employeeId) {
 
@@ -36,6 +41,26 @@ public class NoticeService {
     public List<NoticeListResponse> receiveAll(String employeeId) {
 
         return noticeRepository.receiveAll(employeeId);
+
+    }
+
+    public void sendNotice(String employeeId, NoticeCreateRequest request) {
+
+        for (Long memberId : request.getMemberIds()) {
+
+            noticeRepository.save(Notice.builder()
+                            .sender(memberRepository.findByEmployeeId(employeeId)
+                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다.")))
+                            .receiver(memberRepository.findById(memberId)
+                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다.")))
+                            .title(request.getTitle())
+                            .content(request.getContent())
+                            .isRead(false)
+                            .isSenderDeleted(false)
+                            .isReceiverDeleted(false)
+                    .build());
+
+        }
 
     }
 }
