@@ -48,7 +48,7 @@ public class MemberService {
         Member save = memberRepository.save(Member.builder()
                 .employeeId(request.getEmployeeId())
                 .name(request.getName())
-                .password(encoder.encode("randomPassword"))
+                .password(encoder.encode(randomPassword))
                 .imageUrl(request.getImageUrl())
                 .authority(request.getAuthority())
                 .department(request.getDepartment())
