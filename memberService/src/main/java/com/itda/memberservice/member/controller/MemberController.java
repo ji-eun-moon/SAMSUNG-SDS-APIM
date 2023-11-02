@@ -58,16 +58,18 @@ public class MemberController {
             Member member = memberService.register(request);
 
             // 리스트에 있는 팀 생성하거나 가져와서 멤버에 추가
-            for (String teamName : request.getTeamList()) {
+            if (request.getTeamList() != null) {
+                for (String teamName : request.getTeamList()) {
 
-                if (!StringUtils.hasText(teamName)) {
-                    continue;
+                    if (!StringUtils.hasText(teamName)) {
+                        continue;
+                    }
+
+                    Team team = teamService.registerTeamOrFind(teamName);
+
+                    memberTeamService.register(member, team);
+
                 }
-
-                Team team = teamService.registerTeamOrFind(teamName);
-
-                memberTeamService.register(member, team);
-
             }
 
         }

@@ -159,7 +159,7 @@ public class MemberService {
                 "     <br>  \n" +
                 "     <h4 style='font-weight: 600;'>인증 코드 오류가 생긴 경우 고객센터로 문의바랍니다</h4>";
 
-        message.setFrom(setFrom);
+        message.setFrom();
         message.setText(emailMsg, "utf-8", "html");
 
         javaMailSender.send(message);
