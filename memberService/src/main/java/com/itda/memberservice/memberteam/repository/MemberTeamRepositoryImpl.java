@@ -22,23 +22,9 @@ public class MemberTeamRepositoryImpl implements MemberTeamQueryRepository{
         return queryFactory
                 .select(memberTeam.count())
                 .from(memberTeam)
-                .where(
-                        memberTeam.member.memberId.eq(
-                                        JPAExpressions
-                                                .select(member.memberId)
-                                                .from(member)
-                                                .where(member.employeeId.eq(employeeId))
-                                                .fetchOne()
-                                )
-                                .and(memberTeam.team.name.eq(
-                                        JPAExpressions
-                                                .select(team.name)
-                                                .from(team)
-                                                .where(team.name.eq(teamName))
-                                                .fetchOne()
-                                ))
-                )
-                .fetchOne() != null;
+                .where(memberTeam.member.employeeId.eq(employeeId)
+                        .and(memberTeam.team.name.eq(teamName)))
+                .fetchFirst() > 0;
 
     }
 }

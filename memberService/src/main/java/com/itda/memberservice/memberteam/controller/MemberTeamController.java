@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member-team")
+@RequestMapping("/memberTeam")
 @Tag(name = "MEMBERTEAM", description = "회원-팀 통합 관련 API")
 @Slf4j
 public class MemberTeamController {
@@ -24,6 +24,8 @@ public class MemberTeamController {
     @GetMapping("/check")
     @Operation(summary = "회원-팀 체크", description = "해당 회원이 팀에 소속인지 여부 확인")
     public ResponseEntity<Boolean> check(@ModelAttribute MemberTeamCheckRequest request){
+
+        log.info("팀 이름: {} 및 직원 ID: {}를 사용한 요청 수신", request.getTeamName(), request.getEmployeeId());
 
         return ResponseEntity.ok(memberTeamService.check(request));
 
