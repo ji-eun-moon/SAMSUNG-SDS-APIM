@@ -53,6 +53,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .where(notice.isRead.eq(false)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
+                .orderBy(notice.createdAt.desc())
                 .fetch();
 
     }
@@ -75,6 +76,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .where(notice.isRead.eq(false)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
+                .orderBy(notice.createdAt.desc())
                 .fetch();
 
     }
@@ -97,6 +99,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .from(notice)
                 .leftJoin(notice.sender, member)
                 .where(notice.receiver.employeeId.eq(employeeId))
+                .orderBy(notice.createdAt.desc())
                 .fetch();
 
     }
@@ -121,6 +124,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                         notice.noticeId.eq(noticeId)
                                 .and(notice.receiver.employeeId.eq(employeeId))
                 )
+                .orderBy(notice.createdAt.desc())
                 .fetchOne();
 
     }
