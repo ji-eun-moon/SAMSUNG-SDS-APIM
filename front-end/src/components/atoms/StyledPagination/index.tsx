@@ -12,11 +12,6 @@ interface StyledPaginationProps {
  */
 
 function StyledPagination({ totalPage, clickPage, onClickPage }: StyledPaginationProps) {
-  // const handlePageClick = (event: React.ChangeEvent<HTMLButtonElement>) => {
-  //   console.log('zz', event);
-  //   const page = event.currentTarget.value;
-  //   onClickPage(page);
-  // };
   return (
     <div>
       <Pagination
@@ -24,13 +19,13 @@ function StyledPagination({ totalPage, clickPage, onClickPage }: StyledPaginatio
         disableCursorAnimation
         showControls
         total={totalPage}
-        initialPage={1}
+        initialPage={clickPage}
         page={clickPage}
         siblings={2}
         boundaries={0}
         dotsJump={totalPage}
         color="primary"
-        onChange={onClickPage}
+        onChange={(page) => onClickPage(page)}
       />
     </div>
   );
