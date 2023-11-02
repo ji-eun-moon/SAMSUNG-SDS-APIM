@@ -85,9 +85,7 @@ public class NoticeController {
         log.info("{NoticeController} : 쪽지 상세 조회 \n" +
                 "employeeId = " + employeeId);
 
-        ReceiveNoticeDetailResponse response = noticeService.detail(employeeId, noticeId);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(noticeService.detail(employeeId, noticeId));
 
     }
 
