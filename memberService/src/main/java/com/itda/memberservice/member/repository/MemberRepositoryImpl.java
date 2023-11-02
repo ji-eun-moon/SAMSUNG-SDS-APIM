@@ -43,14 +43,10 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
             throw new RuntimeException("해당하는 회원이 존재하지 않습니다.");
         }
 
-        List<String> teamList = JPAExpressions
-                .select(team.name)
-                .from(team)
-                .where(team.in(JPAExpressions.select(memberTeam.team)
-                        .from(memberTeam)
-                        .where(memberTeam.member.employeeId.eq(employeeId))
-                        .fetch()
-                ))
+        List<String> teamList = queryFactory
+                .select(memberTeam.team.name)
+                .from(memberTeam)
+                .where(memberTeam.member.employeeId.eq(employeeId))
                 .fetch();
 
         response.setTeamList(teamList);
@@ -63,6 +59,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     public List<NameSearchResponse> findByName(String name) {
         return queryFactory
                 .select(Projections.fields(NameSearchResponse.class,
+                        member.memberId,
                         member.employeeId,
                         member.name,
                         member.department,

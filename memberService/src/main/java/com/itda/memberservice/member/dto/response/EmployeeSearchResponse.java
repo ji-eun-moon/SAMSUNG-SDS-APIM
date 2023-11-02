@@ -1,10 +1,7 @@
 package com.itda.memberservice.member.dto.response;
 
 import com.itda.memberservice.member.entity.Authority;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(of = {
+        "employeeId", "name", "imageUrl", "email", "department", "position", "authority"
+})
 public class EmployeeSearchResponse {
 
     private String employeeId;
