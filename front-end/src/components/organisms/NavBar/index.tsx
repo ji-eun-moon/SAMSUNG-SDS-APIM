@@ -40,7 +40,9 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
     const { firstCategory } = props as SideNavBarProps;
     return (
       <div className={styles.navSideBody}>
-        <LogoWithName />
+        <button type="button" onClick={() => router.push('/')}>
+          <LogoWithName />
+        </button>
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">

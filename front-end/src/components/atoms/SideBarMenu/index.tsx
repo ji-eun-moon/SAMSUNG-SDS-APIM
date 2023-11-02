@@ -21,7 +21,7 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
               key={condition.conditionId}
               onClick={() => router.push(`${condition.url}`)}
               aria-hidden
-              className={`my-1 itdaText cursor-pointer ${currentPath === `${condition.url}` ? 'font-semibold' : ''}`}
+              className={`my-2 itdaText cursor-pointer ${currentPath === `${condition.url}` ? 'font-semibold' : ''}`}
             >
               {condition.title}
             </li>

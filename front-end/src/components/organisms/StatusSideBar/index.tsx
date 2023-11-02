@@ -1,17 +1,21 @@
 import React from 'react';
+import SearchBar from '@/components/atoms/SearchBar';
 import SideBarBody from '@/components/atoms/SideBarBody';
 import SideBarMenu from '@/components/atoms/SideBarMenu';
 
 function StatusSideBar() {
   const statusCondition = [
-    { conditionId: '1', title: '전체 보기', url: '/apply/use/list' },
-    { conditionId: '2', title: '대기 보기', url: '/apply/use/list?filter=대기' },
-    { conditionId: '2', title: '승인 내역 보기', url: '/apply/use/list?filter=승인' },
-    { conditionId: '2', title: '거절 내역 보기', url: '/apply/use/list?filter=거절' },
+    { conditionId: '1', title: '전체 보기', url: '/apis/status' },
+    { conditionId: '2', title: '정상 작동 보기', url: '/apis/status?filter=정상' },
+    { conditionId: '3', title: '점검중 보기', url: '/apis/status?filter=점검' },
+    { conditionId: '4', title: '오류 보기', url: '/apis/status?filter=오류' },
   ];
   return (
     <SideBarBody>
-      <SideBarMenu title="API 상태 확인" conditionList={statusCondition} />
+      <SearchBar onSearchHandler={() => {}} placeholder="API 검색" />
+      <div className="my-5">
+        <SideBarMenu title="API 상태 확인" conditionList={statusCondition} />
+      </div>
     </SideBarBody>
   );
 }

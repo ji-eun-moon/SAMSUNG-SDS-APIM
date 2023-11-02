@@ -54,6 +54,7 @@
 }
 
 .secondPart {
+  color: $itda-text;
   margin-top: 8px;
 }
 
@@ -83,14 +84,21 @@
 }
 
 .thirdPart {
+  color: $itda-text;
   margin-top: 8px;
 }
+
 .thirdContent {
   display: grid;
-  grid-template-columns: 650px 65px 20px 80px 20px 175px;
-  padding: 3px 0px;
-  border-bottom: 0.5px solid #eaeaea;
+  grid-template-columns: 650px 65px 20px 80px 20px 150px;
+  padding: 3px 5px;
 }
+
+.divider {
+  border-bottom: 0.5px solid #eaeaea;
+  padding: 8px 0;
+}
+
 .thirdInContent {
   display: flex;
   justify-content: center;
