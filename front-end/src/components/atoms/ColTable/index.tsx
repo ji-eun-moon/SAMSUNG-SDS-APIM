@@ -4,6 +4,7 @@ import style from './ColTable.module.scss';
 interface ColTableProps {
   headerContent: string[];
   bodyContent: (string[] | number[] | Date[] | { [key: string]: string | number | Date })[];
+  onGoDetail: (id: string) => void;
 }
 
 /**
@@ -12,7 +13,8 @@ interface ColTableProps {
  * @param {[]} bodyContent - ColTable body 지정
  */
 
-function ColTable({ headerContent, bodyContent }: ColTableProps) {
+function ColTable({ headerContent, bodyContent, onGoDetail }: ColTableProps) {
+  console.log('bodyContent', bodyContent);
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
   const [bodys, setBodys] = useState<
     null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
@@ -43,7 +45,11 @@ function ColTable({ headerContent, bodyContent }: ColTableProps) {
       <tbody className="bg-white">
         {bodys &&
           bodys.map((body) => (
-            <tr key={JSON.stringify(body)} className={`${style.body}`}>
+            <tr
+              key={JSON.stringify(body)}
+              className={`${style.body}`}
+              onClick={() => onGoDetail((body as Record<string, string>).ID)}
+            >
               {headers &&
                 headers.map((header) => <td key={header.text}>{(body as Record<string, string>)[header.value]}</td>)}
             </tr>
