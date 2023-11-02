@@ -44,13 +44,13 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                         notice.noticeId,
                         notice.title,
                         notice.createdAt,
-                        member.memberId,
+                        member.memberId.as("senderId"),
                         member.imageUrl.as("senderImage"),
                         member.name.as("senderName")
                         ))
                 .from(notice)
                 .join(notice.sender, member)
-                .where(notice.isRead.eq(false)
+                .where(notice.isRead.eq(true)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
@@ -67,7 +67,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                         notice.noticeId,
                         notice.title,
                         notice.createdAt,
-                        member.memberId,
+                        member.memberId.as("senderId"),
                         member.imageUrl.as("senderImage"),
                         member.name.as("senderName")
                 ))
@@ -88,7 +88,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .select(
                         Projections.fields(ReceiveNoticeListResponse.class,
                                 notice.noticeId,
-                                member.memberId,
+                                member.memberId.as("senderId"),
                                 notice.title,
                                 member.name.as("senderName"),
                                 member.imageUrl.as("senderImage"),
@@ -110,11 +110,11 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         return queryFactory
                 .select(
                         Projections.fields(ReceiveNoticeDetailResponse.class,
-                                member.memberId,
-                                member.name.as("memberName"),
-                                member.department.as("memberDepartment"),
-                                member.position.as("memberPosition"),
-                                member.imageUrl.as("memberImage"),
+                                member.memberId.as("senderId"),
+                                member.name.as("senderName"),
+                                member.department.as("senderDepartment"),
+                                member.position.as("senderPosition"),
+                                member.imageUrl.as("senderImage"),
                                 notice.title,
                                 notice.content,
                                 notice.createdAt))
