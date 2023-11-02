@@ -19,6 +19,7 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,6 +59,11 @@ public class MemberController {
 
             // 리스트에 있는 팀 생성하거나 가져와서 멤버에 추가
             for (String teamName : request.getTeamList()) {
+
+                if (!StringUtils.hasText(teamName)) {
+                    continue;
+                }
+
                 Team team = teamService.registerTeamOrFind(teamName);
 
                 memberTeamService.register(member, team);
