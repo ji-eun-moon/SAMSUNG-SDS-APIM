@@ -63,8 +63,16 @@ public class UseApplyService {
         return useApplyRepository.findAllByOrderByCreatedAtDesc(pageable).map(UseApplyListResponse::new);
     }
 
+    public Page<UseApplyListResponse> findAllByState(State state, Pageable pageable) {
+        return useApplyRepository.findAllByStateOrderByCreatedAtDesc(state, pageable).map(UseApplyListResponse::new);
+    }
+
     public Page<UseApplyListResponse> findAllByTeam(String teamName, Pageable pageable) {
         return useApplyRepository.findAllByTeamNameOrderByCreatedAtDesc(teamName, pageable).map(UseApplyListResponse::new);
+    }
+
+    public Page<UseApplyListResponse> findAllByTeamAndState(String teamName, State state, Pageable pageable) {
+        return useApplyRepository.findAllByTeamNameAndStateOrderByCreatedAtDesc(teamName, state, pageable).map(UseApplyListResponse::new);
     }
 
     @Transactional

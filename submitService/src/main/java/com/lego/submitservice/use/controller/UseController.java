@@ -45,8 +45,13 @@ public class UseController {
     // 사용 신청 내역
     @GetMapping("")
     @Operation(summary = "사용 신청 내역")
-    public ResponseEntity<?> findAll(Pageable pageable) {
-        return ResponseEntity.ok(useApplyService.findAll(pageable));
+    public ResponseEntity<?> findAll(@RequestParam(required = false, name = "state") State state,
+                                     Pageable pageable) {
+        if (state == null) {
+            return ResponseEntity.ok(useApplyService.findAll(pageable));
+        } else {
+            return ResponseEntity.ok(useApplyService.findAllByState(state, pageable));
+        }
     }
 
     // 사용 신청 변경
@@ -70,8 +75,14 @@ public class UseController {
     // 팀당 사용 신청 내역
     @GetMapping("/team")
     @Operation(summary = "팀당 사용 신청 내역")
-    public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName, Pageable pageable) {
-        return ResponseEntity.ok(useApplyService.findAllByTeam(teamName, pageable));
+    public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName,
+                                           @RequestParam(required = false, name = "state") State state,
+                                           Pageable pageable) {
+        if (state == null) {
+            return ResponseEntity.ok(useApplyService.findAllByTeam(teamName, pageable));
+        } else {
+            return ResponseEntity.ok(useApplyService.findAllByTeamAndState(teamName, state, pageable));
+        }
     }
 
     // 사용 신청 상세 조회
