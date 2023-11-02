@@ -23,6 +23,7 @@ function TeamSelect({ list }: TeamSelectProps) {
           onChange={(selectedTeam) => {
             setTeam(selectedTeam);
           }}
+          defaultSelect={team}
           width="w-full"
         />
       </div>
