@@ -29,7 +29,10 @@ public class UseCheckService {
         useCheckRepository.save(UseCheck.builder()
                         .category(category)
                         .teamName(useCheckRequest.getTeamName())
-                        .secretKey(aes128Config.encryptAes("category" + category.getId() + "&teamName" + useCheckRequest.getTeamName()))
+                        .secretKey(aes128Config.encrypt("category" + category.getId() + "&teamName" + useCheckRequest.getTeamName()))
                 .build());
+
+        log.info(aes128Config.encrypt("category" + category.getId() + "&teamName" + useCheckRequest.getTeamName()));
+        log.info(aes128Config.decrypt(aes128Config.encrypt("category" + category.getId() + "&teamName" + useCheckRequest.getTeamName())));
     }
 }

@@ -190,7 +190,7 @@ public class ServerService {
                     output.add(new ParameterInfo(key.toString(), schema.getDescription(), String.valueOf(schema.getExample()), schema.getType()));
                 });
                 Category category = categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow();
-                Api saveApi = apiRepository.save(Api.builder()
+                apiRepository.save(Api.builder()
                                 .title(pathItem.getGet().getSummary())
                                 .content(pathItem.getGet().getDescription())
                                 .input(parameterInfoList.toString().replace("ParameterInfo", "")
