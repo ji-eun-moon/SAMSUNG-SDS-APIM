@@ -2,10 +2,10 @@ package com.itda.memberservice.notice.service;
 
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
-import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.NoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
 import com.itda.memberservice.notice.entity.Notice;
 import com.itda.memberservice.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +27,19 @@ public class NoticeService {
 
     }
 
-    public List<UnReadNoticeResponse> unreadNoticeList(String employeeId) {
+    public List<ReceiveUnReadNoticeResponse> unreadNoticeList(String employeeId) {
 
         return noticeRepository.unreadNoticeList(employeeId);
 
     }
 
-    public List<ReadNoticeResponse> readNoticeList(String employeeId) {
+    public List<ReceiveReadNoticeResponse> readNoticeList(String employeeId) {
 
         return noticeRepository.readNoticeList(employeeId);
 
     }
 
-    public List<NoticeListResponse> receiveAll(String employeeId) {
+    public List<ReceiveNoticeListResponse> receiveAll(String employeeId) {
 
         return noticeRepository.receiveAll(employeeId);
 
@@ -65,7 +65,7 @@ public class NoticeService {
 
     }
 
-    public NoticeDetailResponse detail(String employeeId, Long noticeId) {
+    public ReceiveNoticeDetailResponse detail(String employeeId, Long noticeId) {
 
         changeReadNotice(employeeId, noticeId);
 

@@ -1,10 +1,10 @@
 package com.itda.memberservice.notice.controller;
 
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
-import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.NoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
 import com.itda.memberservice.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class NoticeController {
 
     // 받은 쪽지 - 안읽은 쪽지 조회
     @GetMapping("/unread")
-    public ResponseEntity<List<UnReadNoticeResponse>> unreadNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<List<ReceiveUnReadNoticeResponse>> unreadNoticeList(@RequestHeader("member-id") String employeeId) {
 
         log.info("{NoticeController} : 안읽은 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
@@ -58,7 +58,7 @@ public class NoticeController {
 
     // 받은 쪽지 - 읽은 쪽지 조회
     @GetMapping("/read")
-    public ResponseEntity<List<ReadNoticeResponse>> readNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<List<ReceiveReadNoticeResponse>> readNoticeList(@RequestHeader("member-id") String employeeId) {
 
         log.info("{NoticeController} : 읽은 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
@@ -69,7 +69,7 @@ public class NoticeController {
 
     // 받은 쪽지 - 전체 쪽지 조회
     @GetMapping("/all")
-    public ResponseEntity<List<NoticeListResponse>> receiveAll(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<List<ReceiveNoticeListResponse>> receiveAll(@RequestHeader("member-id") String employeeId) {
 
         log.info("{NoticeController} : 전체 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
@@ -80,12 +80,12 @@ public class NoticeController {
 
     // 받은 쪽지 상세 조회
     @GetMapping("/{notice_id}")
-    public ResponseEntity<NoticeDetailResponse> detail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
+    public ResponseEntity<ReceiveNoticeDetailResponse> detail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
 
         log.info("{NoticeController} : 쪽지 상세 조회 \n" +
                 "employeeId = " + employeeId);
 
-        NoticeDetailResponse response = noticeService.detail(employeeId, noticeId);
+        ReceiveNoticeDetailResponse response = noticeService.detail(employeeId, noticeId);
 
         return ResponseEntity.ok(response);
 

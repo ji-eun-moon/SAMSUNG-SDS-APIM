@@ -1,9 +1,9 @@
 package com.itda.memberservice.notice.repository;
 
-import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.NoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -37,10 +37,10 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<UnReadNoticeResponse> unreadNoticeList(String employeeId) {
+    public List<ReceiveUnReadNoticeResponse> unreadNoticeList(String employeeId) {
 
         return queryFactory
-                .select(Projections.fields(UnReadNoticeResponse.class,
+                .select(Projections.fields(ReceiveUnReadNoticeResponse.class,
                         notice.noticeId,
                         notice.title,
                         notice.createdAt,
@@ -58,11 +58,11 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<ReadNoticeResponse> readNoticeList(String employeeId) {
+    public List<ReceiveReadNoticeResponse> readNoticeList(String employeeId) {
 
         return queryFactory
                 .select(
-                        Projections.fields(ReadNoticeResponse.class,
+                        Projections.fields(ReceiveReadNoticeResponse.class,
                         notice.noticeId,
                         notice.title,
                         notice.createdAt,
@@ -80,11 +80,11 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<NoticeListResponse> receiveAll(String employeeId) {
+    public List<ReceiveNoticeListResponse> receiveAll(String employeeId) {
 
         return queryFactory
                 .select(
-                        Projections.fields(NoticeListResponse.class,
+                        Projections.fields(ReceiveNoticeListResponse.class,
                                 notice.noticeId,
                                 member.memberId,
                                 notice.title,
@@ -102,11 +102,11 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public NoticeDetailResponse detail(String employeeId, Long noticeId) {
+    public ReceiveNoticeDetailResponse detail(String employeeId, Long noticeId) {
 
         return queryFactory
                 .select(
-                        Projections.fields(NoticeDetailResponse.class,
+                        Projections.fields(ReceiveNoticeDetailResponse.class,
                                 member.memberId,
                                 member.name.as("memberName"),
                                 member.department.as("memberDepartment"),

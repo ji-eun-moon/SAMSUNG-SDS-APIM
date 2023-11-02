@@ -1,9 +1,9 @@
 package com.itda.memberservice.notice.repository;
 
-import com.itda.memberservice.notice.dto.response.NoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.NoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.UnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
 
 import java.util.List;
 
@@ -13,12 +13,12 @@ public interface NoticeQueryRepository {
     long unreadNoticeCount(String employeeId);
 
     // 읽지 않은 메시지 조회
-    List<UnReadNoticeResponse> unreadNoticeList(String employeeId);
+    List<ReceiveUnReadNoticeResponse> unreadNoticeList(String employeeId);
 
     // 읽은 메시지 조회
-    List<ReadNoticeResponse> readNoticeList(String employeeId);
+    List<ReceiveReadNoticeResponse> readNoticeList(String employeeId);
 
-    List<NoticeListResponse> receiveAll(String employeeId);
+    List<ReceiveNoticeListResponse> receiveAll(String employeeId);
 
-    NoticeDetailResponse detail(String employeeId, Long noticeId);
+    ReceiveNoticeDetailResponse detail(String employeeId, Long noticeId);
 }
