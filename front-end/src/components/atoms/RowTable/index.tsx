@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from './RowTable.module.scss';
+import Tag from '../Tag';
 
 interface RowTableProps {
   title: string;
@@ -36,8 +37,9 @@ function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
 
   return (
     <div>
-      <span className={`${style.title}`}>{title}</span>
       <div className={`${style.table}`}>
+        <span className={`${style.title}`}>{title}</span>
+
         {bodys &&
           bodys.map((body) => (
             <div key={JSON.stringify(body)}>
@@ -48,8 +50,26 @@ function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
                       <span>{header.text}</span>
                     </div>
                     <div className={`${style.right}`} style={index === 0 ? { borderTop: '1px solid #9a9a9a' } : {}}>
-                      <div style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
-                        {(body as Record<string, string>)[header.text]}
+                      <div
+                        style={{
+                          wordBreak: 'break-all',
+                        }}
+                      >
+                        {(body as Record<string, string>)[header.text].includes('newnew') && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Tag type="new" />
+                            {(body as Record<string, string>)[header.text].replace('newnew', '')}
+                          </div>
+                        )}
+                        {(body as Record<string, string>)[header.text].includes('chacha') && (
+                          <div>
+                            <Tag type="change" />
+                            {(body as Record<string, string>)[header.text].replace('chacha', '')}
+                          </div>
+                        )}
+                        {!(body as Record<string, string>)[header.text].includes('newnew') &&
+                          !(body as Record<string, string>)[header.text].includes('chacha') &&
+                          (body as Record<string, string>)[header.text]}
                       </div>
                     </div>
                   </div>

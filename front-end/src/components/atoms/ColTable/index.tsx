@@ -48,7 +48,13 @@ function ColTable({ headerContent, bodyContent, onGoDetail }: ColTableProps) {
             <tr
               key={JSON.stringify(body)}
               className={`${style.body}`}
-              onClick={() => onGoDetail((body as Record<string, string>).ID)}
+              onClick={() => {
+                const id = (body as Record<string, string>).ID;
+                if (/^\d+$/.test(id)) {
+                  // 정규표현식을 사용하여 숫자로 이루어져 있는지 확인
+                  onGoDetail(id);
+                }
+              }}
             >
               {headers &&
                 headers.map((header) => <td key={header.text}>{(body as Record<string, string>)[header.value]}</td>)}
