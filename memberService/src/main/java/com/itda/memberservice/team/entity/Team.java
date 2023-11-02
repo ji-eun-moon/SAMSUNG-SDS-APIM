@@ -12,6 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@ToString(of = {
+        "name"
+})
 public class Team {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
