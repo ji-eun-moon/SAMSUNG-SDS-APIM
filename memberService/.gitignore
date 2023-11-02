@@ -38,6 +38,7 @@ out/
 .vscode/
 
 ### macOS ###
+.idea
 # General
 .DS_Store
 .AppleDouble
