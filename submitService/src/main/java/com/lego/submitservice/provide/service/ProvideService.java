@@ -52,7 +52,7 @@ public class ProvideService {
                         .employeeId(employeeId)
                         .providerName(employeeSearchResponse.getName())
                         .state(State.대기)
-                        .applyType(ApplyType.신청)
+                        .applyType(ApplyType.신규)
 
                         .createdAt(LocalDateTime.now())
                 .build());
