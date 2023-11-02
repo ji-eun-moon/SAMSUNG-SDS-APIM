@@ -7,6 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UseApplyRepository extends JpaRepository<UseApply, Long> {
-    Page<UseApply> findAllBy(Pageable pageable);
-    Page<UseApply> findAllByTeamName(String TeamName, Pageable pageable);
+    Page<UseApply> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    Page<UseApply> findAllByTeamNameOrderByCreatedAtDesc(String TeamName, Pageable pageable);
 }

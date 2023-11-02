@@ -60,11 +60,11 @@ public class UseApplyService {
     }
 
     public Page<UseApplyListResponse> findAll(Pageable pageable) {
-        return useApplyRepository.findAllBy(pageable).map(UseApplyListResponse::new);
+        return useApplyRepository.findAllByOrderByCreatedAtDesc(pageable).map(UseApplyListResponse::new);
     }
 
     public Page<UseApplyListResponse> findAllByTeam(String teamName, Pageable pageable) {
-        return useApplyRepository.findAllByTeamName(teamName, pageable).map(UseApplyListResponse::new);
+        return useApplyRepository.findAllByTeamNameOrderByCreatedAtDesc(teamName, pageable).map(UseApplyListResponse::new);
     }
 
     @Transactional
