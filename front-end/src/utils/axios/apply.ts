@@ -31,7 +31,7 @@ export async function getProvideApplyList(clickPage: number) {
       params: {
         teamName: 'project4',
         page: clickPage,
-        size: 6,
+        size: 10,
       },
     });
     console.log('제공신청내역', response.data);
