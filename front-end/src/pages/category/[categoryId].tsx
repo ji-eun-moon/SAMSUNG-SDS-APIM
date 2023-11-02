@@ -7,9 +7,6 @@ import GoBack from '@/components/atoms/GoBack';
 import ApiCard from '@/components/atoms/ApiCard';
 import CategoryLayout from '@/components/templates/CategoryLayout';
 import { useQuery } from 'react-query';
-import NavBar from '@/components/organisms/NavBar';
-import { IUser } from '@/types/User';
-import { getUserInfo } from '@/utils/axios/user';
 import { useRouter } from 'next/router';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
@@ -26,7 +23,6 @@ type SSGProps = {
 const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGProps) => {
   const selectedTeam = useStore(useUserStore, (state) => state.selectedTeam);
   const router = useRouter();
-  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
   const { data: useCategoryList } = useQuery<TCategoryList>(
     `useCategoryList ${selectedTeam}`,
@@ -49,14 +45,7 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
     },
   );
 
-  // 데이터 요청으로 수정 필요
-  const dropDownList = [
-    { title: '메인', icon: 'home', onClick: () => {} },
-    { title: '통계', icon: 'home', onClick: () => {} },
-    { title: '모니터링', icon: 'home', onClick: () => {} },
-  ];
-
-  if (!categoryList || !useCategoryList || !provideCategoryList || !userInfo) {
+  if (!categoryList || !useCategoryList || !provideCategoryList) {
     return <PageLoading />;
   }
 
@@ -68,8 +57,6 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
 
   return (
     <BothLayout>
-      {/* Top Nav */}
-      <NavBar position="top" userInfo={userInfo} noticeCnt="5" notices="메시지" dropDownList={dropDownList} />
       {/* Side Nav */}
       <ApiSideBar
         useCategoryList={useCategoryList}
