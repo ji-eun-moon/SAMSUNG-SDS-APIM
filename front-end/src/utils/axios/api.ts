@@ -45,14 +45,27 @@ export async function getProvideCategoryList(teamName: string) {
   }
 }
 
-export async function getApiStatus(props: string) {
+// export async function getApiStatus(props: string) {
+//   try {
+//     const response = await axiosInstance({
+//       method: 'GET',
+//       url: 'http://localhost:3001/categoryList',
+//       params: {
+//         props,
+//       },
+//     });
+//     console.log(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     return null;
+//   }
+// }
+export async function getApiStatus() {
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: 'GET',
-      url: 'http://localhost:3001/categoryList',
-      params: {
-        props,
-      },
+      url: 'https://k9c201.p.ssafy.io/api/server/apis/status',
     });
     console.log(response.data);
     return response.data;
