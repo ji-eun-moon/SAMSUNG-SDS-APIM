@@ -18,11 +18,14 @@ const Home: NextPage = () => {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
 
-  if (!userInfo || !categoryList) {
+  if (!userInfo) {
     return <PageLoading />;
   }
 
-  const firstCategory = categoryList[0].categoryId;
+  let firstCategory = 0;
+  if (categoryList) {
+    firstCategory = categoryList[0]?.categoryId || 0;
+  }
 
   return (
     <main>
