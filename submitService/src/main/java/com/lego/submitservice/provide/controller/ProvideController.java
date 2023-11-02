@@ -9,6 +9,8 @@ import com.lego.submitservice.provide.entity.dto.response.DenyResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.service.ProvideService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,7 @@ import java.util.Map;
 @RequestMapping("/provide")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "PROVIDE", description = "제공 신청 관련")
 public class ProvideController {
 
     private final ProvideService provideService;
@@ -35,6 +38,7 @@ public class ProvideController {
 
     // 제공 신청
     @PostMapping ("/register")
+    @Operation(summary = "제공 신청 등록")
     public ResponseEntity<?> register(
             @RequestHeader("member-id") String employeeId,
             @RequestBody CreateProvideRequest createProvideRequest) {
@@ -44,6 +48,7 @@ public class ProvideController {
 
     // 제공 신청 내역 조회
     @GetMapping("")
+    @Operation(summary = "제공 신청 내역 조회", description = "상태를 통해 필터링 가능")
     public ResponseEntity<?> findAll(@RequestParam(required = false, name = "state") State state,
                                      Pageable pageable) {
         Page<ProvideListResponse> pages;
@@ -57,6 +62,7 @@ public class ProvideController {
 
     // 제공 신청 변경 - 승인
     @PutMapping("/accept")
+    @Operation(summary = "제공 신청 승인")
     public ResponseEntity<?> acceptState(
             @RequestHeader("member-id") String employeeId,
             @RequestBody AcceptRequest acceptRequest) {
@@ -68,6 +74,7 @@ public class ProvideController {
 
     // 제공 신청 변경 - 거절
     @PutMapping("/deny")
+    @Operation(summary = "제공 신청 거절")
     public ResponseEntity<?> denyState(
             @RequestHeader("member-id") String employeeId,
             @RequestBody DenyResponse denyResponse) {
@@ -79,6 +86,7 @@ public class ProvideController {
 
     // 팀당 제공 신청 내역
     @GetMapping("/team")
+    @Operation(summary = "팀당 제공 신청 내역")
     public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName,
                                            @RequestParam(required = false, name = "state") State state,
                                            Pageable pageable) {
@@ -93,21 +101,25 @@ public class ProvideController {
 
     // 제공 신청 상세 조회
     @GetMapping("/{provide-id}")
+    @Operation(summary = "제공 신청 상세 조회")
     public ResponseEntity<?> findByProvideId(@PathVariable("provide-id") Long provideId) {
         return ResponseEntity.ok(provideService.findDetailByProvideId(provideId));
     }
 
     @DeleteMapping("")
+    @Operation(summary = "제공 신청 전체 삭제", description = "백엔드 연습용")
     public ResponseEntity<?> deleteAll() {
         provideService.deleteAll();
         return ResponseEntity.status(204).body(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/ids-object")
+    @Operation(summary = "제공 신청 전체 아이디 객체")
     public ResponseEntity<?> findAllIds() {
         return ResponseEntity.ok(provideService.findAllIds());
     }
     @GetMapping("/ids-array")
+    @Operation(summary = "제공 신청 전체 아이디 배열")
     public ResponseEntity<?> findAllIdsToLong() {
         return ResponseEntity.ok(provideService.findAllIdsToLong());
     }

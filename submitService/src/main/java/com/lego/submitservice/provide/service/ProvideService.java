@@ -2,6 +2,7 @@ package com.lego.submitservice.provide.service;
 
 import com.lego.submitservice.client.api.ApiServiceClient;
 import com.lego.submitservice.client.api.dto.CreateServerRequest;
+import com.lego.submitservice.client.member.MemberService;
 import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.client.member.dto.EmployeeSearchResponse;
 import com.lego.submitservice.provide.entity.domain.ApplyType;
@@ -34,12 +35,17 @@ import java.util.stream.Collectors;
 public class ProvideService {
 
     private final MemberServiceClient memberServiceClient;
+    private final MemberService memberService;
     private final ApiServiceClient apiServiceClient;
     private final ProvideRepository provideRepository;
 
     @Transactional
     public void register(String employeeId, CreateProvideRequest createProvideRequest) {
-        // 해당 회원이 팀인지 확인하는 로직 - 팀이라면 이름 반환
+        // 해당 회원이 팀인지 확인하는 로직
+        if (!memberService.checkTeam(employeeId, createProvideRequest.getTeamName())) {
+            throw new RuntimeException("본인의 팀이 아닙니다.");
+        }
+
         Map<String, String> params = new HashMap<>();
         params.put("employeeId", employeeId);
         EmployeeSearchResponse employeeSearchResponse = memberServiceClient.getMemberByEmployeeId(params);
@@ -78,7 +84,7 @@ public class ProvideService {
         log.info(employeeId + " : 사번");
 
         // 회원이 관리자임을 확인하는 로직
-        checkAuthority(employeeId);
+        memberService.checkAuthority(employeeId);
 
         Provide provide = provideRepository.findById(acceptRequest.getProvideId()).orElseThrow();
         HttpStatus httpStatus = apiServiceClient.register(new CreateServerRequest(provide.getServerName(), provide.getDescription(), provide.getEndpoint(),
@@ -101,7 +107,7 @@ public class ProvideService {
     @Transactional
     public void denyState(String employeeId, Long provideId, String denyReason) {
         // 회원이 관리자임을 확인하는 로직
-        checkAuthority(employeeId);
+        memberService.checkAuthority(employeeId);
         Provide provide = provideRepository.findById(provideId).orElseThrow();
         provide.changeState(State.거절);
         provide.setDenyReason(denyReason);
@@ -128,14 +134,7 @@ public class ProvideService {
         return new ProvideDetailResponse(provideRepository.findById(provideId).orElseThrow());
     }
 
-    public void checkAuthority(String employeeId) {
-        Map<String, String> params = new HashMap<>();
-        params.put("employeeId", employeeId);
-        log.info(memberServiceClient.checkAuthority(params));
-        if (memberServiceClient.checkAuthority(params).equals("일반")) {
-            throw new IllegalArgumentException("일반 회원은 수정을 할 수 없습니다.");
-        }
-    }
+
 
     @Transactional
     public void deleteAll() {

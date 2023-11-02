@@ -23,4 +23,7 @@ public interface MemberServiceClient {
 
     @GetMapping("/auth/check-authority")
     String checkAuthority(@SpringQueryMap Map<String, String> params);
+
+    @GetMapping("/memberTeam/check")
+    boolean checkTeam(@SpringQueryMap Map<String, String> params);
 }

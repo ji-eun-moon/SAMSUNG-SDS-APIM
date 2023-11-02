@@ -2,6 +2,7 @@ package com.lego.submitservice.use.service;
 
 import com.lego.submitservice.client.api.ApiServiceClient;
 import com.lego.submitservice.client.api.dto.UseCheckRequest;
+import com.lego.submitservice.client.member.MemberService;
 import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.client.member.dto.EmployeeSearchResponse;
 import com.lego.submitservice.client.member.dto.SkipMemberResponse;
@@ -33,24 +34,26 @@ public class UseApplyService {
     private final ApiServiceClient apiServiceClient;
     private final MemberServiceClient memberServiceClient;
     private final UseApplyRepository useApplyRepository;
+    private final MemberService memberService;
 
     @Transactional
     public void register(CreateUseApplyRequest createUseRequest, String employeeId) {
-        Map<String, String> userParams = new HashMap<>();
-        userParams.put("employeeId", employeeId);
+        // 해당 회원이 팀인지 확인하는 로직
+        if (!memberService.checkTeam(employeeId, createUseRequest.getTeamName())) {
+            throw new RuntimeException("본인의 팀이 아닙니다.");
+        }
 
         Map<String, String> apiParams = new HashMap<>();
         apiParams.put("categoryId", String.valueOf(createUseRequest.getCategoryId()));
 
-
-//        EmployeeSearchResponse employeeSearchResponse = memberServiceClient.getMemberByEmployeeId(params);
-//        log.info(employeeSearchResponse.getName());
+        EmployeeSearchResponse employeeSearchResponse = memberService.getMemberByEmployeeId(employeeId);
+        log.info(employeeSearchResponse.getName());
         useApplyRepository.save(UseApply.builder()
                         .categoryId(createUseRequest.getCategoryId())
                         .categoryName(apiServiceClient.categoryNameToId(apiParams))
                         .description(createUseRequest.getContent())
                         .teamName(createUseRequest.getTeamName())
-//                        .userName(employeeSearchResponse.getName())
+                        .userName(employeeSearchResponse.getName())
                         .createdAt(LocalDateTime.now())
                         .state(State.대기)
                 .build());
@@ -66,7 +69,7 @@ public class UseApplyService {
 
     @Transactional
     public void acceptState(Long id, String employeeId) {
-//        checkAuthority(employeeId);
+        memberService.checkAuthority(employeeId);
 
         UseApply useApply = useApplyRepository.findById(id).orElseThrow();
 
@@ -79,7 +82,7 @@ public class UseApplyService {
 
     @Transactional
     public void denyState(DenyResponse denyResponse, String employeeId) {
-//        checkAuthority(employeeId);
+        memberService.checkAuthority(employeeId);
 
         UseApply useApply = useApplyRepository.findById(denyResponse.getId()).orElseThrow();
         useApply.changeState(State.거절);
@@ -92,12 +95,4 @@ public class UseApplyService {
         return new UseApplyDetailResponse(useApplyRepository.findById(id).orElseThrow());
     }
 
-    public void checkAuthority(String employeeId) {
-        Map<String, String> params = new HashMap<>();
-        params.put("employeeId", employeeId);
-        log.info(memberServiceClient.checkAuthority(params));
-        if (memberServiceClient.checkAuthority(params).equals("일반")) {
-            throw new IllegalArgumentException("일반 회원은 수정을 할 수 없습니다.");
-        }
-    }
 }

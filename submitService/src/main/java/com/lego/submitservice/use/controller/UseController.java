@@ -6,6 +6,8 @@ import com.lego.submitservice.use.entity.dto.request.CreateUseApplyRequest;
 import com.lego.submitservice.use.entity.dto.response.UseApplyDetailResponse;
 import com.lego.submitservice.use.entity.dto.response.UseApplyListResponse;
 import com.lego.submitservice.use.service.UseApplyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,12 +21,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/use")
 @RequiredArgsConstructor
+@Tag(name = "USE-APPLY", description = "사용 신청 관련")
 public class UseController {
 
     private final UseApplyService useApplyService;
 
     // 사용 신청
     @PostMapping ("/register")
+    @Operation(summary = "사용 신청 등록")
     public ResponseEntity<?> register(
             @RequestHeader("member-id") String employeeId,
             @RequestBody CreateUseApplyRequest createUseApplyRequest) {
@@ -40,12 +44,14 @@ public class UseController {
 
     // 사용 신청 내역
     @GetMapping("")
+    @Operation(summary = "사용 신청 내역")
     public ResponseEntity<?> findAll(Pageable pageable) {
         return ResponseEntity.ok(useApplyService.findAll(pageable));
     }
 
     // 사용 신청 변경
     @PutMapping("/accept")
+    @Operation(summary = "사용 신청 승인")
     public ResponseEntity<?> acceptState(@RequestHeader("member-id") String employeeId,
                                          @RequestParam(name = "useId") Long useId) {
 
@@ -54,6 +60,7 @@ public class UseController {
     }
 
     @PutMapping("/deny")
+    @Operation(summary = "사용 신청 거절")
     public ResponseEntity<?> denyState(@RequestHeader("member-id") String employeeId,
                                        @RequestBody DenyResponse denyResponse) {
         useApplyService.denyState(denyResponse, employeeId);
@@ -62,12 +69,14 @@ public class UseController {
 
     // 팀당 사용 신청 내역
     @GetMapping("/team")
+    @Operation(summary = "팀당 사용 신청 내역")
     public ResponseEntity<?> findAllByTeam(@RequestParam(name = "teamName") String teamName, Pageable pageable) {
         return ResponseEntity.ok(useApplyService.findAllByTeam(teamName, pageable));
     }
 
     // 사용 신청 상세 조회
     @GetMapping("/{use-apply-id}")
+    @Operation(summary = "사용 신청 상세 조회")
     public ResponseEntity<?> findByUseApplyId(@PathVariable("use-apply-id") Long useApplyId) {
         return ResponseEntity.ok(useApplyService.findByUseApplyId(useApplyId));
     }
