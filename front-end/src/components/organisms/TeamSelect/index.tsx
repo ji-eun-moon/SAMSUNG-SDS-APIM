@@ -26,6 +26,7 @@ function TeamSelect({ list }: TeamSelectProps) {
             setTeam(selectedTeam);
           }}
           width="w-full"
+          defaultSelect={list[0]}
         />
       </div>
       <button type="button" className={`${styles.button} text-sm`} onClick={onModalOpenHandler}>
