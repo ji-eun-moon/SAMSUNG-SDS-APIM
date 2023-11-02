@@ -1,6 +1,7 @@
 package com.itda.memberservice.notice.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,19 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NoticeListResponse {
+@Builder
+public class UnReadNoticeResponse {
 
     private Long noticeId;
+    private Long memberId;
+    private String senderName;
+    private String senderImage;
     private String title;
     private LocalDateTime createdAt;
-    private boolean check;
-
-    // 작성자 정보
-    // 작성자 이름 fromName
-    // 작성자 imageUrl fromImageUrl
-
-    private String fromEmployeeId;
-    private String fromName;
-    private String fromImageUrl;
 
 }
