@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> signUp(@RequestBody List<CreateMemberRequest> requests) {
+    public ResponseEntity<String> signUp(@RequestBody List<CreateMemberRequest> requests) throws MessagingException {
 
         log.info("회원가입 실행");
 
