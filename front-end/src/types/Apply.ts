@@ -33,7 +33,7 @@ export interface IProvideId {
 }
 
 export interface IUse {
-  useId: number;
+  useApplyId: number;
   categoryName: string;
   teamName: string;
   userName: string;

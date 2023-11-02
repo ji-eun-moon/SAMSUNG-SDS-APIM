@@ -2,7 +2,7 @@ import React, { useState, DragEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
 import Papa from 'papaparse';
 import { HeaderMapping } from '@/types/User';
-// import { createMembers } from '@/utils/axios/user';
+import { createMembers } from '@/utils/axios/user';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
 import MemberTable from '@/components/atoms/MemberTable';
@@ -115,10 +115,10 @@ export default function MemberAdd() {
             headerList?.map((head, index) => {
               if (head === 'teamList') {
                 if (rowData[index].includes(',')) {
-                  const teams = rowData[index]?.split(',')?.map((team) => ({ teamName: team.trim() }));
+                  const teams = rowData[index]?.split(',')?.map((team) => team.trim());
                   return [head, teams];
                 }
-                return [head, [{ teamName: rowData[index] }]];
+                return [head, [rowData[index]]];
               }
               return [head, rowData[index]];
             }),
@@ -127,9 +127,7 @@ export default function MemberAdd() {
         return null;
       })
       .filter(Boolean);
-
-    console.log(mappedData);
-    // createMembers
+    createMembers(mappedData);
   };
 
   return (

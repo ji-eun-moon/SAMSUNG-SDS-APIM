@@ -2,15 +2,11 @@ import { TCategoryList } from '../Api';
 
 export interface ApiSideBarProps {
   openCategory: number;
+  openMyCategory: number;
   categoryList: TCategoryList;
-  my: false;
-}
-
-export interface MyApiSideBarProps {
-  openCategory: number;
   useCategoryList: TCategoryList;
   provideCategoryList: TCategoryList;
-  my: true;
+  defaultSelectedKey: string;
 }
 
 export interface CategoryListProps {

@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import { TUserDataList } from '@/types/User';
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
@@ -29,12 +29,12 @@ export async function getMemebers() {
   }
 }
 
-export async function createMembers() {
+export async function createMembers(props: TUserDataList) {
   try {
     const response = await axiosInstance({
       method: 'post',
       url: 'https://k9c201.p.ssafy.io/api/member/auth/sign-up',
-      data: {},
+      data: props,
     });
     console.log(response.data);
     return response.data;

@@ -11,8 +11,11 @@ export default {
     placeholder: {
       description: 'placeholder에 들어갈 문자',
     },
-    onClick: {
+    onChange: {
       description: '클릭시 실행할 함수',
+    },
+    defaultSelect: {
+      description: '기본 선택 값',
     },
   },
 };
@@ -20,6 +23,6 @@ export default {
 export const Default = {
   args: {
     list: ['1번', '2번', '3번', '4번', '5번'],
-    onClick: '',
+    onChange: () => {},
   },
 };

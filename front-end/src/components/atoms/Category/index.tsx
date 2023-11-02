@@ -8,7 +8,7 @@ function Category({ categoryName, categoryId, apiList, isOpen }: CategoryProps) 
   const defaultKeys = isOpen ? [`${categoryId}`] : [];
 
   return (
-    <Accordion isCompact defaultExpandedKeys={defaultKeys}>
+    <Accordion isCompact defaultExpandedKeys={defaultKeys} style={{ padding: '0px' }}>
       <AccordionItem
         key={`${categoryId}`}
         aria-label={`Accordion ${categoryId}`}
