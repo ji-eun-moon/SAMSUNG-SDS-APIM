@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosInstance from './axiosInstance';
 
 // 사용신청 내역
@@ -58,24 +57,24 @@ export async function getProvideApplyDetail(provideId: number) {
   }
 }
 
-// 제공 신청 provideId 객체
-export async function getProvideApplyId() {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: 'https://k9c201.p.ssafy.io/api/submit/provide/ids-object',
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjA5MTAyODYiLCJpYXQiOjE2OTg4ODg5MzMsImV4cCI6MTY5OTQ5MzczM30.PHt70afkbFh8fbDx0BnYn3ZXOv1REDaeLnACn9O_qT4FjB8nPl2MSuBhsdaz5J8x19p3MOZhsHg9uq9awEgu0g',
-      },
-    });
-    console.log('제공 신청 provideId 객체', response);
-    return response.data;
-  } catch (error) {
-    console.error('error', error);
-    return null;
-  }
-}
+// // 제공 신청 provideId 객체
+// export async function getProvideApplyId() {
+//   try {
+//     const response = await axios({
+//       method: 'GET',
+//       url: 'https://k9c201.p.ssafy.io/api/submit/provide/ids-object',
+//       headers: {
+//         Authorization:
+//           'Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjA5MTAyODYiLCJpYXQiOjE2OTg4ODg5MzMsImV4cCI6MTY5OTQ5MzczM30.PHt70afkbFh8fbDx0BnYn3ZXOv1REDaeLnACn9O_qT4FjB8nPl2MSuBhsdaz5J8x19p3MOZhsHg9uq9awEgu0g',
+//       },
+//     });
+//     console.log('제공 신청 provideId 객체', response);
+//     return response.data;
+//   } catch (error) {
+//     console.error('error', error);
+//     return null;
+//   }
+// }
 // // 제공 신청 provideId 객체
 // export async function getProvideApplyId() {
 //   try {

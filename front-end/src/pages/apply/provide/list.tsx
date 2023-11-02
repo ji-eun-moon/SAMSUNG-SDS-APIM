@@ -67,7 +67,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
 
   const onGoDetailHandler = (provideId: string) => {
     console.log(provideId, clickPage);
-    router.push(`/apply/provide/provideId=${provideId}`);
+    router.push(`/apply/provide/${provideId}`);
   };
 
   const handlePageClick = (clickedPage: number) => {
