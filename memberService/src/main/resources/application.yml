@@ -39,3 +39,8 @@ management:
     web:
       exposure:
         include: refresh, health, beans, httpExchanges, busRefresh
+
+mail:
+  admin:
+    id: victoryddh
+    password: mkvmzeimhdsomlvy
