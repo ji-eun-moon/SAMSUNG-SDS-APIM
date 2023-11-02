@@ -1,3 +1,4 @@
+import { Pageable } from '@/types/Api';
 import axiosInstance from './axiosInstance';
 
 export async function getCategoryList() {
@@ -45,32 +46,37 @@ export async function getProvideCategoryList(teamName: string) {
   }
 }
 
-// export async function getApiStatus(props: string) {
-//   try {
-//     const response = await axiosInstance({
-//       method: 'GET',
-//       url: 'http://localhost:3001/categoryList',
-//       params: {
-//         props,
-//       },
-//     });
-//     console.log(response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//     return null;
-//   }
-// }
-export async function getApiStatus() {
-  try {
-    const response = await axiosInstance({
-      method: 'GET',
-      url: 'https://k9c201.p.ssafy.io/api/server/apis/status',
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
+export async function getApiStatus({ status, page, size }: Pageable) {
+  if (status === '') {
+    try {
+      const response = await axiosInstance({
+        method: 'GET',
+        url: 'https://k9c201.p.ssafy.io/api/server/apis/status',
+        params: {
+          page,
+          size,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  } else {
+    try {
+      const response = await axiosInstance({
+        method: 'GET',
+        url: 'https://k9c201.p.ssafy.io/api/server/apis/status',
+        params: {
+          status,
+          page,
+          size,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }

@@ -34,7 +34,7 @@ function StatusTable({ statusList }: StatusTableProps) {
         </colgroup>
         <thead className={`w-full ${styles.header}`}>
           <tr>
-            {headers.map((header) => (
+            {headers?.map((header) => (
               <th key={header} className={styles.th}>
                 {header}
               </th>
@@ -42,20 +42,28 @@ function StatusTable({ statusList }: StatusTableProps) {
           </tr>
         </thead>
         <tbody className="bg-white w-full">
-          {statusList.map((list) => (
-            <tr key={list.apiId}>
-              <td className={styles.tr}>
-                <div className="flex justify-center items-center w-full">
-                  <Status status={list.apiStatus} />
-                </div>
+          {statusList?.length > 0 ? (
+            statusList.map((list) => (
+              <tr key={list.apiId}>
+                <td className={styles.tr}>
+                  <div className="flex justify-center items-center w-full">
+                    <Status status={list.apiStatus} />
+                  </div>
+                </td>
+                <td className={styles.tr}>
+                  <StatusTitle apiName={list.apiName} apiAddress={list.apiAddress} apiId={list.apiId} />
+                </td>
+                <td className={`${styles.tr} text-center`}>{list.responseTime} ms</td>
+                <td className={`${styles.tr} text-center`}>{formatUpdatedAt(list.updatedAt)}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="text-center" style={{ height: '60px' }}>
+                해당하는 API가 없습니다
               </td>
-              <td className={styles.tr}>
-                <StatusTitle apiName={list.apiName} apiAddress={list.apiAddress} apiId={list.apiId} />
-              </td>
-              <td className={`${styles.tr} text-center`}>{list.responseTime} ms</td>
-              <td className={`${styles.tr} text-center`}>{formatUpdatedAt(list.updatedAt)}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
