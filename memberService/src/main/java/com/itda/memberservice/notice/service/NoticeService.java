@@ -2,10 +2,7 @@ package com.itda.memberservice.notice.service;
 
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
-import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.entity.Notice;
 import com.itda.memberservice.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +24,15 @@ public class NoticeService {
 
     }
 
-    public List<ReceiveUnReadNoticeResponse> unreadNoticeList(String employeeId) {
+    public List<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId) {
 
-        return noticeRepository.unreadNoticeList(employeeId);
+        return noticeRepository.receiveUnReadNoticeList(employeeId);
 
     }
 
-    public List<ReceiveReadNoticeResponse> readNoticeList(String employeeId) {
+    public List<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId) {
 
-        return noticeRepository.readNoticeList(employeeId);
+        return noticeRepository.receiveReadNoticeList(employeeId);
 
     }
 
@@ -65,11 +62,11 @@ public class NoticeService {
 
     }
 
-    public ReceiveNoticeDetailResponse detail(String employeeId, Long noticeId) {
+    public ReceiveNoticeDetailResponse receiveDetail(String employeeId, Long noticeId) {
 
         changeReadNotice(employeeId, noticeId);
 
-        return noticeRepository.detail(employeeId, noticeId);
+        return noticeRepository.receiveDetail(employeeId, noticeId);
 
     }
 
@@ -97,8 +94,35 @@ public class NoticeService {
                     .build());
 
         }
+    }
 
+    public List<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId) {
 
+        return noticeRepository.sendUnReadNoticeList(employeeId);
+
+    }
+
+    public List<SendReadNoticeResponse> sendReadNoticeList(String employeeId) {
+
+        return noticeRepository.sendReadNoticeList(employeeId);
+
+    }
+
+    public List<SendNoticeListResponse> sendAll(String employeeId) {
+
+        return noticeRepository.sendAll(employeeId);
+
+    }
+
+    public SendNoticeDetailResponse sendDetail(String employeeId, Long noticeId) {
+
+        SendNoticeDetailResponse response = noticeRepository.sendDetail(employeeId, noticeId);
+
+        if(response == null) {
+            throw new NotFoundException("해당하는 쪽지는 존재하지 않습니다.");
+        }
+
+        return response;
 
     }
 }

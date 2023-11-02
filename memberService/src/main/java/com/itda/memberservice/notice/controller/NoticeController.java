@@ -1,10 +1,7 @@
 package com.itda.memberservice.notice.controller;
 
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
-import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +34,11 @@ public class NoticeController {
     }
 
     // 안읽은 쪽지 개수 조회
-    @GetMapping("/unread-count")
+    @GetMapping("/receive/unread-count")
     @Operation(summary = "안읽은 쪽지 개수", description = "읽지 않은 쪽지 개수")
     public ResponseEntity<Long> unreadNoticeCount(@RequestHeader("member-id") String employeeId) {
 
-        log.info("{NoticeController} : 안읽은 쪽지 개수 조회 \n" +
+        log.info("{NoticeController} : 받은 쪽지 - 안읽은 쪽지 개수 조회 \n" +
                 "employeeId = " + employeeId);
         
         return ResponseEntity.ok(noticeService.unreadNoticeCount(employeeId));
@@ -49,35 +46,35 @@ public class NoticeController {
     }
 
     // 받은 쪽지 - 안읽은 쪽지 조회
-    @GetMapping("/unread")
+    @GetMapping("/receive/unread")
     @Operation(summary = "안읽은 쪽지 리스트", description = "아직 읽지 않은 쪽지 리스트 조회")
-    public ResponseEntity<List<ReceiveUnReadNoticeResponse>> unreadNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<List<ReceiveUnReadNoticeResponse>> receiveUnReadNoticeList(@RequestHeader("member-id") String employeeId) {
 
-        log.info("{NoticeController} : 안읽은 쪽지 조회 \n" +
+        log.info("{NoticeController} : 받은 쪽지 - 안읽은 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
         
-        return ResponseEntity.ok(noticeService.unreadNoticeList(employeeId));
+        return ResponseEntity.ok(noticeService.receiveUnReadNoticeList(employeeId));
 
     }
 
     // 받은 쪽지 - 읽은 쪽지 조회
-    @GetMapping("/read")
+    @GetMapping("/receive/read")
     @Operation(summary = "읽은 쪽지 리스트", description = "읽은 쪽지 리스트 조회")
-    public ResponseEntity<List<ReceiveReadNoticeResponse>> readNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<List<ReceiveReadNoticeResponse>> receiveReadNoticeList(@RequestHeader("member-id") String employeeId) {
 
-        log.info("{NoticeController} : 읽은 쪽지 조회 \n" +
+        log.info("{NoticeController} : 받은 쪽지 - 읽은 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
         
-        return ResponseEntity.ok(noticeService.readNoticeList(employeeId));
+        return ResponseEntity.ok(noticeService.receiveReadNoticeList(employeeId));
 
     }
 
     // 받은 쪽지 - 전체 쪽지 조회
-    @GetMapping("/all")
+    @GetMapping("/receive/all")
     @Operation(summary = "전체 쪽지 조회", description = "받은 쪽지 전체 조회")
     public ResponseEntity<List<ReceiveNoticeListResponse>> receiveAll(@RequestHeader("member-id") String employeeId) {
 
-        log.info("{NoticeController} : 전체 쪽지 조회 \n" +
+        log.info("{NoticeController} : 받은 쪽지 - 전체 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
         
         return ResponseEntity.ok(noticeService.receiveAll(employeeId));
@@ -85,24 +82,64 @@ public class NoticeController {
     }
 
     // 받은 쪽지 상세 조회
-    @GetMapping("/{notice_id}")
+    @GetMapping("/receive/{notice_id}")
     @Operation(summary = "쪽지 상세 조회", description = "쪽지 상세 조회하기")
-    public ResponseEntity<ReceiveNoticeDetailResponse> detail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
+    public ResponseEntity<ReceiveNoticeDetailResponse> receiveDetail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
 
         log.info("{NoticeController} : 쪽지 상세 조회 \n" +
                 "employeeId = " + employeeId);
 
-        return ResponseEntity.ok(noticeService.detail(employeeId, noticeId));
+        return ResponseEntity.ok(noticeService.receiveDetail(employeeId, noticeId));
 
     }
 
     // 보낸 쪽지 - 안읽은 쪽지 조회
+    @GetMapping("/send/unread")
+    @Operation(summary = "안읽은 쪽지 리스트", description = "보낸 쪽지 중 읽지 않은 쪽지 리스트 조회")
+    public ResponseEntity<List<SendUnReadNoticeResponse>> sendUnReadNoticeList(@RequestHeader("member-id") String employeeId) {
+
+        log.info("{NoticeController} : 보낸 쪽지 - 안읽은 쪽지 리스트 조회 \n" +
+                "employeeId = " + employeeId);
+
+        return ResponseEntity.ok(noticeService.sendUnReadNoticeList(employeeId));
+
+    }
 
     // 보낸 쪽지 - 읽은 쪽지 조회
+    @GetMapping("/send/read")
+    @Operation(summary = "읽은 쪽지 리스트", description = "보낸 쪽지 중 읽은 쪽지 리스트 조회")
+    public ResponseEntity<List<SendReadNoticeResponse>> sendReadNoticeList(@RequestHeader("member-id") String employeeId) {
+
+        log.info("{NoticeController} : 보낸 쪽지 - 읽은 쪽지 리스트 조회 \n" +
+                "employeeId = " + employeeId);
+
+        return ResponseEntity.ok(noticeService.sendReadNoticeList(employeeId));
+
+    }
 
     // 보낸 쪽지 - 전체 쪽지 조회
+    @GetMapping("/send/all")
+    @Operation(summary = "전체 쪽지 조회", description = "보낸 쪽지 전체 리스트 조회")
+    public ResponseEntity<List<SendNoticeListResponse>> sendAll(@RequestHeader("member-id") String employeeId) {
+
+        log.info("{NoticeController} : 보낸 쪽지 - 전체 쪽지 조회 \n" +
+                "employeeId = " + employeeId);
+
+        return ResponseEntity.ok(noticeService.sendAll(employeeId));
+
+    }
 
     // 보낸 쪽지 상세 조회
+    @GetMapping("/send/{notice_id}")
+    @Operation(summary = "보낸 쪽지 상세 조회", description = "보낸 쪽지 상세 내용 조회")
+    public ResponseEntity<SendNoticeDetailResponse> sendDetail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
+
+        log.info("{NoticeController} : 보낸 쪽지 상세 조회 \n" +
+                "employeeId = " + employeeId);
+
+        return ResponseEntity.ok(noticeService.sendDetail(employeeId, noticeId));
+
+    }
 
     // 쪽지 삭제 - 양쪽에 한쪽만 삭제
 

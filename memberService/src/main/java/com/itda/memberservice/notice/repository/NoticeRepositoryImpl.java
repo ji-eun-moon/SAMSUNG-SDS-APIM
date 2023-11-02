@@ -1,9 +1,6 @@
 package com.itda.memberservice.notice.repository;
 
-import com.itda.memberservice.notice.dto.response.ReceiveNoticeDetailResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveNoticeListResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveReadNoticeResponse;
-import com.itda.memberservice.notice.dto.response.ReceiveUnReadNoticeResponse;
+import com.itda.memberservice.notice.dto.response.*;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -37,7 +34,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<ReceiveUnReadNoticeResponse> unreadNoticeList(String employeeId) {
+    public List<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId) {
 
         return queryFactory
                 .select(Projections.fields(ReceiveUnReadNoticeResponse.class,
@@ -59,7 +56,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<ReceiveReadNoticeResponse> readNoticeList(String employeeId) {
+    public List<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId) {
 
         return queryFactory
                 .select(
@@ -105,7 +102,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public ReceiveNoticeDetailResponse detail(String employeeId, Long noticeId) {
+    public ReceiveNoticeDetailResponse receiveDetail(String employeeId, Long noticeId) {
 
         return queryFactory
                 .select(
@@ -117,13 +114,105 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                                 member.imageUrl.as("senderImage"),
                                 notice.title,
                                 notice.content,
-                                notice.createdAt))
+                                notice.createdAt
+                        )
+                )
                 .from(notice)
                 .leftJoin(notice.sender, member)
                 .where(
                         notice.noticeId.eq(noticeId)
                                 .and(notice.receiver.employeeId.eq(employeeId))
                 )
+                .orderBy(notice.createdAt.desc())
+                .fetchOne();
+
+    }
+
+    @Override
+    public List<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId) {
+        return queryFactory
+                .select(
+                        Projections.fields(SendUnReadNoticeResponse.class,
+                                notice.noticeId,
+                                member.memberId.as("receiverId"),
+                                member.name.as("receiverName"),
+                                member.imageUrl.as("receiverImage"),
+                                notice.title.as("title"),
+                                notice.createdAt
+                        )
+                )
+                .from(notice)
+                .leftJoin(notice.receiver, member)
+                .where(notice.sender.employeeId.eq(employeeId))
+                .orderBy(notice.createdAt.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<SendReadNoticeResponse> sendReadNoticeList(String employeeId) {
+
+        return queryFactory
+                .select(
+                        Projections.fields(SendReadNoticeResponse.class,
+                                notice.noticeId,
+                                member.memberId.as("receiverId"),
+                                member.name.as("receiverName"),
+                                member.imageUrl.as("receiverImage"),
+                                notice.title,
+                                notice.createdAt
+                        )
+                )
+                .from(notice)
+                .leftJoin(notice.receiver, member)
+                .where(notice.sender.employeeId.eq(employeeId))
+                .orderBy(notice.createdAt.desc())
+                .fetch();
+
+    }
+
+    @Override
+    public List<SendNoticeListResponse> sendAll(String employeeId) {
+
+        return queryFactory
+                .select(
+                        Projections.fields(SendNoticeListResponse.class,
+                                notice.noticeId,
+                                member.memberId.as("receiverId"),
+                                notice.title,
+                                member.name.as("receiverName"),
+                                member.imageUrl.as("receiverImage"),
+                                notice.createdAt,
+                                notice.isRead
+                                )
+                )
+                .from(notice)
+                .leftJoin(notice.receiver, member)
+                .where(notice.sender.employeeId.eq(employeeId))
+                .orderBy(notice.createdAt.desc())
+                .fetch();
+
+    }
+
+    @Override
+    public SendNoticeDetailResponse sendDetail(String employeeId, Long noticeId) {
+
+        return queryFactory
+                .select(
+                        Projections.fields(SendNoticeDetailResponse.class,
+                                member.memberId.as("receiverId"),
+                                member.name.as("receiverName"),
+                                member.department.as("receiverDepartment"),
+                                member.position.as("receiverPosition"),
+                                member.imageUrl.as("receiverImage"),
+                                notice.title,
+                                notice.content,
+                                notice.createdAt
+                                )
+                )
+                .from(notice)
+                .leftJoin(notice.receiver, member)
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.noticeId.eq(noticeId)))
                 .orderBy(notice.createdAt.desc())
                 .fetchOne();
 
