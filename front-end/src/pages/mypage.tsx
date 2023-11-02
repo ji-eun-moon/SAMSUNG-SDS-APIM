@@ -7,17 +7,22 @@ import MyPageBox from '@/components/organisms/MyPageBox';
 import { NextPage } from 'next';
 import { getUserInfo } from '@/utils/axios/user';
 import { useQuery } from 'react-query';
+import { getCategoryList } from '@/utils/axios/api';
+import { TCategoryList } from '@/types/Api';
 
 const MyPage: NextPage = () => {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
+  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
 
-  if (userInfo === undefined) {
+  if (userInfo === undefined || categoryList === undefined) {
     return null;
   }
 
+  const firstCategory = categoryList[0].categoryId;
+
   return (
     <SideLayout>
-      <NavBar position="side" userInfo={userInfo} noticeCnt="5" />
+      <NavBar position="side" userInfo={userInfo} noticeCnt="5" firstCategory={firstCategory} />
       <div>
         <GoBack label="마이페이지" />
         <MyPageBox userInfo={userInfo} />
