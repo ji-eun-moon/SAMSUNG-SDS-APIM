@@ -37,16 +37,21 @@ public class MemberService {
 
         log.info("{MemberService} : register 실행");
 
-        return memberRepository.save(Member.builder()
-                        .employeeId(request.getEmployeeId())
-                        .name(request.getName())
-                        .password(encoder.encode("1234"))
-                        .imageUrl(request.getImageUrl())
-                        .authority(request.getAuthority())
-                        .department(request.getDepartment())
-                        .position(request.getPosition())
-                        .email(request.getEmail())
+
+        Member save = memberRepository.save(Member.builder()
+                .employeeId(request.getEmployeeId())
+                .name(request.getName())
+                .password(encoder.encode("1234"))
+                .imageUrl(request.getImageUrl())
+                .authority(request.getAuthority())
+                .department(request.getDepartment())
+                .position(request.getPosition())
+                .email(request.getEmail())
                 .build());
+
+//        sendEmailPassword(request.getEmail(), );
+
+        return save;
 
     }
 
@@ -120,6 +125,10 @@ public class MemberService {
     public MemberResponse myInformation(String employeeId){
 
         return memberRepository.findMemberResponseByEmployeeId(employeeId);
+
+    }
+
+    public void sendEmailPassword(String email, String password) {
 
     }
 }
