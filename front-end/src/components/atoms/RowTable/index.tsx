@@ -40,7 +40,8 @@ function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
       <div className={`${style.table}`}>
         <span className={`${style.title}`}>{title}</span>
 
-        {bodys &&
+        {headers &&
+          bodys &&
           bodys.map((body) => (
             <div key={JSON.stringify(body)}>
               {headers &&
@@ -55,21 +56,23 @@ function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
                           wordBreak: 'break-all',
                         }}
                       >
-                        {(body as Record<string, string>)[header.text].includes('newnew') && (
+                        {((body as Record<string, string>)[header.text] || '').includes('newnew') && (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                             <Tag type="new" />
-                            {(body as Record<string, string>)[header.text].replace('newnew', '')}
+                            {((body as Record<string, string>)[header.text] || '').replace('newnew', '')}
                           </div>
                         )}
-                        {(body as Record<string, string>)[header.text].includes('chacha') && (
+                        {((body as Record<string, string>)[header.text] || '').includes('chacha') && (
                           <div>
                             <Tag type="change" />
-                            {(body as Record<string, string>)[header.text].replace('chacha', '')}
+                            {((body as Record<string, string>)[header.text] || '').replace('chacha', '')}
                           </div>
                         )}
-                        {!(body as Record<string, string>)[header.text].includes('newnew') &&
-                          !(body as Record<string, string>)[header.text].includes('chacha') &&
-                          (body as Record<string, string>)[header.text]}
+                        {!(
+                          ((body as Record<string, string>)[header.text] || '').includes('newnew') ||
+                          ((body as Record<string, string>)[header.text] || '').includes('chacha')
+                        ) &&
+                          ((body as Record<string, string>)[header.text] || '')}
                       </div>
                     </div>
                   </div>

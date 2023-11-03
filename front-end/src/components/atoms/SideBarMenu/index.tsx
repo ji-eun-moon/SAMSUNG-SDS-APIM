@@ -10,6 +10,10 @@ import { SideBarMenuProps } from '@/types/props/SideBarProps';
 function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
   const router = useRouter();
   const currentPath = router.asPath;
+  const decodedPath = decodeURIComponent(currentPath);
+
+  console.log('경로', currentPath);
+  console.log('경로', conditionList);
   const defaultKeys = ['1'];
 
   return (
@@ -21,7 +25,9 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
               key={condition.conditionId}
               onClick={() => router.push(`${condition.url}`)}
               aria-hidden
-              className={`my-2 itdaText cursor-pointer ${currentPath === `${condition.url}` ? 'font-semibold' : ''}`}
+              className={`my-2 pl-2 itdaText cursor-pointer ${
+                decodedPath === `${condition.url}` ? 'font-semibold' : ''
+              }`}
             >
               {condition.title}
             </li>
