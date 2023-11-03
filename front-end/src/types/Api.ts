@@ -23,10 +23,29 @@ export interface IApiDetail {
   method: 'GET' | 'POST';
   endpoint: string;
   input: string;
-  inputExample: string;
   output: string;
   outputExample: string;
+  categoryId: number;
 }
+
+export interface IApiInput {
+  name: string;
+  description: string;
+  example: string;
+  type: string;
+  required: string;
+}
+
+export type TApiInputList = IApiInput[];
+
+export interface IApiOutput {
+  name: string;
+  description: string;
+  example: string;
+  type: string;
+}
+
+export type TApiOutputList = IApiOutput[];
 
 export interface IApiTest {
   apiId: number;
