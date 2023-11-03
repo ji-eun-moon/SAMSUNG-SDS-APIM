@@ -1,7 +1,7 @@
-package com.itda.memberservice.memberTeam.controller;
+package com.itda.memberservice.memberteam.controller;
 
-import com.itda.memberservice.memberTeam.service.MemberTeamService;
 import com.itda.memberservice.memberteam.dto.request.MemberTeamCheckRequest;
+import com.itda.memberservice.memberteam.service.MemberTeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
