@@ -103,4 +103,9 @@ public class UseApplyService {
         return new UseApplyDetailResponse(useApplyRepository.findById(id).orElseThrow());
     }
 
+    public boolean checkUseApplyCheck(String teamName, Long categoryId) {
+        int check = useApplyRepository.findAllByTeamNameAndCategoryIdAndStateNot(teamName, categoryId, State.거절).size();
+        return check == 0;
+    }
+
 }

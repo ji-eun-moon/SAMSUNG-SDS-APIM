@@ -8,10 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface UseApplyRepository extends JpaRepository<UseApply, Long> {
     Page<UseApply> findAllByOrderByCreatedAtDesc(Pageable pageable);
     Page<UseApply> findAllByStateOrderByCreatedAtDesc(State state, Pageable pageable);
 
     Page<UseApply> findAllByTeamNameOrderByCreatedAtDesc(String teamName, Pageable pageable);
     Page<UseApply> findAllByTeamNameAndStateOrderByCreatedAtDesc(String teamName, State state, Pageable pageable);
+
+    List<UseApply> findAllByTeamNameAndCategoryIdAndStateNot(String teamName, Long categoryId, State state);
 }

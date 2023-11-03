@@ -91,4 +91,11 @@ public class UseController {
     public ResponseEntity<?> findByUseApplyId(@PathVariable("use-apply-id") Long useApplyId) {
         return ResponseEntity.ok(useApplyService.findByUseApplyId(useApplyId));
     }
+
+    @GetMapping("/team/use-check")
+    @Operation(summary = "사용 신청 가능 여부")
+    public ResponseEntity<?> checkUseApplyAvailable(@RequestParam(name = "teamName") String teamName,
+                                                    @RequestParam(name = "categoryId") Long categoryId) {
+        return ResponseEntity.ok(useApplyService.checkUseApplyCheck(teamName, categoryId));
+    }
 }
