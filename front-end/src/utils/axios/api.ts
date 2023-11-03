@@ -74,3 +74,20 @@ export async function getApiStatus() {
     return null;
   }
 }
+
+export async function getApiDetail(apiId: number) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/detail',
+      params: {
+        apiId,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
