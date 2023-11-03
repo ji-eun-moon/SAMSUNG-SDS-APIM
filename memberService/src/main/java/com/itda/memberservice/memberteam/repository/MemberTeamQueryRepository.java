@@ -1,4 +1,4 @@
-package com.itda.memberservice.memberTeam.repository;
+package com.itda.memberservice.memberteam.repository;
 
 public interface MemberTeamQueryRepository {
 
