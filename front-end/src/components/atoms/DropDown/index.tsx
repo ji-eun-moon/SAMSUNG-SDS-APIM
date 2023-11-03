@@ -1,7 +1,7 @@
 import React from 'react';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@nextui-org/react';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 interface IItem {
   title: string;
@@ -11,9 +11,10 @@ interface IItem {
 
 interface DropDownProps {
   list: IItem[];
+  trigger: React.ReactNode;
 }
 
-function DropDown({ list }: DropDownProps) {
+function DropDown({ list, trigger }: DropDownProps) {
   // const router = useRouter();
   // const list = [
   //   {
@@ -22,17 +23,13 @@ function DropDown({ list }: DropDownProps) {
   //     onClick: router.push('/')
   //   },
   //   {
-  //     title: '로그아웃', 
+  //     title: '로그아웃',
 
   //   }
   // ];
   return (
     <Dropdown>
-      <DropdownTrigger>
-        <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
-          <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
-        </Button>
-      </DropdownTrigger>
+      <DropdownTrigger>{trigger}</DropdownTrigger>
       <DropdownMenu variant="flat">
         {list?.map((item) => (
           <DropdownItem

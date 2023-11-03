@@ -7,12 +7,13 @@ import { IUserInfo } from '@/types/User';
 import SideLayout from '@/components/templates/SideLayout';
 import GoBack from '@/components/atoms/GoBack';
 import UserListBox from '@/components/organisms/UserListBox';
+import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledPagination from '@/components/atoms/StyledPagination';
 
 const MemberList: NextPage = () => {
   const [clickPage, setClickPage] = useState(1);
   const { data: memberList } = useQuery<IUserInfo>(`memberList ${clickPage}`, async () => {
-    const result = await getMembers({ page: clickPage - 1, size: 2 });
+    const result = await getMembers({ page: clickPage - 1, size: 10 });
     return result;
   });
 
@@ -27,9 +28,13 @@ const MemberList: NextPage = () => {
   return (
     <SideLayout>
       <GoBack label="사원 관리" />
-      <UserListBox userList={memberList.content} />
-      <div className="flex justify-center mt-4">
-        <StyledPagination totalPage={memberList?.totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
+      <div className="mt-8 ml-8">
+        <ShadowCard type="big">
+          <UserListBox userList={memberList.content} />
+          <div className="flex justify-center mt-4">
+            <StyledPagination totalPage={memberList?.totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
+          </div>
+        </ShadowCard>
       </div>
     </SideLayout>
   );

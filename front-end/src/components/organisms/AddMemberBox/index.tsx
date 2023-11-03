@@ -7,7 +7,7 @@ import { createMembers } from '@/utils/axios/user';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
 // import Modal from '@/components/organisms/Modal';
-import MemberTable from '@/components/atoms/MemberTable';
+import RegisterTable from '@/components/atoms/RegisterTable';
 import ToolTip from '@/components/atoms/ToolTip';
 import styles from './AddMemberBox.module.scss';
 
@@ -148,7 +148,7 @@ export default function MemberAdd() {
               <div className="mr-5 idtaText cursor-pointer">{file.name}</div>
               <Cancel />
             </button>
-            <MemberTable headerContent={header} bodyContent={body} height="400px" />
+            <RegisterTable headerContent={header} bodyContent={body} height="400px" />
             <div className="mt-5 flex justify-end">
               <div className="w-36">
                 <StyledButton
