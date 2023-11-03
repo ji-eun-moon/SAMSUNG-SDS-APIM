@@ -11,6 +11,7 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
   const router = useRouter();
   const currentPath = router.asPath;
   const defaultKeys = ['1'];
+  const decodedPath = decodeURIComponent(currentPath);
 
   return (
     <Accordion isCompact defaultExpandedKeys={defaultKeys}>
@@ -19,11 +20,12 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
           {conditionList.map((condition) => (
             <li
               key={condition.conditionId}
-              onClick={() => router.push(`${condition.url}`)}
+              onClick={() => {
+                router.push(`${condition.url}`)}}
               aria-hidden
-              className={`my-2 itdaText cursor-pointer ${currentPath === `${condition.url}` ? 'font-semibold' : ''}`}
+              className={`my-2 itdaText cursor-pointer ${decodedPath === `${condition.url}` ? 'font-semibold' : ''}`}
             >
-              {condition.title}
+              {condition.title} 
             </li>
           ))}
         </ul>
