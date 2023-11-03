@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@nextui-org/react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface IItem {
   title: string;
@@ -13,6 +14,18 @@ interface DropDownProps {
 }
 
 function DropDown({ list }: DropDownProps) {
+  // const router = useRouter();
+  // const list = [
+  //   {
+  //     title: '메인',
+  //     icon: '/icons/home.png',
+  //     onClick: router.push('/')
+  //   },
+  //   {
+  //     title: '로그아웃', 
+
+  //   }
+  // ];
   return (
     <Dropdown>
       <DropdownTrigger>
