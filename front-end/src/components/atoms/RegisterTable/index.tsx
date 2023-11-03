@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import styles from './MemberTable.module.scss';
+import styles from './RegisterTable.module.scss';
 
-interface MemberTableProps {
+interface RegisterTableProps {
   headerContent: string[];
   bodyContent: string[][];
   height?: string;
 }
 
-function MemberTable({ headerContent, bodyContent, height }: MemberTableProps) {
+function RegisterTable({ headerContent, bodyContent, height }: RegisterTableProps) {
   const [headers, setHeaders] = useState<string[]>([]);
   const [bodys, setBodys] = useState<string[][]>([]);
 
@@ -57,8 +57,8 @@ function MemberTable({ headerContent, bodyContent, height }: MemberTableProps) {
   );
 }
 
-MemberTable.defaultProps = {
+RegisterTable.defaultProps = {
   height: '100%',
 };
 
-export default MemberTable;
+export default RegisterTable;

@@ -1,0 +1,22 @@
+.tableWrapper {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  .header {
+    background-color: $itda-blue;
+    color: #fff;
+  }
+  
+  .th {
+    padding: 10px 0;
+    font-weight: 500;
+    border: 1px solid $itda-border;
+  }
+  
+  .tr {
+    padding: 10px;
+    border: 1px solid $itda-border;
+  }
+  

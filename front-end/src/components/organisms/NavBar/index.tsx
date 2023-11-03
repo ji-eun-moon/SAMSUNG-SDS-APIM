@@ -4,6 +4,7 @@ import Image from 'next/image';
 import StyledButton from '@/components/atoms/StyledButton';
 import { useRouter } from 'next/router';
 import { logout } from '@/utils/axios/auth';
+import { Button } from '@nextui-org/react';
 import CountBadge from '@/components/atoms/CountBadge';
 import SelectBox from '@/components/atoms/SelectBox';
 import NoticeDropDown from '@/components/atoms/NoticeDropDown';
@@ -162,12 +163,27 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           {/* 쪽지 */}
           <div className="flex mr-6">
             <CountBadge count={noticeCnt}>
-              <NoticeDropDown>{notices}</NoticeDropDown>
+              <NoticeDropDown
+                trigger={
+                  <button type="button" className={styles.button}>
+                    <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
+                  </button>
+                }
+              >
+                {notices}
+              </NoticeDropDown>
             </CountBadge>
           </div>
           {/* 바로가기 드롭다운 */}
           <div className="mr-3">
-            <DropDown list={dropDownList} />
+            <DropDown
+              trigger={
+                <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
+                  <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
+                </Button>
+              }
+              list={dropDownList}
+            />
           </div>
         </div>
       </div>
