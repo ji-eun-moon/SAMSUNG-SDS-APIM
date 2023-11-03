@@ -1,14 +1,11 @@
-package com.itda.memberservice.memberTeam.repository;
+package com.itda.memberservice.memberteam.repository;
 
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 
-import static com.itda.memberservice.member.entity.QMember.member;
 import static com.itda.memberservice.memberteam.entity.QMemberTeam.memberTeam;
-import static com.itda.memberservice.team.entity.QTeam.team;
 
-public class MemberTeamRepositoryImpl implements MemberTeamQueryRepository{
+public class MemberTeamRepositoryImpl implements MemberTeamQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
