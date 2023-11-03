@@ -1,10 +1,9 @@
-package com.itda.memberservice.memberTeam.service;
+package com.itda.memberservice.memberteam.service;
 
 import com.itda.memberservice.member.entity.Member;
-import com.itda.memberservice.memberTeam.repository.MemberTeamRepository;
 import com.itda.memberservice.memberteam.dto.request.MemberTeamCheckRequest;
 import com.itda.memberservice.memberteam.entity.MemberTeam;
-
+import com.itda.memberservice.memberteam.repository.MemberTeamRepository;
 import com.itda.memberservice.team.entity.Team;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
