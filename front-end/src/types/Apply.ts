@@ -13,7 +13,7 @@ export interface IUseApply {
 
 export interface IProvide {
   provideId: string | number;
-  applyType: '신규' | '변경' | string;
+  applyType: string;
   serverName: string;
   teamName: string;
   providerName: string;
@@ -26,10 +26,6 @@ export type TProvideList = IProvide[];
 export interface IResponseProvide {
   content: TProvideList;
   totalPages: number;
-}
-
-export interface IProvideId {
-  provideId: number;
 }
 
 export interface IUse {
@@ -45,7 +41,7 @@ export type TUseList = IUse[];
 
 export interface IProvideDetail extends IProvide {
   description: string;
-  failReason: string;
+  denyReason: string;
   apiDocs: string;
 }
 

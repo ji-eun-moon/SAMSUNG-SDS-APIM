@@ -10,7 +10,7 @@ interface StatusTitleProps {
 function ApiCard({ apiName, apiAddress, apiId }: StatusTitleProps) {
   const router = useRouter();
   const onGoDetailHandler = (id: number) => {
-    router.push(`/apis/${id}/detail`);
+    router.push(`/apis/detail/${id}`);
   };
   return (
     <button type="button" onClick={() => onGoDetailHandler(apiId)} className="flex flex-col itdaText">

@@ -82,8 +82,23 @@ export interface IApiStatus {
   apiStatus: '정상' | '점검' | '오류';
 }
 
-export interface IApiStatusList {
-  apiStatusResponses: IApiStatus[];
-  page: number;
-  totalPage: number;
+export type IApiStatusList = IApiStatus[];
+
+export interface IApiStatusInfo {
+  content: IApiStatusList;
+  totalPages: number;
 }
+
+export interface Pageable {
+  status: string;
+  page: number;
+  size: number;
+}
+
+// export interface IApiStatusList  {
+//   apiStatusResponses: IApiStatus[];
+//   page: number;
+//   totalPage: number;
+// }
+
+// export interface

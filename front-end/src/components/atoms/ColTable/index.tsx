@@ -14,7 +14,6 @@ interface ColTableProps {
  */
 
 function ColTable({ headerContent, bodyContent, onGoDetail }: ColTableProps) {
-  console.log('bodyContent', bodyContent);
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
   const [bodys, setBodys] = useState<
     null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
@@ -48,10 +47,42 @@ function ColTable({ headerContent, bodyContent, onGoDetail }: ColTableProps) {
             <tr
               key={JSON.stringify(body)}
               className={`${style.body}`}
-              onClick={() => onGoDetail((body as Record<string, string>).ID)}
+              onClick={() => {
+                const id = (body as Record<string, string>).ID;
+                if (/^\d+$/.test(id)) {
+                  // 정규표현식을 사용하여 숫자로 이루어져 있는지 확인
+                  onGoDetail(id);
+                }
+              }}
             >
               {headers &&
-                headers.map((header) => <td key={header.text}>{(body as Record<string, string>)[header.value]}</td>)}
+                headers.map((header) => {
+                  const cellContent = (body as Record<string, string>)[header.value];
+                  let textStyle = ''; // 기본 텍스트 스타일
+
+                  // header.text가 상태일 때 스타일을 변경합니다.
+                  if (header.text === '상태') {
+                    switch (cellContent) {
+                      case '대기':
+                        textStyle = 'text-gray-500';
+                        break;
+                      case '승인':
+                        textStyle = 'text-blue-500';
+                        break;
+                      case '거절':
+                        textStyle = 'text-red-500';
+                        break;
+                      default:
+                        break;
+                    }
+                  }
+
+                  return (
+                    <td key={header.text} className={textStyle}>
+                      {cellContent}
+                    </td>
+                  );
+                })}
             </tr>
           ))}
       </tbody>

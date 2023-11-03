@@ -21,8 +21,8 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
 
   const [clickPage, setClickPage] = useState(1);
   const { data: responseProvide } = useQuery<IResponseProvide>(
-    ['provideApplyList', clickPage], // 첫 번째 인자는 쿼리 키입니다.
-    () => getProvideApplyList(clickPage - 1), // 두 번째 인자는 해당 쿼리에 대한 함수입니다.
+    ['provideApplyList', clickPage], // 첫 번째 인자는 쿼리 키
+    () => getProvideApplyList(clickPage - 1), // 두 번째 인자는 해당 쿼리에 대한 함수
   );
 
   if (!responseProvide) {
@@ -51,9 +51,9 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
     상태: list.state,
   }));
 
-  // 다음 페이지의 데이터가 적을 경우 빈 값을 추가합니다.
-  if (bodyContent.length < 6) {
-    while (bodyContent.length < 6) {
+  // 다음 페이지의 데이터가 적을 경우 빈 값을 추가
+  if (bodyContent.length < 9) {
+    while (bodyContent.length < 9) {
       bodyContent.push({
         ID: `empty_${bodyContent.length + 1}`,
         구분: '',
@@ -72,7 +72,6 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
 
   const handlePageClick = (clickedPage: number) => {
     setClickPage(clickedPage);
-    // queryClient.removeQueries(['provideApplyList', clickPage]); // 이전 페이지의 데이터를 제거
   };
 
   return (
@@ -80,7 +79,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
       <ApplySideBar isUser={isUser} />
       <div className={`${style.listContainer}`}>
         <div className={`${style.label}`}>
-          <GoBack label="API 제공 신청 내역" />
+          <GoBack label="서버 제공 신청 내역" />
         </div>
         <ColTable headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
         <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
