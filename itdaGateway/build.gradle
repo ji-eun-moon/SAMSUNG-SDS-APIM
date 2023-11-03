@@ -46,6 +46,12 @@ dependencies {
 
     // 스프링 클라우드 버스
     implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // 프로메테우스
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 dependencyManagement {

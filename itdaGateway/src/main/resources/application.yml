@@ -95,7 +95,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httpExchanges, busRefresh
+        include: refresh, health, beans, httpExchanges, busRefresh, prometheus
 
 security:
   jwt:
