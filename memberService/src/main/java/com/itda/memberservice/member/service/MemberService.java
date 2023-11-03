@@ -16,11 +16,12 @@ import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.mail.internet.MimeMessage;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -123,9 +124,9 @@ public class MemberService {
         return memberRepository.findByName(name);
     }
 
-    public List<MemberResponse> findAll() {
+    public Page<MemberResponse> findAll(Pageable pageable) {
 
-        return memberRepository.findMemberResponse();
+        return memberRepository.findMemberResponse(pageable);
 
     }
 

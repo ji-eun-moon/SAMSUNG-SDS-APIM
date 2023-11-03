@@ -8,6 +8,9 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -71,7 +74,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public List<MemberResponse> findMemberResponse() {
+    public Page<MemberResponse> findMemberResponse(Pageable pageable) {
         List<MemberResponse> results = queryFactory
                 .select(Projections.fields(MemberResponse.class,
                         member.memberId,
@@ -84,6 +87,8 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                         member.email
                 ))
                 .from(member)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         for (MemberResponse result : results) {
@@ -103,7 +108,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
 
         }
 
-        return results;
+        return PageableExecutionUtils.getPage(results, pageable, results::size);
 
     }
 

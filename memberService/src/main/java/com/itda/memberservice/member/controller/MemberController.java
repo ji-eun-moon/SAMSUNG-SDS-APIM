@@ -18,6 +18,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -156,11 +158,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<Page<MemberResponse>> findAll(Pageable pageable) {
 
         log.info("{MemberController} : 전체 회원 조회");
 
-        return ResponseEntity.ok(memberService.findAll());
+        return ResponseEntity.ok(memberService.findAll(pageable));
 
     }
 
