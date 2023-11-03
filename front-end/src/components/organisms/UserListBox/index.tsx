@@ -1,7 +1,6 @@
 import React from 'react';
 import { TUserList } from '@/types/User';
 import { useRouter } from 'next/router';
-import ShadowCard from '@/components/atoms/ShadowCard';
 import MemberTable from '@/components/organisms/MemberTable';
 import styles from './UserListBox.module.scss';
 
