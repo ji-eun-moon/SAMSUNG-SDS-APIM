@@ -29,7 +29,8 @@ public class TeamRepositoryImpl implements TeamQueryRepository{
                         member.email,
                         member.department,
                         member.position))
-                .from(memberTeam.member, member)
+                .from(memberTeam)
+                .leftJoin(memberTeam.member, member)
                 .where(memberTeam.team.name.eq(teamName))
                 .fetch();
 
