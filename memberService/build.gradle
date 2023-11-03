@@ -79,6 +79,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    // Feign Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
 
 }
 
