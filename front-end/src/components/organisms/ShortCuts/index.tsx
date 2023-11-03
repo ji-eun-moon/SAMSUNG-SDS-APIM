@@ -6,11 +6,15 @@ import { useQuery } from 'react-query';
 import { getCategoryList } from '@/utils/axios/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import Link from 'next/link';
+import { IUser } from '@/types/User';
+import { getUserInfo } from '@/utils/axios/user';
 import Modal from '../Modal';
 
 function ShortCuts() {
   const router = useRouter();
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
 
   let firstCategory = 0;
@@ -24,6 +28,7 @@ function ShortCuts() {
     monitoring: '/monitoring',
     applyList: '/apply/use/list',
     allApi: `/category/${firstCategory}`,
+    memberList: `/member/list`,
   };
 
   const closeModal = () => {
@@ -50,7 +55,7 @@ function ShortCuts() {
 
         <div
           onClick={() => {
-            if (firstCategory === 0) {
+            if (firstCategory === 0 || firstCategory === undefined) {
               setAlertOpen(true);
             } else {
               router.push(urlList.statistics);
@@ -67,8 +72,7 @@ function ShortCuts() {
             <p className={style.cardtitle}>통계</p>
           </div>
         </div>
-
-        <div onClick={() => router.push(urlList.monitoring)} aria-hidden>
+        <Link href={urlList.monitoring} target="_blank">
           <div className={style.cardContainer}>
             <ShadowCard type="small">
               <div className={style.imgContainer}>
@@ -83,7 +87,7 @@ function ShortCuts() {
             </ShadowCard>
             <p className={style.cardtitle}>서버 모니터링</p>
           </div>
-        </div>
+        </Link>
 
         <div onClick={() => router.push(urlList.applyList)} aria-hidden>
           <div className={style.cardContainer}>
@@ -96,25 +100,48 @@ function ShortCuts() {
           </div>
         </div>
 
-        <div
-          onClick={() => {
-            if (firstCategory === 0) {
-              setAlertOpen(true);
-            } else {
-              router.push(urlList.allApi);
-            }
-          }}
-          aria-hidden
-        >
-          <div className={style.cardContainer}>
-            <ShadowCard type="small">
-              <div className={style.imgContainer}>
-                <Image src="/images/APIList.png" alt="next-icon" width={100} height={100} className={style.iconImg} />
-              </div>
-            </ShadowCard>
-            <p className={style.cardtitle}>API 목록</p>
+        {/* API 신청 목록 */}
+        {userInfo?.authority === '관리자' ? (
+          <div
+            onClick={() => {
+              if (firstCategory === 0) {
+                setAlertOpen(true);
+              } else {
+                router.push(urlList.memberList);
+              }
+            }}
+            aria-hidden
+          >
+            <div className={style.cardContainer}>
+              <ShadowCard type="small">
+                <div className={style.imgContainer}>
+                  <Image src="/images/APIList.png" alt="next-icon" width={100} height={100} className={style.iconImg} />
+                </div>
+              </ShadowCard>
+              <p className={style.cardtitle}>팀 관리</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            onClick={() => {
+              if (firstCategory === 0) {
+                setAlertOpen(true);
+              } else {
+                router.push(urlList.allApi);
+              }
+            }}
+            aria-hidden
+          >
+            <div className={style.cardContainer}>
+              <ShadowCard type="small">
+                <div className={style.imgContainer}>
+                  <Image src="/images/APIList.png" alt="next-icon" width={100} height={100} className={style.iconImg} />
+                </div>
+              </ShadowCard>
+              <p className={style.cardtitle}>API 목록</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

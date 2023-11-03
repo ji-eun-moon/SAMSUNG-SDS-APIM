@@ -1,12 +1,14 @@
 import style from '@/styles/MainPage.module.scss';
 import ShadowCard from '@/components/atoms/ShadowCard';
+import useUserStore from '@/store/useUserStore';
 
 function ApplySummary() {
+  const { selectedTeam } = useUserStore();
   return (
     <div>
       <div className={style.partTop}>
         <span className={`${style.partTitle}`}>
-          <span className="itdaBlue">김사원</span>님의 신청목록
+          <span className="itdaBlue">{selectedTeam}</span>팀의 신청목록
         </span>
         <span className={style.goDetail}>
           상세보기
