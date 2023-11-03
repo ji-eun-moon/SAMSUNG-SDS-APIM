@@ -87,6 +87,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                         member.email
                 ))
                 .from(member)
+                .orderBy(member.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -108,7 +109,12 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
 
         }
 
-        return PageableExecutionUtils.getPage(results, pageable, results::size);
+        Long count = queryFactory
+                .select(member.count())
+                .from(member)
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(results, pageable, () -> count);
 
     }
 
