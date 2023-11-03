@@ -6,7 +6,7 @@ import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
-import com.itda.memberservice.memberTeam.service.MemberTeamService;
+import com.itda.memberservice.memberteam.service.MemberTeamService;
 import com.itda.memberservice.team.entity.Team;
 import com.itda.memberservice.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
