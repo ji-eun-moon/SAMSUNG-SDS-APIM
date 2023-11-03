@@ -1,20 +1,15 @@
 import React from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
-import Image from 'next/image';
-import styles from './NoticeDropDown.module.scss';
 
 interface NoticeDropDownProps {
+  trigger: React.ReactNode;
   children: React.ReactNode;
 }
 
-function NoticeDropDown({ children }: NoticeDropDownProps) {
+function NoticeDropDown({ trigger, children }: NoticeDropDownProps) {
   return (
     <Dropdown>
-      <DropdownTrigger>
-        <button type="button" className={styles.button}>
-          <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
-        </button>
-      </DropdownTrigger>
+      <DropdownTrigger>{trigger}</DropdownTrigger>
       <DropdownMenu
         aria-label="Static Actions"
         itemClasses={{

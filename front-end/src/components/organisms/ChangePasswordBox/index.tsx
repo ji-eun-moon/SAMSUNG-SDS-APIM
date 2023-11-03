@@ -6,7 +6,7 @@ import StyledButton from '@/components/atoms/StyledButton';
 
 const Icon = () => (
   <svg
-    className="w-6 h-6 text-gray-500 dark:text-white"
+    className="w-5 h-5 itdaSecondary dark:text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -73,7 +73,7 @@ function ChangePasswordBox() {
     <div className="w-full">
       <div className="flex items-center mb-5">
         <Icon />
-        <div className="ml-2 text-lg itdaText text-semibold">개인정보 확인</div>
+        <div className="ml-2 text-lg itdaText text-semibold">비밀번호 변경</div>
       </div>
       <div className="ml-8">
         <form onSubmit={onSubmitHandler}>

@@ -51,7 +51,7 @@ export async function getApiStatus({ status, page, size }: Pageable) {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: 'https://k9c201.p.ssafy.io/api/server/apis/status',
+        url: '/server/apis/status',
         params: {
           page,
           size,

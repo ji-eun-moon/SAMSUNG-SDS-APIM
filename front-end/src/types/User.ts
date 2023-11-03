@@ -32,6 +32,7 @@ export interface IUser {
   employeeId: string;
   department: string;
   position: string;
+  memberId: number;
   teams: TTeamList;
   // authority: '일반' | '관리자';
   authority: string;
@@ -39,6 +40,11 @@ export interface IUser {
 
 // 관리자 - 전체 사원
 export type TUserList = IUser[];
+
+export interface IUserInfo {
+  content: TUserList;
+  totalPages: number;
+}
 
 // 팀의 토큰
 export interface ITeamToken {
@@ -73,3 +79,8 @@ export interface IUserData {
 }
 
 export type TUserDataList = IUserData[];
+
+export interface Pageable {
+  page: number;
+  size: number;
+}
