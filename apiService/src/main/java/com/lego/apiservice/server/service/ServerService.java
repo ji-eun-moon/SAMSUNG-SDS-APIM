@@ -1,6 +1,6 @@
 package com.lego.apiservice.server.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import com.lego.apiservice.api.entity.domain.ApiStatus;
@@ -10,9 +10,9 @@ import com.lego.apiservice.category.repository.CategoryRepository;
 import com.lego.apiservice.redis.service.RedisService;
 import com.lego.apiservice.server.dto.request.CreateServerRequest;
 import com.lego.apiservice.server.dto.request.ParameterInfo;
+import com.lego.apiservice.server.dto.request.ResponseInfo;
 import com.lego.apiservice.server.entity.Server;
 import com.lego.apiservice.server.repository.ServerRepository;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Paths;
@@ -20,6 +20,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.json.JSONParser;
+import org.bson.json.JsonObject;
+import org.json.simple.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,8 @@ import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static io.netty.util.CharsetUtil.encoder;
 
 @Service
 @Slf4j
@@ -111,15 +116,14 @@ public class ServerService {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
+            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
             LocalDateTime second = LocalDateTime.now();
             Duration diff = Duration.between(first, second);
             log.info(String.valueOf(diff.toMillis()));
             status.put("diff", String.valueOf(diff.toMillis()));
             status.put("status", responseEntity.getStatusCode().toString());
-            status.put("output", String.valueOf(responseEntity.getBody()));
+            status.put("output", responseEntity.getBody().toString());
 
-            log.info(responseEntity.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,12 +158,20 @@ public class ServerService {
 
     @Transactional
     public void apiRegister(Paths paths, String endpoint, String itdaEndpoint, Components components) {
+
         paths.forEach((uri, pathItem) -> {
-            List<ParameterInfo> parameterInfoList = new ArrayList<>();
+            List<String> parameterInfoList = new ArrayList<>();
             MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
             if (pathItem.getGet() != null) {
                 pathItem.getGet().getParameters().forEach(parameter -> {
-                    parameterInfoList.add(new ParameterInfo(parameter.getName(), parameter.getDescription(), String.valueOf(parameter.getExample()), parameter.getSchema().getType()));
+                    Map<String, String> parameterInfo = new HashMap<>();
+                    parameterInfo.put("name", parameter.getName());
+                    parameterInfo.put("description", parameter.getDescription());
+                    parameterInfo.put("example", String.valueOf(parameter.getExample()));
+                    parameterInfo.put("type", parameter.getSchema().getType());
+                    parameterInfo.put("required", String.valueOf(parameter.getRequired()));
+
+                    parameterInfoList.add(new JSONObject(parameterInfo).toString());
                     queryParams.put(parameter.getName(), Collections.singletonList(String.valueOf(parameter.getExample())));
                 });
                 log.info(uri);
@@ -182,25 +194,24 @@ public class ServerService {
                 } else {
                     apiStatus = ApiStatus.점검;
                 }
-                List<ParameterInfo> output = new ArrayList<>();
+                List<String> output = new ArrayList<>();
                 components.getSchemas().get(pathItem.getGet().getResponses().get("200").getContent().get("*/*").getSchema()
                         .get$ref().split("/")[3]).getProperties().forEach((key, value) -> {
                     log.info(key.toString());
                     Schema schema = (Schema) value;
-                    output.add(new ParameterInfo(key.toString(), schema.getDescription(), String.valueOf(schema.getExample()), schema.getType()));
+                    Map<String, String> responseInfo = new HashMap<>();
+                    responseInfo.put("name", key.toString());
+                    responseInfo.put("description", schema.getDescription());
+                    responseInfo.put("example", String.valueOf(schema.getExample()));
+                    responseInfo.put("type", schema.getType());
+                    output.add(new JSONObject(responseInfo).toString());
                 });
                 Category category = categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow();
                 apiRepository.save(Api.builder()
                                 .title(pathItem.getGet().getSummary())
                                 .content(pathItem.getGet().getDescription())
-                                .input(parameterInfoList.toString().replace("ParameterInfo", "")
-                                        .replace("(", "{")
-                                        .replace(")", "}")
-                                        .replace("=", ":"))
-                                .output(output.toString().replace("ParameterInfo", "")
-                                        .replace("(", "{")
-                                        .replace(")", "}")
-                                        .replace("=", ":"))
+                                .input(parameterInfoList.toString())
+                                .output(output.toString())
                                 .outputExample(status.get("output"))
                                 .endpoint(itdaEndpoint+uri)
                                 .apiMethod(ApiMethod.GET)

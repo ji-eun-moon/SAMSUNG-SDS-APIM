@@ -20,6 +20,8 @@ public class Api {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "api_id")
     private Long id;
+
+    @Column(length = 50000)
     private String input;
     @Column(length = 50000)
     private String output;

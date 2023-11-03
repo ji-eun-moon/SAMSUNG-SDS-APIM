@@ -9,10 +9,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ParameterInfo {
+public class ResponseInfo {
     private String name;
     private String description;
     private String example;
     private String type;
-    private boolean required;
 }
