@@ -2,8 +2,8 @@ import { ApiKeyTableProps, InputTableProps, OutputTableProps } from '@/types/pro
 import styles from './ApiKeyTable.module.scss';
 
 function ApiKeyTable({ type, ...props }: ApiKeyTableProps) {
-  const inputHeaders = ['Name', 'Type', 'Description', '필수'];
-  const outputHeaders = ['Name', 'Type', 'Description'];
+  const inputHeaders = ['이름', '타입', '설명', '필수'];
+  const outputHeaders = ['이름', '타입', '설명'];
 
   if (type === 'input') {
     const { keyList } = props as InputTableProps;
@@ -42,37 +42,39 @@ function ApiKeyTable({ type, ...props }: ApiKeyTableProps) {
       </div>
     );
   }
-  const { keyList } = props as OutputTableProps;
-  return (
-    <div>
-      <table className="w-full">
-        <thead>
-          <tr>
-            {outputHeaders.map((header) => (
-              <th key={header} className="bgItdaBlue text-white py-2">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="bg-white w-full">
-          {keyList.map((list) => (
-            <tr key={list.name} className="text-center">
-              <td className={styles.trOutput}>
-                <div>{list.name}</div>
-              </td>
-              <td className={styles.trOutput}>
-                <div>{list.type}</div>
-              </td>
-              <td className={styles.trOutput}>
-                <div>{list.description}</div>
-              </td>
+  if (type === 'output') {
+    const { keyList } = props as OutputTableProps;
+    return (
+      <div>
+        <table className="w-full">
+          <thead>
+            <tr>
+              {outputHeaders.map((header) => (
+                <th key={header} className="bgItdaBlue text-white py-2">
+                  {header}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+          </thead>
+          <tbody className="bg-white w-full">
+            {keyList.map((list) => (
+              <tr key={list.name} className="text-center">
+                <td className={styles.trOutput}>
+                  <div>{list.name}</div>
+                </td>
+                <td className={styles.trOutput}>
+                  <div>{list.type}</div>
+                </td>
+                <td className={styles.trOutput}>
+                  <div>{list.description}</div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 }
 
 export default ApiKeyTable;

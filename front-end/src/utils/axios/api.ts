@@ -90,7 +90,22 @@ export async function getApiDetail(apiId: number) {
         apiId,
       },
     });
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getApiTestInfo(apiId: number) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/test',
+      params: {
+        apiId,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
