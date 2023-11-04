@@ -46,7 +46,9 @@ function Category({ categoryName, categoryId, apiList, isOpen, my }: CategoryPro
             >
               <div
                 className={`my-2 itdaText cursor-pointer text-sm ${
-                  currentPath === `/apis/detail/${item.apiId}` ? 'font-semibold' : ''
+                  currentPath === `/apis/detail/${item.apiId}` || currentPath === `/apis/test/${item.apiId}`
+                    ? 'font-semibold'
+                    : ''
                 }`}
               >
                 {item.apiName}

@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "src/styles/colors.scss";`,
+    prependData: `@import "src/styles/colors.scss"; @import "src/styles/common.scss";`,
   },
   images: {
     domains: ['findmyguide.s3.amazonaws.com'],

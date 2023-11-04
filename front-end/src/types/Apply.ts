@@ -11,6 +11,11 @@ export interface IUseApply {
   categoryId: number;
 }
 
+export interface ICheckApplyAvailable {
+  categoryId: number;
+  teamName: string;
+}
+
 export interface IProvide {
   provideId: string | number;
   applyType: string;
