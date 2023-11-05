@@ -16,6 +16,7 @@ import Editor from '@monaco-editor/react';
 import { isValidJSON, formatJsonToCurl, JsonData } from '@/utils/json';
 import ApiTestForm from '@/components/organisms/api/ApiTestForm';
 import ApiTestLayout from '@/components/templates/ApiTestLayout';
+import Copy from '@/components/atoms/Copy';
 
 type SSGProps = {
   apiId: number;
@@ -24,8 +25,17 @@ type SSGProps = {
 const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   const router = useRouter();
   const { selectedTeam } = useUserStore();
-  const { testRequest, testResponse, status, loading, resetParams, resetStatus, resetTestRequest, resetTestResponse } =
-    useTestStore();
+  const {
+    testRequest,
+    testResponse,
+    status,
+    loading,
+    resetParams,
+    resetStatus,
+    resetTestRequest,
+    resetTestResponse,
+    setTestResponse,
+  } = useTestStore();
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
   const { data: useCategoryList } = useQuery<TCategoryList>(
     `useCategoryList ${selectedTeam}`,
@@ -53,21 +63,22 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     return result;
   });
 
-  useEffect(
+  useEffect(() => {
+    setTestResponse(apiTestInfo?.outputExample || '');
     // 언마운트 될 때 스토어 값 초기화
-    () => {
+    return () => {
       resetStatus();
       resetTestRequest();
       resetTestResponse();
-    },
-    [apiTestInfo, resetParams, resetStatus, resetTestRequest, resetTestResponse],
-  );
+    };
+  }, [apiTestInfo, resetParams, resetStatus, resetTestRequest, resetTestResponse, setTestResponse]);
 
   if (!categoryList || !useCategoryList || !provideCategoryList || !apiTestInfo) {
     return <PageLoading />;
   }
 
   const editorOptions = {
+    readOnly: true,
     minimap: {
       enabled: false,
     },
@@ -106,10 +117,19 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
 
           {/* 요청 예시 */}
           <div>
-            <div className="itdaText font-semibold text-base mb-2">요청 예시</div>
+            <div className="flex justify-between items-center mb-2">
+              <div className="itdaText font-semibold text-base">요청 예시</div>
+              <Copy
+                copyText={
+                  isValidJSON(testRequest as string)
+                    ? formatJsonToCurl(JSON.parse(testRequest as string) as JsonData)
+                    : ''
+                }
+              />
+            </div>
             <Editor
               height="100px"
-              language="curl"
+              language="linux"
               value={
                 isValidJSON(testRequest as string)
                   ? formatJsonToCurl(JSON.parse(testRequest as string) as JsonData)
@@ -121,18 +141,21 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
           </div>
 
           {/* 상태 */}
-          <div className="flex gap-5 items-center">
-            <div
-              className={`w-5 h-5 rounded-full ${
-                status && status.toString().startsWith('2') ? 'bg-green-600' : 'bg-red-600'
-              }`}
-            />
-            <div className="font-bold">{status}</div>
+          <div className="flex gap-5 items-center justify-between">
+            <div className="flex gap-2 items-center">
+              <div
+                className={`w-5 h-5 rounded-full ${
+                  status && status.toString().startsWith('2') ? 'bg-green-600' : 'bg-red-600'
+                }`}
+              />
+              <div className="font-bold">{status}</div>
+              <div>{loading && <Spinner size="sm" />}</div>
+            </div>
+            <Copy copyText={isValidJSON(testResponse) ? JSON.stringify(JSON.parse(testResponse), null, 2) : ''} />
           </div>
 
           {/* 응답 결과 */}
           <div>
-            <div>{loading && <Spinner size="sm" />}</div>
             <Editor
               height="500px"
               language="json"
