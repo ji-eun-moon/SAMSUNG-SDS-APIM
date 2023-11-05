@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
 import PageLoading from '@/components/atoms/PageLoading';
-import useStore from '@/hooks/useStore';
 import useUserStore from '@/store/useUserStore';
 import Modal from '@/components/organisms/Modal';
 import TextArea from '@/components/atoms/TextArea';
@@ -26,7 +25,7 @@ type SSGProps = {
 const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [textWord, setTextWord] = useState('');
-  const selectedTeam = useStore(useUserStore, (state) => state.selectedTeam);
+  const { selectedTeam } = useUserStore();
   const router = useRouter();
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
   const { data: useCategoryList } = useQuery<TCategoryList>(

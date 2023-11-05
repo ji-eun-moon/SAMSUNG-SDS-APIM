@@ -1,16 +1,18 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { IResponseProvide } from '@/types/Apply';
-import { getProvideApplyList } from '@/utils/axios/apply';
+import { getUserInfo } from '@/utils/axios/user';
+import { getProvideApplyList, getAdminProvideApplyList } from '@/utils/axios/apply';
 import ApplySideBar from '@/components/organisms/ApplySideBar';
 import BothLayout from '@/components/templates/BothLayout';
 import ColTable from '@/components/atoms/ColTable';
 import GoBack from '@/components/atoms/GoBack';
 import StyledPagination from '@/components/atoms/StyledPagination';
 import style from '@/styles/ProvideList.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
+import { IUser } from '@/types/User';
 
 type SSRProps = {
   isUser: boolean;
@@ -18,13 +20,36 @@ type SSRProps = {
 
 const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const router = useRouter();
-
+  const [state, setState] = useState('');
   const [clickPage, setClickPage] = useState(1);
+const { data: userInfo = { authority: '' } } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: responseProvide } = useQuery<IResponseProvide>(
-    ['provideApplyList', clickPage], // 첫 번째 인자는 쿼리 키
-    () => getProvideApplyList(clickPage - 1), // 두 번째 인자는 해당 쿼리에 대한 함수
+    ['provideApplyList', clickPage, state], // 첫 번째 인자는 쿼리 키
+    () => getProvideApplyList(clickPage - 1, state), // 두 번째 인자는 해당 쿼리에 대한 함수
   );
-
+    
+    if (userInfo.authority === '관리자') {
+      getAdminProvideApplyList(clickPage, state);
+    } else {
+      getProvideApplyList(clickPage, state);
+    }
+  
+    useEffect(() => {
+      const filter = Array.isArray(router.query.filter) ? router.query.filter[0] : router.query.filter;
+    
+      if (filter === undefined) {
+        setState('');
+      } else if (filter === '대기') {
+        setState('대기');
+      } else if (filter === '승인') {
+        setState('승인');
+      } else if (filter === '거절') {
+        setState('거절');
+      }
+    
+      // 여기에서 getProvideApplyList 함수 호출하지 않음
+    }, [router.query.filter, clickPage]);
+      
   if (!responseProvide) {
     return null;
   }
@@ -66,7 +91,6 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   }
 
   const onGoDetailHandler = (provideId: string) => {
-    console.log(provideId, clickPage);
     router.push(`/apply/provide/${provideId}`);
   };
 
@@ -90,8 +114,15 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async ({ query }) => {
   const clickPage = query.page ? parseInt(query.page as string, 10) : 1;
+  const state = Array.isArray(query.filter) ? query.filter[0] : query.filter || ''; // filter 값을 문자열로 변환하여 state 변수에 할당
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('provideApplyList', () => getProvideApplyList(clickPage));
+  const userInfo = await getUserInfo();
+
+  if (userInfo.authority === 'admin') {
+    await queryClient.prefetchQuery('provideApplyList', () => getAdminProvideApplyList(clickPage, state));
+  } else {
+    await queryClient.prefetchQuery('provideApplyList', () => getProvideApplyList(clickPage, state));
+  }
   const isUser = true;
   return {
     props: {

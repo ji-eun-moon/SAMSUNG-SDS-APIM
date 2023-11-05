@@ -1,4 +1,4 @@
-import { TUserDataList } from '@/types/User';
+import { TUserDataList, Pageable } from '@/types/User';
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
@@ -15,11 +15,15 @@ export async function getUserInfo() {
   }
 }
 
-export async function getMemebers() {
+export async function getMembers({ page, size }: Pageable) {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: 'https://k9c201.p.ssafy.io/api/member/auth/all',
+      url: '/member/auth/all',
+      params: {
+        page,
+        size,
+      },
     });
     console.log(response.data);
     return response.data;

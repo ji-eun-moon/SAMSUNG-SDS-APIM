@@ -19,16 +19,34 @@ export interface IApiDetail {
   apiId: number;
   title: string;
   content: string;
-  avaliableCheck: boolean; // 사용중이면 true
   method: 'GET' | 'POST';
   endpoint: string;
   input: string;
-  inputExample: string;
   output: string;
   outputExample: string;
+  categoryId: number;
 }
 
-export interface IApiTest {
+export interface IApiInput {
+  name: string;
+  description: string;
+  example: string;
+  type: string;
+  required: string;
+}
+
+export type TApiInputList = IApiInput[];
+
+export interface IApiOutput {
+  name: string;
+  description: string;
+  example: string;
+  type: string;
+}
+
+export type TApiOutputList = IApiOutput[];
+
+export interface IApiTestInfo {
   apiId: number;
   title: string;
   method: 'GET' | 'POST';
@@ -63,8 +81,23 @@ export interface IApiStatus {
   apiStatus: '정상' | '점검' | '오류';
 }
 
-export interface IApiStatusList  {
-  apiStatusResponses: IApiStatus[];
-  page: number;
-  totalPage: number;
+export type IApiStatusList = IApiStatus[];
+
+export interface IApiStatusInfo {
+  content: IApiStatusList;
+  totalPages: number;
 }
+
+export interface Pageable {
+  status: string;
+  page: number;
+  size: number;
+}
+
+// export interface IApiStatusList  {
+//   apiStatusResponses: IApiStatus[];
+//   page: number;
+//   totalPage: number;
+// }
+
+// export interface

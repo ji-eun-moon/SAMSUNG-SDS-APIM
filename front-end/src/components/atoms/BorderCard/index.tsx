@@ -11,6 +11,7 @@ function BorderCard({ children, onClick }: BorderCardProps) {
 
   if (onClick !== undefined) {
     cardClasses.push(styles.hover);
+    cardClasses.push('cursor-none');
   }
 
   return (

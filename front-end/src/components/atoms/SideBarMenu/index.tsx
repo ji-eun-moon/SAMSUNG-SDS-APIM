@@ -15,6 +15,7 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
   console.log('경로', currentPath);
   console.log('경로', conditionList);
   const defaultKeys = ['1'];
+  const decodedPath = decodeURIComponent(currentPath);
 
   return (
     <Accordion isCompact defaultExpandedKeys={defaultKeys}>
@@ -23,7 +24,9 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
           {conditionList.map((condition) => (
             <li
               key={condition.conditionId}
-              onClick={() => router.push(`${condition.url}`)}
+              onClick={() => {
+                router.push(`${condition.url}`);
+              }}
               aria-hidden
               className={`my-2 pl-2 itdaText cursor-pointer ${
                 decodedPath === `${condition.url}` ? 'font-semibold' : ''

@@ -9,8 +9,6 @@ interface StatusSummaryProps {
 }
 
 function StatusSummary({ statusList }: StatusSummaryProps) {
-  const { apiStatusResponses, page, totalPage } = statusList;
-  console.log(page, totalPage, '확인');
   const router = useRouter();
 
   const formatUpdatedAt = (dateString: Date) => {
@@ -52,14 +50,14 @@ function StatusSummary({ statusList }: StatusSummaryProps) {
       <div className={`${style.thirdPart}`}>
         <ShadowCard type="small">
           <div className={style.contents}>
-            {apiStatusResponses.map((status, index) => (
+            {statusList?.map((status, index) => (
               <div
                 key={status.apiId}
-                style={{ margin: '0 10px', padding: index === apiStatusResponses.length - 1 ? '8px 0' : '' }}
-                className={`${style.thirdContent} ${index !== apiStatusResponses.length - 1 ? style.divider : ''}`}
+                style={{ margin: '0 10px', padding: index === statusList.length - 1 ? '8px 0' : '' }}
+                className={`${style.thirdContent} ${index !== statusList.length - 1 ? style.divider : ''}`}
               >
                 <div className={style.thirdInContent} style={{ justifyContent: 'start', paddingLeft: '8px' }}>
-                  {status.apiName}
+                  [{status.categoryName}]&nbsp;{status.apiName}
                 </div>
                 <span className={style.thirdInContent}>
                   <div className="flex items-center justify-center">
