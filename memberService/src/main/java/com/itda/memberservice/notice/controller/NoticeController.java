@@ -1,6 +1,7 @@
 package com.itda.memberservice.notice.controller;
 
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
+import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -96,9 +97,9 @@ public class NoticeController {
     // 받은 쪽지 - 리스트 삭제
     @DeleteMapping("/receive/delete")
     @Operation(summary = "받은 쪽지 삭제", description = "받은 쪽지 리스트로 삭제하기")
-    public ResponseEntity<?> receiveDelete(@RequestBody List<Long> list) {
+    public ResponseEntity<?> receiveDelete(@RequestBody NoticeListRequest request) {
 
-        noticeService.receiveDelete(list);
+        noticeService.receiveDelete(request);
 
         return ResponseEntity.ok("삭제 완료");
 
@@ -107,9 +108,9 @@ public class NoticeController {
     // 받은 쪽지 - 전체 읽음 처리
     @PostMapping("/receive/read")
     @Operation(summary = "받은 쪽지 읽음 처리", description = "받은 쪽지 리스트로 전체 읽음처리")
-    public ResponseEntity<String> receiveReadAll(@RequestBody List<Long> list) {
+    public ResponseEntity<String> receiveReadAll(@RequestBody NoticeListRequest request) {
 
-        noticeService.receiveReadAll(list);
+        noticeService.receiveReadAll(request);
 
         return ResponseEntity.ok("읽음 처리 완료");
     }
@@ -164,9 +165,9 @@ public class NoticeController {
 
     @DeleteMapping("/send/delete")
     @Operation(summary = "받은 쪽지 삭제", description = "받은 쪽지 리스트로 삭제하기")
-    public ResponseEntity<?> sendDelete(@RequestBody List<Long> list) {
+    public ResponseEntity<?> sendDelete(@RequestBody NoticeListRequest request) {
 
-        noticeService.sendDelete(list);
+        noticeService.sendDelete(request);
 
         return ResponseEntity.ok("삭제 완료");
 

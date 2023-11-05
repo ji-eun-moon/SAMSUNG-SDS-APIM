@@ -2,6 +2,7 @@ package com.itda.memberservice.notice.service;
 
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
+import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.entity.Notice;
 import com.itda.memberservice.notice.repository.NoticeRepository;
@@ -126,9 +127,9 @@ public class NoticeService {
 
     }
 
-    public void receiveDelete(List<Long> list) {
+    public void receiveDelete(NoticeListRequest request) {
 
-        for (Long i : list) {
+        for (Long i : request.getList()) {
             Notice notice = noticeRepository.findById(i)
                     .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
 
@@ -155,9 +156,9 @@ public class NoticeService {
 
     }
 
-    public void receiveReadAll(List<Long> list) {
+    public void receiveReadAll(NoticeListRequest request) {
 
-        for (Long i : list) {
+        for (Long i : request.getList()) {
             Notice notice = noticeRepository.findById(i)
                     .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
 
@@ -179,9 +180,9 @@ public class NoticeService {
 
     }
 
-    public void sendDelete(List<Long> list) {
+    public void sendDelete(NoticeListRequest request) {
 
-        for (Long i : list) {
+        for (Long i : request.getList()) {
             Notice notice = noticeRepository.findById(i)
                     .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
 
