@@ -12,8 +12,6 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
   const currentPath = router.asPath;
   const decodedPath = decodeURIComponent(currentPath);
 
-  console.log('경로', currentPath);
-  console.log('경로', conditionList);
   const defaultKeys = ['1'];
 
   return (

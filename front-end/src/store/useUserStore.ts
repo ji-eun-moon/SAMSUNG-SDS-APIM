@@ -21,3 +21,5 @@ const useUserStore = create(
 );
 
 export default useUserStore;
+// 스토어에서 직접 selectedTeam 값을 가져옵니다.
+export const getSelectedTeam = () => useUserStore.getState().selectedTeam;

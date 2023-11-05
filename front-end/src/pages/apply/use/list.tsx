@@ -1,7 +1,3 @@
-// export default function UseList() {
-//   return <div>사용 신청 내역</div>;
-// }
-
 import { GetServerSideProps, NextPage } from 'next';
 import { IResponseUse } from '@/types/Apply';
 import { getUseApplyList } from '@/utils/axios/apply';
@@ -11,8 +7,9 @@ import ColTable from '@/components/atoms/ColTable';
 import GoBack from '@/components/atoms/GoBack';
 import StyledPagination from '@/components/atoms/StyledPagination';
 import style from '@/styles/UseList.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 
@@ -22,12 +19,29 @@ type SSRProps = {
 
 const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const router = useRouter();
-
+  const { selectedTeam } = useUserStore();
+  const [state, setState] = useState('');
   const [clickPage, setClickPage] = useState(1);
   const { data: responseUse } = useQuery<IResponseUse>(
-    ['useApplyList', clickPage], // 첫 번째 인자는 쿼리 키
-    () => getUseApplyList(clickPage - 1), // 두 번째 인자는 해당 쿼리에 대한 함수
+    [`useApplyList${selectedTeam}`, clickPage, state], // 첫 번째 인자는 쿼리 키
+    () => getUseApplyList(selectedTeam, clickPage - 1, state), // 두 번째 인자는 해당 쿼리에 대한 함수
   );
+
+  useEffect(() => {
+    const filter = Array.isArray(router.query.filter) ? router.query.filter[0] : router.query.filter;
+
+    if (filter === undefined) {
+      setState('');
+    } else if (filter === '대기') {
+      setState('대기');
+    } else if (filter === '승인') {
+      setState('승인');
+    } else if (filter === '거절') {
+      setState('거절');
+    }
+
+    // 여기에서 getProvideApplyList 함수 호출하지 않음
+  }, [router.query.filter, clickPage]);
 
   if (!responseUse) {
     return null;
@@ -92,8 +106,11 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async ({ query }) => {
   const clickPage = query.page ? parseInt(query.page as string, 10) : 1;
+  const state = Array.isArray(query.filter) ? query.filter[0] : query.filter || ''; // filter 값을 문자열로 변환하여 state 변수에 할당
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('useApplyList', () => getUseApplyList(clickPage));
+  const selectedTeam = getSelectedTeam();
+
+  await queryClient.prefetchQuery(`useApplyList${selectedTeam}`, () => getUseApplyList(selectedTeam, clickPage, state));
   const isUser = true;
   return {
     props: {

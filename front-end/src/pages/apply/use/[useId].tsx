@@ -21,12 +21,13 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
     return null;
   }
 
-  const headerContentT = ['카테고리명', '신청팀', '신청자'];
+  const headerContentT = ['카테고리명', '신청팀', '신청자', '신청내용'];
   const bodyContentT = [
     {
       카테고리명: details.categoryName,
       신청팀: details.teamName,
       신청자: details.userName,
+      신청내용: details.description,
     },
   ];
 
