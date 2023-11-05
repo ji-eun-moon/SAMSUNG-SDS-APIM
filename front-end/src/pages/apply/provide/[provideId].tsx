@@ -48,11 +48,11 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   let 처리내용 = '';
 
   if (details.state === '승인') {
-    처리내용 = `${details.serverName} 서버 신청 승인되었습니다`;
+    처리내용 = `${details.serverName} 서버 제공 신청 승인되었습니다`;
   } else if (details.state === '거절') {
     처리내용 = details.denyReason;
   } else {
-    처리내용 = `${details.serverName} 서버 신청 대기중입니다.`;
+    처리내용 = `${details.serverName} 서버 제공 신청 대기중입니다.`;
   }
 
   const bodyContentB = [
