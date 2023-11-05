@@ -1,31 +1,28 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { IResponseProvide } from '@/types/Apply';
-import { getProvideApplyList } from '@/utils/axios/apply';
+import { IResponseUse } from '@/types/Apply';
+import { getAdminUseApplyList } from '@/utils/axios/apply';
 import ApplySideBar from '@/components/organisms/ApplySideBar';
 import BothLayout from '@/components/templates/BothLayout';
 import ColTable from '@/components/atoms/ColTable';
 import GoBack from '@/components/atoms/GoBack';
 import StyledPagination from '@/components/atoms/StyledPagination';
-import style from '@/styles/ProvideList.module.scss';
+import style from '@/styles/UseList.module.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-// import { getUserInfo } from '@/utils/axios/user';
 
 type SSRProps = {
   isUser: boolean;
 };
 
-const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
+const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const router = useRouter();
-  const { selectedTeam } = useUserStore();
   const [state, setState] = useState('');
   const [clickPage, setClickPage] = useState(1);
-  const { data: responseProvide } = useQuery<IResponseProvide>(
-    [`provideApplyList${selectedTeam}`, clickPage, state], // 첫 번째 인자는 쿼리 키
-    () => getProvideApplyList(selectedTeam, clickPage - 1, state), // 두 번째 인자는 해당 쿼리에 대한 함수
+  const { data: responseUse } = useQuery<IResponseUse>(
+    ['useApplyList', clickPage, state], // 첫 번째 인자는 쿼리 키
+    () => getAdminUseApplyList(clickPage - 1, state), // 두 번째 인자는 해당 쿼리에 대한 함수
   );
 
   useEffect(() => {
@@ -44,12 +41,12 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
     // 여기에서 getProvideApplyList 함수 호출하지 않음
   }, [router.query.filter, clickPage]);
 
-  if (!responseProvide) {
+  if (!responseUse) {
     return null;
   }
 
-  const lists = responseProvide.content;
-  const totalPage = responseProvide.totalPages;
+  const lists = responseUse.content;
+  const totalPage = responseUse.totalPages;
 
   const formatDate = (dateString: Date) => {
     const date = new Date(dateString);
@@ -59,13 +56,12 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
     return `${year}-${month}-${day}`;
   };
 
-  const headerContent = ['구분', '서버명', '신청자', '신청날짜', '상태'];
+  const headerContent = ['카테고리명', '신청자', '신청날짜', '상태'];
 
   const bodyContent = lists?.map((list) => ({
-    ID: list.provideId,
-    구분: list.applyType,
-    서버명: list.serverName,
-    신청자: list.providerName,
+    ID: list.useApplyId,
+    카테고리명: list.categoryName,
+    신청자: list.userName,
     신청날짜: formatDate(list.createdAt),
     상태: list.state,
   }));
@@ -75,8 +71,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
     while (bodyContent.length < 9) {
       bodyContent.push({
         ID: `empty_${bodyContent.length + 1}`,
-        구분: '',
-        서버명: '',
+        카테고리명: '',
         신청자: '',
         신청날짜: '',
         상태: '',
@@ -84,8 +79,9 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
     }
   }
 
-  const onGoDetailHandler = (provideId: string) => {
-    router.push(`/apply/provide/${provideId}`);
+  const onGoDetailHandler = (useId: string) => {
+    console.log(useId, clickPage);
+    router.push(`/apply/use/${useId}`);
   };
 
   const handlePageClick = (clickedPage: number) => {
@@ -97,7 +93,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
       <ApplySideBar isUser={isUser} />
       <div className={`${style.listContainer}`}>
         <div className={`${style.label}`}>
-          <GoBack label="서버 제공 신청 내역" />
+          <GoBack label="서버 사용 신청 내역" />
         </div>
         <ColTable headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
         <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
@@ -110,11 +106,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async ({ query }
   const clickPage = query.page ? parseInt(query.page as string, 10) : 1;
   const state = Array.isArray(query.filter) ? query.filter[0] : query.filter || ''; // filter 값을 문자열로 변환하여 state 변수에 할당
   const queryClient = new QueryClient();
-  // 사용자 정보 가져오기
-  const selectedTeam = getSelectedTeam();
-  await queryClient.prefetchQuery(`provideApplyList${selectedTeam}`, () =>
-    getProvideApplyList(selectedTeam, clickPage, state),
-  );
+  await queryClient.prefetchQuery('useApplyList', () => getAdminUseApplyList(clickPage, state));
   const isUser = true;
   return {
     props: {
@@ -124,4 +116,4 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async ({ query }
   };
 };
 
-export default ProvideList;
+export default UseList;

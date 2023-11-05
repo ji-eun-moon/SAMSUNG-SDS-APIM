@@ -27,6 +27,7 @@ function ShortCuts() {
     statistics: `/statistics/${firstCategory}`,
     monitoring: '/monitoring',
     applyList: '/apply/use/list',
+    adminApplyList: '/admin/useApplyList',
     allApi: `/category/${firstCategory}`,
     memberList: `/member/list`,
   };
@@ -89,17 +90,41 @@ function ShortCuts() {
           </div>
         </Link>
 
-        <div onClick={() => router.push(urlList.applyList)} aria-hidden>
-          <div className={style.cardContainer}>
-            <ShadowCard type="small">
-              <div className={style.imgContainer}>
-                <Image src="/images/applyList.png" alt="next-icon" width={100} height={100} className={style.iconImg} />
-              </div>
-            </ShadowCard>
-            <p className={style.cardtitle}>신청내역</p>
+        {userInfo?.authority === '관리자' ? (
+          <div onClick={() => router.push(urlList.adminApplyList)} aria-hidden>
+            <div className={style.cardContainer}>
+              <ShadowCard type="small">
+                <div className={style.imgContainer}>
+                  <Image
+                    src="/images/applyList.png"
+                    alt="next-icon"
+                    width={100}
+                    height={100}
+                    className={style.iconImg}
+                  />
+                </div>
+              </ShadowCard>
+              <p className={style.cardtitle}>신청내역</p>
+            </div>
           </div>
-        </div>
-
+        ) : (
+          <div onClick={() => router.push(urlList.applyList)} aria-hidden>
+            <div className={style.cardContainer}>
+              <ShadowCard type="small">
+                <div className={style.imgContainer}>
+                  <Image
+                    src="/images/applyList.png"
+                    alt="next-icon"
+                    width={100}
+                    height={100}
+                    className={style.iconImg}
+                  />
+                </div>
+              </ShadowCard>
+              <p className={style.cardtitle}>신청내역</p>
+            </div>
+          </div>
+        )}
         {/* API 신청 목록 */}
         {userInfo?.authority === '관리자' ? (
           <div

@@ -34,15 +34,20 @@ export interface IResponseProvide {
 }
 
 export interface IUse {
-  useApplyId: number;
+  useApplyId: string | number;
   categoryName: string;
   teamName: string;
   userName: string;
   createdAt: Date;
-  state: '승인' | '대기' | '거절';
+  state: '승인' | '대기' | '거절' | string;
 }
 
 export type TUseList = IUse[];
+
+export interface IResponseUse {
+  content: TUseList;
+  totalPages: number;
+}
 
 export interface IProvideDetail extends IProvide {
   description: string;
@@ -52,5 +57,5 @@ export interface IProvideDetail extends IProvide {
 
 export interface IUseDetail extends IUse {
   description: string;
-  failReason: string;
+  denyReason: string;
 }
