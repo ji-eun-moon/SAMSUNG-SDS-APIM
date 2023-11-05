@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { IResponseProvide } from '@/types/Apply';
-import { getProvideApplyList } from '@/utils/axios/apply';
+import { getAdminProvideApplyList } from '@/utils/axios/apply';
 import ApplySideBar from '@/components/organisms/ApplySideBar';
 import BothLayout from '@/components/templates/BothLayout';
 import ColTable from '@/components/atoms/ColTable';
@@ -9,10 +9,8 @@ import StyledPagination from '@/components/atoms/StyledPagination';
 import style from '@/styles/ProvideList.module.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-// import { getUserInfo } from '@/utils/axios/user';
 
 type SSRProps = {
   isUser: boolean;
@@ -20,12 +18,11 @@ type SSRProps = {
 
 const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const router = useRouter();
-  const { selectedTeam } = useUserStore();
   const [state, setState] = useState('');
   const [clickPage, setClickPage] = useState(1);
   const { data: responseProvide } = useQuery<IResponseProvide>(
-    [`provideApplyList${selectedTeam}`, clickPage, state], // 첫 번째 인자는 쿼리 키
-    () => getProvideApplyList(selectedTeam, clickPage - 1, state), // 두 번째 인자는 해당 쿼리에 대한 함수
+    ['provideApplyList', clickPage, state], // 첫 번째 인자는 쿼리 키
+    () => getAdminProvideApplyList(clickPage - 1, state), // 두 번째 인자는 해당 쿼리에 대한 함수
   );
 
   useEffect(() => {
@@ -110,11 +107,8 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async ({ query }
   const clickPage = query.page ? parseInt(query.page as string, 10) : 1;
   const state = Array.isArray(query.filter) ? query.filter[0] : query.filter || ''; // filter 값을 문자열로 변환하여 state 변수에 할당
   const queryClient = new QueryClient();
-  // 사용자 정보 가져오기
-  const selectedTeam = getSelectedTeam();
-  await queryClient.prefetchQuery(`provideApplyList${selectedTeam}`, () =>
-    getProvideApplyList(selectedTeam, clickPage, state),
-  );
+
+  await queryClient.prefetchQuery('provideApplyList', () => getAdminProvideApplyList(clickPage, state));
   const isUser = true;
   return {
     props: {
