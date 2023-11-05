@@ -6,8 +6,8 @@ export interface IProvideApply {
 }
 
 export interface IUseApply {
-  teamId: number;
-  description: string | null;
+  teamName: string;
+  content: string | null;
   categoryId: number;
 }
 
