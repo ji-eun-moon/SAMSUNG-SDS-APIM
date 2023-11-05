@@ -28,7 +28,13 @@ spring:
       port: '6379'
       host: k9c201.p.ssafy.io
 
-
+    mongodb:
+      host: k9c201.p.ssafy.io
+      port: 27017
+      authentication-database: admin
+      username: 'itda'
+      password: 'itda1235!@#%'
+      database: itda
 
 logging:
   level:

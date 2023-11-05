@@ -26,5 +26,6 @@ public class ApiTestResponse {
         this.outputExample = api.getOutputExample();
         this.title = api.getTitle();
         this.categoryToken = "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91";
+        this.method = api.getApiMethod();
     }
 }
