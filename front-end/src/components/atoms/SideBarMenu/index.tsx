@@ -15,7 +15,6 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
   console.log('경로', currentPath);
   console.log('경로', conditionList);
   const defaultKeys = ['1'];
-  const decodedPath = decodeURIComponent(currentPath);
 
   return (
     <Accordion isCompact defaultExpandedKeys={defaultKeys}>
