@@ -22,7 +22,7 @@ export const formatJsonToCurl = (data: JsonData): string => {
 
   // 헤더 문자열 생성
   const headersString = Object.keys(headers)
-    .map((key) => `-H "${key}: $${headers[key]}"\n\t `)
+    .map((key) => `-H "${key}: ${headers[key]}"\n\t `)
     .join('');
 
   // 쿼리 문자열 생성

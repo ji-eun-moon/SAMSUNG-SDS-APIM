@@ -56,6 +56,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   }
 
   const editorOptions = {
+    readOnly: true,
     minimap: {
       enabled: false,
     },
