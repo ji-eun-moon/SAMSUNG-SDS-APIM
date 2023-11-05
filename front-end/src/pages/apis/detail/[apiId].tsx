@@ -77,7 +77,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
         <GoBack label={apiDetail?.title} />
         <ApiDetailLayout>
           {/* Content */}
-          <ApiDescription content={apiDetail.content} apiId={apiId} categoryId={apiDetail.categoryId} />
+          <ApiDescription type="api" content={apiDetail.content} apiId={apiId} categoryId={apiDetail.categoryId} />
           {/* EndPoint */}
           <ApiEndpoint method={apiDetail.method} endpoint={apiDetail.endpoint} />
 

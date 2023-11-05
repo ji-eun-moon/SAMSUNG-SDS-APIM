@@ -8,14 +8,9 @@ import ApiCard from '@/components/atoms/ApiCard';
 import CategoryLayout from '@/components/templates/CategoryLayout';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import ShadowCard from '@/components/atoms/ShadowCard';
-import StyledButton from '@/components/atoms/StyledButton';
 import PageLoading from '@/components/atoms/PageLoading';
 import useUserStore from '@/store/useUserStore';
-import Modal from '@/components/organisms/Modal';
-import TextArea from '@/components/atoms/TextArea';
-import { useState } from 'react';
-import shouldShowApplyButton from '@/utils/category';
+import ApiDescription from '@/components/organisms/api/ApiDescription';
 
 type SSGProps = {
   openCategory: number;
@@ -23,8 +18,6 @@ type SSGProps = {
 };
 
 const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [textWord, setTextWord] = useState('');
   const { selectedTeam } = useUserStore();
   const router = useRouter();
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
@@ -59,14 +52,6 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
     return null;
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const useApplySubmit = () => {
-    // 사용 신청 로직
-  };
-
   return (
     <div>
       <BothLayout>
@@ -82,24 +67,7 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
         {/* Page Content */}
         <CategoryLayout>
           <GoBack label={category?.categoryName} />
-          <ShadowCard type="small">
-            <div className="m-3">
-              <div>{category?.description}</div>
-              <div className="flex justify-end">
-                {shouldShowApplyButton(category, useCategoryList) && (
-                  <div className="w-fit">
-                    <StyledButton
-                      type="button"
-                      label="사용 신청하기"
-                      radius="lg"
-                      variant="solid"
-                      onClick={() => setIsModalOpen(true)}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </ShadowCard>
+          <ApiDescription type="category" content={category?.description} categoryId={category?.categoryId} />
           {category?.apiList?.map((api) => (
             <div className="my-3">
               <ApiCard
@@ -112,25 +80,6 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
           ))}
         </CategoryLayout>
       </BothLayout>
-      {isModalOpen && (
-        <Modal
-          type="custom"
-          title="API 사용 신청"
-          onClose={closeModal}
-          buttonLabel="신청하기"
-          onButton={useApplySubmit}
-        >
-          <div className="my-5" style={{ width: '500px' }}>
-            <TextArea
-              width="w-full"
-              backgroundColor="#ffffff"
-              textAreaWord={textWord}
-              placeholder="신청 내용을 입력하세요."
-              onChange={setTextWord}
-            />
-          </div>
-        </Modal>
-      )}
     </div>
   );
 };
