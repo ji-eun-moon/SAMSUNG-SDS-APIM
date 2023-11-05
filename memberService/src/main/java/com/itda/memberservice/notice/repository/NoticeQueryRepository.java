@@ -1,6 +1,8 @@
 package com.itda.memberservice.notice.repository;
 
 import com.itda.memberservice.notice.dto.response.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -10,20 +12,20 @@ public interface NoticeQueryRepository {
     long unreadNoticeCount(String employeeId);
 
     // 읽지 않은 메시지 조회
-    List<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId);
+    Page<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId, Pageable pageable);
 
     // 읽은 메시지 조회
-    List<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId);
+    Page<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId, Pageable pageable);
 
-    List<ReceiveNoticeListResponse> receiveAll(String employeeId);
+    Page<ReceiveNoticeListResponse> receiveAll(String employeeId, Pageable pageable);
 
     ReceiveNoticeDetailResponse receiveDetail(String employeeId, Long noticeId);
 
-    List<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId);
+    Page<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId, Pageable pageable);
 
-    List<SendReadNoticeResponse> sendReadNoticeList(String employeeId);
+    Page<SendReadNoticeResponse> sendReadNoticeList(String employeeId, Pageable pageable);
 
-    List<SendNoticeListResponse> sendAll(String employeeId);
+    Page<SendNoticeListResponse> sendAll(String employeeId, Pageable pageable);
 
     SendNoticeDetailResponse sendDetail(String employeeId, Long noticeId);
 }

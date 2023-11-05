@@ -4,6 +4,9 @@ import com.itda.memberservice.notice.dto.response.*;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -34,33 +37,10 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId) {
+    public Page<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId, Pageable pageable) {
 
-        return queryFactory
+        List<ReceiveUnReadNoticeResponse> result = queryFactory
                 .select(Projections.fields(ReceiveUnReadNoticeResponse.class,
-                        notice.noticeId,
-                        notice.title,
-                        notice.createdAt,
-                        member.memberId.as("senderId"),
-                        member.imageUrl.as("senderImage"),
-                        member.name.as("senderName")
-                        ))
-                .from(notice)
-                .join(notice.sender, member)
-                .where(notice.isRead.eq(true)
-                        .and(notice.receiver.employeeId.eq(employeeId))
-                        .and(notice.isReceiverDeleted.eq(false)))
-                .orderBy(notice.createdAt.desc())
-                .fetch();
-
-    }
-
-    @Override
-    public List<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId) {
-
-        return queryFactory
-                .select(
-                        Projections.fields(ReceiveReadNoticeResponse.class,
                         notice.noticeId,
                         notice.title,
                         notice.createdAt,
@@ -70,18 +50,65 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 ))
                 .from(notice)
                 .join(notice.sender, member)
-                .where(notice.isRead.eq(false)
+                .where(notice.isRead.eq(true)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        Long count = queryFactory
+                .select(notice.count())
+                .from(notice)
+                .where(notice.isRead.eq(true)
+                        .and(notice.receiver.employeeId.eq(employeeId))
+                        .and(notice.isReceiverDeleted.eq(false)))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
 
     }
 
     @Override
-    public List<ReceiveNoticeListResponse> receiveAll(String employeeId) {
+    public Page<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId, Pageable pageable) {
 
-        return queryFactory
+        List<ReceiveReadNoticeResponse> result = queryFactory
+                .select(
+                        Projections.fields(ReceiveReadNoticeResponse.class,
+                                notice.noticeId,
+                                notice.title,
+                                notice.createdAt,
+                                member.memberId.as("senderId"),
+                                member.imageUrl.as("senderImage"),
+                                member.name.as("senderName")
+                        ))
+                .from(notice)
+                .join(notice.sender, member)
+                .where(notice.isRead.eq(false)
+                        .and(notice.receiver.employeeId.eq(employeeId))
+                        .and(notice.isReceiverDeleted.eq(false)))
+                .orderBy(notice.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long count = queryFactory
+                .select(notice.count())
+                .from(notice)
+                .where(notice.isRead.eq(false)
+                        .and(notice.receiver.employeeId.eq(employeeId))
+                        .and(notice.isReceiverDeleted.eq(false)))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
+
+    }
+
+    @Override
+    public Page<ReceiveNoticeListResponse> receiveAll(String employeeId, Pageable pageable) {
+
+        List<ReceiveNoticeListResponse> result = queryFactory
                 .select(
                         Projections.fields(ReceiveNoticeListResponse.class,
                                 notice.noticeId,
@@ -91,13 +118,21 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                                 member.imageUrl.as("senderImage"),
                                 notice.createdAt,
                                 notice.isRead
-                                )
+                        )
                 )
                 .from(notice)
                 .leftJoin(notice.sender, member)
                 .where(notice.receiver.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
                 .fetch();
+
+        Long count = queryFactory
+                .select(notice.count())
+                .from(notice)
+                .where(notice.receiver.employeeId.eq(employeeId))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
 
     }
 
@@ -129,8 +164,9 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
     }
 
     @Override
-    public List<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId) {
-        return queryFactory
+    public Page<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId, Pageable pageable) {
+
+        List<SendUnReadNoticeResponse> result = queryFactory
                 .select(
                         Projections.fields(SendUnReadNoticeResponse.class,
                                 notice.noticeId,
@@ -146,12 +182,21 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .where(notice.sender.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
                 .fetch();
+
+        Long count = queryFactory
+                .select(notice.count())
+                .from(notice)
+                .where(notice.sender.employeeId.eq(employeeId))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
+
     }
 
     @Override
-    public List<SendReadNoticeResponse> sendReadNoticeList(String employeeId) {
+    public Page<SendReadNoticeResponse> sendReadNoticeList(String employeeId, Pageable pageable) {
 
-        return queryFactory
+        List<SendReadNoticeResponse> result = queryFactory
                 .select(
                         Projections.fields(SendReadNoticeResponse.class,
                                 notice.noticeId,
@@ -168,12 +213,20 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .orderBy(notice.createdAt.desc())
                 .fetch();
 
+        Long count = queryFactory
+                .select(notice.count())
+                .from(notice)
+                .where(notice.sender.employeeId.eq(employeeId))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
+
     }
 
     @Override
-    public List<SendNoticeListResponse> sendAll(String employeeId) {
+    public Page<SendNoticeListResponse> sendAll(String employeeId, Pageable pageable) {
 
-        return queryFactory
+        List<SendNoticeListResponse> result = queryFactory
                 .select(
                         Projections.fields(SendNoticeListResponse.class,
                                 notice.noticeId,
@@ -183,13 +236,21 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                                 member.imageUrl.as("receiverImage"),
                                 notice.createdAt,
                                 notice.isRead
-                                )
+                        )
                 )
                 .from(notice)
                 .leftJoin(notice.receiver, member)
                 .where(notice.sender.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
                 .fetch();
+
+        Long count = queryFactory
+                .select(notice.count())
+                .from(notice)
+                .where(notice.sender.employeeId.eq(employeeId))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
 
     }
 

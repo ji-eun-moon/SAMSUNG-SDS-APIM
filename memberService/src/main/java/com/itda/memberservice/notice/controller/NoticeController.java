@@ -7,6 +7,8 @@ import com.itda.memberservice.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,36 +51,36 @@ public class NoticeController {
     // 받은 쪽지 - 안읽은 쪽지 조회
     @GetMapping("/receive/unread")
     @Operation(summary = "안읽은 쪽지 리스트", description = "아직 읽지 않은 쪽지 리스트 조회")
-    public ResponseEntity<List<ReceiveUnReadNoticeResponse>> receiveUnReadNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<Page<ReceiveUnReadNoticeResponse>> receiveUnReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
         log.info("{NoticeController} : 받은 쪽지 - 안읽은 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
         
-        return ResponseEntity.ok(noticeService.receiveUnReadNoticeList(employeeId));
+        return ResponseEntity.ok(noticeService.receiveUnReadNoticeList(employeeId, pageable));
 
     }
 
     // 받은 쪽지 - 읽은 쪽지 조회
     @GetMapping("/receive/read")
     @Operation(summary = "읽은 쪽지 리스트", description = "읽은 쪽지 리스트 조회")
-    public ResponseEntity<List<ReceiveReadNoticeResponse>> receiveReadNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<Page<ReceiveReadNoticeResponse>> receiveReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
         log.info("{NoticeController} : 받은 쪽지 - 읽은 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
         
-        return ResponseEntity.ok(noticeService.receiveReadNoticeList(employeeId));
+        return ResponseEntity.ok(noticeService.receiveReadNoticeList(employeeId, pageable));
 
     }
 
     // 받은 쪽지 - 전체 쪽지 조회
     @GetMapping("/receive/all")
     @Operation(summary = "전체 쪽지 조회", description = "받은 쪽지 전체 조회")
-    public ResponseEntity<List<ReceiveNoticeListResponse>> receiveAll(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<Page<ReceiveNoticeListResponse>> receiveAll(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
         log.info("{NoticeController} : 받은 쪽지 - 전체 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
         
-        return ResponseEntity.ok(noticeService.receiveAll(employeeId));
+        return ResponseEntity.ok(noticeService.receiveAll(employeeId, pageable));
 
     }
 
@@ -118,36 +120,36 @@ public class NoticeController {
     // 보낸 쪽지 - 안읽은 쪽지 조회
     @GetMapping("/send/unread")
     @Operation(summary = "안읽은 쪽지 리스트", description = "보낸 쪽지 중 읽지 않은 쪽지 리스트 조회")
-    public ResponseEntity<List<SendUnReadNoticeResponse>> sendUnReadNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<Page<SendUnReadNoticeResponse>> sendUnReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
         log.info("{NoticeController} : 보낸 쪽지 - 안읽은 쪽지 리스트 조회 \n" +
                 "employeeId = " + employeeId);
 
-        return ResponseEntity.ok(noticeService.sendUnReadNoticeList(employeeId));
+        return ResponseEntity.ok(noticeService.sendUnReadNoticeList(employeeId, pageable));
 
     }
 
     // 보낸 쪽지 - 읽은 쪽지 조회
     @GetMapping("/send/read")
     @Operation(summary = "읽은 쪽지 리스트", description = "보낸 쪽지 중 읽은 쪽지 리스트 조회")
-    public ResponseEntity<List<SendReadNoticeResponse>> sendReadNoticeList(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<Page<SendReadNoticeResponse>> sendReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
         log.info("{NoticeController} : 보낸 쪽지 - 읽은 쪽지 리스트 조회 \n" +
                 "employeeId = " + employeeId);
 
-        return ResponseEntity.ok(noticeService.sendReadNoticeList(employeeId));
+        return ResponseEntity.ok(noticeService.sendReadNoticeList(employeeId, pageable));
 
     }
 
     // 보낸 쪽지 - 전체 쪽지 조회
     @GetMapping("/send/all")
     @Operation(summary = "전체 쪽지 조회", description = "보낸 쪽지 전체 리스트 조회")
-    public ResponseEntity<List<SendNoticeListResponse>> sendAll(@RequestHeader("member-id") String employeeId) {
+    public ResponseEntity<Page<SendNoticeListResponse>> sendAll(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
         log.info("{NoticeController} : 보낸 쪽지 - 전체 쪽지 조회 \n" +
                 "employeeId = " + employeeId);
 
-        return ResponseEntity.ok(noticeService.sendAll(employeeId));
+        return ResponseEntity.ok(noticeService.sendAll(employeeId, pageable));
 
     }
 

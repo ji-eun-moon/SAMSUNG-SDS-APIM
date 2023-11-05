@@ -7,6 +7,8 @@ import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.entity.Notice;
 import com.itda.memberservice.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -25,21 +27,21 @@ public class NoticeService {
 
     }
 
-    public List<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId) {
+    public Page<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId, Pageable pageable) {
 
-        return noticeRepository.receiveUnReadNoticeList(employeeId);
-
-    }
-
-    public List<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId) {
-
-        return noticeRepository.receiveReadNoticeList(employeeId);
+        return noticeRepository.receiveUnReadNoticeList(employeeId, pageable);
 
     }
 
-    public List<ReceiveNoticeListResponse> receiveAll(String employeeId) {
+    public Page<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId, Pageable pageable) {
 
-        return noticeRepository.receiveAll(employeeId);
+        return noticeRepository.receiveReadNoticeList(employeeId, pageable);
+
+    }
+
+    public Page<ReceiveNoticeListResponse> receiveAll(String employeeId, Pageable pageable) {
+
+        return noticeRepository.receiveAll(employeeId, pageable);
 
     }
 
@@ -97,21 +99,21 @@ public class NoticeService {
         }
     }
 
-    public List<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId) {
+    public Page<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId, Pageable pageable) {
 
-        return noticeRepository.sendUnReadNoticeList(employeeId);
-
-    }
-
-    public List<SendReadNoticeResponse> sendReadNoticeList(String employeeId) {
-
-        return noticeRepository.sendReadNoticeList(employeeId);
+        return noticeRepository.sendUnReadNoticeList(employeeId, pageable);
 
     }
 
-    public List<SendNoticeListResponse> sendAll(String employeeId) {
+    public Page<SendReadNoticeResponse> sendReadNoticeList(String employeeId, Pageable pageable) {
 
-        return noticeRepository.sendAll(employeeId);
+        return noticeRepository.sendReadNoticeList(employeeId, pageable);
+
+    }
+
+    public Page<SendNoticeListResponse> sendAll(String employeeId, Pageable pageable) {
+
+        return noticeRepository.sendAll(employeeId, pageable);
 
     }
 
