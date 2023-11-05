@@ -19,7 +19,6 @@ export interface IApiDetail {
   apiId: number;
   title: string;
   content: string;
-  avaliableCheck: boolean; // 사용중이면 true
   method: 'GET' | 'POST';
   endpoint: string;
   input: string;
@@ -47,7 +46,7 @@ export interface IApiOutput {
 
 export type TApiOutputList = IApiOutput[];
 
-export interface IApiTest {
+export interface IApiTestInfo {
   apiId: number;
   title: string;
   method: 'GET' | 'POST';

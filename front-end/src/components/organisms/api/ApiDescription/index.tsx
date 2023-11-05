@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@/components/organisms/Modal';
 import TextArea from '@/components/atoms/TextArea';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledButton from '@/components/atoms/StyledButton';
 import { useRouter } from 'next/router';
+import useUserStore from '@/store/useUserStore';
+import useUseApply from '@/hooks/useUseApply';
 
 interface Props {
   content: string;
   apiId: number;
+  categoryId: number;
 }
 
-function ApiDescription({ content, apiId }: Props) {
+function ApiDescription({ content, apiId, categoryId }: Props) {
+  const { selectedTeam } = useUserStore();
+  const { canApply, checkCanApply } = useUseApply({ categoryId, teamName: selectedTeam });
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [textWord, setTextWord] = useState('');
@@ -23,21 +28,27 @@ function ApiDescription({ content, apiId }: Props) {
     // 사용 신청 로직
   };
 
+  useEffect(() => {
+    checkCanApply();
+  }, [categoryId, selectedTeam, checkCanApply]);
+
   return (
     <div>
       <ShadowCard type="small">
         <div className="flex flex-col m-2">
           <div>{content}</div>
           <div className="flex justify-end gap-2">
-            <div className="w-fit">
-              <StyledButton
-                type="button"
-                label="사용 신청하기"
-                radius="lg"
-                variant="solid"
-                onClick={() => setIsModalOpen(true)}
-              />
-            </div>
+            {canApply && (
+              <div className="w-fit">
+                <StyledButton
+                  type="button"
+                  label="사용 신청하기"
+                  radius="lg"
+                  variant="solid"
+                  onClick={() => setIsModalOpen(true)}
+                />
+              </div>
+            )}
             <div className="w-fit">
               <StyledButton
                 type="button"
