@@ -93,6 +93,27 @@ public class NoticeController {
 
     }
 
+    // 받은 쪽지 - 리스트 삭제
+    @DeleteMapping("/receive/delete")
+    @Operation(summary = "받은 쪽지 삭제", description = "받은 쪽지 리스트로 삭제하기")
+    public ResponseEntity<?> receiveDelete(@RequestBody List<Long> list) {
+
+        noticeService.receiveDelete(list);
+
+        return ResponseEntity.ok("삭제 완료");
+
+    }
+
+    // 받은 쪽지 - 전체 읽음 처리
+    @PostMapping("/receive/read")
+    @Operation(summary = "받은 쪽지 읽음 처리", description = "받은 쪽지 리스트로 전체 읽음처리")
+    public ResponseEntity<String> receiveReadAll(@RequestBody List<Long> list) {
+
+        noticeService.receiveReadAll(list);
+
+        return ResponseEntity.ok("읽음 처리 완료");
+    }
+
     // 보낸 쪽지 - 안읽은 쪽지 조회
     @GetMapping("/send/unread")
     @Operation(summary = "안읽은 쪽지 리스트", description = "보낸 쪽지 중 읽지 않은 쪽지 리스트 조회")
@@ -141,6 +162,14 @@ public class NoticeController {
 
     }
 
-    // 쪽지 삭제 - 양쪽에 한쪽만 삭제
+    @DeleteMapping("/send/delete")
+    @Operation(summary = "받은 쪽지 삭제", description = "받은 쪽지 리스트로 삭제하기")
+    public ResponseEntity<?> sendDelete(@RequestBody List<Long> list) {
+
+        noticeService.sendDelete(list);
+
+        return ResponseEntity.ok("삭제 완료");
+
+    }
 
 }

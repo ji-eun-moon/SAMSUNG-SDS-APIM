@@ -125,4 +125,86 @@ public class NoticeService {
         return response;
 
     }
+
+    public void receiveDelete(List<Long> list) {
+
+        for (Long i : list) {
+            Notice notice = noticeRepository.findById(i)
+                    .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
+
+            if (notice.isSenderDeleted()) {
+                noticeRepository.delete(notice);
+                continue;
+            }
+
+            noticeRepository.save(
+                    Notice.builder()
+                            .noticeId(notice.getNoticeId())
+                            .title(notice.getTitle())
+                            .content(notice.getContent())
+                            .isRead(notice.isRead())
+                            .receiver(notice.getReceiver())
+                            .sender(notice.getSender())
+                            .isSenderDeleted(notice.isSenderDeleted())
+                            .isReceiverDeleted(true)
+                            .createdAt(notice.getCreatedAt())
+                            .build()
+            );
+
+        }
+
+    }
+
+    public void receiveReadAll(List<Long> list) {
+
+        for (Long i : list) {
+            Notice notice = noticeRepository.findById(i)
+                    .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
+
+            noticeRepository.save(
+                    Notice.builder()
+                            .noticeId(notice.getNoticeId())
+                            .title(notice.getTitle())
+                            .content(notice.getContent())
+                            .isRead(true)
+                            .receiver(notice.getReceiver())
+                            .sender(notice.getSender())
+                            .isSenderDeleted(notice.isSenderDeleted())
+                            .isReceiverDeleted(notice.isReceiverDeleted())
+                            .createdAt(notice.getCreatedAt())
+                            .build()
+            );
+
+        }
+
+    }
+
+    public void sendDelete(List<Long> list) {
+
+        for (Long i : list) {
+            Notice notice = noticeRepository.findById(i)
+                    .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
+
+            if (notice.isReceiverDeleted()) {
+                noticeRepository.delete(notice);
+                continue;
+            }
+
+            noticeRepository.save(
+                    Notice.builder()
+                            .noticeId(notice.getNoticeId())
+                            .title(notice.getTitle())
+                            .content(notice.getContent())
+                            .isRead(notice.isRead())
+                            .receiver(notice.getReceiver())
+                            .sender(notice.getSender())
+                            .isSenderDeleted(true)
+                            .isReceiverDeleted(notice.isReceiverDeleted())
+                            .createdAt(notice.getCreatedAt())
+                            .build()
+            );
+
+        }
+
+    }
 }
