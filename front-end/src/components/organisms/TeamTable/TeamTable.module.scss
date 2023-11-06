@@ -1,0 +1,16 @@
+.header {
+  background-color: #fcfcfd;
+  color: $itda-text;
+}
+
+.th {
+  padding: 8px 0;
+  font-weight: 500;
+  border-top: 1px solid $itda-border;
+  border-bottom: 1px solid $itda-border;
+}
+
+.tr {
+  padding: 8px;
+  border-bottom: 1px solid $itda-border;
+}

@@ -97,7 +97,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
 
             {/* 텍스트 바로가기 */}
             <div className="itdaText flex flex-col gap-3">
-              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/mypage')} aria-hidden>
+              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/team')} aria-hidden>
                 <div className="text-sm">팀정보</div>
                 <Image src="/icons/user.png" alt="user icon" width={20} height={16} />
               </div>

@@ -36,9 +36,24 @@ export async function getMembers({ page, size }: Pageable) {
 export async function createMembers(props: TUserDataList) {
   try {
     const response = await axiosInstance({
-      method: 'post',
-      url: 'https://k9c201.p.ssafy.io/api/member/auth/sign-up',
+      method: 'POST',
+      url: '/member/auth/sign-up',
       data: props,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getTeamInfo(props: string) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/member/team',
+      params: { teamName: props },
     });
     console.log(response.data);
     return response.data;
