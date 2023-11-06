@@ -90,6 +90,38 @@ export async function getApiDetail(apiId: number) {
         apiId,
       },
     });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getApiTestInfo(apiId: number) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/test',
+      params: {
+        apiId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function apiSearch(apiName: string) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/search',
+      params: {
+        apiName,
+      },
+    });
     console.log(response.data);
     return response.data;
   } catch (error) {

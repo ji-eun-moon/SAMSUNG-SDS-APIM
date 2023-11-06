@@ -56,6 +56,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   }
 
   const editorOptions = {
+    readOnly: true,
     minimap: {
       enabled: false,
     },
@@ -76,7 +77,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
         <GoBack label={apiDetail?.title} />
         <ApiDetailLayout>
           {/* Content */}
-          <ApiDescription content={apiDetail.content} apiId={apiId} />
+          <ApiDescription type="api" content={apiDetail.content} apiId={apiId} categoryId={apiDetail.categoryId} />
           {/* EndPoint */}
           <ApiEndpoint method={apiDetail.method} endpoint={apiDetail.endpoint} />
 
@@ -120,7 +121,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
           {/* Output Example */}
           <div className="border p-1 px-2 rounded-lg border-gray-300 bg-gray-100 p-2 px-4">
             <div className="flex justify-between">
-              <div className="font-medium">Example</div>
+              <div className="font-medium">응답 예시</div>
               <Copy copyText={JSON.stringify(JSON.parse(apiDetail.outputExample), null, 2)} />
             </div>
             <Editor

@@ -7,7 +7,7 @@ export async function getUserInfo() {
       method: 'GET',
       url: '/member/auth/mypage',
     });
-    console.log(response.data);
+    console.log('userInfo', response.data);
     return response.data;
   } catch (error) {
     console.error(error);
