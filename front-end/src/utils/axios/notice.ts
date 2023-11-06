@@ -80,11 +80,11 @@ export async function getNoticeCnt() {
   }
 }
 
-export async function getUnreadNotice({ page, size }: IPageable) {
+export async function getUnreadReceiveNotice({ page, size }: IPageable) {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: '/member/notice/send/unread',
+      url: '/member/notice/receive/unread',
       params: {
         page,
         size,

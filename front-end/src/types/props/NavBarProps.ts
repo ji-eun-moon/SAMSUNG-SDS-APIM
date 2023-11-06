@@ -1,23 +1,11 @@
-import { IUser } from '../User';
-
-export interface SideNavBarProps {
-  userInfo: IUser;
-  position: 'side';
-  noticeCnt: number;
-  firstCategory: number;
-}
-export interface TopNavBarProps {
-  userInfo: IUser;
-  position: 'top';
-  noticeCnt: number;
-  notices: React.ReactNode;
-  dropDownList: IItem[];
+export interface NavBarProps {
+  position: 'top' | 'side';
 }
 
-interface IItem {
+export interface IDropdownItem {
   title: string;
-  icon: string;
-  onClick: () => void;
+  icon: React.ReactNode;
+  url: string;
 }
 
 export interface ProfileImgProps {
