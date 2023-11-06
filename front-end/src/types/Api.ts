@@ -64,11 +64,12 @@ export interface ITestResult {
 export interface IApiSearch {
   apiId: number;
   apiName: string;
+  apiAddress: string;
   categoryId: number;
   categoryName: string;
 }
 
-export type IApiSearchList = IApiSearch[];
+export type TApiSearchList = IApiSearch[];
 
 export interface IApiStatus {
   apiId: number;

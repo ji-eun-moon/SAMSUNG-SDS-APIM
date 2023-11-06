@@ -1,3 +1,4 @@
+import { IUseApply } from '@/types/Apply';
 import axiosInstance from './axiosInstance';
 
 // 사용신청 내역(사원)
@@ -131,6 +132,24 @@ export async function getAdminProvideApplyList(clickPage: number, state: string)
     return response.data;
   } catch (error) {
     console.error('error', error);
+    return null;
+  }
+}
+
+export async function submitUseApply({ teamName, categoryId, content }: IUseApply) {
+  try {
+    const response = await axiosInstance({
+      method: 'POST',
+      url: '/submit/use/register',
+      data: {
+        teamName,
+        categoryId,
+        content,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 }

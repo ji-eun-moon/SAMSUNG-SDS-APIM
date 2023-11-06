@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TopNavBarProps, SideNavBarProps } from '@/types/props/NavBarProps';
 import Image from 'next/image';
 import StyledButton from '@/components/atoms/StyledButton';
@@ -13,11 +13,14 @@ import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
 import Link from 'next/link';
+import SearchBar from '@/components/atoms/SearchBar';
 import styles from './NavBar.module.scss';
 
 function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | TopNavBarProps) {
   const router = useRouter();
   const { selectedTeam, setSelectedTeam } = useUserStore();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchWord, setSearchWord] = useState('');
 
   const handleSelectTeam = (team: string) => {
     setSelectedTeam(team);
@@ -90,14 +93,14 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
                 radius="full"
                 type="button"
               />
-              <CountBadge count={noticeCnt}>
+              <CountBadge count={noticeCnt.toString()}>
                 <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" type="button" />
               </CountBadge>
             </div>
 
             {/* 텍스트 바로가기 */}
             <div className="itdaText flex flex-col gap-3">
-              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/mypage')} aria-hidden>
+              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/team')} aria-hidden>
                 <div className="text-sm">팀정보</div>
                 <Image src="/icons/user.png" alt="user icon" width={20} height={16} />
               </div>
@@ -125,54 +128,86 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           <LogoWithName />
         </Link>
         <div className="flex items-center">
-          {/* 팀 선택 */}
-          {teamList && (
-            <div className="mr-10">
-              <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
+          {searchOpen ? (
+            <div className="flex items-center">
+              <div className="">
+                <SearchBar
+                  keyword={searchWord}
+                  onChange={setSearchWord}
+                  onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
+                  placeholder="API 검색"
+                />
+              </div>
+              <div className={styles.updownSearch} />
+              <svg
+                className="w-5 h-5 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
+                onClick={() => setSearchOpen(false)}
+                aria-hidden
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+            </div>
+          ) : (
+            <div className="flex items-center">
+              {/* 팀 선택 */}
+              {teamList && (
+                <div className="mr-10">
+                  <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
+                </div>
+              )}
+              {/* 프로필 이미지 */}
+              <div className="mr-3">
+                <ProfileImg src={userInfo?.imageUrl} width={40} height={40} />
+              </div>
+              {/* 회원정보 */}
+              <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
+                <div className="itdaText text-left font-semibold">{userInfo?.name}</div>
+                <div className="flex itdaSecondary">
+                  <div>{userInfo?.department}</div>
+                </div>
+              </button>
+              <div className={styles.updown} />
+              {/* API 검색 */}
+              <svg
+                className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+                onClick={() => setSearchOpen(true)}
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
             </div>
           )}
-          {/* 프로필 이미지 */}
-          <div className="mr-3">
-            <ProfileImg src={userInfo?.imageUrl} width={40} height={40} />
-          </div>
-          {/* 회원정보 */}
-          <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
-            <div className="itdaText text-left font-semibold">{userInfo?.name}</div>
-            <div className="flex itdaSecondary">
-              <div>{userInfo?.department}</div>
-            </div>
-          </button>
-          <div className={styles.updown} />
-          {/* API 검색 */}
-          <svg
-            className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-            // onClick={onSearchHandler}
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
           {/* 쪽지 */}
           <div className="flex mr-6">
-            <CountBadge count={noticeCnt}>
-              <NoticeDropDown
-                trigger={
-                  <button type="button" className={styles.button}>
+            <NoticeDropDown
+              trigger={
+                <button type="button" className="flex justify-center items-center">
+                  <CountBadge count={noticeCnt.toString()}>
                     <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
-                  </button>
-                }
-              >
-                {notices}
-              </NoticeDropDown>
-            </CountBadge>
+                  </CountBadge>
+                </button>
+              }
+            >
+              {notices}
+            </NoticeDropDown>
           </div>
           {/* 바로가기 드롭다운 */}
           <div className="mr-3">

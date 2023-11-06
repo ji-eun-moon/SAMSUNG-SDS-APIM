@@ -84,3 +84,11 @@ export interface Pageable {
   page: number;
   size: number;
 }
+
+export interface ITeamInfo {
+  teamName: string;
+  teamId: number;
+  teamCount: number;
+  teamMembers: TTeamMemberList;
+  tokenResponses: ITeamToken[];
+}
