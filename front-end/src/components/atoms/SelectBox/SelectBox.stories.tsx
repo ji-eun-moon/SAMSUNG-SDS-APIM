@@ -6,7 +6,7 @@ export default {
   component: SelectBox,
   argTypes: {
     list: {
-      description: 'SelecBox에 들어갈 리스트',
+      description: 'SelectBox에 들어갈 리스트',
     },
     placeholder: {
       description: 'placeholder에 들어갈 문자',

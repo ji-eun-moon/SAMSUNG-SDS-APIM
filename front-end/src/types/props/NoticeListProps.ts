@@ -1,5 +1,7 @@
-import { TNoticeList } from '../Notice';
+import { INotice } from '../Notice';
 
 export interface NoticeListProps {
-  noticeList: TNoticeList;
+  noticeList: INotice[] | undefined;
+  selectRead: (list: number[]) => void;
+  selectDelete: (list: number[]) => void;
 }
