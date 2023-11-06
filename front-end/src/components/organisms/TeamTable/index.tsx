@@ -35,7 +35,7 @@ function MemberTable({ memberList }: MemberTableProps) {
                 <td className={`${styles.tr} text-center`}>
                   <DropDown
                     trigger={<button type="button">{member.name}</button>}
-                    list={[{ title: '쪽지 보내기', icon: 'message', onClick: () => {} }]}
+                    list={[{ title: '쪽지 보내기', icon: 'message', url: '' }]}
                   />
                 </td>
                 <td className={`${styles.tr} text-center`}>{member.department}</td>
