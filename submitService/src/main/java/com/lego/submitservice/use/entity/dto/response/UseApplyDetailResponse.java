@@ -21,7 +21,7 @@ public class UseApplyDetailResponse {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private State state;
-    private String failReason;
+    private String denyReason;
 
     public UseApplyDetailResponse(UseApply useApply) {
         this.useApplyId = useApply.getId();
@@ -32,6 +32,6 @@ public class UseApplyDetailResponse {
         this.createdAt = useApply.getCreatedAt();
         this.modifiedAt = useApply.getModifiedAt();
         this.state = useApply.getState();
-        this.failReason = useApply.getDenyReason();
+        this.denyReason = useApply.getDenyReason();
     }
 }
