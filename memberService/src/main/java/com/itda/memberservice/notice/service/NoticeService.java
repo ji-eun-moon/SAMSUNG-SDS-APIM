@@ -1,5 +1,6 @@
 package com.itda.memberservice.notice.service;
 
+import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.request.NoticeListRequest;
@@ -7,6 +8,7 @@ import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.entity.Notice;
 import com.itda.memberservice.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
@@ -53,13 +56,21 @@ public class NoticeService {
 
     public void sendNotice(String employeeId, NoticeCreateRequest request) {
 
+        Member sender = memberRepository.findByEmployeeId(employeeId)
+                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다."));
+
+        log.info("sender = " + sender.toString());
+
         for (Long memberId : request.getMemberIds()) {
 
+            Member receiver = memberRepository.findById(memberId)
+                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다."));
+
+            log.info("receiver = " + receiver.toString());
+
             noticeRepository.save(Notice.builder()
-                            .sender(memberRepository.findByEmployeeId(employeeId)
-                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다.")))
-                            .receiver(memberRepository.findById(memberId)
-                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다.")))
+                            .sender(sender)
+                            .receiver(receiver)
                             .title(request.getTitle())
                             .content(request.getContent())
                             .isRead(false)
