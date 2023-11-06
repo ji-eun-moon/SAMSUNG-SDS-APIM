@@ -82,7 +82,6 @@ public class NoticeService {
 
     }
 
-    @Transactional(readOnly = true)
     public ReceiveNoticeDetailResponse receiveDetail(String employeeId, Long noticeId) {
 
         changeReadNotice(employeeId, noticeId);
