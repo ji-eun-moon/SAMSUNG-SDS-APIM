@@ -63,12 +63,14 @@ public class MemberService {
 
     }
 
+    @Transactional(readOnly = true)
     public boolean employeeIdDuplicateCheck(String employeeId){
 
         return memberRepository.existsByEmployeeId(employeeId);
 
     }
 
+    @Transactional(readOnly = true)
     public String login(LoginMemberRequest request){
 
         Member member = memberRepository.findByEmployeeId(request.getEmployeeId())
@@ -115,27 +117,32 @@ public class MemberService {
 
     }
 
+    @Transactional(readOnly = true)
     public EmployeeSearchResponse findByEmployeeId(String id){
 
         return memberRepository.findMemberByEmployeeId(id);
     }
 
+    @Transactional(readOnly = true)
     public List<NameSearchResponse> findByName(String name) {
         return memberRepository.findByName(name);
     }
 
+    @Transactional(readOnly = true)
     public Page<MemberResponse> findAll(Pageable pageable) {
 
         return memberRepository.findMemberResponse(pageable);
 
     }
 
+    @Transactional(readOnly = true)
     public MemberResponse myInformation(String employeeId){
 
         return memberRepository.findMemberResponseByEmployeeId(employeeId);
 
     }
 
+    @Transactional(readOnly = true)
     public void sendEmailPassword(String email, String password) throws MessagingException {
 
         String title = "[ITDA] 임시 비밀번호 안내";

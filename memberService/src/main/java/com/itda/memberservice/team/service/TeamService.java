@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class TeamService {
 
@@ -37,6 +39,7 @@ public class TeamService {
 
     }
 
+    @Transactional(readOnly = true)
     public TeamListResponse getTeamInformation(String teamName, Pageable pageable){
 
         log.info("{TeamService-getTeamInformation} : teamName = " + teamName);
@@ -56,6 +59,7 @@ public class TeamService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<CategoryTokenResponse> teamTokens(String teamName) {
 
         Map<String, String> map = new HashMap<>();

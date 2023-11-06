@@ -10,35 +10,41 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional(readOnly = true)
     public long unreadNoticeCount(String employeeId) {
 
         return noticeRepository.unreadNoticeCount(employeeId);
 
     }
 
+    @Transactional(readOnly = true)
     public Page<ReceiveUnReadNoticeResponse> receiveUnReadNoticeList(String employeeId, Pageable pageable) {
 
         return noticeRepository.receiveUnReadNoticeList(employeeId, pageable);
 
     }
 
+    @Transactional(readOnly = true)
     public Page<ReceiveReadNoticeResponse> receiveReadNoticeList(String employeeId, Pageable pageable) {
 
         return noticeRepository.receiveReadNoticeList(employeeId, pageable);
 
     }
 
+    @Transactional(readOnly = true)
     public Page<ReceiveNoticeListResponse> receiveAll(String employeeId, Pageable pageable) {
 
         return noticeRepository.receiveAll(employeeId, pageable);
@@ -65,6 +71,7 @@ public class NoticeService {
 
     }
 
+    @Transactional(readOnly = true)
     public ReceiveNoticeDetailResponse receiveDetail(String employeeId, Long noticeId) {
 
         changeReadNotice(employeeId, noticeId);
@@ -99,24 +106,28 @@ public class NoticeService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<SendUnReadNoticeResponse> sendUnReadNoticeList(String employeeId, Pageable pageable) {
 
         return noticeRepository.sendUnReadNoticeList(employeeId, pageable);
 
     }
 
+    @Transactional(readOnly = true)
     public Page<SendReadNoticeResponse> sendReadNoticeList(String employeeId, Pageable pageable) {
 
         return noticeRepository.sendReadNoticeList(employeeId, pageable);
 
     }
 
+    @Transactional(readOnly = true)
     public Page<SendNoticeListResponse> sendAll(String employeeId, Pageable pageable) {
 
         return noticeRepository.sendAll(employeeId, pageable);
 
     }
 
+    @Transactional(readOnly = true)
     public SendNoticeDetailResponse sendDetail(String employeeId, Long noticeId) {
 
         SendNoticeDetailResponse response = noticeRepository.sendDetail(employeeId, noticeId);
@@ -158,6 +169,7 @@ public class NoticeService {
 
     }
 
+    @Transactional(readOnly = true)
     public void receiveReadAll(NoticeListRequest request) {
 
         for (Long i : request.getList()) {
