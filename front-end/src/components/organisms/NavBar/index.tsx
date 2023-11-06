@@ -56,6 +56,7 @@ function NavBar({ position }: NavBarProps) {
   }
 
   const firstCategory = categoryList[0]?.categoryId;
+  const firstApi = categoryList[0]?.apiList[0].apiId;
 
   if (position === 'side') {
     return (
@@ -242,8 +243,8 @@ function NavBar({ position }: NavBarProps) {
               }
               list={
                 userInfo.authority === '관리자'
-                  ? getAdminDropDownList({ categoryId: firstCategory, apiId: 0 })
-                  : getUserDropDownList({ categoryId: firstCategory, apiId: 0 })
+                  ? getAdminDropDownList({ categoryId: firstCategory, apiId: firstApi })
+                  : getUserDropDownList({ categoryId: firstCategory, apiId: firstApi })
               }
             />
           </div>
