@@ -2,12 +2,14 @@ package com.lego.apiservice.api.controller;
 
 import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.entity.dto.response.*;
+import com.lego.apiservice.api.service.ApiBatchService;
 import com.lego.apiservice.api.service.ApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ApiController {
 
     private final ApiService apiService;
+    private final ApiBatchService apiBatchService;
 
     @GetMapping("/detail")
     @Operation(summary = "api 상세 조회")
@@ -68,5 +71,11 @@ public class ApiController {
             return ResponseEntity.ok(apiService.apiStatusAll(apiName, pageable));
         }
         return ResponseEntity.ok(apiService.apiStatusAll(status, apiName, pageable));
+    }
+
+    @GetMapping("/batch")
+    public ResponseEntity<?> test() {
+        apiBatchService.apiHealthCheck();
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

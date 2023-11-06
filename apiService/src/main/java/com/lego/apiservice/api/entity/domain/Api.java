@@ -47,4 +47,10 @@ public class Api {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public void setApiStatus(ApiStatus apiStatus) {
+        this.apiStatus = apiStatus;
+    }
+    public void setResponseTime(String responseTime) {
+        this.responseTime = responseTime;
+    }
 }
