@@ -18,13 +18,15 @@ function ShortCuts() {
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
 
   let firstCategory = 0;
+  let firstApi = 0;
   if (categoryList) {
     firstCategory = categoryList[0]?.categoryId || 0;
+    firstApi = categoryList[0]?.apiList[0].apiId;
   }
 
   const urlList = {
     ApiStatus: `/apis/status`,
-    statistics: `/statistics/${firstCategory}`,
+    statistics: `/statistics/${firstApi}`,
     monitoring: '/monitoring',
     applyList: '/apply/use/list',
     adminApplyList: '/admin/useApplyList',
