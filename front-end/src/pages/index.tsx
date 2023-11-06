@@ -13,6 +13,7 @@ import { dehydrate } from 'react-query/hydration';
 import { getCategoryList, getApiStatus } from '@/utils/axios/api';
 import { IUser } from '@/types/User';
 import { IApiStatusInfo } from '@/types/Api';
+import { getNoticeCnt } from '@/utils/axios/notice';
 
 const Home: NextPage = () => {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
@@ -45,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   await queryClient.prefetchQuery('userInfo', getUserInfo);
   await queryClient.prefetchQuery('categoryList', getCategoryList);
   await queryClient.prefetchQuery('apiStatusList', () => getApiStatus({ status: '', page: 0, size: 3 }));
+  await queryClient.prefetchQuery('noticeCnt', getNoticeCnt);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
