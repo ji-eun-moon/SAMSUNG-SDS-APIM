@@ -31,7 +31,7 @@ function ApiTestForm({ apiTestInfo }: Props) {
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    apiTest({ url: apiTestInfo.endpoint, params, accessToken: apiTestInfo.categoryToken, method: 'GET' });
+    apiTest({ url: apiTestInfo.endpoint, params, accessToken: apiTestInfo.categoryToken, method: apiTestInfo.method });
   };
 
   return (
