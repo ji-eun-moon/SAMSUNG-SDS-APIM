@@ -50,7 +50,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 ))
                 .from(notice)
                 .join(notice.sender, member)
-                .where(notice.isRead.eq(true)
+                .where(notice.isRead.eq(false)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
@@ -61,7 +61,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.isRead.eq(true)
+                .where(notice.isRead.eq(false)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
                 .fetchFirst();
@@ -85,7 +85,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                         ))
                 .from(notice)
                 .join(notice.sender, member)
-                .where(notice.isRead.eq(false)
+                .where(notice.isRead.eq(true)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
@@ -96,7 +96,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.isRead.eq(false)
+                .where(notice.isRead.eq(true)
                         .and(notice.receiver.employeeId.eq(employeeId))
                         .and(notice.isReceiverDeleted.eq(false)))
                 .fetchFirst();
