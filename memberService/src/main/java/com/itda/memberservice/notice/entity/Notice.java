@@ -26,11 +26,11 @@ public class Notice {
     private boolean isRead;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id", insertable = false, updatable = false)
+    @JoinColumn(name = "sender_id", updatable = false)
     private Member sender;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_id", insertable = false, updatable = false)
+    @JoinColumn(name = "receiver_id", updatable = false)
     private Member receiver;
 
     @Column(columnDefinition = "BOOLEAN")
