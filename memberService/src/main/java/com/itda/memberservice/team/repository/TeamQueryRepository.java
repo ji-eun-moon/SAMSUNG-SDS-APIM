@@ -1,11 +1,11 @@
 package com.itda.memberservice.team.repository;
 
 import com.itda.memberservice.member.dto.response.TeamMemberResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TeamQueryRepository {
 
-    List<TeamMemberResponse> findMembers(String teamName);
+    Page<TeamMemberResponse> findMembers(String teamName, Pageable pageable);
 
 }

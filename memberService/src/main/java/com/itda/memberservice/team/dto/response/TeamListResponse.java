@@ -1,13 +1,11 @@
 package com.itda.memberservice.team.dto.response;
 
-import com.itda.memberservice.client.useCheck.dto.CategoryTokenResponse;
 import com.itda.memberservice.member.dto.response.TeamMemberResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 @Getter
 @AllArgsConstructor
@@ -17,8 +15,6 @@ public class TeamListResponse {
 
      private Long teamId;
      private String teamName;
-     private Integer teamCount;
-     private List<TeamMemberResponse> teamMembers;
-     private List<CategoryTokenResponse> tokenResponses;
+     private Page<TeamMemberResponse> teamMembers;
 
 }

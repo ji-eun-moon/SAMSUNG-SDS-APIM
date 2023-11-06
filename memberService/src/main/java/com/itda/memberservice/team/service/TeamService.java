@@ -9,6 +9,8 @@ import com.itda.memberservice.team.entity.Team;
 import com.itda.memberservice.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -35,27 +37,31 @@ public class TeamService {
 
     }
 
-    public TeamListResponse getTeamInformation(String teamName){
+    public TeamListResponse getTeamInformation(String teamName, Pageable pageable){
 
         log.info("{TeamService-getTeamInformation} : teamName = " + teamName);
 
-        Map<String, String> map = new HashMap<>();
-        map.put("teamName", teamName);
 
-        List<CategoryTokenResponse> tokens = useCheckClient.getToken(map);
 
-        List<TeamMemberResponse> members = teamRepository.findMembers(teamName);
+        Page<TeamMemberResponse> members = teamRepository.findMembers(teamName, pageable);
 
         Team team = teamRepository.findByName(teamName)
                 .orElseThrow(() -> new NotFoundException("해당하는 팀은 존재하지 않습니다."));
 
         return TeamListResponse.builder()
                 .teamMembers(members)
-                .teamCount(members.size())
                 .teamId(team.getTeamId())
                 .teamName(team.getName())
-                .tokenResponses(tokens)
                 .build();
+
+    }
+
+    public List<CategoryTokenResponse> teamTokens(String teamName) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("teamName", teamName);
+
+        return useCheckClient.getToken(map);
 
     }
 

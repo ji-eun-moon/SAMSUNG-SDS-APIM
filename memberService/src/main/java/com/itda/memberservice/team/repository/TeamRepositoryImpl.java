@@ -4,6 +4,9 @@ import com.itda.memberservice.member.dto.response.TeamMemberResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -19,9 +22,9 @@ public class TeamRepositoryImpl implements TeamQueryRepository{
     }
 
     @Override
-    public List<TeamMemberResponse> findMembers(String teamName) {
+    public Page<TeamMemberResponse> findMembers(String teamName, Pageable pageable) {
 
-        return queryFactory
+        List<TeamMemberResponse> result = queryFactory
                 .select(Projections.fields(TeamMemberResponse.class,
                         member.employeeId,
                         member.name,
@@ -33,6 +36,14 @@ public class TeamRepositoryImpl implements TeamQueryRepository{
                 .leftJoin(memberTeam.member, member)
                 .where(memberTeam.team.name.eq(teamName))
                 .fetch();
+
+        Long count = queryFactory
+                .select(member.count())
+                .from(member)
+                .where(memberTeam.team.name.eq(teamName))
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(result, pageable, () -> count);
 
     }
 }
