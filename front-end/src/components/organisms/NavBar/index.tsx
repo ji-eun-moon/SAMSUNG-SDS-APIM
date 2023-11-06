@@ -93,7 +93,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
                 radius="full"
                 type="button"
               />
-              <CountBadge count={noticeCnt}>
+              <CountBadge count={noticeCnt.toString()}>
                 <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" type="button" />
               </CountBadge>
             </div>
@@ -197,17 +197,17 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
           )}
           {/* 쪽지 */}
           <div className="flex mr-6">
-            <CountBadge count={noticeCnt}>
-              <NoticeDropDown
-                trigger={
-                  <button type="button" className={styles.button}>
+            <NoticeDropDown
+              trigger={
+                <button type="button" className="flex justify-center items-center">
+                  <CountBadge count={noticeCnt.toString()}>
                     <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
-                  </button>
-                }
-              >
-                {notices}
-              </NoticeDropDown>
-            </CountBadge>
+                  </CountBadge>
+                </button>
+              }
+            >
+              {notices}
+            </NoticeDropDown>
           </div>
           {/* 바로가기 드롭다운 */}
           <div className="mr-3">
