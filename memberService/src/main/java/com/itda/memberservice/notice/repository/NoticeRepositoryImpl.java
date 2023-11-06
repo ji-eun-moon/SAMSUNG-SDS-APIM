@@ -242,6 +242,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .leftJoin(notice.receiver, member)
                 .where(notice.sender.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         Long count = queryFactory
