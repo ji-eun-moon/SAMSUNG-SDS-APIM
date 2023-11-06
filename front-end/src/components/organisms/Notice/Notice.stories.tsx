@@ -17,10 +17,16 @@ export default {
         type: 'object',
       },
     },
+    position: {
+      description: 'page에서 사용할 건지, nav에서 사용할건지 선택',
+    },
+    type: {
+      description: '받은 쪽지인지 보낸 쪽지인지 선택',
+    },
   },
 };
 
-export const NoticeExample = {
+export const PageNotice = {
   args: {
     noticeInfo: {
       noticeId: 1,
@@ -37,5 +43,25 @@ export const NoticeExample = {
     isSelected: true,
     onCheckboxToggle: () => {},
     onClick: () => {},
+    position: 'page',
+  },
+};
+
+export const NavNotice = {
+  args: {
+    noticeInfo: {
+      noticeId: 1,
+      from: [
+        {
+          fromName: 'ITDA',
+          fromImgUrl: '/images/profileImg.png',
+        },
+      ],
+      title: "'이미지 검색하기' API 제공 신청이 승인되었습니다.",
+      check: true,
+      createdAt: new Date('2023-10-16 14:47:30'),
+    },
+    onClick: () => {},
+    position: 'nav',
   },
 };

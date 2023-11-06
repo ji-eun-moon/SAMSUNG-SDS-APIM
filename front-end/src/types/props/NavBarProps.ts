@@ -3,13 +3,13 @@ import { IUser } from '../User';
 export interface SideNavBarProps {
   userInfo: IUser;
   position: 'side';
-  noticeCnt: string;
+  noticeCnt: number;
   firstCategory: number;
 }
 export interface TopNavBarProps {
   userInfo: IUser;
   position: 'top';
-  noticeCnt: string;
+  noticeCnt: number;
   notices: React.ReactNode;
   dropDownList: IItem[];
 }

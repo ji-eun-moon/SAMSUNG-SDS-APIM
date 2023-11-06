@@ -6,7 +6,7 @@ import { Checkbox } from '@nextui-org/react';
 import { NoticeListProps } from '@/types/props/NoticeListProps';
 
 function NoticeList(props: NoticeListProps) {
-  const { noticeList, selectDelete, selectRead } = props;
+  const { noticeList, selectDelete, selectRead, type } = props;
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
   const toggleAllCheckbox = async (isChecked: boolean) => {
@@ -66,11 +66,13 @@ function NoticeList(props: NoticeListProps) {
           {noticeList?.map((notice, index) => (
             <div key={notice.noticeId}>
               <Notice
+                position="page"
+                type={type}
                 noticeInfo={notice}
                 isSelected={checkedItems.includes(notice.noticeId)}
                 onCheckboxToggle={() => toggleCheckbox(notice.noticeId)}
               />
-              {index !== noticeList?.length - 1 && <hr />}
+              {noticeList && index !== noticeList.length - 1 && <hr />}
             </div>
           ))}
         </div>

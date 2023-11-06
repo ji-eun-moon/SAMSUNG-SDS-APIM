@@ -39,6 +39,7 @@ const ReceiveList: NextPage = () => {
         <GoBack label="쪽지함" />
         <NoticeCategory select="receive" />
         <NoticeList
+          type="receive"
           noticeList={receiveList.content}
           selectDelete={(list: number[]) => selectDelete(list)}
           selectRead={(list: number[]) => selectRead(list)}
