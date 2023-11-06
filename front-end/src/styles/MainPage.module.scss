@@ -1,0 +1,130 @@
+.pageContainer {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 0.8fr 0.8fr;
+  gap: 8px;
+}
+
+.firstPart {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 55px;
+  margin-top: 8px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+
+  &:hover .imgContainer {
+    transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+    cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+  }
+}
+
+.cardtitle {
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 400;
+  color: $itda-secondary;
+  cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+
+  // cardContainer가 hover일 때 imgContainer에 적용될 스타일
+  & ~ .imgContainer {
+    transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+  }
+}
+
+.imgContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+  transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+}
+
+.iconImg {
+  width: 95px;
+  height: 92px;
+  margin: 8px;
+}
+
+.secondPart {
+  color: $itda-text;
+  margin-top: 8px;
+}
+
+.contents {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.secondContent {
+  display: grid;
+  grid-template-columns: 60px 810px 35px 20px 85px;
+  padding: 3px 0px;
+  border-bottom: 0.5px solid #eaeaea;
+}
+
+.secondInContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.thirdPart {
+  color: $itda-text;
+  margin-top: 8px;
+}
+
+.thirdContent {
+  display: grid;
+  grid-template-columns: 650px 65px 20px 80px 20px 150px;
+  padding: 3px 5px;
+}
+
+.divider {
+  border-bottom: 0.5px solid #eaeaea;
+  padding: 8px 0;
+}
+
+.thirdInContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.partTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $itda-text;
+
+  .partTitle {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .goDetail {
+    font-size: 13px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+
+    cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+  }
+}

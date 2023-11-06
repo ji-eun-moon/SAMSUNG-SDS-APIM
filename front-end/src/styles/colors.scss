@@ -1,0 +1,45 @@
+$itda-blue: #4175c0;
+$itda-text: #5f6165;
+$itda-secondary: #9a9a9a;
+$itda-border: #dddddd;
+$itda-danger: #ff5a5a;
+
+.itdaBlue {
+  color: $itda-blue;
+}
+
+.itdaText {
+  color: $itda-text;
+}
+
+.itdaSecondary {
+  color: $itda-secondary;
+}
+
+.itdaBorder {
+  color: $itda-border;
+}
+
+.itdaDanger {
+  color: $itda-danger;
+}
+
+.bgItdaBlue {
+  background-color: $itda-blue;
+}
+
+.bgItdaSecondary {
+  background-color: $itda-secondary;
+}
+
+.bgItdaBorder {
+  background-color: $itda-border;
+}
+
+.bgItdaInput {
+  background-color: #e5e7eb;
+}
+
+.bdItdaSecondary {
+  border-color: $itda-secondary;
+}

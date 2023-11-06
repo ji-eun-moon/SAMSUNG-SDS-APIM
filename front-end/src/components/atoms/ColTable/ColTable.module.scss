@@ -1,0 +1,28 @@
+.table {
+  width: 85%;
+
+  text-align: center;
+  margin: 0px auto;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.16);
+}
+
+.header {
+  height: 48px;
+
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+
+  background-color: $itda-blue;
+}
+
+.body {
+  height: 45px;
+
+  color: black;
+  font-size: 13px;
+  font-weight: 400;
+
+  border-bottom: 1px solid #9a9a9a;
+  cursor: pointer;
+}

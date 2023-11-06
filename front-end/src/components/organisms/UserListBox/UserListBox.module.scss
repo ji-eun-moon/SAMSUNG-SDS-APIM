@@ -1,0 +1,12 @@
+.addBtn {
+  background-color: #fff;
+  border-radius: 20px;
+  border: 1px solid $itda-secondary;
+  padding: 3px 8px;
+  color: $itda-secondary;
+
+  &:hover {
+    border: 1px solid $itda-text;
+    color: $itda-text;
+  }
+}
