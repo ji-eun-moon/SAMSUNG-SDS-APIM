@@ -53,6 +53,9 @@ dependencies {
 
     // mongo DB
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    // Elastic Search
+    implementation 'org.springframework.data:spring-data-elasticsearch:4.2.2'
 }
 
 dependencyManagement {

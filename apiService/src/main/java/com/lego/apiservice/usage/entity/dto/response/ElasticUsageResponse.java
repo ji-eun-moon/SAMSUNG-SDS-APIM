@@ -2,36 +2,37 @@ package com.lego.apiservice.usage.entity.dto.response;
 
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import com.lego.apiservice.usage.entity.domain.ElasticUsage;
-import com.lego.apiservice.usage.entity.domain.Usage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsageResponse {
+public class ElasticUsageResponse {
 
-    private Long usageId;
+    private String usageId;
     private LocalDateTime createAt;
     private ApiMethod method;
     private String endpoint;
-    private String teamToken;
+    private String teamName;
     private Long categoryId;
     private Long responseTime;
     private Integer responseCode;
 
-    public UsageResponse(Usage usage) {
+    public ElasticUsageResponse(ElasticUsage usage) {
         usageId = usage.get_id();
         createAt = usage.getCreateAt();
         method = usage.getMethod();
         endpoint = usage.getEndpoint();
-        teamToken = usage.getTeamToken();
+        teamName = usage.getTeamName();
         categoryId = usage.getCategoryId();
         responseTime = usage.getResponseTime();
         responseCode = usage.getResponseCode();
     }
-
 }

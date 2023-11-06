@@ -16,7 +16,7 @@ public class CreateUsageRequest {
     private LocalDateTime createAt;
     private ApiMethod method;
     private String endpoint;
-    private String teamToken;
+    private String teamName;
     private Long categoryId;
     private Long responseTime;
     private Integer responseCode;

@@ -29,7 +29,7 @@ public class UsageService {
                 .createAt(createUsageRequest.getCreateAt())
                 .method(createUsageRequest.getMethod())
                 .endpoint(createUsageRequest.getEndpoint())
-                .teamToken(createUsageRequest.getTeamToken())
+                .teamToken(createUsageRequest.getTeamName())
                 .categoryId(createUsageRequest.getCategoryId())
                 .responseTime(createUsageRequest.getResponseTime())
                 .responseCode(createUsageRequest.getResponseCode())
@@ -45,4 +45,6 @@ public class UsageService {
     public void deleteAll() {
         usageRepository.deleteAll();
     }
+
+
 }
