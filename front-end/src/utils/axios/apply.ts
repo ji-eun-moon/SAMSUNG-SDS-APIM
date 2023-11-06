@@ -3,7 +3,6 @@ import axiosInstance from './axiosInstance';
 
 // 사용신청 내역(사원)
 export async function getUseApplyList(teamName: string, clickPage: number, state: string) {
-  console.log('hi');
   try {
     const response = await axiosInstance({
       method: 'GET',
@@ -40,7 +39,6 @@ export async function getUseApplyDetail(useId: number) {
 
 // 사용신청 내역(관리자)
 export async function getAdminUseApplyList(clickPage: number, state: string) {
-  console.log('use');
   try {
     const response = await axiosInstance({
       method: 'GET',
@@ -63,7 +61,6 @@ export async function getAdminUseApplyList(clickPage: number, state: string) {
 
 // 제공신청하기
 export async function postProvideApply(teamName: string, serverName: string, description: string, endpoint: string) {
-  console.log('provide');
   try {
     const response = await axiosInstance({
       method: 'POST',
@@ -85,7 +82,6 @@ export async function postProvideApply(teamName: string, serverName: string, des
 
 // 제공신청 내역(사원)
 export async function getProvideApplyList(teamName: string, clickPage: number, state: string) {
-  console.log('provide');
   try {
     const response = await axiosInstance({
       method: 'GET',
@@ -122,7 +118,6 @@ export async function getProvideApplyDetail(provideId: number) {
 
 // 제공신청 내역(관리자)
 export async function getAdminProvideApplyList(clickPage: number, state: string) {
-  console.log('provide');
   try {
     const response = await axiosInstance({
       method: 'GET',
