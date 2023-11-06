@@ -122,7 +122,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 )
                 .from(notice)
                 .leftJoin(notice.sender, member)
-                .where(notice.receiver.employeeId.eq(employeeId))
+                .where(notice.receiver.employeeId.eq(employeeId)
+                        .and(notice.isReceiverDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -131,7 +132,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.receiver.employeeId.eq(employeeId))
+                .where(notice.receiver.employeeId.eq(employeeId)
+                        .and(notice.isReceiverDeleted.eq(false)))
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(result, pageable, () -> count);
@@ -181,7 +183,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 )
                 .from(notice)
                 .leftJoin(notice.receiver, member)
-                .where(notice.sender.employeeId.eq(employeeId))
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.isSenderDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -190,7 +193,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.sender.employeeId.eq(employeeId))
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.isSenderDeleted.eq(false)))
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(result, pageable, () -> count);
@@ -213,7 +217,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 )
                 .from(notice)
                 .leftJoin(notice.receiver, member)
-                .where(notice.sender.employeeId.eq(employeeId))
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.isSenderDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -222,7 +227,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.sender.employeeId.eq(employeeId))
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.isSenderDeleted.eq(false)))
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(result, pageable, () -> count);
@@ -246,7 +252,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 )
                 .from(notice)
                 .leftJoin(notice.receiver, member)
-                .where(notice.sender.employeeId.eq(employeeId))
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.isSenderDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -255,7 +262,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.sender.employeeId.eq(employeeId))
+                .where(notice.sender.employeeId.eq(employeeId)
+                        .and(notice.isSenderDeleted.eq(false)))
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(result, pageable, () -> count);
