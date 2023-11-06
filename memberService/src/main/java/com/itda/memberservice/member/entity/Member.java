@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@ToString(of = {"memberId", "employeeId"})
+@ToString(of = {"memberId", "employeeId", "name"})
 @EntityListeners(AuditingEntityListener.class)
 public class Member {
 
