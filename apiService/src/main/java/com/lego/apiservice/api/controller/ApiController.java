@@ -58,11 +58,15 @@ public class ApiController {
     @GetMapping("/status")
     @Operation(summary = "api 상태 조회 - 이름, 상태, 페이지 네이션")
     public ResponseEntity<?> apiStatus(@RequestParam(name = "status", required = false) ApiStatus status,
+                                       @RequestParam(name = "apiName", required = false) String apiName,
                                        Pageable pageable) {
-        if (status == null) {
+        if (status == null && apiName == null) {
             return ResponseEntity.ok(apiService.apiStatusAll(pageable));
-        } else {
-            return ResponseEntity.ok(apiService.apiStatusByStatus(status, pageable));
+        } else if (apiName == null) {
+            return ResponseEntity.ok(apiService.apiStatusAll(status, pageable));
+        } else if (status == null) {
+            return ResponseEntity.ok(apiService.apiStatusAll(apiName, pageable));
         }
+        return ResponseEntity.ok(apiService.apiStatusAll(status, apiName, pageable));
     }
 }

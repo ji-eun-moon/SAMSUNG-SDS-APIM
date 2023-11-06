@@ -18,4 +18,8 @@ public interface ApiRepository extends JpaRepository<Api, Long> {
 
     Page<Api> findAllByApiStatusOrderByUpdatedAtDesc(ApiStatus apiStatus, Pageable pageable);
 
+    Page<Api> findAllByTitleContainingIgnoreCaseOrderByUpdatedAtDesc(String title, Pageable pageable);
+
+    Page<Api> findAllByApiStatusAndTitleContainingIgnoreCaseOrderByUpdatedAtDesc(ApiStatus apiStatus, String title, Pageable pageable);
+
 }

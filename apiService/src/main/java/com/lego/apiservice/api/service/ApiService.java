@@ -54,8 +54,16 @@ public class ApiService {
         return apiRepository.findAllByOrderByUpdatedAtDesc(pageable).map(ApiStatusResponse::new);
     }
 
-    public Page<ApiStatusResponse> apiStatusByStatus(ApiStatus apiStatus, Pageable pageable) {
+    public Page<ApiStatusResponse> apiStatusAll(ApiStatus apiStatus, Pageable pageable) {
         return apiRepository.findAllByApiStatusOrderByUpdatedAtDesc(apiStatus, pageable).map(ApiStatusResponse::new);
+    }
+
+    public Page<ApiStatusResponse> apiStatusAll(String apiName, Pageable pageable) {
+        return apiRepository.findAllByTitleContainingIgnoreCaseOrderByUpdatedAtDesc(apiName, pageable).map(ApiStatusResponse::new);
+    }
+
+    public Page<ApiStatusResponse> apiStatusAll(ApiStatus apiStatus, String apiName, Pageable pageable) {
+        return apiRepository.findAllByApiStatusAndTitleContainingIgnoreCaseOrderByUpdatedAtDesc(apiStatus, apiName, pageable).map(ApiStatusResponse::new);
     }
 
 }
