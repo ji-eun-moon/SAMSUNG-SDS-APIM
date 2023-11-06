@@ -9,21 +9,21 @@ export interface IFromDetail extends IFrom {
   fromPosition: string;
 }
 
-export interface INotice {
-  noticeId: number;
-  from: IFrom[];
-  check: boolean;
-  title: string;
-  createdAt: Date;
-}
 
-export type TNoticeList = INotice[];
+export interface TNoticeList {
+  content: INotice[];
+  totalPages: number;
+}
 
 export interface INoticeDetail {
   title: string;
   content: string;
-  from: IFromDetail[];
-  createdAt: Date;
+  createdAt: string;
+  senderId: number;
+  senderName: string;
+  senderDepartment: string;
+  senderPosition: string;
+  senderImage: string;
 }
 
 export interface IPostNotice {
@@ -39,3 +39,18 @@ export type TChangeNotice = number[];
 
 // 안읽은 쪽지 수
 export type TUncheckedCount = number;
+
+export interface INotice {
+  noticeId: number;
+  senderId: number;
+  title: string;
+  senderName: string;
+  senderImage: string;
+  createdAt: string;
+  read: boolean;
+}
+
+export interface IPageable {
+  page: number;
+  size: number;
+}
