@@ -124,6 +124,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .leftJoin(notice.sender, member)
                 .where(notice.receiver.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         Long count = queryFactory
@@ -181,6 +183,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .leftJoin(notice.receiver, member)
                 .where(notice.sender.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         Long count = queryFactory
@@ -211,6 +215,8 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .leftJoin(notice.receiver, member)
                 .where(notice.sender.employeeId.eq(employeeId))
                 .orderBy(notice.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         Long count = queryFactory
