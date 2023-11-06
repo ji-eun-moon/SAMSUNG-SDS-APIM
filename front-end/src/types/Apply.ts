@@ -23,6 +23,7 @@ export interface IProvide {
   teamName: string;
   providerName: string;
   createdAt: Date;
+  modifiedAt: Date;
   state: '승인' | '대기' | '거절' | string;
 }
 
@@ -39,6 +40,7 @@ export interface IUse {
   teamName: string;
   userName: string;
   createdAt: Date;
+  modifiedAt: Date;
   state: '승인' | '대기' | '거절' | string;
 }
 
