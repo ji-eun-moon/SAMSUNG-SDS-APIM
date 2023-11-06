@@ -32,8 +32,8 @@ function Notice({ notice }: NoticeDetailProps) {
       <ShadowCard type="big">
         <div className="w-full p-5">
           <div className="text-xl font-bold mb-5">{notice?.title}</div>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center mb-3">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center mb-3 mx-1">
               {/* <div className="mr-3 font-semibold">보낸사람</div> */}
               {notice && <ProfileImg src={notice?.senderImage} width={35} height={35} />}
               <div className="mx-3">{notice?.senderName}</div>
@@ -49,8 +49,10 @@ function Notice({ notice }: NoticeDetailProps) {
               {notice?.content}
             </div>
           </BorderCard>
-          <div className="mt-3">
-            <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={() => {}} />
+          <div className="w-full flex justify-end">
+            <div className="mt-3 w-2/12 flex">
+              <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={() => {}} />
+            </div>
           </div>
         </div>
       </ShadowCard>

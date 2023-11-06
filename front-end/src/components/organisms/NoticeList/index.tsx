@@ -6,8 +6,8 @@ import { Checkbox } from '@nextui-org/react';
 import { NoticeListProps } from '@/types/props/NoticeListProps';
 
 function NoticeList(props: NoticeListProps) {
-  const { noticeList, selectDelete, selectRead } = props;
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const { noticeList, selectDelete, selectRead, checkedItems, setCheckedItems } = props;
+  // const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
   const toggleAllCheckbox = async (isChecked: boolean) => {
     const allNoticeIds = noticeList?.map((notice) => notice.noticeId);
@@ -21,9 +21,9 @@ function NoticeList(props: NoticeListProps) {
   };
 
   const toggleCheckbox = (id: number) => {
-    setCheckedItems((prev) => {
+    setCheckedItems((prev: number[]) => {
       if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
+        return prev.filter((item: number) => item !== id);
       }
       return [...prev, id];
     });

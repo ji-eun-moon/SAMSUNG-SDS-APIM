@@ -37,7 +37,7 @@ function Notice({ noticeInfo, isSelected, onCheckboxToggle }: NoticeProps) {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Checkbox color="default" isSelected={isSelected} onChange={onCheckboxToggle} className="mr-2" />
-            <ProfileImg width={60} height={60} src={noticeInfo.senderImage} />
+            <ProfileImg width={50} height={50} src={noticeInfo.senderImage} />
             <div className="flex flex-col pl-3 justify-start">
               <div className="text-left font-semibold pb-2">{noticeInfo.senderName}</div>
               <div className="text-sm">{noticeInfo.title}</div>
