@@ -3,8 +3,8 @@
   height: 100%;
 
   display: grid;
-  grid-template-rows: 1fr 0.8fr 0.8fr;
-  gap: 8px;
+  grid-template-rows: 0.9fr 0.9fr 0.9fr;
+  gap: 10px;
 }
 
 .firstPart {
@@ -27,7 +27,7 @@
 }
 
 .cardtitle {
-  margin-top: 12px;
+  margin-top: 10px;
   font-size: 15px;
   font-weight: 400;
   color: $itda-secondary;
@@ -56,6 +56,10 @@
 .secondPart {
   color: $itda-text;
   margin-top: 8px;
+  margin-bottom: 20px;
+  display: grid;
+  padding: 2px 0px;
+  height: 170px;
 }
 
 .contents {
@@ -69,18 +73,13 @@
 }
 
 .secondContent {
-  display: grid;
-  grid-template-columns: 60px 810px 35px 20px 85px;
-  padding: 3px 0px;
+  margin: 2px 0px;
+  padding: 10px 0px;
   border-bottom: 0.5px solid #eaeaea;
 }
-
 .secondInContent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 500;
+  display: grid;
+  grid-template-columns: 65% 10% 5% 20%;
 }
 
 .thirdPart {
@@ -114,7 +113,7 @@
   color: $itda-text;
 
   .partTitle {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 500;
   }
   .goDetail {
