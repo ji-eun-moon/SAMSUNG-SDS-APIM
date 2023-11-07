@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import SearchBar from '@/components/atoms/SearchBar';
 import SideBarBody from '@/components/atoms/SideBarBody';
 import SideBarMenu from '@/components/atoms/SideBarMenu';
 
 function StatusSideBar() {
-  const [searchWord, setSearchWord] = useState('');
   const statusCondition = [
     { conditionId: '1', title: '전체 보기', url: '/apis/status' },
     { conditionId: '2', title: '정상 작동 보기', url: '/apis/status?filter=정상' },
@@ -13,7 +10,6 @@ function StatusSideBar() {
   ];
   return (
     <SideBarBody>
-      <SearchBar keyword={searchWord} onChange={setSearchWord} onSearchHandler={() => {}} placeholder="API 검색" />
       <div className="my-5">
         <SideBarMenu title="API 상태 확인" conditionList={statusCondition} />
       </div>
