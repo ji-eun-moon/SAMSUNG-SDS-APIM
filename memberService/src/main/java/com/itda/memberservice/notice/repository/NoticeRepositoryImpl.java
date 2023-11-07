@@ -183,8 +183,9 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 )
                 .from(notice)
                 .leftJoin(notice.receiver, member)
-                .where(notice.sender.employeeId.eq(employeeId)
-                        .and(notice.isSenderDeleted.eq(false)))
+                .where(notice.isRead.eq(false)
+                        .and(notice.sender.employeeId.eq(employeeId))
+                                .and(notice.isSenderDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -193,8 +194,9 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.sender.employeeId.eq(employeeId)
-                        .and(notice.isSenderDeleted.eq(false)))
+                .where(notice.isRead.eq(false)
+                        .and(notice.sender.employeeId.eq(employeeId))
+                            .and(notice.isSenderDeleted.eq(false)))
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(result, pageable, () -> count);
@@ -217,8 +219,9 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 )
                 .from(notice)
                 .leftJoin(notice.receiver, member)
-                .where(notice.sender.employeeId.eq(employeeId)
-                        .and(notice.isSenderDeleted.eq(false)))
+                .where(notice.isRead.eq(true)
+                        .and(notice.sender.employeeId.eq(employeeId))
+                                .and(notice.isSenderDeleted.eq(false)))
                 .orderBy(notice.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -227,8 +230,9 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         Long count = queryFactory
                 .select(notice.count())
                 .from(notice)
-                .where(notice.sender.employeeId.eq(employeeId)
-                        .and(notice.isSenderDeleted.eq(false)))
+                .where(notice.isRead.eq(true)
+                        .and(notice.sender.employeeId.eq(employeeId))
+                            .and(notice.isSenderDeleted.eq(false)))
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(result, pageable, () -> count);
