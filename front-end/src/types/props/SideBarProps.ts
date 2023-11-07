@@ -13,6 +13,7 @@ export interface CategoryListProps {
   categoryList: TCategoryList;
   openCategory: number;
   my: boolean;
+  type: 'apis' | 'statistics';
 }
 
 export interface IFilterCondition {

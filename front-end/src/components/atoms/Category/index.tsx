@@ -3,7 +3,7 @@ import { Accordion, AccordionItem } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function Category({ categoryName, categoryId, apiList, isOpen, my }: CategoryProps) {
+function Category({ categoryName, categoryId, apiList, isOpen, my, type }: CategoryProps) {
   const router = useRouter();
   const currentPath = router.asPath;
   const defaultKeys = isOpen ? [`${categoryId}`] : [];
@@ -22,40 +22,63 @@ function Category({ categoryName, categoryId, apiList, isOpen, my }: CategoryPro
         aria-label={`Accordion ${categoryId}`}
         title={<p className="itdaBlue font-medium">{categoryName}</p>}
       >
-        <Link
-          href={{
-            pathname: `/category/${categoryId}`,
-            query: { defaultSelectedKey: defaultKey() },
-          }}
-          as={`/category/${categoryId}`}
-          className={`my-2 itdaText cursor-pointer text-sm ${
-            currentPath === `/category/${categoryId}` ? 'font-semibold' : ''
-          }`}
-        >
-          전체 보기
-        </Link>
-        <ul>
-          {apiList.map((item) => (
-            <Link
-              key={item.apiId}
-              href={{
-                pathname: `/apis/detail/${item.apiId}`,
-                query: { defaultSelectedKey: defaultKey() },
-              }}
-              as={`/apis/detail/${item.apiId}`}
-            >
-              <div
-                className={`my-2 itdaText cursor-pointer text-sm ${
-                  currentPath === `/apis/detail/${item.apiId}` || currentPath === `/apis/test/${item.apiId}`
-                    ? 'font-semibold'
-                    : ''
-                }`}
+        {type === 'apis' && (
+          <Link
+            href={{
+              pathname: `/category/${categoryId}`,
+              query: { defaultSelectedKey: defaultKey() },
+            }}
+            as={`/category/${categoryId}`}
+            className={`my-2 itdaText cursor-pointer text-sm ${
+              currentPath === `/category/${categoryId}` ? 'font-semibold' : ''
+            }`}
+          >
+            전체 보기
+          </Link>
+        )}
+        {type === 'apis' ? (
+          <ul>
+            {apiList.map((item) => (
+              <Link
+                key={item.apiId}
+                href={{
+                  pathname: `/apis/detail/${item.apiId}`,
+                  query: { defaultSelectedKey: defaultKey() },
+                }}
+                as={`/apis/detail/${item.apiId}`}
               >
-                {item.apiName}
-              </div>
-            </Link>
-          ))}
-        </ul>
+                <div
+                  className={`my-2 itdaText cursor-pointer text-sm ${
+                    currentPath === `/apis/detail/${item.apiId}` || currentPath === `/apis/test/${item.apiId}`
+                      ? 'font-semibold'
+                      : ''
+                  }`}
+                >
+                  {item.apiName}
+                </div>
+              </Link>
+            ))}
+          </ul>
+        ) : (
+          <ul>
+            {apiList.map((item) => (
+              <Link
+                key={item.apiId}
+                href={{
+                  pathname: `/statistics/${item.apiId}`,
+                }}
+              >
+                <div
+                  className={`my-2 itdaText cursor-pointer text-sm ${
+                    currentPath === `/statistics/${item.apiId}` ? 'font-semibold' : ''
+                  }`}
+                >
+                  {item.apiName}
+                </div>
+              </Link>
+            ))}
+          </ul>
+        )}
       </AccordionItem>
     </Accordion>
   );

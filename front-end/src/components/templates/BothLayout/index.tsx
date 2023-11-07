@@ -16,7 +16,9 @@ function BothLayout({ children }: { children: React.ReactNode[] }) {
         {/* Side NavBar */}
         {children && children[0]}
         {/* Side NavBar 오른쪽 부분 */}
-        <div className={`${style.pageContainer}`}>{children && children[1]}</div>
+        <div>
+          <div className={`${style.pageContainer}`}>{children && children[1]}</div>
+        </div>
       </div>
     </div>
   );

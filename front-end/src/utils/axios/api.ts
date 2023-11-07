@@ -1,4 +1,4 @@
-import { Pageable } from '@/types/Api';
+import { StatusPageable } from '@/types/Api';
 import axiosInstance from './axiosInstance';
 
 export async function getCategoryList() {
@@ -46,7 +46,7 @@ export async function getProvideCategoryList(teamName: string) {
   }
 }
 
-export async function getApiStatus({ status, page, size }: Pageable) {
+export async function getApiStatus({ status, page, size, apiName }: StatusPageable) {
   if (status === '') {
     try {
       const response = await axiosInstance({
@@ -55,6 +55,7 @@ export async function getApiStatus({ status, page, size }: Pageable) {
         params: {
           page,
           size,
+          apiName,
         },
       });
       return response.data;
@@ -71,6 +72,7 @@ export async function getApiStatus({ status, page, size }: Pageable) {
           status,
           page,
           size,
+          apiName,
         },
       });
       return response.data;

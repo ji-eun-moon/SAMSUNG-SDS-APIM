@@ -26,7 +26,11 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
               }}
               aria-hidden
               className={`my-2 pl-2 itdaText cursor-pointer ${
-                decodedPath === `${condition.url}` ? 'font-semibold' : ''
+                decodedPath === `${condition.url}` ||
+                decodedPath.includes(`${condition.url}?query=`) ||
+                decodedPath.includes(`${condition.url}&query=`)
+                  ? 'font-semibold'
+                  : ''
               }`}
             >
               {condition.title}
