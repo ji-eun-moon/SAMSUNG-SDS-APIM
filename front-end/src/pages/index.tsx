@@ -30,7 +30,7 @@ const Home: NextPage = () => {
 
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: apiStatus } = useQuery<IApiStatusInfo>('apiStatus', () =>
-    getApiStatus({ status: '', page: 0, size: 3 }),
+    getApiStatus({ status: '', page: 0, size: 3, apiName: '' }),
   );
 
   const { data: responseUse } = useQuery<IResponseUse>(
@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery('userInfo', getUserInfo);
   await queryClient.prefetchQuery('categoryList', getCategoryList);
-  await queryClient.prefetchQuery('apiStatusList', () => getApiStatus({ status: '', page: 0, size: 3 }));
+  await queryClient.prefetchQuery('apiStatusList', () => getApiStatus({ status: '', page: 0, size: 3, apiName: '' }));
   await queryClient.prefetchQuery('noticeCnt', getNoticeCnt);
 
   return {
