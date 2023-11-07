@@ -1,3 +1,4 @@
+// import { TSearchMembers } from './Notice';
 export interface ILogin {
   employeeId: string;
   password: string;
@@ -92,3 +93,13 @@ export interface ITeamInfo {
   teamMembers: TTeamMemberList;
   tokenResponses: ITeamToken[];
 }
+
+export interface ISearchMember {
+  name: string;
+  imageUrl: string;
+  memberId: number;
+  department: string;
+  position: string;
+}
+
+export type TSearchMembers = ISearchMember[];
