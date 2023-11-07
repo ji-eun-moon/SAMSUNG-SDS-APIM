@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TopNavBarProps, SideNavBarProps } from '@/types/props/NavBarProps';
+import { NavBarProps } from '@/types/props/NavBarProps';
 import Image from 'next/image';
 import StyledButton from '@/components/atoms/StyledButton';
 import { useRouter } from 'next/router';
@@ -14,10 +14,21 @@ import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
 import Link from 'next/link';
 import SearchBar from '@/components/atoms/SearchBar';
+import { IUser } from '@/types/User';
+import { useQuery } from 'react-query';
+import { getUserInfo } from '@/utils/axios/user';
+import { getNoticeCnt } from '@/utils/axios/notice';
+import { TCategoryList } from '@/types/Api';
+import { getCategoryList } from '@/utils/axios/api';
+import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
+import NavBarNotice from '../NavBarNotice';
 import styles from './NavBar.module.scss';
 
-function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | TopNavBarProps) {
+function NavBar({ position }: NavBarProps) {
   const router = useRouter();
+  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
+  const { data: noticeCnt } = useQuery<number>('noticeCnt', getNoticeCnt);
+  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
   const { selectedTeam, setSelectedTeam } = useUserStore();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchWord, setSearchWord] = useState('');
@@ -34,14 +45,20 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
   const teamList = userInfo?.teams?.map((team) => team.teamName);
 
   useEffect(() => {
-    if (!selectedTeam) {
+    if (!selectedTeam && teamList) {
       setSelectedTeam(teamList[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (!userInfo || noticeCnt === undefined || !categoryList) {
+    return null;
+  }
+
+  const firstCategory = categoryList[0]?.categoryId;
+  const firstApi = categoryList[0]?.apiList[0].apiId;
+
   if (position === 'side') {
-    const { firstCategory } = props as SideNavBarProps;
     return (
       <div className={styles.navSideBody}>
         <button type="button" onClick={() => router.push('/')}>
@@ -93,8 +110,15 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
                 radius="full"
                 type="button"
               />
+
               <CountBadge count={noticeCnt?.toString()}>
-                <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" type="button" />
+                <StyledButton
+                  variant="solid"
+                  label="쪽지함"
+                  onClick={() => router.push(`/notice/receive`)}
+                  radius="full"
+                  type="button"
+                />
               </CountBadge>
             </div>
 
@@ -120,8 +144,6 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
   }
 
   if (position === 'top') {
-    const { notices, dropDownList } = props as TopNavBarProps;
-
     return (
       <div className={styles.navTopBody}>
         <Link href="/">
@@ -200,13 +222,15 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
             <NoticeDropDown
               trigger={
                 <button type="button" className="flex justify-center items-center">
-                  <CountBadge count={noticeCnt.toString()}>
+                  <CountBadge count={noticeCnt?.toString()}>
                     <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
                   </CountBadge>
                 </button>
               }
             >
-              {notices}
+              <div style={{ minWidth: '320px' }} className="w-fit">
+                <NavBarNotice />
+              </div>
             </NoticeDropDown>
           </div>
           {/* 바로가기 드롭다운 */}
@@ -217,7 +241,11 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
                   <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
                 </Button>
               }
-              list={dropDownList}
+              list={
+                userInfo.authority === '관리자'
+                  ? getAdminDropDownList({ categoryId: firstCategory, apiId: firstApi })
+                  : getUserDropDownList({ categoryId: firstCategory, apiId: firstApi })
+              }
             />
           </div>
         </div>
