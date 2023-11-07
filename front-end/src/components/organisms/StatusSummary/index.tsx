@@ -53,10 +53,10 @@ function StatusSummary({ statusList }: StatusSummaryProps) {
             {statusList?.map((status, index) => (
               <div
                 key={status.apiId}
-                style={{ margin: '0 10px', padding: index === statusList.length - 1 ? '8px 0' : '' }}
+                style={{ margin: '0 5px', padding: index === statusList.length - 1 ? '1px 0' : '' }}
                 className={`${style.thirdContent} ${index !== statusList.length - 1 ? style.divider : ''}`}
               >
-                <div className={style.thirdInContent} style={{ justifyContent: 'start', paddingLeft: '8px' }}>
+                <div className={style.thirdInContent} style={{ justifyContent: 'start', paddingLeft: '1px' }}>
                   [{status.categoryName}]&nbsp;{status.apiName}
                 </div>
                 <span className={style.thirdInContent}>
@@ -65,10 +65,10 @@ function StatusSummary({ statusList }: StatusSummaryProps) {
                     <div className="ml-2">{status.apiStatus}</div>
                   </div>
                 </span>
-                <span className={style.thirdInContent}>&nbsp;</span>
+                {/* <span className={style.thirdInContent}>&nbsp;</span> */}
                 <span className={style.thirdInContent}>{status.responseTime}ms</span>
-                <span className={style.thirdInContent}>&nbsp;</span>
-                <span className={style.thirdInContent} style={{ paddingRight: '8px' }}>
+                {/* <span className={style.thirdInContent}>&nbsp;</span> */}
+                <span className={style.thirdInContent} style={{ paddingRight: '1px' }}>
                   {formatUpdatedAt(status.updatedAt)}
                 </span>
               </div>
