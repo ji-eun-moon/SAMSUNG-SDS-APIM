@@ -26,7 +26,7 @@ public class UsageService {
     public void register(CreateUsageRequest createUsageRequest) {
         Usage usage = Usage.builder()
                 ._id(autoIncreaseService.generateSequence(Usage.USAGE_SEQUENCE))
-                .createAt(createUsageRequest.getCreateAt())
+                .createAt(createUsageRequest.getCreatedAt())
                 .method(createUsageRequest.getMethod())
                 .endpoint(createUsageRequest.getEndpoint())
                 .teamToken(createUsageRequest.getTeamName())

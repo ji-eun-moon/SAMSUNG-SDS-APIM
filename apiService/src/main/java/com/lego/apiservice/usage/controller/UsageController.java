@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/mongo-usage")
 @RequiredArgsConstructor
@@ -29,5 +31,11 @@ public class UsageController {
     public ResponseEntity<?> deleteAll() {
         usageService.deleteAll();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/time")
+    public ResponseEntity<LocalDateTime> time() {
+
+        return ResponseEntity.ok(LocalDateTime.parse("2023-11-07T11:31:50.925216600"));
     }
 }

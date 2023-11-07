@@ -29,7 +29,7 @@ public class ElasticUsage {
     private String _id;
 
     @Field(type= FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private ApiMethod method;
     private String endpoint;
     private String teamName;

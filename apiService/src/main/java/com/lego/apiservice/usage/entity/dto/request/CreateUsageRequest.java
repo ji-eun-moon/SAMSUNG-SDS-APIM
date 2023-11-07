@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateUsageRequest {
 
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private ApiMethod method;
     private String endpoint;
     private String teamName;

@@ -17,7 +17,7 @@ public class ResponseTimeResponse {
     private Long ResponseTime;
 
     public ResponseTimeResponse(ElasticUsage usage) {
-        this.date = usage.getCreateAt();
+        this.date = usage.getCreatedAt();
         this.ResponseCode = usage.getResponseCode();
         this.ResponseTime = usage.getResponseTime();
     }

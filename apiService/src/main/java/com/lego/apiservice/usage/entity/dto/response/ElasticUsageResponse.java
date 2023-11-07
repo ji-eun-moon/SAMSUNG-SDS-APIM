@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class ElasticUsageResponse {
 
     private String usageId;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private ApiMethod method;
     private String endpoint;
     private String teamName;
@@ -27,7 +27,7 @@ public class ElasticUsageResponse {
 
     public ElasticUsageResponse(ElasticUsage usage) {
         usageId = usage.get_id();
-        createAt = usage.getCreateAt();
+        createdAt = usage.getCreatedAt();
         method = usage.getMethod();
         endpoint = usage.getEndpoint();
         teamName = usage.getTeamName();

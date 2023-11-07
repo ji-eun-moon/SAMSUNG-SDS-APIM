@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface ElasticUsageRepository extends ElasticsearchRepository<ElasticUsage, Long>, CrudRepository<ElasticUsage, Long> {
 
-    List<ElasticUsage> findAllByEndpointAndCreateAtGreaterThanEqualAndCreateAtLessThan(String endpoint, LocalDateTime startDate, LocalDateTime endDate);
+    List<ElasticUsage> findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(String endpoint, LocalDateTime startDate, LocalDateTime endDate);
 
-    List<ElasticUsage> findAllByTeamNameAndEndpointAndCreateAtGreaterThanEqualAndCreateAtLessThan(String teamName, String endpoint, LocalDateTime startDate, LocalDateTime endDate);
+    List<ElasticUsage> findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(String teamName, String endpoint, LocalDateTime startDate, LocalDateTime endDate);
 
     @Query()
     List<ElasticUsage> findAllByEndpointGroupByResponseCode(String endpoint);

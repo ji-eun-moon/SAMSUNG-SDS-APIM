@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class UsageResponse {
 
     private Long usageId;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private ApiMethod method;
     private String endpoint;
     private String teamToken;
@@ -25,7 +25,7 @@ public class UsageResponse {
 
     public UsageResponse(Usage usage) {
         usageId = usage.get_id();
-        createAt = usage.getCreateAt();
+        createdAt = usage.getCreateAt();
         method = usage.getMethod();
         endpoint = usage.getEndpoint();
         teamToken = usage.getTeamToken();
