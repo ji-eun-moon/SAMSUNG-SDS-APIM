@@ -67,9 +67,7 @@ public class ProvideController {
             @RequestHeader("member-id") String employeeId,
             @RequestBody AcceptRequest acceptRequest) {
 
-        provideService.acceptState(employeeId, acceptRequest);
-
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(provideService.acceptState(employeeId, acceptRequest));
     }
 
     // 제공 신청 변경 - 거절

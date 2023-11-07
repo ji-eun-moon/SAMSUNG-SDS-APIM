@@ -81,7 +81,7 @@ public class ProvideService {
     }
 
     @Transactional
-    public void acceptState(String employeeId, AcceptRequest acceptRequest) {
+    public String acceptState(String employeeId, AcceptRequest acceptRequest) {
 
         log.info(employeeId + " : 사번");
 
@@ -96,11 +96,13 @@ public class ProvideService {
             provide.setModifiedAt();
             provide.setDenyReason(null);
             provideRepository.save(provide);
+            return "ACCEPT";
         } catch (Exception e){
             provide.changeState(State.거절);
             provide.setDenyReason("테스트가 실패 했습니다.");
             provide.setModifiedAt();
             provideRepository.save(provide);
+            return "DENY";
         }
 
     }
