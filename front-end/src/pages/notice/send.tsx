@@ -29,12 +29,10 @@ const SendList: NextPage = () => {
       setSendItems(result.content);
       return result;
     }
-    if (category === '읽은 쪽지') {
-      const result = await getSendReadList({ page: clickPage - 1, size: 6 });
-      setTotalPages(result.totalPages);
-      setSendItems(result.content);
-      return result;
-    }
+    const result = await getSendReadList({ page: clickPage - 1, size: 6 });
+    setTotalPages(result.totalPages);
+    setSendItems(result.content);
+    return result;
   });
 
   const onClickHandler = async (item: string) => {
@@ -62,8 +60,8 @@ const SendList: NextPage = () => {
     setClickPage(clickedPage);
   };
 
-  const selectDelete = async (checkedItems: number[]) => {
-    const res = await deleteSendNotice(checkedItems);
+  const selectDelete = async (items: number[]) => {
+    const res = await deleteSendNotice(items);
     if (res === '삭제 완료') {
       setCheckedItems([]);
       onClickHandler(category);

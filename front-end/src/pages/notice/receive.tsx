@@ -35,12 +35,10 @@ const ReceiveList: NextPage = () => {
       setReceiveItems(result.content);
       return result;
     }
-    if (category === '읽은 쪽지') {
-      const result = await getReceiveReadList({ page: clickPage - 1, size: 6 });
-      setTotalPages(result.totalPages);
-      setReceiveItems(result.content);
-      return result;
-    }
+    const result = await getReceiveReadList({ page: clickPage - 1, size: 6 });
+    setTotalPages(result.totalPages);
+    setReceiveItems(result.content);
+    return result;
   });
 
   const handlePageClick = (clickedPage: number) => {
@@ -68,16 +66,16 @@ const ReceiveList: NextPage = () => {
     }
   };
 
-  const selectDelete = async (checkedItems: number[]) => {
-    const res = await deleteReceiveNotice(checkedItems);
+  const selectDelete = async (items: number[]) => {
+    const res = await deleteReceiveNotice(items);
     if (res === '삭제 완료') {
       setCheckedItems([]);
       onClickHandler(category);
     }
   };
 
-  const selectRead = async (checkedItems: number[]) => {
-    const res = await updateNoticeRead(checkedItems);
+  const selectRead = async (items: number[]) => {
+    const res = await updateNoticeRead(items);
     if (res === '읽음 처리 완료') {
       setCheckedItems([]);
       onClickHandler(category);

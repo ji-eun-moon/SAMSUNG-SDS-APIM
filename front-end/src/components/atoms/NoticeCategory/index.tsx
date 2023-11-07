@@ -17,9 +17,9 @@ function NoticeCategory({ select }: NoticeCategoryProps) {
             받은 쪽지함
           </button>
           <div className="itdaSecondary">|</div>
-          <div className="itdaBlue cursor-pointer" onClick={() => router.push('/notice/send')}>
+          <button type="button" className="itdaBlue cursor-pointer" onClick={() => router.push('/notice/send')}>
             보낸 쪽지함
-          </div>
+          </button>
         </div>
         <div>
           <StyledButton
@@ -37,9 +37,9 @@ function NoticeCategory({ select }: NoticeCategoryProps) {
     return (
       <div className="flex justify-between ml-8 mt-4 mb-2 text-lg">
         <div className="flex items-center gap-3">
-          <div className="itdaBlue cursor-pointer" onClick={() => router.push('/notice/receive')}>
+          <button type="button" className="itdaBlue cursor-pointer" onClick={() => router.push('/notice/receive')}>
             받은 쪽지함
-          </div>
+          </button>
           <div className="itdaSecondary">|</div>
           <button type="button" onClick={() => router.push('/notice/send')}>
             보낸 쪽지함

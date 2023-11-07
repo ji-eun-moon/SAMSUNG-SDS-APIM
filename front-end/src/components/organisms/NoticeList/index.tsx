@@ -28,13 +28,13 @@ function NoticeList({
     };
 
     const toggleCheckbox = (id: number) => {
-      let list = [...checkedItems];
+      const list = [...checkedItems];
       if (list.includes(id)) {
-        const new_list = list.filter((item: number) => item !== id);
-        setCheckedItems(new_list);
+        const newList = list.filter((item: number) => item !== id);
+        setCheckedItems(newList);
       } else {
-        const new_list = [...list, id];
-        setCheckedItems(new_list);
+        const newList = [...list, id];
+        setCheckedItems(newList);
       }
     };
 
@@ -109,13 +109,13 @@ function NoticeList({
     };
 
     const toggleCheckbox = (id: number) => {
-      let list = [...checkedItems];
+      const list = [...checkedItems];
       if (list.includes(id)) {
-        const new_list = list.filter((item: number) => item !== id);
-        setCheckedItems(new_list);
+        const newList = list.filter((item: number) => item !== id);
+        setCheckedItems(newList);
       } else {
-        const new_list = [...list, id];
-        setCheckedItems(new_list);
+        const newList = [...list, id];
+        setCheckedItems(newList);
       }
     };
 

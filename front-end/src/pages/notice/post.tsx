@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { sendNotice, searchMember } from '@/utils/axios/notice';
+import React from 'react';
 import SideLayout from '@/components/templates/SideLayout';
 import GoBack from '@/components/atoms/GoBack';
 import NoticeSendBox from '@/components/organisms/NoticeSendBox';
