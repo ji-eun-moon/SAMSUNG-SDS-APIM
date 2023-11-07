@@ -89,17 +89,19 @@ const Home: NextPage = () => {
         <div className={`${style.pageContainer}`}>
           {/* 바로가기 탭 */}
           <ShortCuts />
-          {/* 관리자 - 실시간 로그 / 일반 - API 신청 내역 */}
-          {userInfo.authority === '관리자' ? (
-            <RealTimeLog />
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-              <ApplySummary type="사용" bodyContent={bodyUse()} />
-              <ApplySummary type="제공" bodyContent={bodyProvide()} />
-            </div>
-          )}
-          {/* API 상태 */}
-          <StatusSummary statusList={apiStatus.content} />
+          <div className={`${style.bottom}`}>
+            {/* 관리자 - 실시간 로그 / 일반 - API 신청 내역 */}
+            {userInfo.authority === '관리자' ? (
+              <RealTimeLog />
+            ) : (
+              <div style={{ display: 'grid', gridAutoRows: '45% 45%', gap: '35px' }}>
+                <ApplySummary type="사용" bodyContent={bodyUse()} />
+                <ApplySummary type="제공" bodyContent={bodyProvide()} />
+              </div>
+            )}
+            {/* API 상태 */}
+            <StatusSummary statusList={apiStatus.content} />
+          </div>
         </div>
       </SideLayout>
     </main>

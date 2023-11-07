@@ -2,6 +2,7 @@ import style from '@/styles/MainPage.module.scss';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import useUserStore from '@/store/useUserStore';
 import Carousel from '@/components/atoms/Carousel';
+import { useRouter } from 'next/router';
 
 interface ApplySummaryProps {
   type: string;
@@ -9,16 +10,22 @@ interface ApplySummaryProps {
 }
 
 function ApplySummary({ type, bodyContent }: ApplySummaryProps) {
+  const router = useRouter();
+
   const { selectedTeam } = useUserStore();
-  console.log('-------------------', bodyContent);
 
   return (
     <div>
       <div className={style.partTop}>
         <span className={`${style.partTitle}`}>
-          <span className="itdaBlue">{selectedTeam}</span>&nbsp; 팀의 {type === '사용' ? '사용' : '제공'} 신청목록
+          <span className="itdaBlue">{selectedTeam}</span>
+          &nbsp; 팀의 {type === '사용' ? '사용' : '제공'} 신청목록
         </span>
-        <span className={style.goDetail}>
+        <button
+          type="button"
+          className={style.goDetail}
+          onClick={() => router.push(type === '사용' ? '/apply/use/list' : 'apply/provide/list')}
+        >
           상세보기
           <svg
             className="w-3 h-3 pl-2 text-gray-500 dark:text-white"
@@ -35,7 +42,7 @@ function ApplySummary({ type, bodyContent }: ApplySummaryProps) {
               d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1"
             />
           </svg>
-        </span>
+        </button>
       </div>
       <div className={`${style.secondPart}`}>
         <ShadowCard type="small">
