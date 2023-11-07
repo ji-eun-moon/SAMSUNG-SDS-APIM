@@ -93,7 +93,7 @@ function NavBar({ position, userInfo, noticeCnt, ...props }: SideNavBarProps | T
                 radius="full"
                 type="button"
               />
-              <CountBadge count={noticeCnt.toString()}>
+              <CountBadge count={noticeCnt?.toString()}>
                 <StyledButton variant="solid" label="쪽지함" onClick={() => {}} radius="full" type="button" />
               </CountBadge>
             </div>
