@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { IUser } from '@/types/User';
+import { getUserInfo } from '@/utils/axios/user';
+import { useQuery } from 'react-query';
+import { RadioGroup, Radio } from '@nextui-org/react';
+import TextArea from '@/components/atoms/TextArea';
+import { RowTableProps } from '@/types/props/RowTableProps';
 import style from './RowTable.module.scss';
 import Tag from '../Tag';
-
-interface RowTableProps {
-  title: string;
-  headerContent: string[];
-  bodyContent: (string[] | number[] | Date[] | { [key: string]: string | number | Date })[];
-}
 
 /**
  * RowTable 컴포넌트
@@ -15,11 +15,82 @@ interface RowTableProps {
  * @param {[]} bodyContent - RowTable 오른쪽 값(body)
  */
 
-function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
+function RowTable({ title, headerContent, bodyContent, onApproveDeny }: RowTableProps) {
+  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
+
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
   const [bodys, setBodys] = useState<
     null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
   >(null);
+  const [selected, setSelected] = React.useState('accept');
+  const [denyReason, setDenyReason] = useState('');
+
+  const renderContent = (
+    body: string[] | number[] | Date[] | { [key: string]: string | number | Date },
+    header: { text: string },
+  ): React.ReactNode => {
+    const bodyText = (body as Record<string, string>)[header.text] || '';
+
+    if (bodyText.includes('newnew')) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Tag type="new" />
+          {bodyText.replace('newnew', '')}
+        </div>
+      );
+    }
+
+    if (bodyText.includes('chacha')) {
+      return (
+        <div>
+          <Tag type="change" />
+          {bodyText.replace('chacha', '')}
+        </div>
+      );
+    }
+
+    if (userInfo?.authority === '관리자' && bodyText.includes('대기')) {
+      if (header.text === '처리상태') {
+        return (
+          <RadioGroup
+            color="secondary"
+            value={selected}
+            // onValueChange={setSelected}
+            onValueChange={setSelected}
+          >
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <Radio value="accept" onClick={() => onApproveDeny('accept', '')}>
+                승인
+              </Radio>
+              <Radio value="deny">거절</Radio>
+            </div>
+          </RadioGroup>
+        );
+      }
+
+      if (header.text === '처리내용') {
+        return selected === 'accept' ? (
+          <p>신청 승인합니다.</p>
+        ) : (
+          <div style={{ padding: '10px 0px' }}>
+            <TextArea
+              width="w-full"
+              backgroundColor="#ffffff"
+              textAreaWord={denyReason}
+              placeholder="거절 사유를 입력하세요"
+              onChange={(e) => {
+                console.log('eeeeeeeeeeeeeeeee', e);
+                setDenyReason(e);
+                onApproveDeny('deny', e);
+              }}
+            />
+          </div>
+        );
+      }
+    }
+
+    return bodyText;
+  };
 
   useEffect(() => {
     if (Array.isArray(headerContent)) {
@@ -35,45 +106,28 @@ function RowTable({ title, headerContent, bodyContent }: RowTableProps) {
     }
   }, [headerContent, bodyContent]);
 
+  useEffect(() => {
+    onApproveDeny(selected, denyReason);
+  });
   return (
     <div>
       <div className={`${style.table}`}>
         <span className={`${style.title}`}>{title}</span>
-
         {headers &&
           bodys &&
           bodys.map((body) => (
-            <div key={JSON.stringify(body)}>
+            <div key={JSON.stringify(body)} style={{ width: '100%' }}>
               {headers &&
                 headers.map((header, index) => (
                   <div className={`${style.row}`} key={header.text}>
                     <div className={`${style.left}`} style={index === 0 ? { borderTop: '1px solid #9a9a9a' } : {}}>
                       <span>{header.text}</span>
                     </div>
-                    <div className={`${style.right}`} style={index === 0 ? { borderTop: '1px solid #9a9a9a' } : {}}>
-                      <div
-                        style={{
-                          wordBreak: 'break-all',
-                        }}
-                      >
-                        {((body as Record<string, string>)[header.text] || '').includes('newnew') && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <Tag type="new" />
-                            {((body as Record<string, string>)[header.text] || '').replace('newnew', '')}
-                          </div>
-                        )}
-                        {((body as Record<string, string>)[header.text] || '').includes('chacha') && (
-                          <div>
-                            <Tag type="change" />
-                            {((body as Record<string, string>)[header.text] || '').replace('chacha', '')}
-                          </div>
-                        )}
-                        {!(
-                          ((body as Record<string, string>)[header.text] || '').includes('newnew') ||
-                          ((body as Record<string, string>)[header.text] || '').includes('chacha')
-                        ) &&
-                          ((body as Record<string, string>)[header.text] || '')}
-                      </div>
+                    <div
+                      className={`${style.right}`}
+                      style={index === 0 ? { borderTop: '1px solid #9a9a9a', width: '100%' } : {}}
+                    >
+                      <div style={{ wordBreak: 'break-all', width: '90%' }}>{renderContent(body, header)}</div>
                     </div>
                   </div>
                 ))}

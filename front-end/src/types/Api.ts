@@ -95,10 +95,6 @@ export interface Pageable {
   size: number;
 }
 
-// export interface IApiStatusList  {
-//   apiStatusResponses: IApiStatus[];
-//   page: number;
-//   totalPage: number;
-// }
-
-// export interface
+export interface StatusPageable extends Pageable {
+  apiName: string;
+}
