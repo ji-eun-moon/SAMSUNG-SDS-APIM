@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -179,7 +177,6 @@ public class NoticeService {
 
     }
 
-    @Transactional(readOnly = true)
     public void receiveReadAll(NoticeListRequest request) {
 
         for (Long i : request.getList()) {
