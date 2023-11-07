@@ -2,6 +2,7 @@ package com.lego.submitservice.provide.service;
 
 import com.lego.submitservice.client.api.ApiServiceClient;
 import com.lego.submitservice.client.api.dto.CreateServerRequest;
+import com.lego.submitservice.client.exception.FeignErrorDecoder;
 import com.lego.submitservice.client.member.MemberService;
 import com.lego.submitservice.client.member.MemberServiceClient;
 import com.lego.submitservice.client.member.dto.EmployeeSearchResponse;
@@ -14,6 +15,7 @@ import com.lego.submitservice.provide.entity.dto.response.ProvideDetailResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideIdResponse;
 import com.lego.submitservice.provide.entity.dto.response.ProvideListResponse;
 import com.lego.submitservice.provide.repository.ProvideRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -87,19 +89,18 @@ public class ProvideService {
         memberService.checkAuthority(employeeId);
 
         Provide provide = provideRepository.findById(acceptRequest.getProvideId()).orElseThrow();
-        HttpStatus httpStatus = apiServiceClient.register(new CreateServerRequest(provide.getServerName(), provide.getDescription(), provide.getEndpoint(),
-                acceptRequest.getEndpoint(), provide.getEmployeeId(), provide.getTeamName()));
-        if (httpStatus.is2xxSuccessful()) {
+        try {
+            apiServiceClient.register(new CreateServerRequest(provide.getServerName(), provide.getDescription(), provide.getEndpoint(),
+                    acceptRequest.getEndpoint(), provide.getEmployeeId(), provide.getTeamName()));
             provide.changeState(State.승인);
             provide.setModifiedAt();
             provide.setDenyReason(null);
             provideRepository.save(provide);
-        } else {
+        } catch (Exception e){
             provide.changeState(State.거절);
             provide.setDenyReason("테스트가 실패 했습니다.");
             provide.setModifiedAt();
             provideRepository.save(provide);
-            throw new RuntimeException();
         }
 
     }
