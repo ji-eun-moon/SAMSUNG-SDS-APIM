@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import style from './ColTable.module.scss';
 
 interface ColTableProps {
+  col: number[];
   headerContent: string[];
   bodyContent: (string[] | number[] | Date[] | { [key: string]: string | number | Date })[];
   onGoDetail: (id: string) => void;
@@ -9,11 +10,14 @@ interface ColTableProps {
 
 /**
  * ColTable 컴포넌트
+ * @param {[]} col - ColTable 열 너비 지정
  * @param {[]} headerContent - ColTable header 지정
  * @param {[]} bodyContent - ColTable body 지정
+ * @param {[]} onGoDetail - 리스트 항목 클릭시 동작할 함수 지정
  */
 
-function ColTable({ headerContent, bodyContent, onGoDetail }: ColTableProps) {
+function ColTable({ col, headerContent, bodyContent, onGoDetail }: ColTableProps) {
+  console.log('-----------------------', col);
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
   const [bodys, setBodys] = useState<
     null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
@@ -38,6 +42,14 @@ function ColTable({ headerContent, bodyContent, onGoDetail }: ColTableProps) {
 
   return (
     <table className={`${style.table}`}>
+      <colgroup>
+        <col style={{ width: `${col[0]}%` }} />
+        <col style={{ width: `${col[1]}%` }} />
+        <col style={{ width: `${col[2]}%` }} />
+        <col style={{ width: `${col[3]}%` }} />
+        <col style={{ width: `${col[4]}%` }} />
+      </colgroup>
+
       <thead className={`${style.header}`}>
         <tr>{headers && headers.map((header) => <th key={header.text}>{header.text}</th>)}</tr>
       </thead>

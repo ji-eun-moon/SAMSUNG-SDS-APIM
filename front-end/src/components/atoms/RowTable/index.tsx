@@ -23,6 +23,7 @@ function RowTable({ title, headerContent, bodyContent, onApproveDeny }: RowTable
     null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
   >(null);
   const [selected, setSelected] = React.useState('accept');
+  const [endpoint, setEndpoint] = useState('');
   const [denyReason, setDenyReason] = useState('');
 
   const renderContent = (
@@ -59,9 +60,7 @@ function RowTable({ title, headerContent, bodyContent, onApproveDeny }: RowTable
             onValueChange={setSelected}
           >
             <div style={{ display: 'flex', gap: '10px' }}>
-              <Radio value="accept" onClick={() => onApproveDeny('accept', '')}>
-                승인
-              </Radio>
+              <Radio value="accept">승인</Radio>
               <Radio value="deny">거절</Radio>
             </div>
           </RadioGroup>
@@ -70,7 +69,19 @@ function RowTable({ title, headerContent, bodyContent, onApproveDeny }: RowTable
 
       if (header.text === '처리내용') {
         return selected === 'accept' ? (
-          <p>신청 승인합니다.</p>
+          <div style={{ padding: '10px 0px' }}>
+            <TextArea
+              width="w-full"
+              backgroundColor="#ffffff"
+              textAreaWord={endpoint}
+              placeholder="서버 주소를 입력하세요"
+              onChange={(e) => {
+                console.log('eeeeeeeeeeeeeeeee', e);
+                setEndpoint(e);
+                onApproveDeny('accept', e);
+              }}
+            />
+          </div>
         ) : (
           <div style={{ padding: '10px 0px' }}>
             <TextArea
