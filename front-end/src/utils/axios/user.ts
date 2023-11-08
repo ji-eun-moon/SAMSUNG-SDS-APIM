@@ -1,4 +1,4 @@
-import { TUserDataList, Pageable } from '@/types/User';
+import { TUserDataList, Pageable, TeamPageable } from '@/types/User';
 import axiosInstance from './axiosInstance';
 
 export async function getUserInfo() {
@@ -48,12 +48,33 @@ export async function createMembers(props: TUserDataList) {
   }
 }
 
-export async function getTeamInfo(props: string) {
+export async function getTeamInfo({ teamName, page, size }: TeamPageable) {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: '/member/team',
-      params: { teamName: props },
+      url: '/member/team/members',
+      params: {
+        teamName,
+        page,
+        size,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getTeamToken(teamName: string) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/member/team/tokens',
+      params: {
+        teamName,
+      },
     });
     console.log(response.data);
     return response.data;

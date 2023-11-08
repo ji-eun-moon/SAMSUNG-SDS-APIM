@@ -1,13 +1,33 @@
-import { TTeamMemberList } from '@/types/User';
+import { useState } from 'react';
+import { ITeamInfo } from '@/types/User';
 import DropDown from '@/components/atoms/DropDown';
+import { useQuery } from 'react-query';
+import StyledPagination from '@/components/atoms/StyledPagination';
+import { getTeamInfo } from '@/utils/axios/user';
 import styles from './TeamTable.module.scss';
 
-interface MemberTableProps {
-  memberList: TTeamMemberList | undefined;
+interface Props {
+  team: string;
 }
 
-function MemberTable({ memberList }: MemberTableProps) {
+function MemberTable({ team }: Props) {
+  const [clickPage, setClickPage] = useState(1);
+  const { data: teamInfo } = useQuery<ITeamInfo>(['teamInfo', clickPage, team], async () => {
+    const result = await getTeamInfo({ page: clickPage - 1, size: 7, teamName: team });
+    return result;
+  });
+  const handlePageClick = (clickedPage: number) => {
+    setClickPage(clickedPage);
+  };
+
   const headers = ['사번', '성명', '부서', '직무', '이메일'];
+
+  if (teamInfo === undefined) {
+    return null;
+  }
+
+  const memberList = teamInfo.teamMembers.content;
+
   return (
     <div>
       <table className="w-full">
@@ -52,6 +72,13 @@ function MemberTable({ memberList }: MemberTableProps) {
           )}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <StyledPagination
+          totalPage={teamInfo?.teamMembers.totalPages}
+          clickPage={clickPage}
+          onClickPage={handlePageClick}
+        />
+      </div>
     </div>
   );
 }
