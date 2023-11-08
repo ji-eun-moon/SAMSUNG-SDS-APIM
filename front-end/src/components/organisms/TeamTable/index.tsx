@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { ITeamInfo } from '@/types/User';
-import DropDown from '@/components/atoms/DropDown';
 import { useQuery } from 'react-query';
 import StyledPagination from '@/components/atoms/StyledPagination';
 import { getTeamInfo } from '@/utils/axios/user';
+import Modal from '@/components/organisms/Modal';
+import DropDown from '@/components/atoms/DropDown';
+import NoticeSendBox from '../NoticeSendBox';
 import styles from './TeamTable.module.scss';
 
 interface Props {
@@ -27,6 +29,12 @@ function MemberTable({ team }: Props) {
   }
 
   const memberList = teamInfo.teamMembers.content;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div>
@@ -54,13 +62,25 @@ function MemberTable({ team }: Props) {
                 <td className={`${styles.tr} text-center`}>{member.employeeId}</td>
                 <td className={`${styles.tr} text-center`}>
                   <DropDown
+                    type="modal"
                     trigger={<button type="button">{member.name}</button>}
-                    list={[{ title: '쪽지 보내기', icon: 'message', url: '' }]}
+                    list={[
+                      {
+                        title: '쪽지 보내기',
+                        icon: 'message',
+                        onModalHandler,
+                      },
+                    ]}
                   />
                 </td>
                 <td className={`${styles.tr} text-center`}>{member.department}</td>
                 <td className={`${styles.tr} text-center`}>{member.position}</td>
                 <td className={`${styles.tr}`}>{member.email}</td>
+                {isModalOpen && (
+                  <Modal type="server" onClose={onModalHandler}>
+                    <NoticeSendBox sendName={member.name} sendId={Number(member.employeeId)} />
+                  </Modal>
+                )}
               </tr>
             ))
           ) : (

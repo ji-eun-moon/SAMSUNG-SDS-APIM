@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import { NoticeDetailProps, SendNoticeProps, ReceiveNoticeProps } from '@/types/props/NoticeDetailProps';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import BorderCard from '@/components/atoms/BorderCard';
 import StyledButton from '@/components/atoms/StyledButton';
+import NoticeSendBox from '../NoticeSendBox';
+import Modal from '../Modal';
 
 function NoticeDetail({ type, ...props }: NoticeDetailProps) {
-  function formatToCustomDate(dateString: string): string {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const formatToCustomDate = (dateString: string): string => {
     const daysOfWeek: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
     const date = new Date(dateString);
@@ -21,7 +28,7 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
     const formattedHours: number = hours % 12 || 12;
 
     return `${year}년 ${month}월 ${day}일 (${dayOfWeek}) ${ampm} ${formattedHours}:${minutes}`;
-  }
+  };
 
   if (type === 'receive') {
     const { notice } = props as ReceiveNoticeProps;
@@ -49,14 +56,20 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
             </BorderCard>
             <div className="w-full flex justify-end">
               <div className="mt-3 w-2/12 flex">
-                <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={() => {}} />
+                <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={onModalHandler} />
               </div>
             </div>
           </div>
+          {isModalOpen && (
+            <Modal type="server" onClose={onModalHandler}>
+              <NoticeSendBox sendName={notice.senderName} sendId={Number(notice.senderEmployeeId)} />
+            </Modal>
+          )}
         </ShadowCard>
       </div>
     );
   }
+
   if (type === 'send') {
     const { notice } = props as SendNoticeProps;
     return (
@@ -83,10 +96,15 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
             </BorderCard>
             <div className="w-full flex justify-end">
               <div className="mt-3 w-2/12 flex">
-                <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={() => {}} />
+                <StyledButton variant="solid" label="쪽지 보내기" radius="sm" type="button" onClick={onModalHandler} />
               </div>
             </div>
           </div>
+          {isModalOpen && (
+            <Modal type="server" onClose={onModalHandler}>
+              <NoticeSendBox sendName={notice.receiverName} sendId={Number(notice.receiverEmployeeId)} />
+            </Modal>
+          )}
         </ShadowCard>
       </div>
     );
