@@ -48,20 +48,25 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const lists = responseUse.content;
   const totalPage = responseUse.totalPages;
 
-  const formatDate = (dateString: Date) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  const formatDate = (date: Date | string) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
-  const headerContent = ['카테고리명', '신청자', '신청날짜', '상태'];
+  const col = [30, 15, 15, 25, 15];
+  const headerContent = ['카테고리명', '신청자', '팀', '신청날짜', '상태'];
 
   const bodyContent = lists?.map((list) => ({
     ID: list.useApplyId,
     카테고리명: list.categoryName,
     신청자: list.userName,
+    팀: list.teamName,
     신청날짜: formatDate(list.createdAt),
     상태: list.state,
   }));
@@ -74,6 +79,7 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
         카테고리명: '',
         신청자: '',
         신청날짜: '',
+        팀: '',
         상태: '',
       });
     }
@@ -95,7 +101,7 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
         <div className={`${style.label}`}>
           <GoBack label="서버 사용 신청 내역" />
         </div>
-        <ColTable headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
+        <ColTable col={col} headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
         <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
       </div>
     </BothLayout>
