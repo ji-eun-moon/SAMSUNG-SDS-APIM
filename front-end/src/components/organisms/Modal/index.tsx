@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import Image from 'next/image';
-import { ModalProps, AlertModalProps, ConfirmModalProps, CustomModalProps } from '@/types/props/ModalProps';
+import {
+  ModalProps,
+  AlertModalProps,
+  ConfirmModalProps,
+  CustomModalProps,
+  ServerModalProps,
+} from '@/types/props/ModalProps';
 import StyledButton from '@/components/atoms/StyledButton';
 import ModalStyle from './Modal.module.scss';
 
@@ -10,11 +16,15 @@ import ModalStyle from './Modal.module.scss';
  * - `type = confirm` 일 경우 필수 props : `onClose`, `confirmMessage`, `onButton`
  * - `type = custom` 일 경우 필수 props : `onClose`, `children`, `buttonLabel`, `onButton`
  */
-function Modal(props: ModalProps) {
-  const { type } = props;
+function Modal({ type, onClose, ...props }: ModalProps) {
+  // const { type } = props;
+  const handleClose = (e: MouseEvent) => {
+    e.preventDefault();
+    onClose();
+  };
 
   if (type === 'alert') {
-    const { alertMessage, onClose } = props as AlertModalProps;
+    const { alertMessage } = props as AlertModalProps;
     return (
       <div className={ModalStyle.overlay} aria-hidden="true">
         <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
@@ -35,7 +45,7 @@ function Modal(props: ModalProps) {
   }
 
   if (type === 'confirm') {
-    const { confirmMessage, onClose, onButton } = props as ConfirmModalProps;
+    const { confirmMessage, onButton } = props as ConfirmModalProps;
     return (
       <div className={ModalStyle.overlay} aria-hidden="true">
         <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
@@ -59,7 +69,7 @@ function Modal(props: ModalProps) {
   }
 
   if (type === 'custom') {
-    const { title, buttonLabel, children, onButton, onClose } = props as CustomModalProps;
+    const { title, buttonLabel, children, onButton } = props as CustomModalProps;
     return (
       <div className={ModalStyle.overlay} aria-hidden="true">
         <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
@@ -77,6 +87,27 @@ function Modal(props: ModalProps) {
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (type === 'server') {
+    const { children } = props as ServerModalProps;
+    return (
+      <button type="button" className={ModalStyle.overlay} aria-hidden="true" onClick={handleClose}>
+        <button type="button" onClick={(e) => e.stopPropagation()} aria-hidden="true" className="relative">
+          <button
+            type="button"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute"
+            style={{ right: '1.5%', top: '3%' }}
+          >
+            <Image src="/icons/close.png" alt="close-icon" width={10} height={10} onClick={onClose} />
+          </button>
+          <button type="button" onClick={(e) => e.stopPropagation()}>
+            <div>{children}</div>
+          </button>
+        </button>
+      </button>
     );
   }
 }
