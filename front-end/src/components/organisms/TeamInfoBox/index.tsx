@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SelectBox from '@/components/atoms/SelectBox';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import { TTeamList, ITeamInfo } from '@/types/User';
