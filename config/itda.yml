@@ -79,9 +79,9 @@ spring:
         - id: first-submit
           uri: lb://FIRST-SUBMIT-SERVICE
           predicates:
-            - Path=/movie/**
+            - Path=/employee/**
           filters:
-            - RewritePath=/movie/(?<segment>.*), /${segment}
+            - RewritePath=/employee/(?<segment>.*), /${segment}
             - name: ServerAuthenticationFilter
               args:
-                prefix: /movie
+                prefix: /employee
