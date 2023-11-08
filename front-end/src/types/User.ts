@@ -1,4 +1,5 @@
 // import { TSearchMembers } from './Notice';
+
 export interface ILogin {
   employeeId: string;
   password: string;
@@ -51,7 +52,7 @@ export interface IUserInfo {
 export interface ITeamToken {
   categoryId: number;
   categoryName: string;
-  categoryToken: string;
+  token: string;
 }
 
 export type TTeamTokenList = ITeamToken[];
@@ -86,12 +87,19 @@ export interface Pageable {
   size: number;
 }
 
-export interface ITeamInfo {
+export interface TeamPageable extends Pageable {
   teamName: string;
+}
+
+export interface ITeamMemberPage {
+  content: TTeamMemberList;
+  totalPages: number;
+}
+
+export interface ITeamInfo {
   teamId: number;
-  teamCount: number;
-  teamMembers: TTeamMemberList;
-  tokenResponses: ITeamToken[];
+  teamName: string;
+  teamMembers: ITeamMemberPage;
 }
 
 export interface ISearchMember {
