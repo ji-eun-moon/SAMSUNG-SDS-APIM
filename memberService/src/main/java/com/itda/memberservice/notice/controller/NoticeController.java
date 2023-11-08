@@ -2,6 +2,7 @@ package com.itda.memberservice.notice.controller;
 
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.request.NoticeListRequest;
+import com.itda.memberservice.notice.dto.request.NoticeResultRequest;
 import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -170,6 +171,15 @@ public class NoticeController {
 
         return ResponseEntity.ok("삭제 완료");
 
+    }
+
+    @PostMapping("/send/result")
+    @Operation(summary = "신청 결과 전송", description = "사용 신청, 제공 신청 결과 전송")
+    public ResponseEntity<?> sendResult(@RequestHeader("member-id") String employeeId, @RequestBody NoticeResultRequest request) {
+
+        noticeService.sendResult(employeeId, request);
+
+        return ResponseEntity.ok("결과 전송이 완료되었습니다.");
     }
 
 }
