@@ -8,7 +8,7 @@ interface ServerGraphProps {
 }
 
 function ServerGraph({ src, from, width }: ServerGraphProps) {
-  const defaultSrc = 'http://k9c201.p.ssafy.io:3001/d-solo/spring_boot_21/spring-boot-3-x-statistics?orgId=1';
+  const defaultSrc = 'https://k9c201.p.ssafy.io/grafana/d-solo/spring_boot_21/spring-boot-3-x-statistics?orgId=1';
   const [iframeMouseOver, setIframeMouseOver] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSrc, setModalSrc] = useState('');
