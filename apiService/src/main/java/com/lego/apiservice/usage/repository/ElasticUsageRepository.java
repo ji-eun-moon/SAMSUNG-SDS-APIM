@@ -8,12 +8,11 @@ import org.springframework.data.repository.CrudRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ElasticUsageRepository extends ElasticsearchRepository<ElasticUsage, Long>, CrudRepository<ElasticUsage, Long> {
+public interface ElasticUsageRepository extends ElasticsearchRepository<ElasticUsage, String>, CrudRepository<ElasticUsage, String> {
 
     List<ElasticUsage> findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(String endpoint, LocalDateTime startDate, LocalDateTime endDate);
 
     List<ElasticUsage> findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(String teamName, String endpoint, LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query()
-    List<ElasticUsage> findAllByEndpointGroupByResponseCode(String endpoint);
+
 }

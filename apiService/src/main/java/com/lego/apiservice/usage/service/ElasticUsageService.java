@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +53,7 @@ public class ElasticUsageService {
 
     public List<ElasticUsageResponse> findAll() {
         List<ElasticUsageResponse> usageResponses = new ArrayList<>();
-        elasticUsageRepository.findAll().forEach(usage -> usageResponses.add(new ElasticUsageResponse(usage)));
+        elasticUsageRepository.findAll(Sort.by("createdAt").descending()).forEach(usage -> usageResponses.add(new ElasticUsageResponse(usage)));
         return usageResponses;
     }
 

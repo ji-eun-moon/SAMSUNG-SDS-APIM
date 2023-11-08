@@ -52,8 +52,8 @@ public class ServerService {
     @Transactional
     public void register(CreateServerRequest createServerRequest) {
         log.info(createServerRequest.getEndPoint());
-        Server server = serverRegister(createServerRequest);
         OpenAPI openAPI = apidocsConnect(createServerRequest.getEndPoint());
+        Server server = serverRegister(createServerRequest);
         categoryRegister(openAPI.getTags(), server);
         apiRegister(openAPI.getPaths(), createServerRequest.getEndPoint(), createServerRequest.getItdaEndpoint(), openAPI.getComponents());
     }

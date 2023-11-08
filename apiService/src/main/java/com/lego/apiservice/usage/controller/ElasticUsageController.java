@@ -1,6 +1,7 @@
 package com.lego.apiservice.usage.controller;
 
 import com.lego.apiservice.usage.entity.dto.request.CreateUsageRequest;
+import com.lego.apiservice.usage.repository.ElasticUsageRepository;
 import com.lego.apiservice.usage.service.ElasticUsageService;
 import com.lego.apiservice.usage.service.UsageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/usage")
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class ElasticUsageController {
 
     private final ElasticUsageService usageService;
+    private final ElasticUsageRepository elasticUsageRepository;
 
     @PostMapping ("/register")
     public ResponseEntity<?> register(@RequestBody CreateUsageRequest createUsageRequest) {
@@ -28,6 +32,13 @@ public class ElasticUsageController {
     @GetMapping("")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(usageService.findAll());
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> findTest() {
+        return ResponseEntity.ok(elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
+                "/movie/all", LocalDateTime.now().minusDays(1), LocalDateTime.now()
+        ));
     }
 
     @DeleteMapping("")

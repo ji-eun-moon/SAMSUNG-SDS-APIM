@@ -50,7 +50,7 @@ public class UseCheckService {
         List<CategoryTokenResponse> categoryTokenResponses = new ArrayList<>();
 
         useCheckList.forEach(useCheck -> {
-            Category category = categoryRepository.findById(useCheck.getId()).orElseThrow();
+            Category category = categoryRepository.findById(useCheck.getCategory().getId()).orElseThrow();
             categoryTokenResponses.add(new CategoryTokenResponse(category.getId(), category.getName(), useCheck.getSecretKey()));
         });
 

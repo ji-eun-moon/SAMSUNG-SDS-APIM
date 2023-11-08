@@ -13,11 +13,6 @@ import java.util.TimeZone;
 @EnableDiscoveryClient
 public class ApiServiceApplication {
 
-    @PostConstruct
-    public void started() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(ApiServiceApplication.class, args);
     }
