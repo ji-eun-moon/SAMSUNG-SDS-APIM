@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.itda.memberservice.member.entity.QMember.member;
 import static com.itda.memberservice.memberteam.entity.QMemberTeam.memberTeam;
+import static com.itda.memberservice.team.entity.QTeam.team;
 
 public class TeamRepositoryImpl implements TeamQueryRepository{
 
@@ -34,12 +35,13 @@ public class TeamRepositoryImpl implements TeamQueryRepository{
                         member.position))
                 .from(memberTeam)
                 .leftJoin(memberTeam.member, member)
-                .where(memberTeam.team.name.eq(teamName))
+                .where(team.name.eq(teamName))
                 .fetch();
 
         Long count = queryFactory
                 .select(member.count())
-                .from(member)
+                .from(memberTeam)
+                .leftJoin(memberTeam.member, member)
                 .where(memberTeam.team.name.eq(teamName))
                 .fetchFirst();
 
