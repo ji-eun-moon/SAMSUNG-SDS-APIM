@@ -3,9 +3,16 @@ import ProfileImg from '@/components/atoms/ProfileImg';
 import { Checkbox } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { NoticeProps, ReceiveNoticeProps, SendNoticeProps, NavBarNoticeProps } from '@/types/props/NoticeListProps';
+// import Modal from '../Modal';
 
 function Notice({ position, type, ...props }: NoticeProps) {
   const router = useRouter();
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const onModalHandler = () => {
+  //   setIsModalOpen(!isModalOpen);
+  // };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -25,6 +32,7 @@ function Notice({ position, type, ...props }: NoticeProps) {
         <button
           type="button"
           onClick={() => router.push(`/notice/${type}/${noticeInfo.noticeId}`)}
+          // onClick={onModalHandler}
           className="w-full p-2"
         >
           <div className="flex justify-between items-center">
@@ -44,6 +52,11 @@ function Notice({ position, type, ...props }: NoticeProps) {
             </div>
           </div>
         </button>
+        {/* {isModalOpen && (
+          <Modal type="server" onClose={onModalHandler}>
+            <NoticeSendBox name={noticeInfo} memberId={Number(member.employeeId)} />
+          </Modal>
+        )} */}
       </div>
     );
   }

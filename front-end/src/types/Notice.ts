@@ -9,7 +9,6 @@ export interface IFromDetail extends IFrom {
   fromPosition: string;
 }
 
-
 export interface TNoticeList {
   content: INotice[];
   totalPages: number;
@@ -23,7 +22,7 @@ export interface INoticeDetail {
   title: string;
   content: string;
   createdAt: string;
-  senderId: number;
+  senderEmployeeId: number;
   senderName: string;
   senderDepartment: string;
   senderPosition: string;
@@ -34,7 +33,7 @@ export interface ISendNoticeDetail {
   title: string;
   content: string;
   createdAt: string;
-  receiverId: number;
+  receiverEmployeeId: number;
   receiverName: string;
   receiverDepartment: string;
   receiverPosition: string;
@@ -57,7 +56,7 @@ export type TUncheckedCount = number;
 
 export interface INotice {
   noticeId: number;
-  senderId: number;
+  senderEmployeeId: number;
   title: string;
   senderName: string;
   senderImage: string;
@@ -67,7 +66,7 @@ export interface INotice {
 
 export interface ISendNotice {
   noticeId: number;
-  senderId: number;
+  senderEmployeeId: number;
   title: string;
   receiverName: string;
   receiverImage: string;
