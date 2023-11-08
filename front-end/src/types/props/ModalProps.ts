@@ -23,4 +23,10 @@ export interface CustomModalProps extends BaseModalProps {
   onButton: () => void;
 }
 
-export type ModalProps = AlertModalProps | ConfirmModalProps | CustomModalProps;
+export interface ServerModalProps extends BaseModalProps {
+  type: 'server';
+  // title: string;
+  children: React.ReactNode;
+}
+
+export type ModalProps = AlertModalProps | ConfirmModalProps | CustomModalProps | ServerModalProps;
