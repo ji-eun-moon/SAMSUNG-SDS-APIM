@@ -48,21 +48,26 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const lists = responseProvide.content;
   const totalPage = responseProvide.totalPages;
 
-  const formatDate = (dateString: Date) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  const formatDate = (date: Date | string) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
-  const headerContent = ['구분', '서버명', '신청자', '신청날짜', '상태'];
+  const col = [10, 30, 15, 15, 20, 10];
+  const headerContent = ['구분', '서버명', '신청자', '팀', '신청날짜', '상태'];
 
   const bodyContent = lists?.map((list) => ({
     ID: list.provideId,
     구분: list.applyType,
     서버명: list.serverName,
     신청자: list.providerName,
+    팀: list.teamName,
     신청날짜: formatDate(list.createdAt),
     상태: list.state,
   }));
@@ -75,6 +80,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
         구분: '',
         서버명: '',
         신청자: '',
+        팀: '',
         신청날짜: '',
         상태: '',
       });
@@ -96,7 +102,7 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
         <div className={`${style.label}`}>
           <GoBack label="서버 제공 신청 내역" />
         </div>
-        <ColTable headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
+        <ColTable col={col} headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
         <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
       </div>
     </BothLayout>

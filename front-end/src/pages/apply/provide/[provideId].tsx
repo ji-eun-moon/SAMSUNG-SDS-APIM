@@ -82,12 +82,15 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
     },
   ];
 
-  const formatDate = (dateString: Date) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  const formatDate = (date: Date | string) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
   const handleApproveDeny = (actionProps: string, contentProps: string) => {
@@ -100,11 +103,18 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
     console.log('content', content);
     if (action === 'accept') {
       // 승인 처리
-      await putProvideApplyAccept(provideId, details.apiDocs);
+      const response = await putProvideApplyAccept(provideId, details.apiDocs);
+      console.log(response);
+      if (response === 'DENY') {
+        alert('테스트 실패로 제공 신청 승인이 거절되었습니다');
+      } else if (response === 'ACCEPT') {
+        alert('신청 승인이 성공적으로 저장되었습니다');
+      }
       // 추가로 수행해야 할 승인 작업이 있다면 여기에 추가하세요.
     } else if (action === 'deny') {
       // 거절 처리
       await putProvideApplyDeny(provideId, content);
+      alert('신청 거절이 성공적으로 저장되었습니다');
       // 추가로 수행해야 할 거절 작업이 있다면 여기에 추가하세요.
     }
     router.push('/admin/provideApplyList');
