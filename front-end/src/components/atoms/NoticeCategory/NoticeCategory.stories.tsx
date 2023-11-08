@@ -11,13 +11,13 @@ export default {
   },
 };
 
-export const send = {
+export const Send = {
   args: {
     select: 'send',
   },
 };
 
-export const receive = {
+export const Receive = {
   args: {
     select: 'receive',
   },

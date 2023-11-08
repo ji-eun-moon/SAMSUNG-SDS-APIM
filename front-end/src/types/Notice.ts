@@ -14,6 +14,10 @@ export interface TNoticeList {
   content: INotice[];
   totalPages: number;
 }
+export interface TNoticeSendList {
+  content: ISendNotice[];
+  totalPages: number;
+}
 
 export interface INoticeDetail {
   title: string;
@@ -24,6 +28,17 @@ export interface INoticeDetail {
   senderDepartment: string;
   senderPosition: string;
   senderImage: string;
+}
+
+export interface ISendNoticeDetail {
+  title: string;
+  content: string;
+  createdAt: string;
+  receiverId: number;
+  receiverName: string;
+  receiverDepartment: string;
+  receiverPosition: string;
+  receiverImage: string;
 }
 
 export interface IPostNotice {
@@ -50,7 +65,23 @@ export interface INotice {
   read: boolean;
 }
 
+export interface ISendNotice {
+  noticeId: number;
+  senderId: number;
+  title: string;
+  receiverName: string;
+  receiverImage: string;
+  createdAt: string;
+  read: boolean;
+}
+
 export interface IPageable {
   page: number;
   size: number;
+}
+
+export interface INoticeSend {
+  memberIds: number[];
+  title: string;
+  content: string;
 }

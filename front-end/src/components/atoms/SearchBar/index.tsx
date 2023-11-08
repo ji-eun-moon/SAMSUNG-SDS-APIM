@@ -27,9 +27,10 @@ function SearchBar({ placeholder, keyword, onSearchHandler, onChange }: SearchBa
   };
 
   return (
-    <form onSubmit={onSearch}>
+    <form onSubmit={onSearch} className="w-full">
       <Input
         variant="underlined"
+        className="pl-1"
         placeholder={placeholder}
         value={keyword}
         onChange={handleInputChange}
@@ -51,7 +52,6 @@ function SearchBar({ placeholder, keyword, onSearchHandler, onChange }: SearchBa
             />
           </svg>
         }
-        className="max-w-xs"
       />
     </form>
   );
