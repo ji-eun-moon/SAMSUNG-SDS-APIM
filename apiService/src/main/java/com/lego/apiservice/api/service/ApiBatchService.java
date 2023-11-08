@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -70,31 +71,29 @@ public class ApiBatchService {
                 .build()
                 .toUri();
 
+        LocalDateTime first = null;
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set("Authorization", "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91");
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
-            LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
-            LocalDateTime second = LocalDateTime.now();
-            Duration diff = Duration.between(first, second);
-            log.info("diff " +  diff.toMillis());
-            log.info("status " + responseEntity.getStatusCode());
-            api.setResponseTime(String.valueOf(diff.toMillis()));
-            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                api.setApiStatus(ApiStatus.정상);
-            } else if (responseEntity.getStatusCode().is4xxClientError()) {
-                api.setApiStatus(ApiStatus.오류);
-            } else {
+            first = LocalDateTime.now();
+            restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+            api.setApiStatus(ApiStatus.정상);
+        } catch (RestClientException e) {
+            log.info(e.getMessage().substring(0, 1));
+            if (e.getMessage().substring(0, 1).equals("4")) {
                 api.setApiStatus(ApiStatus.점검);
+            } else {
+                api.setApiStatus(ApiStatus.오류);
             }
-            api.setUpdatedAt(LocalDateTime.now());
-            apiRepository.save(api);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        LocalDateTime second = LocalDateTime.now();
+        Duration diff = Duration.between(first, second);
+        log.info("diff " + diff.toMillis());
+        api.setResponseTime(String.valueOf(diff.toMillis()));
+        api.setUpdatedAt(LocalDateTime.now());
+        apiRepository.save(api);
     }
 
     public void postRestTemplate(Api api) throws ParseException {
@@ -118,30 +117,28 @@ public class ApiBatchService {
                 .build()
                 .toUri();
 
+        LocalDateTime first = null;
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set("Authorization", "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91");
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders, params);
             RestTemplate restTemplate = new RestTemplate();
-            LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, JSONObject.class);
-            LocalDateTime second = LocalDateTime.now();
-            Duration diff = Duration.between(first, second);
-            log.info("diff " +  diff.toMillis());
-            log.info("status " + responseEntity.getStatusCode());
-            api.setResponseTime(String.valueOf(diff.toMillis()));
-            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                api.setApiStatus(ApiStatus.정상);
-            } else if (responseEntity.getStatusCode().is4xxClientError()) {
-                api.setApiStatus(ApiStatus.오류);
-            } else {
+            first = LocalDateTime.now();
+            restTemplate.exchange(uri, HttpMethod.POST, httpEntity, JSONObject.class);
+            api.setApiStatus(ApiStatus.정상);
+        } catch (RestClientException e) {
+            log.info(e.getMessage().substring(0, 1));
+            if (e.getMessage().substring(0, 1).equals("4")) {
                 api.setApiStatus(ApiStatus.점검);
+            } else {
+                api.setApiStatus(ApiStatus.오류);
             }
-            api.setUpdatedAt(LocalDateTime.now());
-            apiRepository.save(api);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        LocalDateTime second = LocalDateTime.now();
+        Duration diff = Duration.between(first, second);
+        log.info("diff " + diff.toMillis());
+        api.setResponseTime(String.valueOf(diff.toMillis()));
+        api.setUpdatedAt(LocalDateTime.now());
+        apiRepository.save(api);
     }
 }
