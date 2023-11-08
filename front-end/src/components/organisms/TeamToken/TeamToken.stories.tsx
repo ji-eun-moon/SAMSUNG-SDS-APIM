@@ -1,9 +1,9 @@
-import TeamTable from '.';
+import TeamToken from '.';
 
 export default {
-  title: 'atoms/TeamTable',
+  title: 'atoms/TeamToken',
   tags: ['autodocs'],
-  component: TeamTable,
+  component: TeamToken,
   argTypes: {
     team: {
       description: '현재 팀 정보를 넣어줍니다.',
