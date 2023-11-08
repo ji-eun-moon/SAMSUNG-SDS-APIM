@@ -177,6 +177,8 @@ public class NoticeController {
     @Operation(summary = "신청 결과 전송", description = "사용 신청, 제공 신청 결과 전송")
     public ResponseEntity<?> sendResult(@RequestHeader("member-id") String employeeId, @RequestBody NoticeResultRequest request) {
 
+        log.info("{} 에 대한 결과 쪽지 전송", request.getApplyName());
+
         noticeService.sendResult(employeeId, request);
 
         return ResponseEntity.ok("결과 전송이 완료되었습니다.");
