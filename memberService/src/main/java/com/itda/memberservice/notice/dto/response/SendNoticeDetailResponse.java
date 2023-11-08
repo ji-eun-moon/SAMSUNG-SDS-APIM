@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SendNoticeDetailResponse {
 
-    private Long receiverId;
+    private String receiverEmployeeId;
     private String receiverName;
     private String receiverDepartment;
     private String receiverPosition;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReceiveNoticeDetailResponse {
 
-    private Long senderId;
+    private String senderEmployeeId;
     private String senderName;
     private String senderDepartment;
     private String senderPosition;

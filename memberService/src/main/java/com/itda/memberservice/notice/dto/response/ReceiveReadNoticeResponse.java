@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ReceiveReadNoticeResponse {
 
     private Long noticeId;
-    private Long senderId;
+    private String senderEmployeeId;
     private String senderName;
     private String senderImage;
     private String title;
