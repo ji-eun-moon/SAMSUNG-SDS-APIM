@@ -66,7 +66,11 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
                 key={item.apiId}
                 href={{
                   pathname: `/statistics/${item.apiId}`,
+                  query: {
+                    apiName: `${item.apiName}`,
+                  },
                 }}
+                as={`/statistics/${item.apiId}`}
               >
                 <div
                   className={`my-2 itdaText cursor-pointer text-sm ${

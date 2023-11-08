@@ -15,10 +15,25 @@ export interface BarChartProps {
   barColors: string[];
 }
 
-export interface LineChartProps {
+export interface LineChartType {
+  type: 'Usage' | 'ResponseTime';
+}
+
+export interface UsageChartProps extends LineChartType {
   title: string;
   isSmooth: boolean;
   chartColor: string;
   chartDataValue: number[];
   chartDataName: string[];
 }
+
+export interface ResponseTimeChartProps extends LineChartType {
+  title: string;
+  isSmooth: boolean;
+  chartColor: string;
+  chartDataValue: number[];
+  chartDataName: string[];
+  responseCodeList: number[];
+}
+
+export type LineChartProps = UsageChartProps | ResponseTimeChartProps;
