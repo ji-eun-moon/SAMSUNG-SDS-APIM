@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class NameSearchResponse {
 
-    private Long memberId;
+    private String employeeId;
     private String name;
     private String department;
     private String position;
