@@ -44,7 +44,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                         notice.noticeId,
                         notice.title,
                         notice.createdAt,
-                        member.memberId.as("senderId"),
+                        member.employeeId.as("senderEmployeeId"),
                         member.imageUrl.as("senderImage"),
                         member.name.as("senderName")
                 ))
@@ -79,7 +79,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                                 notice.noticeId,
                                 notice.title,
                                 notice.createdAt,
-                                member.memberId.as("senderId"),
+                                member.employeeId.as("senderEmployeeId"),
                                 member.imageUrl.as("senderImage"),
                                 member.name.as("senderName")
                         ))
@@ -112,7 +112,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .select(
                         Projections.fields(ReceiveNoticeListResponse.class,
                                 notice.noticeId,
-                                member.memberId.as("senderId"),
+                                member.employeeId.as("senderEmployeeId"),
                                 notice.title,
                                 member.name.as("senderName"),
                                 member.imageUrl.as("senderImage"),
@@ -146,7 +146,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         return queryFactory
                 .select(
                         Projections.fields(ReceiveNoticeDetailResponse.class,
-                                member.memberId.as("senderId"),
+                                member.employeeId.as("senderEmployeeId"),
                                 member.name.as("senderName"),
                                 member.department.as("senderDepartment"),
                                 member.position.as("senderPosition"),
@@ -174,7 +174,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .select(
                         Projections.fields(SendUnReadNoticeResponse.class,
                                 notice.noticeId,
-                                member.memberId.as("receiverId"),
+                                member.employeeId.as("receiverEmployeeId"),
                                 member.name.as("receiverName"),
                                 member.imageUrl.as("receiverImage"),
                                 notice.title.as("title"),
@@ -210,7 +210,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .select(
                         Projections.fields(SendReadNoticeResponse.class,
                                 notice.noticeId,
-                                member.memberId.as("receiverId"),
+                                member.employeeId.as("receiverEmployeeId"),
                                 member.name.as("receiverName"),
                                 member.imageUrl.as("receiverImage"),
                                 notice.title,
@@ -246,7 +246,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
                 .select(
                         Projections.fields(SendNoticeListResponse.class,
                                 notice.noticeId,
-                                member.memberId.as("receiverId"),
+                                member.employeeId.as("receiverEmployeeId"),
                                 notice.title,
                                 member.name.as("receiverName"),
                                 member.imageUrl.as("receiverImage"),
@@ -280,7 +280,7 @@ public class NoticeRepositoryImpl implements NoticeQueryRepository{
         return queryFactory
                 .select(
                         Projections.fields(SendNoticeDetailResponse.class,
-                                member.memberId.as("receiverId"),
+                                member.employeeId.as("receiverEmployeeId"),
                                 member.name.as("receiverName"),
                                 member.department.as("receiverDepartment"),
                                 member.position.as("receiverPosition"),

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class SendReadNoticeResponse {
 
     private Long noticeId;
-    private Long receiverId;
+    private String receiverEmployeeId;
     private String receiverName;
     private String receiverImage;
     private String title;

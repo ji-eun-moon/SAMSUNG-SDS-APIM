@@ -66,9 +66,9 @@ public class NoticeService {
 
         log.info("sender = " + sender.toString());
 
-        for (Long memberId : request.getMemberIds()) {
+        for (String employee : request.getEmployeeIds()) {
 
-            Member receiver = memberRepository.findById(memberId)
+            Member receiver = memberRepository.findByEmployeeId(employee)
                                     .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다."));
 
             log.info("receiver = " + receiver.toString());

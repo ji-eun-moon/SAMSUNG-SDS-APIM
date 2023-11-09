@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 public class NoticeCreateRequest {
 
-    private List<Long> memberIds;
+    private List<String> employeeIds;
     private String title;
     private String content;
 
