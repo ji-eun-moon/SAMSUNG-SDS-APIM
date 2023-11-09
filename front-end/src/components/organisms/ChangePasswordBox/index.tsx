@@ -71,76 +71,69 @@ function ChangePasswordBox() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center mb-5">
-        {/* <Icon /> */}
-        <div className="ml-2 text-lg itdaText text-semibold">비밀번호 변경</div>
-      </div>
-      <div className="ml-8">
-        <form onSubmit={onSubmitHandler}>
-          <BorderCard>
-            <div className="flex items-center gap-4 mx-4 mt-2">
-              <div className="w-3/12 text-start itdaSecondary mb-3">현재 비밀번호</div>
-              <div className="flex flex-col w-full">
-                <Input
-                  isPassword
-                  backgroundColor="bgItdaInput"
-                  inputWord={originalPassword}
-                  onChange={onOriginalHandler}
-                  placeholder="현재 비밀번호를 입력하세요"
-                />
-                {checkOriginal ? (
-                  <div className="text-xs">&nbsp;</div>
-                ) : (
-                  <div className="text-xs text-start ml-3 itdaDanger">현재 비밀번호를 입력하세요</div>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 mx-4">
-              <div className="w-3/12 text-start itdaSecondary mb-3">새 비밀번호</div>
-              <div className="flex flex-col w-full">
-                <Input
-                  isPassword
-                  backgroundColor="bgItdaInput"
-                  inputWord={changePassword}
-                  onChange={onChangeHandler}
-                  placeholder="새로운 비밀번호를 입력하세요"
-                />
-                {checkChange ? (
-                  <div className="text-xs">&nbsp;</div>
-                ) : (
-                  <div className="text-xs text-start ml-3 itdaDanger">
-                    영문자, 숫자, 특수문자를 포함한 10자리 이상으로 입력하세요
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 mx-4">
-              <div className="w-3/12 text-start itdaSecondary mb-3">새 비밀번호 확인</div>
-              <div className="flex flex-col w-full">
-                <Input
-                  isPassword
-                  backgroundColor="bgItdaInput"
-                  inputWord={confirmPassword}
-                  onChange={onConfirmHandler}
-                  placeholder="새로운 비밀번호를 한 번 더 입력하세요"
-                />
-                {checkConfirm ? (
-                  <div className="text-xs">&nbsp;</div>
-                ) : (
-                  <div className="text-xs text-start ml-3 itdaDanger">비밀번호가 일치하지 않습니다</div>
-                )}
-              </div>
-            </div>
-          </BorderCard>
-          <div className="flex justify-end">
-            <div className="w-1/5 mt-3">
-              <StyledButton type="submit" variant="solid" radius="full" label="비밀번호 변경" />
-            </div>
+      <form onSubmit={onSubmitHandler}>
+        <div className="flex items-center gap-5 mx-5 mt-2">
+          <div className="w-4/12 text-start itdaSecondary mb-5">현재 비밀번호</div>
+          <div className="flex flex-col w-full">
+            <Input
+              isPassword
+              backgroundColor="bgItdaInput"
+              inputWord={originalPassword}
+              onChange={onOriginalHandler}
+              placeholder="현재 비밀번호를 입력하세요"
+            />
+            {checkOriginal ? (
+              <div className="text-xs">&nbsp;</div>
+            ) : (
+              <div className="text-xs text-start ml-3 itdaDanger">현재 비밀번호를 입력하세요</div>
+            )}
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div className="flex items-center gap-5 mx-5">
+          <div className="w-4/12 text-start itdaSecondary mb-5">새 비밀번호</div>
+          <div className="flex flex-col w-full">
+            <Input
+              isPassword
+              backgroundColor="bgItdaInput"
+              inputWord={changePassword}
+              onChange={onChangeHandler}
+              placeholder="새로운 비밀번호를 입력하세요"
+            />
+            {checkChange ? (
+              <div className="text-xs">&nbsp;</div>
+            ) : (
+              <div className="text-xs text-start ml-3 itdaDanger">
+                영문자, 숫자, 특수문자를 포함한 10자리 이상으로 입력하세요
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-5 mx-5">
+          <div className="w-4/12 text-start itdaSecondary mb-5">새 비밀번호 확인</div>
+          <div className="flex flex-col w-full">
+            <Input
+              isPassword
+              backgroundColor="bgItdaInput"
+              inputWord={confirmPassword}
+              onChange={onConfirmHandler}
+              placeholder="새로운 비밀번호를 한 번 더 입력하세요"
+            />
+            {checkConfirm ? (
+              <div className="text-xs">&nbsp;</div>
+            ) : (
+              <div className="text-xs text-start ml-3 itdaDanger">비밀번호가 일치하지 않습니다</div>
+            )}
+          </div>
+        </div>
+        {/* </BorderCard> */}
+        <div className="flex justify-center">
+          <div className="w-1/5 mt-3">
+            <StyledButton type="submit" variant="solid" radius="full" label="비밀번호 변경" />
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

@@ -53,6 +53,11 @@ function MemberTable({ userList }: MemberTableProps) {
           )}
         </tbody>
       </table>
+      {/* {isModalOpen && selectedMember && (
+        <Modal type="server" onClose={() => setIsModalOpen(false)}>
+          <NoticeSendBox sendName={selectedMember.name} sendId={selectedMember.employeeId} />
+        </Modal>
+      )} */}
     </div>
   );
 }
