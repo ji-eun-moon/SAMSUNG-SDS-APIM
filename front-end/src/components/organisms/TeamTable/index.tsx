@@ -12,8 +12,15 @@ interface Props {
   team: string;
 }
 
+interface Member {
+  name: string;
+  employeeId: string;
+}
+
 function MemberTable({ team }: Props) {
   const [clickPage, setClickPage] = useState(1);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: teamInfo } = useQuery<ITeamInfo>(['teamInfo', clickPage, team], async () => {
     const result = await getTeamInfo({ page: clickPage - 1, size: 7, teamName: team });
     return result;
@@ -30,10 +37,9 @@ function MemberTable({ team }: Props) {
 
   const memberList = teamInfo.teamMembers.content;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const onModalHandler = () => {
-    setIsModalOpen(!isModalOpen);
+  const onModalHandler = (member: Member) => {
+    setSelectedMember(member);
+    setIsModalOpen(true);
   };
 
   return (
@@ -68,7 +74,7 @@ function MemberTable({ team }: Props) {
                       {
                         title: '쪽지 보내기',
                         icon: 'message',
-                        onModalHandler,
+                        onModalHandler: () => onModalHandler(member),
                       },
                     ]}
                   />
@@ -76,11 +82,6 @@ function MemberTable({ team }: Props) {
                 <td className={`${styles.tr} text-center`}>{member.department}</td>
                 <td className={`${styles.tr} text-center`}>{member.position}</td>
                 <td className={`${styles.tr}`}>{member.email}</td>
-                {isModalOpen && (
-                  <Modal type="server" onClose={onModalHandler}>
-                    <NoticeSendBox sendName={member.name} sendId={Number(member.employeeId)} />
-                  </Modal>
-                )}
               </tr>
             ))
           ) : (
@@ -99,6 +100,12 @@ function MemberTable({ team }: Props) {
           onClickPage={handlePageClick}
         />
       </div>
+
+      {isModalOpen && selectedMember && (
+        <Modal type="server" onClose={() => setIsModalOpen(false)}>
+          <NoticeSendBox sendName={selectedMember.name} sendId={selectedMember.employeeId} />
+        </Modal>
+      )}
     </div>
   );
 }

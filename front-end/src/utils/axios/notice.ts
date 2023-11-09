@@ -146,13 +146,14 @@ export async function getUnreadReceiveNotice({ page, size }: IPageable) {
   }
 }
 
-export async function sendNotice({ memberIds, title, content }: INoticeSend) {
+export async function sendNotice({ employeeIds, title, content }: INoticeSend) {
+  console.log(employeeIds, title, content);
   try {
     const response = await axiosInstance({
       method: 'POST',
       url: '/member/notice/send',
       data: {
-        memberIds,
+        employeeIds,
         title,
         content,
       },

@@ -17,7 +17,6 @@ import ModalStyle from './Modal.module.scss';
  * - `type = custom` 일 경우 필수 props : `onClose`, `children`, `buttonLabel`, `onButton`
  */
 function Modal({ type, onClose, ...props }: ModalProps) {
-  // const { type } = props;
   const handleClose = (e: MouseEvent) => {
     e.preventDefault();
     onClose();
@@ -98,13 +97,13 @@ function Modal({ type, onClose, ...props }: ModalProps) {
           <button
             type="button"
             onClick={(e) => e.stopPropagation()}
-            className="absolute"
+            className={`absolute ${ModalStyle.closeBtn}`}
             style={{ right: '2%', top: '3%' }}
           >
-            <Image src="/icons/close.png" alt="close-icon" width={10} height={10} onClick={onClose} />
+            <Image src="/icons/close.png" alt="close-icon" width={11} height={11} onClick={onClose} />
           </button>
           <button type="button" onClick={(e) => e.stopPropagation()}>
-            <div>{children}</div>
+            <div className="pb-3">{children}</div>
           </button>
         </button>
       </button>

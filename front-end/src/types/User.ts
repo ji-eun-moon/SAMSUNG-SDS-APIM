@@ -105,7 +105,7 @@ export interface ITeamInfo {
 export interface ISearchMember {
   name: string;
   imageUrl: string;
-  memberId: number;
+  employeeId: string;
   department: string;
   position: string;
 }
