@@ -3,7 +3,7 @@ import React from 'react';
 interface ShadowCardProps {
   type: 'small' | 'bordersmall' | 'big';
   children: React.ReactNode;
-  bgcolor: string;
+  bgcolor?: string;
 }
 
 /**
@@ -17,7 +17,6 @@ const shadow = {
 
 function ShadowCard({ type, children, bgcolor }: ShadowCardProps) {
   let classNames = 'bg-white p-2 w-full h-full';
-  const bgColor = bgcolor;
 
   if (type === 'small') {
     classNames += ' rounded-2xl';
@@ -28,10 +27,14 @@ function ShadowCard({ type, children, bgcolor }: ShadowCardProps) {
   }
 
   return (
-    <div className={classNames} style={{ ...shadow, backgroundColor: bgColor }}>
+    <div className={classNames} style={{ ...shadow, backgroundColor: bgcolor }}>
       {children}
     </div>
   );
 }
+
+ShadowCard.defaultProps = {
+  bgcolor: '#ffffff',
+};
 
 export default ShadowCard;
