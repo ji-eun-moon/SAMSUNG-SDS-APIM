@@ -15,7 +15,7 @@ export async function login({ employeeId, password }: ILogin) {
     return response.data;
   } catch (error) {
     console.error(error);
-    return null;
+    throw error;
   }
 }
 
