@@ -2,8 +2,8 @@ import React from 'react';
 
 interface MemberNameProps {
   name: string;
-  memberId: number;
-  onClick: (memberId: number) => void;
+  memberId: string;
+  onClick: (memberId: string) => void;
 }
 
 const Icon = () => (

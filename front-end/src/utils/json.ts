@@ -34,3 +34,11 @@ export const formatJsonToCurl = (data: JsonData): string => {
   const curlCommand = `curl -X ${method} "${url}?${queryString}"\n\t ${headersString}`;
   return curlCommand;
 };
+
+export const safeJsonParse = (jsonString: string) => {
+  try {
+    return JSON.parse(jsonString);
+  } catch {
+    return jsonString;
+  }
+};
