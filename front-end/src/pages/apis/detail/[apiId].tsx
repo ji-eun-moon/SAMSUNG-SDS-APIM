@@ -16,6 +16,7 @@ import ApiEndpoint from '@/components/organisms/api/ApiEndpoint';
 import ApiKeyTable from '@/components/organisms/api/ApiKeyTable';
 import Editor from '@monaco-editor/react';
 import { Code } from '@nextui-org/react';
+import { safeJsonParse } from '@/utils/json';
 
 type SSGProps = {
   apiId: number;
@@ -122,12 +123,12 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
           <div className="border p-1 px-2 rounded-lg border-gray-300 bg-gray-100 p-2 px-4">
             <div className="flex justify-between">
               <div className="font-medium">응답 예시</div>
-              <Copy copyText={JSON.stringify(JSON.parse(apiDetail.outputExample), null, 2)} />
+              <Copy copyText={JSON.stringify(safeJsonParse(apiDetail.outputExample), null, 2)} />
             </div>
             <Editor
               height="500px"
               language="json"
-              value={JSON.stringify(JSON.parse(apiDetail.outputExample), null, 2)}
+              value={JSON.stringify(safeJsonParse(apiDetail.outputExample), null, 2)}
               theme="vs-dark"
               options={editorOptions}
             />
