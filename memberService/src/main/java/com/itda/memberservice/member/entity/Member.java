@@ -57,7 +57,7 @@ public class Member {
     private final List<Notice> sendList = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver")
-    private final List<Notice> ReceiveList = new ArrayList<>();
+    private final List<Notice> receiveList = new ArrayList<>();
 
     public void changePassword(String request){
         this.password = request;
