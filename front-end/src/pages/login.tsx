@@ -8,21 +8,44 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { login } from '@/utils/axios/auth';
 import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
+import Modal from '@/components/organisms/Modal';
 // import Image from 'next/image';
 
 export default function Login() {
   const router = useRouter();
   const [employeeId, setEmployeeId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loginAlert, setLoginAlert] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const { mutate: doLogin } = useMutation(login, {
+    onSuccess: () => {
+      router.push(`/`);
+    },
+    onError: () => {
+      setLoginAlert(true);
+      setAlertMessage('사번, 비밀번호를 다시 확인해주세요.');
+    },
+  });
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await login({ employeeId, password });
-    await router.push(`/`);
+    if (!employeeId) {
+      setAlertMessage('사번을 입력해주세요.');
+      setLoginAlert(true);
+      return;
+    }
+    if (!password) {
+      setAlertMessage('비밀번호를 입력해주세요.');
+      setLoginAlert(true);
+      return;
+    }
+    await doLogin({ employeeId, password });
   };
 
   return (
     <div className="py-16 pl-20 h-screen flex flex-col relative">
+      {loginAlert && <Modal type="alert" alertMessage={alertMessage} onClose={() => setLoginAlert(false)} />}
       <div className="flex justify-start items-center gap-3">
         <LogoWithName size={40} textSize="text-3xl" />
         {/* <div className="flex items-center">
