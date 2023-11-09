@@ -76,3 +76,24 @@ export async function putProvideApplyDeny(provideId: number, denyReason: string)
     return null;
   }
 }
+
+// 사용,제공 신청 결과 전송
+export async function postNoticeResult(applyName: string, teamName: string, applyType: string, result: string) {
+  try {
+    const response = await axiosInstance({
+      method: 'POST',
+      url: '/member/notice/send/result',
+      data: {
+        applyName,
+        teamName,
+        applyType,
+        result,
+      },
+    });
+    console.log('사용,제공 신청 결과', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('error', error);
+    return null;
+  }
+}

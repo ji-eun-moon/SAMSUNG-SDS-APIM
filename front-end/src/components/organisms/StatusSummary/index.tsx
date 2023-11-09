@@ -48,7 +48,7 @@ function StatusSummary({ statusList }: StatusSummaryProps) {
         </button>
       </div>
       <div className={`${style.thirdPart}`}>
-        <ShadowCard type="small">
+        <ShadowCard type="small" bgcolor="#ffffff">
           <div className={style.contents}>
             {statusList?.map((status, index) => (
               <div
