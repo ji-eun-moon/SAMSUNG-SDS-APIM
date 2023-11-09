@@ -8,6 +8,10 @@ import java.util.Date;
 
 public class JwtUtil {
 
+    private JwtUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static String createToken(String id, Key key, Long accessExpiration){
 
         Claims claims = Jwts.claims();
