@@ -80,7 +80,7 @@ export interface IPageable {
 }
 
 export interface INoticeSend {
-  memberIds: number[];
+  employeeIds: string[];
   title: string;
   content: string;
 }

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { NextPage } from 'next';
-import SideLayout from '@/components/templates/SideLayout';
+// import SideLayout from '@/components/templates/SideLayout';
+import TopLayout from '@/components/templates/TopLayout';
 import GoBack from '@/components/atoms/GoBack';
 import NoticeCategory from '@/components/atoms/NoticeCategory';
 import NoticeList from '@/components/organisms/NoticeList';
@@ -87,9 +88,9 @@ const ReceiveList: NextPage = () => {
   }
 
   return (
-    <SideLayout>
-      <div>
-        <GoBack label="쪽지함" />
+    <TopLayout>
+      <div style={{ margin: '10px 200px' }}>
+        {/* <GoBack label="쪽지함" /> */}
         <NoticeCategory select="receive" />
         <NoticeList
           type="receive"
@@ -105,7 +106,7 @@ const ReceiveList: NextPage = () => {
           <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
         </div>
       </div>
-    </SideLayout>
+    </TopLayout>
   );
 };
 

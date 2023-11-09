@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import Image from 'next/image';
 import {
   ModalProps,
@@ -17,7 +17,6 @@ import ModalStyle from './Modal.module.scss';
  * - `type = custom` 일 경우 필수 props : `onClose`, `children`, `buttonLabel`, `onButton`
  */
 function Modal({ type, onClose, ...props }: ModalProps) {
-  // const { type } = props;
   const handleClose = (e: MouseEvent) => {
     e.preventDefault();
     onClose();
@@ -99,9 +98,9 @@ function Modal({ type, onClose, ...props }: ModalProps) {
             type="button"
             onClick={(e) => e.stopPropagation()}
             className="absolute"
-            style={{ right: '2%', top: '3%' }}
+            style={{ right: '3%', top: '3%' }}
           >
-            <Image src="/icons/close.png" alt="close-icon" width={10} height={10} onClick={onClose} />
+            <Image src="/icons/close.png" alt="close-icon" width={12} height={12} onClick={onClose} />
           </button>
           <button type="button" onClick={(e) => e.stopPropagation()}>
             <div>{children}</div>
