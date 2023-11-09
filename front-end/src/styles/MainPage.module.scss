@@ -1,10 +1,17 @@
+.mainPageContainer {
+  margin-left: 130px;
+  margin-right: 130px;
+  margin-top: 45px;
+  margin-bottom: 45px;
+  min-height: 45px;
+}
+
 .pageContainer {
   width: 100%;
 
   display: grid;
   grid-template-columns: 80% 20%;
   gap: 30px;
-  margin-top: 65px;
 }
 .pageContainer2 {
   width: 100%;
