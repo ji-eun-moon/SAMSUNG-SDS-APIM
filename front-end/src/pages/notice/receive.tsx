@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { NextPage } from 'next';
 // import SideLayout from '@/components/templates/SideLayout';
 import TopLayout from '@/components/templates/TopLayout';
-import GoBack from '@/components/atoms/GoBack';
+// import GoBack from '@/components/atoms/GoBack';
 import NoticeCategory from '@/components/atoms/NoticeCategory';
 import NoticeList from '@/components/organisms/NoticeList';
 import {

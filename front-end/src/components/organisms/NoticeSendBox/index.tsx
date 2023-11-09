@@ -73,7 +73,7 @@ function NoticeSendBox({ sendName, sendId }: NoticeSendBoxProps) {
 
   return (
     <ShadowCard type="big">
-      <div className="my-2 mx-4 p-2 sitdaText flex flex-col justify-start" style={{ width: '30vw' }}>
+      <div className="my-3 mx-5 p-2 sitdaText flex flex-col justify-start" style={{ width: '30vw' }}>
         <div className="flex items-center mb-1">
           <div className="flex w-3/12 font-medium">제목</div>
           <Input inputWord={title} placeholder="제목을 입력하세요" onChange={setTitle} isPassword={false} />
