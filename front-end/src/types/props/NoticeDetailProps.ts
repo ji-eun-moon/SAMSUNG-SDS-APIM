@@ -6,7 +6,7 @@ export interface IReceiveNoticeDetail {
   title: string;
   content: string;
   createdAt: string;
-  senderId: number;
+  senderEmployeeId: number;
   senderName: string;
   senderDepartment: string;
   senderPosition: string;
@@ -17,7 +17,7 @@ export interface ISendNoticeDetail {
   title: string;
   content: string;
   createdAt: string;
-  receiverId: number;
+  receiverEmployeeId: number;
   receiverName: string;
   receiverDepartment: string;
   receiverPosition: string;

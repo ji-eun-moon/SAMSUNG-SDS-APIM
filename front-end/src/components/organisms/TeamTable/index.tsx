@@ -1,13 +1,41 @@
-import { TTeamMemberList } from '@/types/User';
+import { useState } from 'react';
+import { ITeamInfo } from '@/types/User';
+import { useQuery } from 'react-query';
+import StyledPagination from '@/components/atoms/StyledPagination';
+import { getTeamInfo } from '@/utils/axios/user';
+import Modal from '@/components/organisms/Modal';
 import DropDown from '@/components/atoms/DropDown';
+import NoticeSendBox from '../NoticeSendBox';
 import styles from './TeamTable.module.scss';
 
-interface MemberTableProps {
-  memberList: TTeamMemberList | undefined;
+interface Props {
+  team: string;
 }
 
-function MemberTable({ memberList }: MemberTableProps) {
+function MemberTable({ team }: Props) {
+  const [clickPage, setClickPage] = useState(1);
+  const { data: teamInfo } = useQuery<ITeamInfo>(['teamInfo', clickPage, team], async () => {
+    const result = await getTeamInfo({ page: clickPage - 1, size: 7, teamName: team });
+    return result;
+  });
+  const handlePageClick = (clickedPage: number) => {
+    setClickPage(clickedPage);
+  };
+
   const headers = ['사번', '성명', '부서', '직무', '이메일'];
+
+  if (teamInfo === undefined) {
+    return null;
+  }
+
+  const memberList = teamInfo.teamMembers.content;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <div>
       <table className="w-full">
@@ -34,13 +62,25 @@ function MemberTable({ memberList }: MemberTableProps) {
                 <td className={`${styles.tr} text-center`}>{member.employeeId}</td>
                 <td className={`${styles.tr} text-center`}>
                   <DropDown
+                    type="modal"
                     trigger={<button type="button">{member.name}</button>}
-                    list={[{ title: '쪽지 보내기', icon: 'message', url: '' }]}
+                    list={[
+                      {
+                        title: '쪽지 보내기',
+                        icon: 'message',
+                        onModalHandler,
+                      },
+                    ]}
                   />
                 </td>
                 <td className={`${styles.tr} text-center`}>{member.department}</td>
                 <td className={`${styles.tr} text-center`}>{member.position}</td>
                 <td className={`${styles.tr}`}>{member.email}</td>
+                {isModalOpen && (
+                  <Modal type="server" onClose={onModalHandler}>
+                    <NoticeSendBox sendName={member.name} sendId={Number(member.employeeId)} />
+                  </Modal>
+                )}
               </tr>
             ))
           ) : (
@@ -52,6 +92,13 @@ function MemberTable({ memberList }: MemberTableProps) {
           )}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <StyledPagination
+          totalPage={teamInfo?.teamMembers.totalPages}
+          clickPage={clickPage}
+          onClickPage={handlePageClick}
+        />
+      </div>
     </div>
   );
 }

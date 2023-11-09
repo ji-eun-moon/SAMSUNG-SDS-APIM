@@ -1,31 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { IUser, ITeamInfo } from '@/types/User';
-import { NextPage } from 'next';
-import { useQuery } from 'react-query';
-import { getUserInfo, getTeamInfo } from '@/utils/axios/user';
-import useUserStore from '@/store/useUserStore';
+import React, { useState } from 'react';
+import { IUser } from '@/types/User';
+import { NextPage, GetStaticProps } from 'next';
+import { useQuery, QueryClient } from 'react-query';
+import { getUserInfo, getTeamInfo, getTeamToken } from '@/utils/axios/user';
+import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import SideLayout from '@/components/templates/SideLayout';
 import GoBack from '@/components/atoms/GoBack';
 import TeamInfoBox from '@/components/organisms/TeamInfoBox';
+import { dehydrate } from 'react-query/hydration';
 
 const Team: NextPage = () => {
-  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { selectedTeam } = useUserStore();
+  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const defaultTeamName = userInfo?.teams[0]?.teamName;
   const initialTeam = selectedTeam !== null ? selectedTeam : defaultTeamName;
   const [team, setTeam] = useState<string>(initialTeam || '');
-  const [teamData, setTeamData] = useState<ITeamInfo | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (team) {
-        const result = await getTeamInfo(team);
-        await setTeamData(result);
-      }
-    };
-
-    fetchData();
-  }, [team]);
 
   if (userInfo === undefined) {
     return null;
@@ -35,15 +24,22 @@ const Team: NextPage = () => {
     <SideLayout>
       <div>
         <GoBack label="팀 정보" />
-        <TeamInfoBox
-          teamList={userInfo.teams}
-          teamData={teamData}
-          setTeam={(teamName) => setTeam(teamName)}
-          currentTeam={team}
-        />
+        <TeamInfoBox teamList={userInfo.teams} setTeam={(teamName) => setTeam(teamName)} currentTeam={team} />
       </div>
     </SideLayout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const queryClient = new QueryClient();
+  const selectedTeam = getSelectedTeam();
+  await queryClient.prefetchQuery(['teamInfo', 0, selectedTeam], () =>
+    getTeamInfo({ teamName: selectedTeam, page: 0, size: 7 }),
+  );
+  await queryClient.prefetchQuery(['teamToken', selectedTeam], () => getTeamToken(selectedTeam));
+  return {
+    props: { dehydratedState: dehydrate(queryClient) },
+  };
 };
 
 export default Team;

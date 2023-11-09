@@ -246,6 +246,7 @@ function NavBar({ position }: NavBarProps) {
                   ? getAdminDropDownList({ categoryId: firstCategory, apiId: firstApi })
                   : getUserDropDownList({ categoryId: firstCategory, apiId: firstApi })
               }
+              type="url"
             />
           </div>
         </div>

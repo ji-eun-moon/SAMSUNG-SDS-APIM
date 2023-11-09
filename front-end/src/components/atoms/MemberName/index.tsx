@@ -30,7 +30,7 @@ function MemberName({ name, memberId, onClick }: MemberNameProps) {
     <button
       type="button"
       onClick={() => onClick(memberId)}
-      className="bgItdaBorder px-3 py-1 rounded-full flex mr-2 items-center"
+      className="bgItdaBorder px-3 py-1 rounded-full flex mr-2 mb-1 items-center"
       style={{ backgroundColor: '#F3F3F3' }}
     >
       <div className="mr-2 text-sm">{name}</div>

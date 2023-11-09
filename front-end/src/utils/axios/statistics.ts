@@ -1,82 +1,84 @@
-import { TUserDataList, Pageable, TeamPageable } from '@/types/User';
+import { IChartParams } from '@/types/Statistics';
 import axiosInstance from './axiosInstance';
 
-export async function getUserInfo() {
+export async function getMonthlyUsage({ apiId, teamName }: IChartParams) {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: '/member/auth/mypage',
-    });
-    console.log('userInfo', response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-export async function getMembers({ page, size }: Pageable) {
-  try {
-    const response = await axiosInstance({
-      method: 'GET',
-      url: '/member/auth/all',
+      url: '/server/usage/monthly',
       params: {
-        page,
-        size,
-      },
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-export async function createMembers(props: TUserDataList) {
-  try {
-    const response = await axiosInstance({
-      method: 'POST',
-      url: '/member/auth/sign-up',
-      data: props,
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-export async function getTeamInfo({ teamName, page, size }: TeamPageable) {
-  try {
-    const response = await axiosInstance({
-      method: 'GET',
-      url: '/member/team/members',
-      params: {
-        teamName,
-        page,
-        size,
-      },
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-export async function getTeamToken(teamName: string) {
-  try {
-    const response = await axiosInstance({
-      method: 'GET',
-      url: '/member/team/tokens',
-      params: {
+        apiId,
         teamName,
       },
     });
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getDailyUsage({ apiId, teamName }: IChartParams) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/usage/daily',
+      params: {
+        apiId,
+        teamName,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getHourlyUsage({ apiId, teamName }: IChartParams) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/usage/hourly',
+      params: {
+        apiId,
+        teamName,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getResponseTime({ apiId, teamName }: IChartParams) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/usage/responseTime',
+      params: {
+        apiId,
+        teamName,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getResponseCode({ apiId, teamName }: IChartParams) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/usage/responseCode',
+      params: {
+        apiId,
+        teamName,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
