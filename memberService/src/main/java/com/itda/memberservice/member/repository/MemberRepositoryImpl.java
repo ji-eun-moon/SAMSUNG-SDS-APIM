@@ -62,7 +62,6 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     public List<NameSearchResponse> findByName(String name) {
         return queryFactory
                 .select(Projections.fields(NameSearchResponse.class,
-                        member.memberId,
                         member.employeeId,
                         member.name,
                         member.department,
