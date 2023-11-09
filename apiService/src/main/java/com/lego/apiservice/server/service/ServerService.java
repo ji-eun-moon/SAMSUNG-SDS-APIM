@@ -131,13 +131,13 @@ public class ServerService {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
+            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, String.class);
             LocalDateTime second = LocalDateTime.now();
             Duration diff = Duration.between(first, second);
             log.info(String.valueOf(diff.toMillis()));
             status.put("diff", String.valueOf(diff.toMillis()));
             status.put("status", responseEntity.getStatusCode().toString());
-            status.put("output", responseEntity.getBody().toString());
+            status.put("output", (String) responseEntity.getBody());
 
 
         } catch (Exception e) {
@@ -155,13 +155,14 @@ public class ServerService {
             HttpEntity<?> httpEntity = new HttpEntity<>(params, httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
+            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
             LocalDateTime second = LocalDateTime.now();
             Duration diff = Duration.between(first, second);
             log.info(String.valueOf(diff.toMillis()));
             status.put("diff", String.valueOf(diff.toMillis()));
             status.put("status", responseEntity.getStatusCode().toString());
-            status.put("output", responseEntity.getBody().toString());
+            status.put("output", (String) responseEntity.getBody());
+
             log.info(responseEntity.getBody().toString());
 
 
@@ -231,7 +232,7 @@ public class ServerService {
                         .toUri();
 
                 status = getRestTemplate(uri1);
-                apiRegister(status, components, pathItem, parameterInfoList, itdaEndpoint, ApiMethod.GET, uri);
+                apiRegistered(status, components, pathItem, parameterInfoList, itdaEndpoint, ApiMethod.GET, uri);
             }
             if (pathItem.getPost() != null) {
                 components.getSchemas().get(pathItem.getPost().getRequestBody().getContent().get("application/json").getSchema().get$ref().split("/")[3]).getProperties().forEach((key, value) -> {
@@ -259,13 +260,13 @@ public class ServerService {
                 log.info(ApiMethod.POST.toString());
 
                 status = postRestTemplate(uri1, param);
-                apiRegister(status, components, pathItem, parameterInfoList, itdaEndpoint, ApiMethod.POST, uri);
+                apiRegistered(status, components, pathItem, parameterInfoList, itdaEndpoint, ApiMethod.POST, uri);
             }
         });
     }
 
     @Transactional
-    public void apiRegister(Map<String, String> status, Components components, PathItem pathItem,
+    public void apiRegistered(Map<String, String> status, Components components, PathItem pathItem,
                             List<String> parameterInfoList, String itdaEndpoint, ApiMethod apiMethod, String uri) {
         ApiStatus apiStatus = ApiStatus.정상;;
         List<String> output = new ArrayList<>();
@@ -277,9 +278,16 @@ public class ServerService {
                 Schema schema = (Schema) value;
                 Map<String, String> responseInfo = new HashMap<>();
                 responseInfo.put("name", key.toString());
-                responseInfo.put("description", schema.getDescription());
-                responseInfo.put("example", String.valueOf(schema.getExample()));
-                responseInfo.put("type", schema.getType());
+                if (schema.get$ref() != null) {
+                    Schema schema1 = components.getSchemas().get(schema.get$ref().split("/")[3]);
+                    responseInfo.put("description", schema1.getDescription());
+                    responseInfo.put("example", String.valueOf(schema1.getExample()));
+                    responseInfo.put("type", schema1.getType());
+                } else {
+                    responseInfo.put("description", schema.getDescription());
+                    responseInfo.put("example", String.valueOf(schema.getExample()));
+                    responseInfo.put("type", schema.getType());
+                }
                 output.add(new JSONObject(responseInfo).toString());
             });
             category = categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow();
@@ -304,9 +312,16 @@ public class ServerService {
                     Schema schema = (Schema) value;
                     Map<String, String> responseInfo = new HashMap<>();
                     responseInfo.put("name", key.toString());
-                    responseInfo.put("description", schema.getDescription());
-                    responseInfo.put("example", String.valueOf(schema.getExample()));
-                    responseInfo.put("type", schema.getType());
+                    if (schema.get$ref() != null) {
+                        Schema schema1 = components.getSchemas().get(schema.get$ref().split("/")[3]);
+                        responseInfo.put("description", schema1.getDescription());
+                        responseInfo.put("example", String.valueOf(schema1.getExample()));
+                        responseInfo.put("type", schema1.getType());
+                    } else {
+                        responseInfo.put("description", schema.getDescription());
+                        responseInfo.put("example", String.valueOf(schema.getExample()));
+                        responseInfo.put("type", schema.getType());
+                    }
                     output.add(new JSONObject(responseInfo).toString());
                 });
             } else if (pathItem.getPost().getResponses().get("201") != null) {
@@ -352,5 +367,4 @@ public class ServerService {
         redisService.setValue(itdaEndpoint.replace("https://k9c201.p.ssafy.io/api", "") + uri,
                 String.valueOf(category.getId()));
     }
-
 }
