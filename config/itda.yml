@@ -6,13 +6,6 @@ security:
 spring:
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - name: GlobalFilter
-          args:
-            baseMessage: Spring Cloud Gateway Global Filter
-            preLogger: true
-            postLogger: true
       globalcors:
         cors-configurations:
           '[/**]':
