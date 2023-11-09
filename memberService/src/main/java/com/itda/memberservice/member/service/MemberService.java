@@ -28,6 +28,8 @@ import java.security.Key;
 import java.util.List;
 import java.util.Random;
 
+import static jakarta.mail.Message.RecipientType.TO;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -39,6 +41,7 @@ public class MemberService {
     private final JavaMailSender javaMailSender;
     @Value("${security.jwt.secret.key}")
     private String secretKey;
+    private Random random;
 
     public Member register(CreateMemberRequest request) throws MessagingException {
 
@@ -148,7 +151,7 @@ public class MemberService {
         String title = "[ITDA] 임시 비밀번호 안내";
 
         MimeMessage message = javaMailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, email);
+        message.addRecipients(TO, email);
         message.setSubject(title);
 
         String emailMsg = "";
@@ -174,7 +177,6 @@ public class MemberService {
     }
 
     public String createRandomPassword() {
-        Random random = new Random();
         StringBuilder password = new StringBuilder();
 
         for(int i = 0 ; i < 8 ; i++){
@@ -185,6 +187,7 @@ public class MemberService {
                 case 0 -> password.append((char) (random.nextInt(26) + 97));
                 case 1 -> password.append((char) (random.nextInt(26) + 65));
                 case 2 -> password.append( (random.nextInt(9)));
+                default -> password.append((char) random.nextInt() + 97);
             }
 
         }
