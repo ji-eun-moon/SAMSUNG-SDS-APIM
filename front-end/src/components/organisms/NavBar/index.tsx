@@ -22,6 +22,7 @@ import { TCategoryList } from '@/types/Api';
 import { getCategoryList } from '@/utils/axios/api';
 import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
 import NavBarNotice from '../NavBarNotice';
+import Modal from '../Modal';
 import styles from './NavBar.module.scss';
 
 function NavBar({ position }: NavBarProps) {
@@ -32,6 +33,7 @@ function NavBar({ position }: NavBarProps) {
   const { selectedTeam, setSelectedTeam } = useUserStore();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchWord, setSearchWord] = useState('');
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const handleSelectTeam = (team: string) => {
     setSelectedTeam(team);
@@ -61,6 +63,7 @@ function NavBar({ position }: NavBarProps) {
   if (position === 'side') {
     return (
       <div className={styles.navSideBody}>
+        {alertOpen && <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={() => setAlertOpen(false)} />}
         <button type="button" onClick={() => router.push('/')}>
           <LogoWithName />
         </button>
@@ -106,7 +109,14 @@ function NavBar({ position }: NavBarProps) {
               <StyledButton
                 variant="bordered"
                 label="API 전체보기"
-                onClick={() => router.push(`/category/${firstCategory}`)}
+                onClick={() => {
+                  if (firstCategory === 0 || firstCategory === undefined) {
+                    setAlertOpen(true);
+                  } else {
+                    router.push(`/category/${firstCategory}`);
+                  }
+                }}
+                aria-hidden
                 radius="full"
                 type="button"
               />
