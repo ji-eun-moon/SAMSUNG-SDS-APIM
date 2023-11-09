@@ -1,4 +1,4 @@
-package com.itda.memberservice.client.useCheck.dto;
+package com.itda.memberservice.client.usecheck.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
