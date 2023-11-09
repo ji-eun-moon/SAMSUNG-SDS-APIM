@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import Input from '@/components/atoms/Input';
-import BorderCard from '@/components/atoms/BorderCard';
+// import BorderCard from '@/components/atoms/BorderCard';
 import { ChangePassword } from '@/utils/axios/auth';
 import StyledButton from '@/components/atoms/StyledButton';
 
