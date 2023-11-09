@@ -2,6 +2,7 @@ import React from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
 import { DropDownProps, UrlProps, ModalProps } from '@/types/props/DropDownProps';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 function DropDown({ type, ...props }: DropDownProps) {
   const router = useRouter();
@@ -23,13 +24,17 @@ function DropDown({ type, ...props }: DropDownProps) {
   }
 
   if (type === 'modal') {
-    const {trigger, list} = props as ModalProps;
+    const { trigger, list } = props as ModalProps;
     return (
       <Dropdown>
         <DropdownTrigger>{trigger}</DropdownTrigger>
         <DropdownMenu variant="flat">
           {list?.map((item) => (
-            <DropdownItem key={item.title} onClick={item.onModalHandler} startContent={item.icon}>
+            <DropdownItem
+              key={item.title}
+              onClick={item.onModalHandler}
+              startContent={<Image src={`/icons/${item.icon}.png`} alt="icon" width={15} height={15} />}
+            >
               {item.title}
             </DropdownItem>
           ))}

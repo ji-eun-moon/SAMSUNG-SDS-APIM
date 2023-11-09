@@ -7,31 +7,13 @@ interface UserInfoProps {
   userInfo: IUser;
 }
 
-const Icon = () => (
-  <svg
-    className="w-5 h-5 itdaSecondary dark:text-white"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 18 20"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M4 4H1m3 4H1m3 4H1m3 4H1m6.071.286a3.429 3.429 0 1 1 6.858 0M4 1h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm9 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
-    />
-  </svg>
-);
-
 function UserInfo({ userInfo }: UserInfoProps) {
   const teamList = userInfo?.teams?.map((team) => team.teamName);
 
   return (
     <div className="w-full">
       <div className="flex items-center mb-7">
-        <Icon />
+        {/* <Icon /> */}
         <div className="ml-2 text-lg itdaText text-semibold">개인정보 확인</div>
       </div>
       <div className="flex ml-10 gap-5">
