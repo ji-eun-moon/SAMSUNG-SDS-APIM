@@ -69,6 +69,9 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
     window.location.href = '/apply/provide/list';
   };
 
+  // const onTargetHandler = () => {
+  //   set
+  // }
   return (
     <SideBarBody>
       <div className="my-5 text-xl font-bold mx-2">신청 내역</div>

@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { IProvideDetail } from '@/types/Apply';
 import { getProvideApplyDetail } from '@/utils/axios/apply';
-import { putProvideApplyAccept, putProvideApplyDeny } from '@/utils/axios/admin';
+import { putProvideApplyAccept, putProvideApplyDeny, postNoticeResult } from '@/utils/axios/admin';
 
 import ApplySideBar from '@/components/organisms/ApplySideBar';
 import BothLayout from '@/components/templates/BothLayout';
@@ -115,6 +115,8 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
       // 거절 처리
       await putProvideApplyDeny(provideId, content);
       alert('신청 거절이 성공적으로 저장되었습니다');
+      console.log(details.serverName, details.teamName, '제공', '거절');
+      postNoticeResult(details.serverName, details.teamName, '제공', '거절');
       // 추가로 수행해야 할 거절 작업이 있다면 여기에 추가하세요.
     }
     router.push('/admin/provideApplyList');

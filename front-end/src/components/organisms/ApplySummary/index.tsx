@@ -45,7 +45,7 @@ function ApplySummary({ type, bodyContent }: ApplySummaryProps) {
         </button>
       </div>
       <div className={`${style.secondPart}`}>
-        <ShadowCard type="small">
+        <ShadowCard type="bordersmall" bgcolor="#ffffff">
           <Carousel>{bodyContent}</Carousel>
         </ShadowCard>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import style from '@/styles/MainPage.module.scss';
-import SideLayout from '@/components/templates/SideLayout';
+// import SideLayout from '@/components/templates/SideLayout';
+import TopLayout from '@/components/templates/TopLayout';
 import ShortCuts from '@/components/organisms/ShortCuts';
 import ApplySummary from '@/components/organisms/ApplySummary';
 import StatusSummary from '@/components/organisms/StatusSummary';
@@ -17,6 +18,9 @@ import { getNoticeCnt } from '@/utils/axios/notice';
 import useUserStore from '@/store/useUserStore';
 import { getUseApplyList, getProvideApplyList } from '@/utils/axios/apply';
 import { IResponseUse, IResponseProvide } from '@/types/Apply';
+import ShadowCard from '@/components/atoms/ShadowCard';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Home: NextPage = () => {
   const { selectedTeam } = useUserStore();
@@ -56,9 +60,6 @@ const Home: NextPage = () => {
   const useLists = responseUse.content;
   const provideLists = responseProvide.content;
 
-  console.log('useLists', useLists);
-  console.log('provideLists', provideLists);
-
   const bodyUse = () =>
     useLists.map((item) => (
       <div key={item.useApplyId} className={`${style.secondContent}`}>
@@ -89,25 +90,61 @@ const Home: NextPage = () => {
 
   return (
     <main>
-      <SideLayout>
+      <TopLayout>
         <div className={`${style.pageContainer}`}>
-          {/* 바로가기 탭 */}
-          <ShortCuts />
-          <div className={`${style.bottom}`}>
+          <div className={`${style.topLeft}`}>
             {/* 관리자 - 실시간 로그 / 일반 - API 신청 내역 */}
             {userInfo.authority === '관리자' ? (
               <RealTimeLog />
             ) : (
-              <div style={{ display: 'grid', gridAutoRows: '45% 45%', gap: '35px' }}>
-                <ApplySummary type="사용" bodyContent={bodyUse()} />
-                <ApplySummary type="제공" bodyContent={bodyProvide()} />
-              </div>
+              <ShadowCard type="bordersmall" bgcolor="#ffffff">
+                {/* API 상태 */}
+                <StatusSummary statusList={apiStatus.content} />
+              </ShadowCard>
             )}
-            {/* API 상태 */}
-            <StatusSummary statusList={apiStatus.content} />
           </div>
+          <ShadowCard type="small" bgcolor="#282d56">
+            {/* 바로가기 탭 */}
+            <ShortCuts />
+          </ShadowCard>
         </div>
-      </SideLayout>
+        <div className={`${style.pageContainer2}`}>
+          {userInfo.authority === '관리자' ? (
+            <div>no..</div>
+          ) : (
+            <div className={`${style.summaryContainer}`}>
+              <ApplySummary type="사용" bodyContent={bodyUse()} />
+              <ApplySummary type="제공" bodyContent={bodyProvide()} />
+            </div>
+          )}
+          <ShadowCard type="bordersmall" bgcolor="rgba(65, 117, 192)">
+            <div
+              className={`${style.monitoring}`}
+              style={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Link href="/monitoring" target="_blank">
+                <div className={style.imgContainer}>
+                  <Image
+                    src="/images/computer.png"
+                    alt="next-icon"
+                    width={100}
+                    height={100}
+                    className={style.monitoringImg}
+                  />
+                </div>
+              </Link>
+              <span className={style.monitoringTitle}>서버 모니터링</span>
+            </div>
+          </ShadowCard>
+        </div>
+      </TopLayout>
     </main>
   );
 };

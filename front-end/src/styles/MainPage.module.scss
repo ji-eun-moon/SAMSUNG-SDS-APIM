@@ -1,23 +1,35 @@
 .pageContainer {
   width: 100%;
-  height: 100%;
 
   display: grid;
-  grid-template-rows: 35% 65%;
-  gap: 5px;
+  grid-template-columns: 80% 20%;
+  gap: 30px;
+  margin-top: 65px;
 }
-.bottom {
+.pageContainer2 {
+  width: 100%;
+
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  height: 95%;
+  grid-template-columns: 80% 20%;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.summaryContainer {
+  display: grid;
+  grid-template-columns: 49% 49%;
+  gap: 20px;
+}
+
+.topLeft {
+  height: 100%;
 }
 
 .firstPart {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 55px;
-  margin-top: 8px;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  margin: auto;
 }
 
 .cardContainer {
@@ -27,16 +39,17 @@
   align-items: center; /* 세로 가운데 정렬 */
 
   &:hover .imgContainer {
-    transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+    transform: scale(1.2); /* 호버 상태에서 크기를 확대 */
     cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
   }
 }
 
 .cardtitle {
-  margin-top: 10px;
+  // margin-top: 10px;
   font-size: 15px;
   font-weight: 400;
-  color: $itda-secondary;
+  // color: $itda-secondary;
+  color: #ffffff;
   cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
 
   // cardContainer가 hover일 때 imgContainer에 적용될 스타일
@@ -45,6 +58,12 @@
   }
 }
 
+.contentContainer {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  gap: 10px;
+  align-items: center;
+}
 .imgContainer {
   width: 100%;
   display: flex;
@@ -53,18 +72,39 @@
   transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
 }
 
-.iconImg {
-  width: 95px;
-  height: 92px;
-  margin: 8px;
+.monitorImgContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: end; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+  transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+  padding-right: 30px;
 }
-
+.iconImg {
+  width: 30px;
+  height: 32px;
+  margin: 3px;
+}
+.monitorIconImg {
+  width: 180px;
+  height: 190px;
+  margin: 10px;
+}
+.monitorSpan {
+  width: 100%;
+  font-size: 40px;
+  font-weight: 700;
+  color: #5f5f5f;
+  text-align: center;
+  padding-left: 30px;
+}
 .secondPart {
   color: $itda-text;
-  margin-top: 8px;
+  margin-top: 3px;
   display: grid;
   padding: 2px 0px;
-  height: 170px;
+  height: 160px;
 }
 
 .contents {
@@ -79,9 +119,10 @@
 
 .secondContent {
   margin: 2px 0px;
-  padding: 10px 0px;
+  padding: 8px 0px;
   border-bottom: 0.5px solid #eaeaea;
   font-size: 15px;
+  font-weight: 400;
 }
 .secondInContent {
   display: grid;
@@ -90,14 +131,34 @@
 
 .thirdPart {
   color: $itda-text;
-  margin-top: 8px;
-  height: 95%;
+  // margin-top: 8px;
+  height: 100%;
 }
 
 .thirdContent {
   display: grid;
   // grid-template-columns: 650px 65px 20px 80px 20px 150px;
   padding: 3px 0px;
+}
+
+.stateContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+}
+.state {
+  padding: 20px;
+  display: grid;
+  grid-template-rows: 25% 75%;
+  align-items: center;
+}
+.stateTitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+.stateBorder {
+  border-right: 1px solid #d0d0d0;
 }
 
 .divider {
@@ -121,7 +182,7 @@
 
   .partTitle {
     font-size: 17px;
-    font-weight: 500;
+    font-weight: 700;
   }
   .goDetail {
     font-size: 13px;
@@ -133,6 +194,24 @@
 
     cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
   }
+}
+
+.monitoring {
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+    cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+  }
+}
+.monitoringImg {
+  width: 90px;
+  height: 85px;
+  margin: 3px;
+}
+.monitoringTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
 }
 // .pageContainer {
 //   width: 100%;
