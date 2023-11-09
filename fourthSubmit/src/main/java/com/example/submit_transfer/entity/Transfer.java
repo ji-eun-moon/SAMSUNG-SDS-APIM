@@ -1,5 +1,6 @@
 package com.example.submit_transfer.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,26 +16,39 @@ import java.time.LocalDate;
 public class Transfer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transfer_id")
+    @Schema(description = "물품 시퀸스", example = "1")
     private Long id;
 
+    @Schema(description = "운송장 번호", example = "INV0001")
+    @Column(unique = true)
     private String wayBillNumber;
 
+    @Schema(description = "출발지", example = "광명시")
     private String departureLocation;
 
+    @Schema(description = "도착지", example = "부여군")
     private String destinationLocation;
 
+    @Schema(description = "운송 수단", example = "비행기")
     private String transportation;
 
+    @Schema(description = "물품", example = "전자 제품")
     private String product;
 
+    @Schema(description = "출발 일자", example = "2023-11-09")
     private LocalDate departureDate;
 
+    @Schema(description = "도착 일자", example = "2023-11-09")
     private LocalDate arrivalDate;
 
+    @Schema(description = "수량", example = "100")
     private Long quantity;
 
+    @Schema(description = "단가", example = "50")
     private Long unitPrice;
 
+    @Schema(description = "운송 비용", example = "10289300")
     private Long transportCost;
 
 }
