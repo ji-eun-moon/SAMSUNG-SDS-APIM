@@ -1,8 +1,8 @@
 package com.itda.memberservice.team.service;
 
 
-import com.itda.memberservice.client.useCheck.UseCheckClient;
-import com.itda.memberservice.client.useCheck.dto.CategoryTokenResponse;
+import com.itda.memberservice.client.usecheck.UseCheckClient;
+import com.itda.memberservice.client.usecheck.dto.CategoryTokenResponse;
 import com.itda.memberservice.member.dto.response.TeamMemberResponse;
 import com.itda.memberservice.team.dto.response.TeamListResponse;
 import com.itda.memberservice.team.entity.Team;

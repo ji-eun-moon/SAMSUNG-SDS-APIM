@@ -1,6 +1,6 @@
-package com.itda.memberservice.client.useCheck;
+package com.itda.memberservice.client.usecheck;
 
-import com.itda.memberservice.client.useCheck.dto.CategoryTokenResponse;
+import com.itda.memberservice.client.usecheck.dto.CategoryTokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
