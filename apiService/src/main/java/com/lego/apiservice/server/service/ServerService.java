@@ -13,8 +13,10 @@ import com.lego.apiservice.server.dto.request.ParameterInfo;
 import com.lego.apiservice.server.dto.request.ResponseInfo;
 import com.lego.apiservice.server.entity.Server;
 import com.lego.apiservice.server.repository.ServerRepository;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.tags.Tag;
@@ -129,7 +131,7 @@ public class ServerService {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
             LocalDateTime second = LocalDateTime.now();
             Duration diff = Duration.between(first, second);
             log.info(String.valueOf(diff.toMillis()));
@@ -144,20 +146,23 @@ public class ServerService {
         return status;
     }
 
-    public Map<String, String> postRestTemplate(URI uri, MultiValueMap<String, String> params) {
+    public Map<String, String> postRestTemplate(URI uri, Map<String, String> params) {
         Map<String, String> status = new HashMap<>();
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
-            HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders, params);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            log.info("여기까지 잘 되는가????????????");
+            HttpEntity<?> httpEntity = new HttpEntity<>(params, httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             LocalDateTime first = LocalDateTime.now();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, JSONObject.class);
+            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
             LocalDateTime second = LocalDateTime.now();
             Duration diff = Duration.between(first, second);
             log.info(String.valueOf(diff.toMillis()));
             status.put("diff", String.valueOf(diff.toMillis()));
             status.put("status", responseEntity.getStatusCode().toString());
             status.put("output", responseEntity.getBody().toString());
+            log.info(responseEntity.getBody().toString());
 
 
         } catch (Exception e) {
@@ -195,12 +200,13 @@ public class ServerService {
     public void apiRegister(Paths paths, String endpoint, String itdaEndpoint, Components components) {
 
         paths.forEach((uri, pathItem) -> {
+
             List<String> parameterInfoList = new ArrayList<>();
             MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+            Map<String, String> param = new HashMap<>();
             Map<String, String> status = new HashMap<>();
             ApiMethod apiMethod = null;
             if (pathItem.getGet() != null) {
-                apiMethod = ApiMethod.GET;
                 pathItem.getGet().getParameters().forEach(parameter -> {
                     Map<String, String> parameterInfo = new HashMap<>();
                     parameterInfo.put("name", parameter.getName());
@@ -213,6 +219,7 @@ public class ServerService {
                     queryParams.put(parameter.getName(), Collections.singletonList(String.valueOf(parameter.getExample())));
                 });
                 log.info(uri);
+                log.info(ApiMethod.GET.toString());
                 log.info(parameterInfoList.toString());
 
                 URI uri1 = UriComponentsBuilder
@@ -224,9 +231,9 @@ public class ServerService {
                         .toUri();
 
                 status = getRestTemplate(uri1);
-
-            } else {
-                apiMethod = ApiMethod.POST;
+                apiRegister(status, components, pathItem, parameterInfoList, itdaEndpoint, ApiMethod.GET, uri);
+            }
+            if (pathItem.getPost() != null) {
                 components.getSchemas().get(pathItem.getPost().getRequestBody().getContent().get("application/json").getSchema().get$ref().split("/")[3]).getProperties().forEach((key, value) -> {
                     Map<String, String> parameterInfo = new HashMap<>();
                     Schema schema = (Schema) value;
@@ -236,9 +243,11 @@ public class ServerService {
                     parameterInfo.put("type", schema.getType());
                     parameterInfo.put("required", String.valueOf(true));
 
+
                     parameterInfoList.add(new JSONObject(parameterInfo).toString());
-                    queryParams.put(key.toString(), Collections.singletonList(String.valueOf(schema.getExample())));
+                    param.put(key.toString(), String.valueOf(schema.getExample()));
                 });
+                log.info(param.toString());
                 URI uri1 = UriComponentsBuilder
                         .fromUriString(endpoint)
                         .path(uri)
@@ -246,18 +255,22 @@ public class ServerService {
                         .build()
                         .toUri();
 
-                status = postRestTemplate(uri1, queryParams);
-            }
+                log.info(uri);
+                log.info(ApiMethod.POST.toString());
 
-            ApiStatus apiStatus = null;
-            if (status.get("status").startsWith("2")) {
-                apiStatus = ApiStatus.정상;
-            } else if (status.get("status").startsWith("4")) {
-                apiStatus = ApiStatus.오류;
-            } else {
-                apiStatus = ApiStatus.점검;
+                status = postRestTemplate(uri1, param);
+                apiRegister(status, components, pathItem, parameterInfoList, itdaEndpoint, ApiMethod.POST, uri);
             }
-            List<String> output = new ArrayList<>();
+        });
+    }
+
+    @Transactional
+    public void apiRegister(Map<String, String> status, Components components, PathItem pathItem,
+                            List<String> parameterInfoList, String itdaEndpoint, ApiMethod apiMethod, String uri) {
+        ApiStatus apiStatus = ApiStatus.정상;;
+        List<String> output = new ArrayList<>();
+        Category category = null;
+        if (apiMethod.equals(ApiMethod.GET)) {
             components.getSchemas().get(pathItem.getGet().getResponses().get("200").getContent().get("*/*").getSchema()
                     .get$ref().split("/")[3]).getProperties().forEach((key, value) -> {
                 log.info(key.toString());
@@ -269,7 +282,7 @@ public class ServerService {
                 responseInfo.put("type", schema.getType());
                 output.add(new JSONObject(responseInfo).toString());
             });
-            Category category = categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow();
+            category = categoryRepository.findByName(pathItem.getGet().getTags().get(0)).orElseThrow();
             apiRepository.save(Api.builder()
                     .title(pathItem.getGet().getSummary())
                     .content(pathItem.getGet().getDescription())
@@ -280,12 +293,64 @@ public class ServerService {
                     .apiMethod(apiMethod)
                     .apiStatus(apiStatus)
                     .category(category)
+                    .updatedAt(LocalDateTime.now())
                     .responseTime(status.get("diff"))
                     .build());
+        } else if (apiMethod.equals(ApiMethod.POST)) {
+            if (pathItem.getPost().getResponses().get("200") != null) {
+                components.getSchemas().get(pathItem.getPost().getResponses().get("200").getContent().get("*/*").getSchema()
+                        .get$ref().split("/")[3]).getProperties().forEach((key, value) -> {
+                    log.info(key.toString());
+                    Schema schema = (Schema) value;
+                    Map<String, String> responseInfo = new HashMap<>();
+                    responseInfo.put("name", key.toString());
+                    responseInfo.put("description", schema.getDescription());
+                    responseInfo.put("example", String.valueOf(schema.getExample()));
+                    responseInfo.put("type", schema.getType());
+                    output.add(new JSONObject(responseInfo).toString());
+                });
+            } else if (pathItem.getPost().getResponses().get("201") != null) {
+                Map<String, String> responseInfo = new HashMap<>();
+                responseInfo.put("name", "message");
+                responseInfo.put("description", "응답 메시지");
+                responseInfo.put("example", "CREATED");
+                responseInfo.put("type", "Object");
+                output.add(new JSONObject(responseInfo).toString());
+            } else if (pathItem.getPost().getResponses().get("202") != null) {
+                Map<String, String> responseInfo = new HashMap<>();
+                responseInfo.put("name", "message");
+                responseInfo.put("description", "응답 메시지");
+                responseInfo.put("example", "ACCEPT");
+                responseInfo.put("type", "Object");
+                output.add(new JSONObject(responseInfo).toString());
+            } else if (pathItem.getPost().getResponses().get("204") != null) {
+                Map<String, String> responseInfo = new HashMap<>();
+                responseInfo.put("name", "message");
+                responseInfo.put("description", "응답 메시지");
+                responseInfo.put("example", "NO_CONTENT");
+                responseInfo.put("type", "Object");
+                output.add(new JSONObject(responseInfo).toString());
+            }
+            category = categoryRepository.findByName(pathItem.getPost().getTags().get(0)).orElseThrow();
+            apiRepository.save(Api.builder()
+                    .title(pathItem.getPost().getSummary())
+                    .content(pathItem.getPost().getDescription())
+                    .input(parameterInfoList.toString())
+                    .output(output.toString())
+                    .outputExample(status.get("output"))
+                    .endpoint(itdaEndpoint+uri)
+                    .apiMethod(apiMethod)
+                    .apiStatus(apiStatus)
+                    .category(category)
+                    .updatedAt(LocalDateTime.now())
+                    .responseTime(status.get("diff"))
+                    .build());
+        }
 
-            redisService.setValue(itdaEndpoint.replace("https://k9c201.p.ssafy.io/api", "") + uri,
-                    String.valueOf(category.getId()));
-        });
+
+
+        redisService.setValue(itdaEndpoint.replace("https://k9c201.p.ssafy.io/api", "") + uri,
+                String.valueOf(category.getId()));
     }
 
 }

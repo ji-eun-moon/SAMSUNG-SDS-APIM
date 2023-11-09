@@ -10,10 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -78,7 +75,7 @@ public class ApiBatchService {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             first = LocalDateTime.now();
-            restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+            restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
             api.setApiStatus(ApiStatus.정상);
         } catch (RestClientException e) {
             log.info(e.getMessage().substring(0, 1));
@@ -99,13 +96,13 @@ public class ApiBatchService {
     public void postRestTemplate(Api api) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONArray jsonArray = (JSONArray) parser.parse(api.getInput());
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        Map<String, String> params = new HashMap<>();
 
         jsonArray.forEach(str -> {
             try {
                 JSONObject jsonObject = (JSONObject) parser.parse(String.valueOf(str));
                 log.info(jsonObject.toJSONString());
-                params.put((String) jsonObject.get("name"), Collections.singletonList(jsonObject.get("example").toString()));
+                params.put((String) jsonObject.get("name"), (String) jsonObject.get("example"));
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -121,10 +118,11 @@ public class ApiBatchService {
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set("Authorization", "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91");
-            HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders, params);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<?> httpEntity = new HttpEntity<>(params, httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
             first = LocalDateTime.now();
-            restTemplate.exchange(uri, HttpMethod.POST, httpEntity, JSONObject.class);
+            restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
             api.setApiStatus(ApiStatus.정상);
         } catch (RestClientException e) {
             log.info(e.getMessage().substring(0, 1));
