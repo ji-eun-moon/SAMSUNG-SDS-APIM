@@ -1,8 +1,9 @@
 import React from 'react';
 
 interface ShadowCardProps {
-  type: 'small' | 'big';
+  type: 'small' | 'bordersmall' | 'big';
   children: React.ReactNode;
+  bgcolor: string;
 }
 
 /**
@@ -14,17 +15,20 @@ const shadow = {
   boxShadow: '0px 4px 40px 0px rgba(198, 195, 195, 0.25)',
 };
 
-function ShadowCard({ type, children }: ShadowCardProps) {
-  let classNames = 'bg-white p-4 w-full h-full';
+function ShadowCard({ type, children, bgcolor }: ShadowCardProps) {
+  let classNames = 'bg-white p-2 w-full h-full';
+  const bgColor = bgcolor;
 
   if (type === 'small') {
-    classNames += ' rounded-3xl';
+    classNames += ' rounded-2xl';
+  } else if (type === 'bordersmall') {
+    classNames += ' rounded-2xl border';
   } else if (type === 'big') {
     classNames += ' rounded';
   }
 
   return (
-    <div className={classNames} style={shadow}>
+    <div className={classNames} style={{ ...shadow, backgroundColor: bgColor }}>
       {children}
     </div>
   );
