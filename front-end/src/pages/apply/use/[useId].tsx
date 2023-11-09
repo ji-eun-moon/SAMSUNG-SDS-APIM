@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { IUseDetail } from '@/types/Apply';
 import { getUseApplyDetail } from '@/utils/axios/apply';
-import { putUseApplyAccept, putUseApplyDeny } from '@/utils/axios/admin';
+import { putUseApplyAccept, putUseApplyDeny, postNoticeResult } from '@/utils/axios/admin';
 import ApplySideBar from '@/components/organisms/ApplySideBar';
 import BothLayout from '@/components/templates/BothLayout';
 import GoBack from '@/components/atoms/GoBack';
@@ -15,6 +15,7 @@ import StyledButton from '@/components/atoms/StyledButton';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useUserStore from '@/store/useUserStore';
+import Modal from '@/components/organisms/Modal';
 
 type SSGProps = {
   isUser: boolean;
@@ -29,6 +30,11 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
   const { data: details } = useQuery<IUseDetail>(`useApplyDetail ${useId}`, () => getUseApplyDetail(useId));
   const [action, setAction] = useState('');
   const [content, setContent] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   useEffect(() => {
     if (details && selectedTeam !== details.teamName && userInfo && userInfo.authority !== '관리자') {
@@ -89,11 +95,15 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
     if (action === 'accept') {
       // 승인 처리
       await putUseApplyAccept(useId);
-      // 추가로 수행해야 할 승인 작업이 있다면 여기에 추가하세요.
+      <Modal type="alert" onClose={onModalHandler} alertMessage="사용 신청이 승인되었습니다." />;
+
+      postNoticeResult(details.categoryName, details.teamName, '사용', '승인');
     } else if (action === 'deny') {
       // 거절 처리
       await putUseApplyDeny(useId, content);
-      // 추가로 수행해야 할 거절 작업이 있다면 여기에 추가하세요.
+      <Modal type="alert" onClose={onModalHandler} alertMessage="사용 신청이 거절되었습니다." />;
+
+      postNoticeResult(details.categoryName, details.teamName, '사용', '거절');
     }
     router.push('/admin/useApplyList');
   };

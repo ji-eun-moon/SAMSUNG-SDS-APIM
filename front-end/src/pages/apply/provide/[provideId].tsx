@@ -16,6 +16,7 @@ import { dehydrate } from 'react-query/hydration';
 import { useRouter } from 'next/router';
 import useUserStore from '@/store/useUserStore';
 import { useEffect, useState } from 'react';
+import Modal from '@/components/organisms/Modal';
 
 type SSGProps = {
   isUser: boolean;
@@ -32,6 +33,12 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   );
   const [action, setAction] = useState('');
   const [content, setContent] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [endPoint, setEndPoint] = useState('');
+
+  const onModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   useEffect(() => {
     if (details && selectedTeam !== details.teamName && userInfo && userInfo.authority !== '관리자') {
@@ -96,28 +103,29 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   const handleApproveDeny = (actionProps: string, contentProps: string) => {
     setAction(actionProps);
     setContent(contentProps);
+    setEndPoint(contentProps);
+    console.log('hihi', contentProps);
   };
 
   const onSubmitHandler = async () => {
-    console.log('action', action);
-    console.log('content', content);
     if (action === 'accept') {
       // 승인 처리
-      const response = await putProvideApplyAccept(provideId, details.apiDocs);
-      console.log(response);
+      const response = await putProvideApplyAccept(provideId, endPoint);
       if (response === 'DENY') {
-        alert('테스트 실패로 제공 신청 승인이 거절되었습니다');
+        <Modal type="alert" onClose={onModalHandler} alertMessage="테스트 실패로 제공 신청 승인이 거절되었습니다" />;
+        postNoticeResult(details.serverName, details.teamName, '제공', '테스트 실패');
       } else if (response === 'ACCEPT') {
-        alert('신청 승인이 성공적으로 저장되었습니다');
+        <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 승인되었습니다." />;
+
+        postNoticeResult(details.serverName, details.teamName, '제공', '승인');
       }
-      // 추가로 수행해야 할 승인 작업이 있다면 여기에 추가하세요.
+      console.log('메롱', endPoint);
     } else if (action === 'deny') {
       // 거절 처리
       await putProvideApplyDeny(provideId, content);
-      alert('신청 거절이 성공적으로 저장되었습니다');
-      console.log(details.serverName, details.teamName, '제공', '거절');
+      <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 거절되었습니다." />;
+
       postNoticeResult(details.serverName, details.teamName, '제공', '거절');
-      // 추가로 수행해야 할 거절 작업이 있다면 여기에 추가하세요.
     }
     router.push('/admin/provideApplyList');
   };
