@@ -13,7 +13,7 @@ import GoBack from '@/components/atoms/GoBack';
 import useTestStore from '@/store/useTestStore';
 import { Spinner } from '@nextui-org/react';
 import Editor from '@monaco-editor/react';
-import { isValidJSON, formatJsonToCurl, JsonData } from '@/utils/json';
+import { isValidJSON, formatJsonToCurl, JsonData, safeJsonParse } from '@/utils/json';
 import ApiTestForm from '@/components/organisms/api/ApiTestForm';
 import ApiTestLayout from '@/components/templates/ApiTestLayout';
 import Copy from '@/components/atoms/Copy';
@@ -118,7 +118,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
           {/* 요청 예시 */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <div className="itdaText font-semibold text-base">요청 예시</div>
+              <div className="itdaText font-semibold text-base">Curl</div>
               <Copy
                 copyText={
                   isValidJSON(testRequest as string)
@@ -129,7 +129,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
             </div>
             <Editor
               height="100px"
-              language="linux"
+              language="json"
               value={
                 isValidJSON(testRequest as string)
                   ? formatJsonToCurl(JSON.parse(testRequest as string) as JsonData)
@@ -151,7 +151,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
               <div className="font-bold">{status}</div>
               <div>{loading && <Spinner size="sm" />}</div>
             </div>
-            <Copy copyText={isValidJSON(testResponse) ? JSON.stringify(JSON.parse(testResponse), null, 2) : ''} />
+            <Copy copyText={isValidJSON(testResponse) ? JSON.stringify(safeJsonParse(testResponse), null, 2) : ''} />
           </div>
 
           {/* 응답 결과 */}
@@ -159,7 +159,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
             <Editor
               height="500px"
               language="json"
-              value={isValidJSON(testResponse) ? JSON.stringify(JSON.parse(testResponse), null, 2) : ''}
+              value={isValidJSON(testResponse) ? JSON.stringify(safeJsonParse(testResponse), null, 2) : ''}
               theme="vs-dark"
               options={editorOptions}
             />
