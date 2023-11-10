@@ -41,7 +41,6 @@ public class KafkaConsumer {
             }
 
             if (jsonObject.isEmpty()) {
-                log.info("없어!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 throw new RuntimeException();
             }
 
