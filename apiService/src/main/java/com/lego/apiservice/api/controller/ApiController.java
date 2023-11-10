@@ -35,6 +35,12 @@ public class ApiController {
         return ResponseEntity.ok(apiService.apiDetail(apiId));
     }
 
+    @GetMapping("/detail-name")
+    @Operation(summary = "api 상세 조회 - 이름만")
+    public ResponseEntity<?> apiDetailName(@RequestParam(name = "apiId") Long apiId) {
+        return ResponseEntity.ok(apiService.apiDetailName(apiId));
+    }
+
     @GetMapping("/available")
     @Operation(summary = "api 사용 신청 가능 여부 조회")
     public ResponseEntity<?> apiAvailable(@RequestParam(name = "apiId") Long apiId,

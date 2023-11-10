@@ -101,4 +101,10 @@ public class ElasticUsageController {
             return ResponseEntity.ok(usageService.getResponseCode(teamName, apiId));
         }
     }
+
+    @PostMapping("/data")
+    public ResponseEntity<?> data() {
+        usageService.registerData();
+        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
+    }
 }

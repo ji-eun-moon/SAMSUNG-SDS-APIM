@@ -41,7 +41,7 @@ public class KafkaConsumer {
             elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
                     jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
                     Long.valueOf(jsonObject.get("categoryId").toString()), Long.valueOf(jsonObject.get("ResponseTime").toString()),
-                    Integer.valueOf(jsonObject.get("ResponseCode").toString())));
+                    Integer.valueOf(jsonObject.get("ResponseCode").toString()), jsonObject.get("remoteAddr").toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }

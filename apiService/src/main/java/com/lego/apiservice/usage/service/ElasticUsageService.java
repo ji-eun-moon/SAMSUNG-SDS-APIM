@@ -1,6 +1,8 @@
 package com.lego.apiservice.usage.service;
 
 import com.lego.apiservice.api.entity.domain.Api;
+import com.lego.apiservice.api.entity.domain.ApiMethod;
+import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.usage.entity.domain.ElasticUsage;
 import com.lego.apiservice.usage.entity.domain.Usage;
@@ -22,10 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +34,6 @@ public class ElasticUsageService {
 
     private final ElasticUsageRepository elasticUsageRepository;
     private final ApiRepository apiRepository;
-    private final AutoIncreaseService autoIncreaseService;
 
     @Transactional
     public void register(CreateUsageRequest createUsageRequest) {
@@ -47,8 +45,40 @@ public class ElasticUsageService {
                 .categoryId(createUsageRequest.getCategoryId())
                 .responseTime(createUsageRequest.getResponseTime())
                 .responseCode(createUsageRequest.getResponseCode())
+                .remoteAddr(createUsageRequest.getRemoteAddr())
                 .build();
         elasticUsageRepository.save(usage);
+    }
+
+    @Transactional
+    public void registerData() {
+        Random random = new Random();
+        List<Api> apis = apiRepository.findAll();
+        apis.forEach(api -> {
+            LocalDateTime dateTime = LocalDateTime.of(2023, 6, 1, 0, 0, 0,0);
+            while (dateTime.isBefore(LocalDateTime.now().plusHours(8))) {
+                int k = random.nextInt(20);
+                int code = 200;
+                if (api.getApiMethod().equals(ApiMethod.POST)) {
+                    code = 201;
+                }
+                if (k == 5) {
+                    code = 400;
+                } else if (k == 6) {
+                    code = 404;
+                } else if (k == 7) {
+                    code = 500;
+                }
+
+                CreateUsageRequest createUsageRequest = new CreateUsageRequest(dateTime, api.getApiMethod(),
+                        api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        "3팀", api.getCategory().getId(), random.nextLong(200)+50, code, "");
+
+                register(createUsageRequest);
+                dateTime = dateTime.plusMinutes(random.nextLong(100) + 1);
+            }
+        });
+
     }
 
     public List<ElasticUsageResponse> findAll() {

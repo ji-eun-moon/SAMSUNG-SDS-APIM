@@ -2,10 +2,7 @@ package com.lego.apiservice.api.service;
 
 import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiStatus;
-import com.lego.apiservice.api.entity.dto.response.ApiDetailResponse;
-import com.lego.apiservice.api.entity.dto.response.ApiSearchResponse;
-import com.lego.apiservice.api.entity.dto.response.ApiStatusResponse;
-import com.lego.apiservice.api.entity.dto.response.ApiTestResponse;
+import com.lego.apiservice.api.entity.dto.response.*;
 import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.repository.CategoryRepository;
 import com.lego.apiservice.useCheck.repository.UseCheckRepository;
@@ -32,6 +29,11 @@ public class ApiService {
     public ApiDetailResponse apiDetail(Long apiId) {
         Api api = apiRepository.findById(apiId).orElseThrow();
         return new ApiDetailResponse(api);
+    }
+
+    public ApiDetailNameResponse apiDetailName(Long apiId) {
+        Api api = apiRepository.findById(apiId).orElseThrow();
+        return new ApiDetailNameResponse(api);
     }
 
     public boolean apiAvailable(Long apiId, String teamName) {
