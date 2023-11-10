@@ -9,6 +9,7 @@ function DropDown({ type, ...props }: DropDownProps) {
 
   if (type === 'url') {
     const { trigger, list } = props as UrlProps;
+
     return (
       <Dropdown>
         <DropdownTrigger>{trigger}</DropdownTrigger>
@@ -18,6 +19,9 @@ function DropDown({ type, ...props }: DropDownProps) {
               {item.title}
             </DropdownItem>
           ))}
+          {/* <DropdownItem key="delete" className="text-danger" color="danger">
+            Delete file
+          </DropdownItem> */}
         </DropdownMenu>
       </Dropdown>
     );
