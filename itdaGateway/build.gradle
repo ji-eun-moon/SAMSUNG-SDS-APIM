@@ -52,6 +52,8 @@ dependencies {
 
     // 프로메테우스
     implementation 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+    implementation("com.github.loki4j:loki-logback-appender:1.4.2")
 
     // simple-json
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'

@@ -48,8 +48,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             long startTime = System.currentTimeMillis();
 
             String header = exchange.getRequest().getHeaders().getFirst("Authorization");
-            log.info("서버 인증 필터");
-            log.info("token : " + header);
+
             log.info(config.getPrefix() + exchange.getRequest().getPath());
 
             if (!StringUtils.hasText(header)) {
@@ -60,14 +59,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
 
             if (header.equals("E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91")) {
                 return chain.filter(exchange.mutate().build()).then(Mono.fromRunnable(() -> {
-                    long responseTime = System.currentTimeMillis() - startTime;
-                    log.info("서버 접속 성공");
 
-                    log.info("ResponseCode " + exchange.getResponse().getStatusCode().value());
-                    log.info("ResponseTime " + responseTime);
-                    log.info("CreatedAt " + LocalDateTime.now());
-                    log.info("endpoint" + config.getPrefix() + exchange.getRequest().getPath());
-                    log.info("endpoint" + exchange.getRequest().getMethod());
                 }));
             }
 
@@ -107,13 +99,13 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             return chain.filter(exchange.mutate().build()).then(Mono.fromRunnable(() -> {
                 long responseTime = System.currentTimeMillis() - startTime;
                 log.info("서버 접속 성공");
-                log.info("ResponseCode " + exchange.getResponse().getStatusCode().value());
-                log.info("ResponseTime " + responseTime);
-                log.info("CreatedAt " + LocalDateTime.now());
-                log.info("endpoint " + config.getPrefix() + exchange.getRequest().getPath());
-                log.info("method " + exchange.getRequest().getMethod());
-                log.info("categoryId " + finalCategorySeq);
-                log.info("teamName " + finalTeamName);
+//                log.info("ResponseCode " + exchange.getResponse().getStatusCode().value());
+//                log.info("ResponseTime " + responseTime);
+//                log.info("CreatedAt " + LocalDateTime.now());
+//                log.info("endpoint " + config.getPrefix() + exchange.getRequest().getPath());
+//                log.info("method " + exchange.getRequest().getMethod());
+//                log.info("categoryId " + finalCategorySeq);
+//                log.info("teamName " + finalTeamName);
                 Map<String, String> map = new HashMap<>();
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
                 map.put("method", exchange.getRequest().getMethod().toString());

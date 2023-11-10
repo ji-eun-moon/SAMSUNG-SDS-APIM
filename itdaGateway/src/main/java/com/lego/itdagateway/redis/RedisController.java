@@ -3,6 +3,7 @@ package com.lego.itdagateway.redis;
 import com.lego.itdagateway.global.config.AES128Config;
 import com.lego.itdagateway.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/redis")
+@Slf4j
 public class RedisController {
 
     private final RedisService redisService;
@@ -38,4 +40,11 @@ public class RedisController {
     public ResponseEntity<?> decode(@RequestParam(name = "key") String key) throws BusinessLogicException {
         return ResponseEntity.ok(aes128Config.decrypt(key));
     }
+
+    @GetMapping("")
+    public ResponseEntity<?> error() {
+        log.error("에러 테스트 입니다.");
+        return ResponseEntity.ok("error");
+    }
+
 }
