@@ -38,10 +38,17 @@ public class KafkaConsumer {
             } else {
                 apiMethod = ApiMethod.POST;
             }
-            elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
-                    jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
-                    Long.valueOf(jsonObject.get("categoryId").toString()), Long.valueOf(jsonObject.get("ResponseTime").toString()),
-                    Integer.valueOf(jsonObject.get("ResponseCode").toString()), jsonObject.get("remoteAddr").toString()));
+            if (jsonObject.get("categoryId") != null) {
+                elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
+                        jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
+                        Long.valueOf(jsonObject.get("categoryId").toString()), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
+                        Integer.valueOf(jsonObject.get("ResponseCode").toString()), jsonObject.get("remoteAddr").toString()));
+            } else {
+                elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
+                        jsonObject.get("endpoint").toString(), null, null, Long.valueOf(jsonObject.get("ResponseTime").toString()) + 3,
+                        Integer.valueOf(jsonObject.get("ResponseCode").toString()), jsonObject.get("remoteAddr").toString()));
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
