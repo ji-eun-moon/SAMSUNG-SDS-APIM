@@ -2,8 +2,10 @@ import { useState } from 'react';
 import useUsageData from '@/hooks/useUsageData';
 import { usageData } from '@/utils/chartData';
 import LineChart from '@/components/chart/LineChart';
-import SelectBox from '@/components/atoms/SelectBox';
+import ChartFrame from '@/components/atoms/ChartFrame';
 import { Spinner } from '@nextui-org/react';
+import CustomSelect from '@/components/atoms/CustomSelect';
+import Refresh from '@/components/atoms/Refresh';
 
 interface Props {
   apiId: number;
@@ -17,7 +19,18 @@ enum ChartType {
 }
 
 function Usage({ apiId, teamName }: Props) {
-  const { monthlyData, isMonthlyLoading, dailyData, isDailyLoading, hourlyData, isHourlyLoading } = useUsageData({
+  const [selected, setSelected] = useState('월별');
+  const {
+    monthlyData,
+    isMonthlyLoading,
+    dailyData,
+    isDailyLoading,
+    hourlyData,
+    isHourlyLoading,
+    refetchMonthly,
+    refetchDaily,
+    refetchHourly,
+  } = useUsageData({
     apiId,
     teamName,
   });
@@ -25,9 +38,11 @@ function Usage({ apiId, teamName }: Props) {
 
   if (isMonthlyLoading || isDailyLoading || isHourlyLoading || !monthlyData || !dailyData || !hourlyData) {
     return (
-      <div className="flex items-center justify-center" style={{ height: '200px' }}>
-        <Spinner />
-      </div>
+      <ChartFrame>
+        <div className="flex items-center justify-center" style={{ height: '200px' }}>
+          <Spinner />
+        </div>
+      </ChartFrame>
     );
   }
 
@@ -55,8 +70,9 @@ function Usage({ apiId, teamName }: Props) {
       chartTitle = '월별 사용량';
   }
 
-  const handleSelectChange = (selected: string) => {
-    switch (selected) {
+  const handleSelectChange = (value: string) => {
+    setSelected(value);
+    switch (value) {
       case '월별':
         handleChartChange(ChartType.Monthly);
         break;
@@ -71,21 +87,43 @@ function Usage({ apiId, teamName }: Props) {
     }
   };
 
+  const refreshData = () => {
+    switch (selectedChart) {
+      case ChartType.Monthly:
+        refetchMonthly();
+        break;
+      case ChartType.Daily:
+        refetchDaily();
+        break;
+      case ChartType.Hourly:
+        refetchHourly();
+        break;
+      default:
+        refetchMonthly();
+    }
+  };
+
   return (
     <div>
-      <div className="flex items-center justify-end px-20 mt-2">
-        <div className="w-28">
-          <SelectBox list={['월별', '일별', '시간별']} defaultSelect="월별" onChange={handleSelectChange} />
+      <div className="flex items-center justify-between mb-1">
+        <div>사용량</div>
+        <div className="flex gap-2">
+          <div className="w-28">
+            <CustomSelect items={['월별', '일별', '시간별']} value={selected} onChange={handleSelectChange} />
+          </div>
+          <Refresh onClick={refreshData} />
         </div>
       </div>
-      <LineChart
-        type="Usage"
-        title={chartTitle}
-        isSmooth={false}
-        chartDataName={chartData.xValues}
-        chartDataValue={chartData.yValues}
-        chartColor="#FEAEAE"
-      />
+      <ChartFrame>
+        <LineChart
+          type="Usage"
+          title={chartTitle}
+          isSmooth={false}
+          chartDataName={chartData.xValues}
+          chartDataValue={chartData.yValues}
+          chartColor="#FEAEAE"
+        />
+      </ChartFrame>
     </div>
   );
 }

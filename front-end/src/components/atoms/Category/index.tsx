@@ -2,8 +2,15 @@ import { CategoryProps } from '@/types/props/CategoryProps';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import useApiStore from '@/store/useApiStore';
 
 function Category({ categoryName, categoryId, apiList, isOpen, my, type }: CategoryProps) {
+  const { selectApi, selectedApi } = useApiStore((state) => state);
+
+  const handleSelectApi = (name: string, id: number) => {
+    selectApi(name, id);
+  };
+
   const router = useRouter();
   const currentPath = router.asPath;
   const defaultKeys = isOpen ? [`${categoryId}`] : [];
@@ -60,26 +67,18 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             ))}
           </ul>
         ) : (
+          // 차트 API 리스트
           <ul>
             {apiList.map((item) => (
-              <Link
-                key={item.apiId}
-                href={{
-                  pathname: `/statistics/${item.apiId}`,
-                  query: {
-                    apiName: `${item.apiName}`,
-                  },
-                }}
-                as={`/statistics/${item.apiId}`}
-              >
+              <div key={item.apiId} aria-hidden onClick={() => handleSelectApi(item.apiName, item.apiId)}>
                 <div
                   className={`my-2 itdaText cursor-pointer text-sm ${
-                    currentPath === `/statistics/${item.apiId}` ? 'font-semibold' : ''
+                    selectedApi.id === item.apiId ? 'font-semibold' : ''
                   }`}
                 >
                   {item.apiName}
                 </div>
-              </Link>
+              </div>
             ))}
           </ul>
         )}

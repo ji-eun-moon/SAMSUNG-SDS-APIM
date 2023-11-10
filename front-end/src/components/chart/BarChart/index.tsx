@@ -10,6 +10,12 @@ function BarChart({ title, chartDataValue, chartDataName, barColors }: BarChartP
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
       const options: echarts.EChartOption = {
+        grid: {
+          top: '10%',
+          right: '10%',
+          bottom: '10%',
+          left: '10%',
+        },
         title: {
           text: title,
           left: 'center',
@@ -28,6 +34,7 @@ function BarChart({ title, chartDataValue, chartDataName, barColors }: BarChartP
           {
             data: chartDataValue,
             type: 'bar',
+            barWidth: '20%',
             itemStyle: {
               color(params: echarts.EChartOption.Tooltip.Format) {
                 if (typeof params.dataIndex === 'number') {
@@ -48,7 +55,7 @@ function BarChart({ title, chartDataValue, chartDataName, barColors }: BarChartP
     }
   }, [title, chartDataValue, chartDataName, barColors]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '350px' }} />;
+  return <div ref={chartRef} style={{ width: '100%', height: '250px' }} />;
 }
 
 export default BarChart;

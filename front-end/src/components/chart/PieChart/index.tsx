@@ -19,17 +19,23 @@ function PieChart({ title, chartData }: PieChartProps) {
         },
         legend: {
           orient: 'vertical',
-          right: 20,
+          right: 5,
           top: 'middle',
+          itemGap: 0,
         },
         series: [
           {
             type: 'pie',
-            radius: '50%',
+            radius: ['0%', '80%'],
+            center: ['50%', '50%'],
             data: chartData,
             label: {
               show: true,
               formatter: '{d}%',
+            },
+            labelLine: {
+              length: 5,
+              length2: 5,
             },
             emphasis: {
               itemStyle: {
@@ -48,7 +54,7 @@ function PieChart({ title, chartData }: PieChartProps) {
     }
   }, [chartData, title]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '350px' }} />;
+  return <div ref={chartRef} style={{ width: '100%', height: '250px' }} />;
 }
 
 export default PieChart;

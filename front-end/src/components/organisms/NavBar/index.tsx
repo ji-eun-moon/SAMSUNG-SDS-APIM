@@ -64,9 +64,14 @@ function NavBar({ position }: NavBarProps) {
     return (
       <div className={styles.navSideBody}>
         {alertOpen && <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={() => setAlertOpen(false)} />}
-        <button type="button" onClick={() => router.push('/')}>
+
+        {router.pathname === '/' ? (
           <LogoWithName />
-        </button>
+        ) : (
+          <Link href="/">
+            <LogoWithName />
+          </Link>
+        )}
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">
@@ -156,9 +161,13 @@ function NavBar({ position }: NavBarProps) {
   if (position === 'top') {
     return (
       <div className={styles.navTopBody}>
-        <Link href="/">
+        {router.pathname === '/' ? (
           <LogoWithName />
-        </Link>
+        ) : (
+          <Link href="/">
+            <LogoWithName />
+          </Link>
+        )}
         <div className="flex items-center">
           {searchOpen ? (
             <div className="flex items-center">

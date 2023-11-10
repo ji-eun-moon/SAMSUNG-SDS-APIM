@@ -21,6 +21,7 @@ function ApiDescription({ type, categoryId, content, ...props }: DescriptionProp
   const mutation = useMutation('submitUseApply', submitUseApply, {
     onSuccess: () => {
       setIsModalOpen(false);
+      setTextWord('');
       setIsAlertOpen(true);
     },
   });
