@@ -33,22 +33,22 @@ public class Transfer {
     @Schema(description = "운송 수단", example = "비행기")
     private String transportation;
 
-    @Schema(description = "물품", example = "전자 제품")
+    @Schema(description = "물품", example = "가공 식품")
     private String product;
 
-    @Schema(description = "출발 일자", example = "2023-11-09")
+    @Schema(description = "출발 일자", example = "2023-03-17")
     private LocalDate departureDate;
 
-    @Schema(description = "도착 일자", example = "2023-11-09")
+    @Schema(description = "도착 일자", example = "2023-03-18")
     private LocalDate arrivalDate;
 
-    @Schema(description = "수량", example = "100")
+    @Schema(description = "수량", example = "91")
     private Long quantity;
 
-    @Schema(description = "단가", example = "50")
+    @Schema(description = "단가", example = "27407")
     private Long unitPrice;
 
-    @Schema(description = "운송 비용", example = "10289300")
+    @Schema(description = "운송 비용", example = "2494037")
     private Long transportCost;
 
 }
