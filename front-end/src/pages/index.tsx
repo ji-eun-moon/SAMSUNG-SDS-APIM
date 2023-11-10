@@ -111,7 +111,7 @@ const Home: NextPage = () => {
           </div>
           <div className={`${style.pageContainer2}`}>
             {userInfo.authority === '관리자' ? (
-              <div>no..</div>
+              <div>관리자용 데이터</div>
             ) : (
               <div className={`${style.summaryContainer}`}>
                 <ApplySummary type="사용" bodyContent={bodyProvide()} />
