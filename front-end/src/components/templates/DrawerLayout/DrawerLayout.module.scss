@@ -1,0 +1,22 @@
+.bottomPage {
+  background-color: #fbfbfb;
+  width: 100%;
+  height: 100%;
+  margin-top: 65px;
+  position: fixed;
+}
+
+.pageContainer {
+  transition: transform 0.2s ease-in-out;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-top: 30px;
+  margin-bottom: 45px;
+  min-height: 45px;
+  padding-bottom: 52px;
+}
+
+.shifted {
+  transform: translateX(100px);
+  transition: transform 0.2s ease-in-out;
+}
