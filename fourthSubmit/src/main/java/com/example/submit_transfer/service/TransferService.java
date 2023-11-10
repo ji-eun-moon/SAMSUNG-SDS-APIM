@@ -18,18 +18,20 @@ public class TransferService {
 
     public void register(TransferRegisterReq req) {
 
-        transferRepository.save(Transfer.builder()
-                        .wayBillNumber(req.getWayBillNumber())
-                        .departureLocation(req.getDepartureLocation())
-                        .destinationLocation(req.getDestinationLocation())
-                        .transportation(req.getTransportation())
-                        .product(req.getProduct())
-                        .departureDate(req.getDepartureDate())
-                        .arrivalDate(req.getArrivalDate())
-                        .quantity(req.getQuantity())
-                        .unitPrice(req.getUnitPrice())
-                        .transportCost(req.getTransportCost())
+        Transfer save = transferRepository.save(Transfer.builder()
+                .wayBillNumber(req.getWayBillNumber())
+                .departureLocation(req.getDepartureLocation())
+                .destinationLocation(req.getDestinationLocation())
+                .transportation(req.getTransportation())
+                .product(req.getProduct())
+                .departureDate(req.getDepartureDate())
+                .arrivalDate(req.getArrivalDate())
+                .quantity(req.getQuantity())
+                .unitPrice(req.getUnitPrice())
+                .transportCost(req.getTransportCost())
                 .build());
+
+        transferRepository.delete(save);
 
     }
 

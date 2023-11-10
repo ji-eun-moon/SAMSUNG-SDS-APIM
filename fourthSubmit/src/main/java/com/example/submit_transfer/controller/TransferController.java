@@ -1,6 +1,6 @@
 package com.example.submit_transfer.controller;
 
-import com.example.submit_transfer.dto.request.TransferRegisterReq;
+import com.example.submit_transfer.dto.request.*;
 import com.example.submit_transfer.dto.response.TransferArriveSearchRes;
 import com.example.submit_transfer.service.TransferService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ public class TransferController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<HttpStatus> register(@RequestBody TransferRegisterReq req) {
+    public ResponseEntity<?> register(@RequestBody TransferRegisterReq req) {
 
         transferService.register(req);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(HttpStatus.ACCEPTED);
@@ -50,9 +50,9 @@ public class TransferController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<TransferArriveSearchRes>> arriveSearch(@RequestParam("destination") String destination) {
+    public ResponseEntity<?> arriveSearch(@RequestParam("arriveLocation") TransferArriveSearchReq req) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.arriveSearch(destination));
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.arriveSearch(req.getArriveLocation()));
 
     }
 
@@ -66,9 +66,9 @@ public class TransferController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<TransferArriveSearchRes>> departureSearch(@RequestParam("departure") String departure) {
+    public ResponseEntity<?> departureSearch(@RequestParam("departureLocation") TransferDepartureSearchReq req) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.departureSearch(departure));
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.departureSearch(req.getDepartureLocation()));
 
     }
 
@@ -82,9 +82,9 @@ public class TransferController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<TransferArriveSearchRes>> productSearch(@RequestParam("product") String product) {
+    public ResponseEntity<?> productSearch(@RequestParam("product") TransferProductReq req) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.productSearch(product));
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.productSearch(req.getProduct()));
 
     }
 
@@ -98,9 +98,9 @@ public class TransferController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<TransferArriveSearchRes>> wayBillSearch(@RequestParam("way_bill") String wayBill) {
+    public ResponseEntity<?> wayBillSearch(@RequestParam("wayBill") TransferWayBillSearchReq req) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.wayBillSearch(wayBill));
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.wayBillSearch(req.getWayBill()));
 
     }
 
@@ -114,9 +114,9 @@ public class TransferController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<TransferArriveSearchRes>> departureDateSearch(@RequestParam("arrive-date") LocalDate departureDate) {
+    public ResponseEntity<?> departureDateSearch(@RequestParam("arriveDate") TransferArriveDateSearchReq req) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.departureDateSearch(departureDate));
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.departureDateSearch(req.getArriveDate()));
 
     }
 
