@@ -22,33 +22,33 @@
         </rollingPolicy>
     </appender>
 
-<!--    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">-->
-<!--        <http>-->
-<!--            <url>http://k9c201.p.ssafy.io:3100/loki/api/v1/push</url>-->
-<!--        </http>-->
-<!--        <format>-->
-<!--            <label>-->
-<!--                <pattern>app=gateway,host=8000,traceID=%X{traceId:-NONE},level=%level</pattern>-->
-<!--            </label>-->
-<!--            <message>-->
-<!--                <pattern>-->
-<!--                    {-->
-<!--                    "level":"%level",-->
-<!--                    "class":"%logger{36}",-->
-<!--                    "thread":"%thread",-->
-<!--                    "message": "%message",-->
-<!--                    "requestId": "%X{X-Request-ID}"-->
-<!--                    }-->
-<!--                </pattern>-->
-<!--            </message>-->
-<!--            <sortByTime>true</sortByTime>-->
-<!--        </format>-->
-<!--    </appender>-->
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http>
+            <url>http://k9c201.p.ssafy.io:3100/loki/api/v1/push</url>
+        </http>
+        <format>
+            <label>
+                <pattern>app=gateway,host=8000,traceID=%X{traceId:-NONE},level=%level</pattern>
+            </label>
+            <message>
+                <pattern>
+                    {
+                    "level":"%level",
+                    "class":"%logger{36}",
+                    "thread":"%thread",
+                    "message": "%message",
+                    "requestId": "%X{X-Request-ID}"
+                    }
+                </pattern>
+            </message>
+            <sortByTime>true</sortByTime>
+        </format>
+    </appender>
 
     <!-- 최상위 로거 설정 -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-<!--        <appender-ref ref="LOKI" />-->
+        <appender-ref ref="LOKI" />
     </root>
     <logger name="org.springframework.web" level="error">
         <appender-ref ref="FILE"/>

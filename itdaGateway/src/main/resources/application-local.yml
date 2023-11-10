@@ -12,3 +12,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     register-with-eureka: true
     fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpExchanges, busRefresh, prometheus, metrics

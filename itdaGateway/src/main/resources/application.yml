@@ -15,8 +15,8 @@ spring:
 
   cloud:
     gateway:
-#      default-filters:
-#        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
 #        - name: GlobalFilter
 #          args:
 #            baseMessage: Spring Cloud Gateway Global Filter
@@ -91,16 +91,7 @@ spring:
     username: guest
     password: guest
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh, health, beans, httpExchanges, busRefresh, prometheus, metrics, logfile
-  server:
-    port: 8000
-  endpoint:
-    logfile:
-      external-file: ./logs/my.log
+
 
 security:
   jwt:
