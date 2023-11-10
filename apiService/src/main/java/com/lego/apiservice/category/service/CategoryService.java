@@ -4,6 +4,7 @@ import com.lego.apiservice.api.entity.dto.response.CategoryApiResponse;
 import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.entity.domain.Category;
 import com.lego.apiservice.category.entity.dto.response.CategoryListResponse;
+import com.lego.apiservice.category.entity.dto.response.CategoryName;
 import com.lego.apiservice.category.repository.CategoryRepository;
 import com.lego.apiservice.useCheck.entity.domain.UseCheck;
 import com.lego.apiservice.useCheck.repository.UseCheckRepository;
@@ -69,5 +70,9 @@ public class CategoryService {
 
     public List<CategoryApiResponse> apiToCategory(Category category) {
         return apiRepository.findAllByCategory(category).stream().map(CategoryApiResponse::new).collect(Collectors.toList());
+    }
+
+    public CategoryName categoryName(Long categoryId) {
+        return new CategoryName(categoryRepository.findById(categoryId).orElseThrow());
     }
 }

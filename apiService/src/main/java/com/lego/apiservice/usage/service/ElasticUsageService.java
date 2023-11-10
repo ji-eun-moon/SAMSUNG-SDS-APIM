@@ -2,27 +2,21 @@ package com.lego.apiservice.usage.service;
 
 import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
-import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.repostiory.ApiRepository;
+import com.lego.apiservice.category.repository.CategoryRepository;
 import com.lego.apiservice.usage.entity.domain.ElasticUsage;
-import com.lego.apiservice.usage.entity.domain.Usage;
 import com.lego.apiservice.usage.entity.dto.request.CreateUsageRequest;
 import com.lego.apiservice.usage.entity.dto.response.ElasticUsageResponse;
-import com.lego.apiservice.usage.entity.dto.response.UsageResponse;
 import com.lego.apiservice.usage.entity.dto.statistics.*;
-import com.lego.apiservice.usage.increase.service.AutoIncreaseService;
 import com.lego.apiservice.usage.repository.ElasticUsageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +28,7 @@ public class ElasticUsageService {
 
     private final ElasticUsageRepository elasticUsageRepository;
     private final ApiRepository apiRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public void register(CreateUsageRequest createUsageRequest) {
@@ -91,6 +86,123 @@ public class ElasticUsageService {
     public void deleteAll() {
         elasticUsageRepository.deleteAll();
     }
+
+    public List<MonthCategoryResponse> getMonthCategory(Long categoryId, Integer monthCount) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<MonthCategoryResponse> monthCategories = new ArrayList<>();
+        for (int i = 0; i < monthCount; i++) {
+            YearMonth yearMonth = YearMonth.from(LocalDate.now().minusMonths(monthCount - 1 - i));
+            List<ApiCount> apiCounts = new ArrayList<>();
+            apis.forEach(api -> {
+                int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        yearMonth.atDay(1).atTime(0, 0, 0), yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0)).size();
+
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+            monthCategories.add(new MonthCategoryResponse(yearMonth, apiCounts));
+        }
+
+        return monthCategories;
+    }
+
+    public List<MonthCategoryResponse> getMonthCategory(Long categoryId, Integer monthCount, String teamName) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<MonthCategoryResponse> monthCategories = new ArrayList<>();
+        for (int i = 0; i < monthCount; i++) {
+            YearMonth yearMonth = YearMonth.from(LocalDate.now().minusMonths(monthCount - 1 - i));
+            List<ApiCount> apiCounts = new ArrayList<>();
+            apis.forEach(api -> {
+                int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        yearMonth.atDay(1).atTime(0, 0, 0), yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0)).size();
+
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+            monthCategories.add(new MonthCategoryResponse(yearMonth, apiCounts));
+        }
+
+        return monthCategories;
+    }
+
+    public List<DailyCategoryResponse> getDailyCategory(Long categoryId) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<DailyCategoryResponse> dailyCategoryResponses = new ArrayList<>();
+        for (int i = 0; i < 31; i++) {
+            LocalDate date = LocalDate.now().minusDays(29 - i);
+            List<ApiCount> apiCounts = new ArrayList<>();
+            apis.forEach(api -> {
+                int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        date.atTime(0, 0, 0), date.plusDays(1).atTime(0, 0, 0)).size();
+
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+
+            dailyCategoryResponses.add(new DailyCategoryResponse(date, apiCounts));
+        }
+
+        return dailyCategoryResponses;
+    }
+
+    public List<DailyCategoryResponse> getDailyCategory(Long categoryId, String teamName) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<DailyCategoryResponse> dailyCategoryResponses = new ArrayList<>();
+        for (int i = 0; i < 31; i++) {
+            LocalDate date = LocalDate.now().minusDays(29 - i);
+            List<ApiCount> apiCounts = new ArrayList<>();
+            apis.forEach(api -> {
+                int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        date.atTime(0, 0, 0), date.plusDays(1).atTime(0, 0, 0)).size();
+
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+
+            dailyCategoryResponses.add(new DailyCategoryResponse(date, apiCounts));
+        }
+
+        return dailyCategoryResponses;
+    }
+
+
+    public List<HourlyCategoryResponse> getHourlyCategory(Long categoryId) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<HourlyCategoryResponse> hourlyCategoryResponses = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            LocalDateTime date = LocalDateTime.now().minusHours(23 - i);
+            List<ApiCount> apiCounts = new ArrayList<>();
+            apis.forEach(api -> {
+                int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        date.toLocalDate().atTime(date.getHour(), 0, 0),
+                        date.toLocalDate().atTime(date.getHour(), 0, 0).plusHours(1)).size();
+
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+
+            hourlyCategoryResponses.add(new HourlyCategoryResponse(date, apiCounts));
+        }
+
+        return hourlyCategoryResponses;
+    }
+
+    public List<HourlyCategoryResponse> getHourlyCategory(Long categoryId, String teamName) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<HourlyCategoryResponse> hourlyCategoryResponses = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            LocalDateTime date = LocalDateTime.now().minusHours(23 - i);
+            List<ApiCount> apiCounts = new ArrayList<>();
+            apis.forEach(api -> {
+                int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName,
+                        api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                        date.toLocalDate().atTime(date.getHour(), 0, 0),
+                        date.toLocalDate().atTime(date.getHour(), 0, 0).plusHours(1)).size();
+
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+
+            hourlyCategoryResponses.add(new HourlyCategoryResponse(date, apiCounts));
+        }
+
+        return hourlyCategoryResponses;
+    }
+
 
     public List<MonthlyResponse> getMonthly(Long apiId) {
         Api api = apiRepository.findById(apiId).orElseThrow();

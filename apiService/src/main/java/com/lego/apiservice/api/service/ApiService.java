@@ -68,4 +68,11 @@ public class ApiService {
         return apiRepository.findAllByApiStatusAndTitleContainingIgnoreCaseOrderByUpdatedAtDesc(apiStatus, apiName, pageable).map(ApiStatusResponse::new);
     }
 
+    public ApiStatusCountResponse apiStatusCountResponse() {
+        Integer success = apiRepository.findAllByApiStatus(ApiStatus.정상).size();
+        Integer warning = apiRepository.findAllByApiStatus(ApiStatus.점검).size();
+        Integer error = apiRepository.findAllByApiStatus(ApiStatus.오류).size();
+
+        return new ApiStatusCountResponse(success, warning, error);
+    }
 }

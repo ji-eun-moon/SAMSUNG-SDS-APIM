@@ -58,6 +58,50 @@ public class ElasticUsageController {
         }
     }
 
+    @GetMapping("/monthly-category/one")
+    @Operation(summary = "카테고리 월별 조회 - 한달 동안의 카테고리 총 사용량")
+    public ResponseEntity<?> getOneMonthCategory(@RequestParam(name = "categoryId") Long categoryId,
+                                        @RequestParam(name = "teamName", required = false) String teamName) {
+        if (teamName == null) {
+            return ResponseEntity.ok(usageService.getMonthCategory(categoryId, 1));
+        } else {
+            return ResponseEntity.ok(usageService.getMonthCategory(categoryId, 1, teamName));
+        }
+    }
+
+    @GetMapping("/monthly-category")
+    @Operation(summary = "카테고리 월별 조회 - 6개월 동안의 카테고리 총 사용량")
+    public ResponseEntity<?> getMonthlyCategory(@RequestParam(name = "categoryId") Long categoryId,
+                                          @RequestParam(name = "teamName", required = false) String teamName) {
+        if (teamName == null) {
+            return ResponseEntity.ok(usageService.getMonthCategory(categoryId, 6));
+        } else {
+            return ResponseEntity.ok(usageService.getMonthCategory(categoryId, 6, teamName));
+        }
+    }
+
+    @GetMapping("/daily-category")
+    @Operation(summary = "카테고리 일별 조회 - 31일 동안의 카테고리 총 사용량")
+    public ResponseEntity<?> getDailyCategory(@RequestParam(name = "categoryId") Long categoryId,
+                                                @RequestParam(name = "teamName", required = false) String teamName) {
+        if (teamName == null) {
+            return ResponseEntity.ok(usageService.getDailyCategory(categoryId));
+        } else {
+            return ResponseEntity.ok(usageService.getDailyCategory(categoryId, teamName));
+        }
+    }
+
+    @GetMapping("/hourly-category")
+    @Operation(summary = "카테고리 시간별 조회 - 24시간 동안의 카테고리 총 사용량")
+    public ResponseEntity<?> getHourlyCategory(@RequestParam(name = "categoryId") Long categoryId,
+                                                @RequestParam(name = "teamName", required = false) String teamName) {
+        if (teamName == null) {
+            return ResponseEntity.ok(usageService.getHourlyCategory(categoryId));
+        } else {
+            return ResponseEntity.ok(usageService.getHourlyCategory(categoryId, teamName));
+        }
+    }
+
     @GetMapping("/daily")
     @Operation(summary = "일별 조회 - 최근 31일")
     public ResponseEntity<?> getDaily(@RequestParam(name = "apiId") Long apiId,

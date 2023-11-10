@@ -6,11 +6,18 @@ import com.lego.apiservice.category.entity.domain.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ApiRepository extends JpaRepository<Api, Long> {
     List<Api> findAllByCategory(Category category);
+
+    @Query("select a " +
+            "from Api a " +
+            "where a.category.id=:categoryId")
+    List<Api> findAllByCategoryId(@Param("categoryId") Long categoryId);
 
     List<Api> findAllByTitleContainingIgnoreCase(String title);
 
@@ -22,4 +29,5 @@ public interface ApiRepository extends JpaRepository<Api, Long> {
 
     Page<Api> findAllByApiStatusAndTitleContainingIgnoreCaseOrderByUpdatedAtDesc(ApiStatus apiStatus, String title, Pageable pageable);
 
+    List<Api> findAllByApiStatus(ApiStatus apiStatus);
 }

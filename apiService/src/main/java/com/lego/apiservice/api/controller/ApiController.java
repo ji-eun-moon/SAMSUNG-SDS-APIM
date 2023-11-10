@@ -78,10 +78,16 @@ public class ApiController {
         }
         return ResponseEntity.ok(apiService.apiStatusAll(status, apiName, pageable));
     }
+    @GetMapping("/status-count")
+    @Operation(summary = "상태 개수", description = "상태별 개수를 나타냅니다")
+    public ResponseEntity<?> statusCount() {
+        return ResponseEntity.ok(apiService.apiStatusCountResponse());
+    }
 
     @GetMapping("/batch")
     public ResponseEntity<?> test() {
         apiBatchService.apiHealthCheck();
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
 }

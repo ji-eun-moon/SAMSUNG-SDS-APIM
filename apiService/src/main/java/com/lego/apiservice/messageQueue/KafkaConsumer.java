@@ -1,8 +1,5 @@
 package com.lego.apiservice.messageQueue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import com.lego.apiservice.usage.entity.dto.request.CreateUsageRequest;
 import com.lego.apiservice.usage.service.ElasticUsageService;
@@ -11,13 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -44,7 +38,7 @@ public class KafkaConsumer {
                 throw new RuntimeException();
             }
 
-            if (jsonObject.get("categoryId") != null || jsonObject.get("teamName") != null) {
+            if (jsonObject.get("categoryId") != null && jsonObject.get("teamName") != null) {
                 elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
                         jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
                         Long.valueOf(jsonObject.get("categoryId").toString()), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
