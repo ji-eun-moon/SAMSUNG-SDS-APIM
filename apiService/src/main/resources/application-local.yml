@@ -13,4 +13,4 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
 
-topic: usage-register-topic-local
+kafka-topic: usage-register-topic-local

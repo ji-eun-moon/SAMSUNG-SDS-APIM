@@ -27,7 +27,7 @@ public class KafkaConsumer {
     // 레포지 토리 연결
     private final ElasticUsageService elasticUsageService;
 
-    @KafkaListener(topics = "${topic}")
+    @KafkaListener(topics = "${kafka-topic}")
     public void usageRegisterQty(String kafkaMessage) {
         JSONParser parser = new JSONParser();
 
@@ -39,7 +39,13 @@ public class KafkaConsumer {
             } else {
                 apiMethod = ApiMethod.POST;
             }
-            if (jsonObject.get("categoryId") != null) {
+
+            if (jsonObject.isEmpty()) {
+                log.info("없어!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                throw new RuntimeException();
+            }
+
+            if (jsonObject.get("categoryId") != null || jsonObject.get("teamName") != null) {
                 elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
                         jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
                         Long.valueOf(jsonObject.get("categoryId").toString()), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
