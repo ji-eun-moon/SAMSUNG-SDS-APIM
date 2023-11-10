@@ -41,7 +41,7 @@ public class MemberService {
     private final JavaMailSender javaMailSender;
     @Value("${security.jwt.secret.key}")
     private String secretKey;
-    private Random random;
+    private final Random random = new Random();
 
     public Member register(CreateMemberRequest request) throws MessagingException {
 
@@ -147,7 +147,6 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public void sendEmailPassword(String email, String password) throws MessagingException {
-
         String title = "[ITDA] 임시 비밀번호 안내";
 
         MimeMessage message = javaMailSender.createMimeMessage();
