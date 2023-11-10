@@ -9,7 +9,7 @@ import CountBadge from '@/components/atoms/CountBadge';
 import SelectBox from '@/components/atoms/SelectBox';
 import NoticeDropDown from '@/components/atoms/NoticeDropDown';
 import DropDown from '@/components/atoms/DropDown';
-import LogoWithName from '@/components/atoms/LogoWithName';
+// import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
 import Link from 'next/link';
@@ -65,7 +65,7 @@ function NavBar({ position }: NavBarProps) {
       <div className={styles.navSideBody}>
         {alertOpen && <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={() => setAlertOpen(false)} />}
         <button type="button" onClick={() => router.push('/')}>
-          <LogoWithName />
+          <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
         </button>
 
         {/* 프로필 이미지 */}
@@ -157,7 +157,7 @@ function NavBar({ position }: NavBarProps) {
     return (
       <div className={styles.navTopBody}>
         <Link href="/">
-          <LogoWithName />
+          <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
         </Link>
         <div className="flex items-center">
           {searchOpen ? (
