@@ -161,19 +161,13 @@ function NavBar({ position }: NavBarProps) {
   if (position === 'top') {
     return (
       <div className={styles.navTopBody}>
-<<<<<<< front-end/src/components/organisms/NavBar/index.tsx
         {router.pathname === '/' ? (
-          <LogoWithName />
+          <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
         ) : (
           <Link href="/">
-            <LogoWithName />
+            <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
           </Link>
         )}
-=======
-        <Link href="/">
-          <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-        </Link>
->>>>>>> front-end/src/components/organisms/NavBar/index.tsx
         <div className="flex items-center">
           {searchOpen ? (
             <div className="flex items-center">
