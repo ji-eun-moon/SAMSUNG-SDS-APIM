@@ -261,7 +261,7 @@ function NavBar({ position }: NavBarProps) {
                 </Button>
               }
               list={
-                userInfo.authority === '관리자'
+                userInfo?.authority === '관리자'
                   ? getAdminDropDownList({ categoryId: firstCategory, apiId: firstApi })
                   : getUserDropDownList({ categoryId: firstCategory, apiId: firstApi })
               }

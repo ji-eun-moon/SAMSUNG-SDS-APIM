@@ -4,6 +4,10 @@
   margin-top: 10px;
   margin-bottom: 10px;
   min-height: 88vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .pageContainer {
@@ -207,7 +211,7 @@
 .monitoring {
   transition: transform 0.3s ease;
   &:hover {
-    transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+    transform: scale(1.05); /* 호버 상태에서 크기를 확대 */
     cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
   }
 }

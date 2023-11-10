@@ -57,20 +57,20 @@ const Home: NextPage = () => {
   if (!responseProvide) {
     return null;
   }
-  const useLists = responseUse.content;
+  // const useLists = responseUse.content;
   const provideLists = responseProvide.content;
 
-  const bodyUse = () =>
-    useLists.map((item) => (
-      <div key={item.useApplyId} className={`${style.secondContent}`}>
-        <div className={`${style.secondInContent}`}>
-          <span>{item?.categoryName}</span>
-          <span>{item?.state}</span>
-          <span>|</span>
-          <span>{formatDate(item?.createdAt)}</span>
-        </div>
-      </div>
-    ));
+  // const bodyUse = () =>
+  //   useLists.map((item) => (
+  //     <div key={item.useApplyId} className={`${style.secondContent}`}>
+  //       <div className={`${style.secondInContent}`}>
+  //         <span>{item?.categoryName}</span>
+  //         <span>{item?.state}</span>
+  //         <span>|</span>
+  //         <span>{formatDate(item?.createdAt)}</span>
+  //       </div>
+  //     </div>
+  //   ));
 
   const bodyProvide = () =>
     provideLists.map((item) => (
@@ -111,10 +111,11 @@ const Home: NextPage = () => {
           </div>
           <div className={`${style.pageContainer2}`}>
             {userInfo.authority === '관리자' ? (
-              <div>no..</div>
+              <div>관리자용 데이터</div>
             ) : (
               <div className={`${style.summaryContainer}`}>
-                <ApplySummary type="사용" bodyContent={bodyUse()} />
+                {/* <ApplySummary type="사용" bodyContent={bodyUse()} /> */}
+                <ApplySummary type="사용" bodyContent={bodyProvide()} />
                 <ApplySummary type="제공" bodyContent={bodyProvide()} />
               </div>
             )}
@@ -130,7 +131,7 @@ const Home: NextPage = () => {
                   justifyContent: 'center',
                 }}
               >
-                <Link href="/monitoring" target="_blank">
+                <Link href="/monitoring/server" target="_blank">
                   <div className={style.imgContainer}>
                     <Image
                       src="/images/computer.png"
