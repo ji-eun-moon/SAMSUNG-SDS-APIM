@@ -9,8 +9,4 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 class SecondSubmitApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
-
 }

@@ -43,4 +43,16 @@ public class ProductService {
         return productRepository.productSearch(product);
 
     }
+
+    public List<ProductRes> alreadyEndSearch(LocalDateTime date) {
+
+        return productRepository.alreadyEndSearch(date);
+
+    }
+
+    public List<ProductRes> yetStartSearch(LocalDateTime date) {
+
+        return productRepository.yetStartSearch(date);
+
+    }
 }

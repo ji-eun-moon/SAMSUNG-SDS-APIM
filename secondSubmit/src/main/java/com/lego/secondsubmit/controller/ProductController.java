@@ -3,6 +3,8 @@ package com.lego.secondsubmit.controller;
 import com.lego.secondsubmit.dto.response.ProductRes;
 import com.lego.secondsubmit.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +26,9 @@ public class ProductController {
     @GetMapping("/all")
     @Operation(summary = "전체 상품 조회", description = "전체 상품에 대해 조회 기능 API입니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Accept"),
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
@@ -37,6 +41,14 @@ public class ProductController {
 
     @GetMapping("/line-search")
     @Operation(summary = "라인 검색", description = "해당 라인에 대한 모든 상품 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     public ResponseEntity<List<ProductRes>> lineSearch(@RequestParam("line") Long line) {
 
         return ResponseEntity.ok().body(productService.lineSearch(line));
@@ -45,14 +57,62 @@ public class ProductController {
 
     @GetMapping("/dynamic-search")
     @Operation(summary = "동작 중인 상품 검색", description = "현재 동작 중인 상품 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     public ResponseEntity<List<ProductRes>> dynamicSearch(@RequestParam("productionStartTime")LocalDateTime productionStartTime, @RequestParam("productionEndTime") LocalDateTime productionEndTime) {
 
         return ResponseEntity.ok().body(productService.dynamicSearch(productionStartTime, productionEndTime));
 
     }
 
+    @GetMapping("/already-end-search")
+    @Operation(summary = "동작이 종료된 상품 조회", description = "현재 동작이 종료된 상품 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<List<ProductRes>> alreadyEndSearch(@RequestParam("date") LocalDateTime date) {
+
+        return ResponseEntity.ok().body(productService.alreadyEndSearch(date));
+
+    }
+
+    @GetMapping("/yet-start-search")
+    @Operation(summary = "동작이 실행 전인 상품 조회", description = "현재 동작이 실행 전인 상품 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<List<ProductRes>> yetStartSearch(@RequestParam("date") LocalDateTime date) {
+
+        return ResponseEntity.ok().body(productService.yetStartSearch(date));
+
+    }
+
     @GetMapping("/status-search")
     @Operation(summary = "동작 상태로 검색", description = "현재 검색한 상태중인 상품들 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     public ResponseEntity<List<ProductRes>> statusSearch(@RequestParam("status") String status) {
 
         return ResponseEntity.ok().body(productService.statusSearch(status));
@@ -61,6 +121,14 @@ public class ProductController {
 
     @GetMapping("/product-search")
     @Operation(summary = "제품 검색", description = "검색명이 포함된 제품들으 조회ㅜ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "조회 완료", content = @Content(schema = @Schema(
+                    implementation = ProductRes.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     public ResponseEntity<List<ProductRes>> productSearch(@RequestParam("product") String product) {
 
         return ResponseEntity.ok().body(productService.productSearch(product));

@@ -35,4 +35,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "FROM Product p " +
             "WHERE p.productName LIKE %:product%")
     List<ProductRes> productSearch(String product);
+
+    @Query("SELECT new com.lego.secondsubmit.dto.response.ProductRes(p.line, p.status, p.productName, p.productionQuantity, p.defectQuantity, p.productionStartTime, p.productionEndTime) " +
+            "FROM Product p " +
+            "WHERE p.productionEndTime <= :date")
+    List<ProductRes> alreadyEndSearch(LocalDateTime date);
+
+    @Query("SELECT new com.lego.secondsubmit.dto.response.ProductRes(p.line, p.status, p.productName, p.productionQuantity, p.defectQuantity, p.productionStartTime, p.productionEndTime) " +
+            "FROM Product p " +
+            "WHERE p.productionStartTime <= :date")
+    List<ProductRes> yetStartSearch(LocalDateTime date);
 }
