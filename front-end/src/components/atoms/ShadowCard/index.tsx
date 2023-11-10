@@ -1,9 +1,12 @@
+// ShadowCard 컴포넌트 코드
 import React from 'react';
+import style from './ShadowCard.module.scss';
 
 interface ShadowCardProps {
-  type: 'small' | 'bordersmall' | 'big';
+  type: 'small' | 'bordersmall' | 'big' | 'button' | 'monitoring';
   children: React.ReactNode;
   bgcolor?: string;
+  border?: string;
 }
 
 /**
@@ -15,7 +18,7 @@ const shadow = {
   boxShadow: '0px 4px 40px 0px rgba(198, 195, 195, 0.25)',
 };
 
-function ShadowCard({ type, children, bgcolor }: ShadowCardProps) {
+function ShadowCard({ type, children, bgcolor, border }: ShadowCardProps) {
   let classNames = 'bg-white p-2 w-full h-full';
 
   if (type === 'small') {
@@ -24,6 +27,22 @@ function ShadowCard({ type, children, bgcolor }: ShadowCardProps) {
     classNames += ' rounded-2xl border';
   } else if (type === 'big') {
     classNames += ' rounded';
+  } else if (type === 'button') {
+    classNames += ` rounded-2xl border-2 ${style.hover}`;
+
+    return (
+      <div className={classNames} style={{ ...shadow }}>
+        {children}
+      </div>
+    );
+  } else if (type === 'monitoring') {
+    classNames += ` rounded-2xl ${style.hover2}`;
+
+    return (
+      <div className={classNames} style={{ ...shadow, border }}>
+        {children}
+      </div>
+    );
   }
 
   return (
@@ -35,6 +54,7 @@ function ShadowCard({ type, children, bgcolor }: ShadowCardProps) {
 
 ShadowCard.defaultProps = {
   bgcolor: '#ffffff',
+  border: 'none',
 };
 
 export default ShadowCard;

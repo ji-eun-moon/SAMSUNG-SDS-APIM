@@ -1,0 +1,84 @@
+.shortcut {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.showGraph3 {
+  width: 100%;
+  display: grid;
+  // grid-template-columns: 84% 15%;
+  gap: 10px;
+}
+.showGraph2 {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 34% 33% 15% 15%;
+
+  gap: 10px;
+}
+
+.showGraph {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.errorLog {
+  height: 100%;
+}
+
+.monitoring {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 49% 2% 49%;
+}
+
+.servermonitoring {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 45% 55%;
+  justify-content: center;
+  align-items: center;
+  // border-bottom: 1px solid #dddddd;
+  // padding: 5px;
+  transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+
+  &:hover {
+    color: $samsung-logo;
+    cursor: pointer;
+    transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+  }
+}
+
+.usagemonitoring {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 45% 55%;
+  justify-content: center;
+  align-items: center;
+  // padding: 5px;
+  transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+
+  &:hover {
+    color: $samsung-logo;
+    cursor: pointer;
+    transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+  }
+}
+
+.img {
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 15px;
+}
