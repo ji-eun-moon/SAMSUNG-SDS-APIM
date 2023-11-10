@@ -19,4 +19,4 @@ management:
       exposure:
         include: refresh, health, beans, httpExchanges, busRefresh, prometheus, metrics
 
-topic: usage-register-topic-local
+kafka-topic: usage-register-topic-local

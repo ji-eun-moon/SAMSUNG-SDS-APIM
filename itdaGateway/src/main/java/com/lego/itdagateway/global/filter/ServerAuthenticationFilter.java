@@ -33,7 +33,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
     AES128Config aes128Config;
     KafkaProducer kafkaProducer;
 
-    @Value("${topic}")
+    @Value("${kafka-topic}")
     private String topic;
 
     public ServerAuthenticationFilter(Environment env, RedisService redisService, AES128Config aes128Config,

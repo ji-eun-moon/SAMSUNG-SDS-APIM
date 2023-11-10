@@ -24,4 +24,4 @@ management:
     logfile:
       external-file: ./logs/my.log
 
-topic: usage-register-topic-dev
+kafka-topic: usage-register-topic-dev
