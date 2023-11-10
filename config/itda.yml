@@ -80,3 +80,13 @@ spring:
             - name: ServerAuthenticationFilter
               args:
                 prefix: /employee
+
+        - id: fourth-submit
+          uri: lb://FOURTH-SUBMIT-SERVICE
+          predicates:
+            - Path=/transfer/**
+          filters:
+            - RewritePath=/transfer/(?<segment>.*), /${segment}
+            - name: ServerAuthenticationFilter
+              args:
+                prefix: /transfer
