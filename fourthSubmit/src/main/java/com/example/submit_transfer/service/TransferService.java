@@ -7,6 +7,7 @@ import com.example.submit_transfer.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -41,6 +42,24 @@ public class TransferService {
     public List<TransferArriveSearchRes> departureSearch(String departure) {
 
         return transferRepository.departureSearch(departure);
+
+    }
+
+    public List<TransferArriveSearchRes> productSearch(String product) {
+
+        return transferRepository.productSearch(product);
+
+    }
+
+    public List<TransferArriveSearchRes> wayBillSearch(String wayBill) {
+
+        return transferRepository.wayBillSearch(wayBill);
+
+    }
+
+    public List<TransferArriveSearchRes> departureDateSearch(LocalDate departureDate) {
+
+        return transferRepository.departureDateSearch(departureDate);
 
     }
 }
