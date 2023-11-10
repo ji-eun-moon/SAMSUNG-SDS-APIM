@@ -15,7 +15,11 @@ function BorderCard({ children, onClick }: BorderCardProps) {
   }
 
   return (
-    <button type="button" className={`p-3 flex flex-col rounded w-full ${cardClasses.join(' ')}`} onClick={onClick}>
+    <button
+      type="button"
+      className={`p-3 flex flex-col rounded w-full bg-white ${cardClasses.join(' ')}`}
+      onClick={onClick}
+    >
       <div className="w-full">{children}</div>
     </button>
   );
