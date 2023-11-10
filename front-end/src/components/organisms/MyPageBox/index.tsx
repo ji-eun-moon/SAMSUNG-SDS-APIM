@@ -10,15 +10,23 @@ interface MyPageBoxProps {
 
 function MyPageBox({ userInfo }: MyPageBoxProps) {
   return (
-    <div className="mt-8 ml-8">
+    <div className="mt-8">
       <ShadowCard type="big">
-        <div className="flex flex-col px-8 py-4 gap-3 w-full">
+        <div className="flex flex-col px-8 py-4 w-full">
           <Tabs aria-label="Options">
-            <Tab key="photos" title="개인정보 확인">
-              <UserInfo userInfo={userInfo} />
+            <Tab key="info" title="개인정보 확인">
+              <div className="flex justify-center items-center" style={{ minHeight: '60vh' }}>
+                <div className="w-full h-full pt-8 flex justify-center">
+                  <UserInfo userInfo={userInfo} />
+                </div>
+              </div>
             </Tab>
-            <Tab key="photos" title="비밀번호 변경">
-              <ChangePassword />
+            <Tab key="password" title="비밀번호 변경">
+              <div className="flex justify-center items-center" style={{ minHeight: '60vh' }}>
+                <div className="w-3/5 h-full flex justify-center">
+                  <ChangePassword />
+                </div>
+              </div>
             </Tab>
           </Tabs>
         </div>
