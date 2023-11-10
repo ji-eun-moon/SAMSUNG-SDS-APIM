@@ -17,6 +17,7 @@ const ServerMonitoring: NextPage = () => {
     ProcessOpenFiles: 'panelId=66',
     ResponseCount: 'panelId=4',
     ResponseTime: 'panelId=2',
+    ErrorLogsDetail: 'panelId=1',
   };
 
   return (
