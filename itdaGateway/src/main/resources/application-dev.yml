@@ -23,3 +23,5 @@ management:
   endpoint:
     logfile:
       external-file: ./logs/my.log
+
+topic: usage-register-topic-dev

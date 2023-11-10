@@ -32,6 +32,10 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
     RedisService redisService;
     AES128Config aes128Config;
     KafkaProducer kafkaProducer;
+
+    @Value("${topic}")
+    private String topic;
+
     public ServerAuthenticationFilter(Environment env, RedisService redisService, AES128Config aes128Config,
                                       KafkaProducer kafkaProducer) {
         super(Config.class);
@@ -60,7 +64,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", "401");
                 map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
-                kafkaProducer.send("usage-register-topic-local", map);
+                kafkaProducer.send("topic", map);
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
@@ -88,7 +92,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     map.put("ResponseCode", "401");
                     map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
 
-                    kafkaProducer.send("usage-register-topic-local", map);
+                    kafkaProducer.send("topic", map);
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }
@@ -104,7 +108,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     map.put("ResponseCode", "401");
                     map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
 
-                    kafkaProducer.send("usage-register-topic-local", map);
+                    kafkaProducer.send("topic", map);
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }
@@ -124,7 +128,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("ResponseCode", "401");
                 map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
 
-                kafkaProducer.send("usage-register-topic-local", map);
+                kafkaProducer.send("topic", map);
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
