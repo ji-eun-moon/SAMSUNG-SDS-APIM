@@ -34,7 +34,7 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   const [action, setAction] = useState('');
   const [content, setContent] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [endPoint, setEndPoint] = useState('');
+  // const [endPoint, setEndPoint] = useState('');
 
   const onModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -100,31 +100,36 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
-  const handleApproveDeny = (actionProps: string, contentProps: string) => {
-    setAction(actionProps);
-    setContent(contentProps);
-    setEndPoint(contentProps);
-    console.log('hihi', contentProps);
+  const handleApproveDeny = async (actionProps: string, contentProps: string) => {
+    await setAction(actionProps);
+    await setContent(contentProps);
   };
 
   const onSubmitHandler = async () => {
+    onModalHandler();
     if (action === 'accept') {
       // 승인 처리
-      const response = await putProvideApplyAccept(provideId, endPoint);
+      const response = await putProvideApplyAccept(provideId, content);
+      // onModalHandler()
       if (response === 'DENY') {
-        <Modal type="alert" onClose={onModalHandler} alertMessage="테스트 실패로 제공 신청 승인이 거절되었습니다" />;
+        if (isModalOpen) {
+          <Modal type="alert" onClose={onModalHandler} alertMessage="테스트 실패로 제공 신청 승인이 거절되었습니다" />;
+        }
+
         postNoticeResult(details.serverName, details.teamName, '제공', '테스트 실패');
       } else if (response === 'ACCEPT') {
-        <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 승인되었습니다." />;
+        if (isModalOpen) {
+          <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 승인되었습니다." />;
+        }
 
         postNoticeResult(details.serverName, details.teamName, '제공', '승인');
       }
-      console.log('메롱', endPoint);
     } else if (action === 'deny') {
       // 거절 처리
       await putProvideApplyDeny(provideId, content);
-      <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 거절되었습니다." />;
-
+      if (isModalOpen) {
+        <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 거절되었습니다." />;
+      }
       postNoticeResult(details.serverName, details.teamName, '제공', '거절');
     }
     router.push('/admin/provideApplyList');
@@ -200,6 +205,7 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
           </div>
           <div className={`${style.table}`}>
             <RowTable
+              type="제공"
               title="신청 정보"
               headerContent={headerContentT}
               bodyContent={bodyContentT}
@@ -209,6 +215,7 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
           <div className={`${style.table}`}>
             {userInfo?.authority === '관리자' ? (
               <RowTable
+                type="제공"
                 title="API 관리"
                 headerContent={headerContentB}
                 bodyContent={bodyContentB}
@@ -216,6 +223,7 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
               />
             ) : (
               <RowTable
+                type="제공"
                 title="신청 상태"
                 headerContent={headerContentB}
                 bodyContent={bodyContentB}
@@ -232,7 +240,10 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
                 radius="sm"
                 variant="solid"
                 type="button"
-                onClick={() => onSubmitHandler()}
+                onClick={async () => {
+                  await onModalHandler();
+                  onSubmitHandler();
+                }}
               />
             </div>
           </div>

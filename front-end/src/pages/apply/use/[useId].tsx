@@ -178,6 +178,7 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
           </div>
           <div className={`${style.table}`}>
             <RowTable
+              type="사용"
               title="신청 정보"
               headerContent={headerContentT}
               bodyContent={bodyContentT}
@@ -187,6 +188,7 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
           <div className={`${style.table}`}>
             {userInfo?.authority === '관리자' ? (
               <RowTable
+                type="사용"
                 title="API 관리"
                 headerContent={headerContentB}
                 bodyContent={bodyContentB}
@@ -194,6 +196,7 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
               />
             ) : (
               <RowTable
+                type="사용"
                 title="신청 상태"
                 headerContent={headerContentB}
                 bodyContent={bodyContentB}

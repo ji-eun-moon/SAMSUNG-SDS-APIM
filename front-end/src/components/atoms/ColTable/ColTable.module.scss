@@ -2,18 +2,16 @@
   width: 100%;
 
   text-align: center;
-  // margin: 0px auto;
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.16);
 }
 
 .header {
   height: 48px;
 
-  color: white;
+  color: $samsung-logo;
   font-size: 16px;
   font-weight: 600;
 
-  background-color: $itda-blue;
+  background-color: $itda-background;
 }
 
 .body {
@@ -23,6 +21,6 @@
   font-size: 13px;
   font-weight: 400;
 
-  border-bottom: 1px solid #9a9a9a;
+  // border-bottom: 1px solid #f7f7f7;
   cursor: pointer;
 }
