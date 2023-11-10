@@ -48,12 +48,20 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             long startTime = System.currentTimeMillis();
 
             String header = exchange.getRequest().getHeaders().getFirst("Authorization");
-
             log.info(config.getPrefix() + exchange.getRequest().getPath());
 
             if (!StringUtils.hasText(header)) {
-                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 log.info("토큰이 없습니다.");
+                long responseTime = System.currentTimeMillis() - startTime;
+                Map<String, String> map = new HashMap<>();
+                map.put("createdAt", String.valueOf(LocalDateTime.now()));
+                map.put("method", exchange.getRequest().getMethod().toString());
+                map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                map.put("ResponseTime", String.valueOf(responseTime));
+                map.put("ResponseCode", "401");
+                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                kafkaProducer.send("usage-register-topic-local", map);
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
 
@@ -70,15 +78,33 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 decode = aes128Config.decrypt(header);
                 String[] info =  decode.split("&");
                 if (info.length != 2) {
-                    log.info(decode);
-                    log.info(String.valueOf(info.length));
                     log.info("잘못된 길이의 토큰입니다.");
+                    long responseTime = System.currentTimeMillis() - startTime;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("createdAt", String.valueOf(LocalDateTime.now()));
+                    map.put("method", exchange.getRequest().getMethod().toString());
+                    map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                    map.put("ResponseTime", String.valueOf(responseTime));
+                    map.put("ResponseCode", "401");
+                    map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+
+                    kafkaProducer.send("usage-register-topic-local", map);
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }
                 String categoryId = redisService.getValue(config.getPrefix() + exchange.getRequest().getPath());
                 if (!info[0].replace("category", "").equals(categoryId)) {
                     log.info("잘못된 카테고리 토큰입니다.");
+                    long responseTime = System.currentTimeMillis() - startTime;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("createdAt", String.valueOf(LocalDateTime.now()));
+                    map.put("method", exchange.getRequest().getMethod().toString());
+                    map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                    map.put("ResponseTime", String.valueOf(responseTime));
+                    map.put("ResponseCode", "401");
+                    map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+
+                    kafkaProducer.send("usage-register-topic-local", map);
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }
@@ -89,6 +115,16 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
 
             } catch (BusinessLogicException e) {
                 log.info("잘못된 형식의 토큰입니다.");
+                long responseTime = System.currentTimeMillis() - startTime;
+                Map<String, String> map = new HashMap<>();
+                map.put("createdAt", String.valueOf(LocalDateTime.now()));
+                map.put("method", exchange.getRequest().getMethod().toString());
+                map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                map.put("ResponseTime", String.valueOf(responseTime));
+                map.put("ResponseCode", "401");
+                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+
+                kafkaProducer.send("usage-register-topic-local", map);
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
@@ -97,7 +133,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             String finalTeamName = teamName;
             Long finalCategorySeq = categorySeq;
             return chain.filter(exchange.mutate().build()).then(Mono.fromRunnable(() -> {
-                long responseTime = System.currentTimeMillis() - startTime;
+
                 log.info("서버 접속 성공");
 //                log.info("ResponseCode " + exchange.getResponse().getStatusCode().value());
 //                log.info("ResponseTime " + responseTime);
@@ -105,7 +141,9 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
 //                log.info("endpoint " + config.getPrefix() + exchange.getRequest().getPath());
 //                log.info("method " + exchange.getRequest().getMethod());
 //                log.info("categoryId " + finalCategorySeq);
-//                log.info("teamName " + finalTeamName);
+//                log.info("remoteAddr " + exchange.getRequest().getLocalAddress());
+//                log.info("remoteAddr " + exchange.getRequest().getRemoteAddress());
+                long responseTime = System.currentTimeMillis() - startTime;
                 Map<String, String> map = new HashMap<>();
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
                 map.put("method", exchange.getRequest().getMethod().toString());
@@ -114,6 +152,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("categoryId", String.valueOf(finalCategorySeq));
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", String.valueOf(exchange.getResponse().getStatusCode().value()));
+                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
 
                 kafkaProducer.send("usage-register-topic-local", map);
             }));

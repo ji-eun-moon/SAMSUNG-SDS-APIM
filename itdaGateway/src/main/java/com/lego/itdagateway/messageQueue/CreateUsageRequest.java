@@ -18,5 +18,6 @@ public class CreateUsageRequest {
     private Long categoryId;
     private Long responseTime;
     private Integer responseCode;
+    private String remoteAddr;
 
 }
