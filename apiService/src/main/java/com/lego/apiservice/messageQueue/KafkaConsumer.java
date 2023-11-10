@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class KafkaConsumer {
     // 레포지 토리 연결
     private final ElasticUsageService elasticUsageService;
 
-    @KafkaListener(topics = "usage-register-topic-local")
+    @KafkaListener(topics = "${topic}")
     public void usageRegisterQty(String kafkaMessage) {
         JSONParser parser = new JSONParser();
 
