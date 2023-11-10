@@ -57,6 +57,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
   const [serverName, setServerName] = useState('');
   const [serverDescription, setServerDescription] = useState('');
   const [endPoint, setEndPoint] = useState('');
+  const [target, setTarget] = useState('http');
 
   const onModalOpenHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -64,14 +65,15 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
 
   const { selectedTeam } = useUserStore();
   const onSubmitHandler = async () => {
-    await postProvideApply(selectedTeam, serverName, serverDescription, endPoint);
+    await postProvideApply(selectedTeam, serverName, serverDescription, `${target}://${endPoint}`);
     onModalOpenHandler();
     window.location.href = '/apply/provide/list';
   };
 
-  // const onTargetHandler = () => {
-  //   set
-  // }
+  const onTargetHandler = (e: string) => {
+    console.log('e', e);
+    setTarget(e);
+  };
   return (
     <SideBarBody>
       <div className="my-5 text-xl font-bold mx-2">신청 내역</div>
@@ -87,7 +89,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
             <SideBarMenu title="제공 신청 내역" conditionList={provideCondition} />
           </div>
         )}
-        {isUser && (
+        {isUser && userInfo?.authority !== '관리자' && (
           <StyledButton
             variant="solid"
             radius="full"
@@ -97,49 +99,58 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
           />
         )}
         {isModalOpen && ( // 모달이 열려있을 때만 렌더링
-          <Modal
-            type="custom"
-            title="서버 제공 신청"
-            onClose={onModalOpenHandler}
-            buttonLabel="신청하기"
-            onButton={onSubmitHandler}
-          >
-            <div className={`${style.moduleContainer}`}>
-              <div>
-                <div className={`${style.inputTitle}`}>서버 이름</div>
-                <Input
-                  backgroundColor="#ffffff"
-                  isPassword={false}
-                  inputWord={serverName}
-                  placeholder="서버 이름"
-                  onChange={setServerName}
-                />
-              </div>
-              <div>
-                <div className={`${style.inputTitle}`}>서버 설명</div>
-                <TextArea
-                  width="w-full"
-                  backgroundColor="#ffffff"
-                  textAreaWord={serverDescription}
-                  placeholder="서버 설명"
-                  onChange={setServerDescription}
-                />
-              </div>
-              <div>
-                <div className={`${style.inputTitle}`}>타겟 서버</div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <SelectBox list={['http', 'https']} width="w-32" onChange={() => {}} defaultSelect="http" />
+          <div className={`${style.modalContainer}`}>
+            <Modal
+              type="custom"
+              title="서버 제공 신청"
+              onClose={onModalOpenHandler}
+              buttonLabel="신청하기"
+              onButton={onSubmitHandler}
+            >
+              <div className={`${style.moduleContainer}`}>
+                <div>
+                  <div className={`${style.inputTitle}`}>서버 이름</div>
                   <Input
                     backgroundColor="#ffffff"
                     isPassword={false}
-                    inputWord={endPoint}
-                    placeholder="타겟 서버"
-                    onChange={setEndPoint}
+                    inputWord={serverName}
+                    placeholder="서버 이름"
+                    onChange={setServerName}
                   />
                 </div>
+                <div>
+                  <div className={`${style.inputTitle}`}>서버 설명</div>
+                  <TextArea
+                    width="w-full"
+                    backgroundColor="#ffffff"
+                    textAreaWord={serverDescription}
+                    placeholder="서버 설명"
+                    onChange={setServerDescription}
+                  />
+                </div>
+                <div>
+                  <div className={`${style.inputTitle}`}>타겟 서버</div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <SelectBox
+                      list={['http', 'https']}
+                      width="w-32"
+                      onChange={(e) => {
+                        onTargetHandler(e);
+                      }}
+                      defaultSelect="http"
+                    />
+                    <Input
+                      backgroundColor="#ffffff"
+                      isPassword={false}
+                      inputWord={endPoint}
+                      placeholder="타겟 서버"
+                      onChange={setEndPoint}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </Modal>
+            </Modal>
+          </div>
         )}
       </div>
     </SideBarBody>

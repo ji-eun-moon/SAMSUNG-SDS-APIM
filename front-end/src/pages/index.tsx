@@ -91,58 +91,60 @@ const Home: NextPage = () => {
   return (
     <main>
       <TopLayout>
-        <div className={`${style.pageContainer}`}>
-          <div className={`${style.topLeft}`}>
-            {/* 관리자 - 실시간 로그 / 일반 - API 신청 내역 */}
-            {userInfo.authority === '관리자' ? (
-              <RealTimeLog />
-            ) : (
-              <ShadowCard type="bordersmall" bgcolor="#ffffff">
-                {/* API 상태 */}
-                <StatusSummary statusList={apiStatus.content} />
-              </ShadowCard>
-            )}
+        <div className={`${style.mainPageContainer}`}>
+          <div className={`${style.pageContainer}`}>
+            <div className={`${style.topLeft}`}>
+              {/* 관리자 - 실시간 로그 / 일반 - API 신청 내역 */}
+              {userInfo.authority === '관리자' ? (
+                <RealTimeLog />
+              ) : (
+                <ShadowCard type="bordersmall" bgcolor="#ffffff">
+                  {/* API 상태 */}
+                  <StatusSummary statusList={apiStatus.content} />
+                </ShadowCard>
+              )}
+            </div>
+            <ShadowCard type="small" bgcolor="#282d56">
+              {/* 바로가기 탭 */}
+              <ShortCuts />
+            </ShadowCard>
           </div>
-          <ShadowCard type="small" bgcolor="#282d56">
-            {/* 바로가기 탭 */}
-            <ShortCuts />
-          </ShadowCard>
-        </div>
-        <div className={`${style.pageContainer2}`}>
-          {userInfo.authority === '관리자' ? (
-            <div>no..</div>
-          ) : (
-            <div className={`${style.summaryContainer}`}>
-              <ApplySummary type="사용" bodyContent={bodyUse()} />
-              <ApplySummary type="제공" bodyContent={bodyProvide()} />
-            </div>
-          )}
-          <ShadowCard type="bordersmall" bgcolor="rgba(65, 117, 192)">
-            <div
-              className={`${style.monitoring}`}
-              style={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                textAlign: 'center',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Link href="/monitoring" target="_blank">
-                <div className={style.imgContainer}>
-                  <Image
-                    src="/images/computer.png"
-                    alt="next-icon"
-                    width={100}
-                    height={100}
-                    className={style.monitoringImg}
-                  />
-                </div>
-              </Link>
-              <span className={style.monitoringTitle}>서버 모니터링</span>
-            </div>
-          </ShadowCard>
+          <div className={`${style.pageContainer2}`}>
+            {userInfo.authority === '관리자' ? (
+              <div>no..</div>
+            ) : (
+              <div className={`${style.summaryContainer}`}>
+                <ApplySummary type="사용" bodyContent={bodyUse()} />
+                <ApplySummary type="제공" bodyContent={bodyProvide()} />
+              </div>
+            )}
+            <ShadowCard type="bordersmall" bgcolor="rgba(65, 117, 192)">
+              <div
+                className={`${style.monitoring}`}
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Link href="/monitoring" target="_blank">
+                  <div className={style.imgContainer}>
+                    <Image
+                      src="/images/computer.png"
+                      alt="next-icon"
+                      width={100}
+                      height={100}
+                      className={style.monitoringImg}
+                    />
+                  </div>
+                </Link>
+                <span className={style.monitoringTitle}>서버 모니터링</span>
+              </div>
+            </ShadowCard>
+          </div>
         </div>
       </TopLayout>
     </main>
