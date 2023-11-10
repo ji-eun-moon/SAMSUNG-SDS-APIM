@@ -23,6 +23,7 @@ public class ElasticUsageController {
     private final ElasticUsageService usageService;
     private final ElasticUsageRepository elasticUsageRepository;
 
+
     @PostMapping ("/register")
     public ResponseEntity<?> register(@RequestBody CreateUsageRequest createUsageRequest) {
         usageService.register(createUsageRequest);
@@ -135,15 +136,28 @@ public class ElasticUsageController {
         }
     }
 
+    @GetMapping("/responseTime-category")
+    @Operation(summary = "카테고리 전체 응답 시간 - 최근 24시간")
+    public ResponseEntity<?> getResponseTimeCategory(@RequestParam(name = "categoryId") Long categoryId,
+                                             @RequestParam(name = "teamName", required = false) String teamName) {
+
+        return ResponseEntity.ok(usageService.getResponseTimeCategory(categoryId, teamName));
+    }
+
     @GetMapping("/responseCode")
     @Operation(summary = "응답코드 - 최근 24시간")
     public ResponseEntity<?> getResponseCode(@RequestParam(name = "apiId") Long apiId,
                                              @RequestParam(name = "teamName", required = false) String teamName) {
-        if (teamName == null) {
-            return ResponseEntity.ok(usageService.getResponseCode(apiId));
-        } else {
+
             return ResponseEntity.ok(usageService.getResponseCode(teamName, apiId));
-        }
+    }
+
+    @GetMapping("/responseCode-category")
+    @Operation(summary = "카테고리 응답코드 - 최근 24시간")
+    public ResponseEntity<?> getResponseCodeCategory(@RequestParam(name = "categoryId") Long categoryId,
+                                             @RequestParam(name = "teamName", required = false) String teamName) {
+
+        return ResponseEntity.ok(usageService.getResponseCodeCategory(categoryId, teamName));
     }
 
     @PostMapping("/data")

@@ -312,16 +312,40 @@ public class ElasticUsageService {
                 .map(ResponseTimeResponse::new).collect(Collectors.toList());
     }
 
-    public List<ResponseCodeResponse> getResponseCode(Long apiId) {
-        Api api = apiRepository.findById(apiId).orElseThrow();
+    public List<ResponseTimeCategoryResponse> getResponseTimeCategory(Long categoryId, String teamName) {
+        List<Api> apis = apiRepository.findAllByCategoryId(categoryId);
+        List<ResponseTimeCategoryResponse> responseTimeCategoryResponses = new ArrayList<>();
 
-        List<ElasticUsage> usages = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
-                api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                LocalDateTime.now().minusHours(24), LocalDateTime.now());
+        if (teamName == null) {
+            apis.forEach(api -> {
+                responseTimeCategoryResponses.add(new ResponseTimeCategoryResponse(api.getId(), api.getTitle(), getResponseTime(api.getId())));
+            });
+        } else {
+            apis.forEach(api -> {
+                responseTimeCategoryResponses.add(new ResponseTimeCategoryResponse(api.getId(), api.getTitle(), getResponseTime(teamName, api.getId())));
+            });
+        }
+        return responseTimeCategoryResponses;
+    }
+
+
+    public List<ResponseCodeResponse> getResponseCode(String teamName, Long apiId) {
+        Api api = apiRepository.findById(apiId).orElseThrow();
+        List<ElasticUsage> usages = new ArrayList<>();
+        if (teamName == null) {
+            usages = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
+                    api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+        } else {
+            usages = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
+                    teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+
+        }
         List<ResponseCodeResponse> responseCodeResponses = new ArrayList<>();
         Map<Integer, Integer> map = new HashMap<>();
         usages.forEach(usage -> {
-            int amount =  map.getOrDefault(usage.getResponseCode(), 1);
+            int amount =  map.getOrDefault(usage.getResponseCode(), 0);
             map.put(usage.getResponseCode(), amount + 1);
         });
 
@@ -331,22 +355,42 @@ public class ElasticUsageService {
         return responseCodeResponses;
     }
 
-    public List<ResponseCodeResponse> getResponseCode(String teamName, Long apiId) {
-        Api api = apiRepository.findById(apiId).orElseThrow();
+    public List<ResponseCodeCategory> getResponseCodeCategory(Long categoryId, String teamName) {
+        Map<Integer, Integer> total = new HashMap<>();
+        Map<Integer, Map<String, Integer>> one = new HashMap<>();
+        List<ResponseCodeCategory> responseCodeCategories = new ArrayList<>();
 
-        List<ElasticUsage> usages = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
-                teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                LocalDateTime.now().minusHours(24), LocalDateTime.now());
-        List<ResponseCodeResponse> responseCodeResponses = new ArrayList<>();
-        Map<Integer, Integer> map = new HashMap<>();
+        List<ElasticUsage> usages;
+        if (teamName == null) {
+            usages = elasticUsageRepository.findAllByCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
+                    categoryId,
+                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+        } else {
+            usages = elasticUsageRepository.findAllByTeamNameAndCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
+                    teamName, categoryId,
+                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+        }
+
         usages.forEach(usage -> {
-            int amount =  map.getOrDefault(usage.getResponseCode(), 1);
-            map.put(usage.getResponseCode(), amount + 1);
+            int totalAmount = total.getOrDefault(usage.getResponseCode(), 0);
+            total.put(usage.getResponseCode(), totalAmount + 1);
+            Map<String, Integer> endpointAmount = one.getOrDefault(usage.getResponseCode(), new HashMap<>());
+            int oneAmount =  endpointAmount.getOrDefault("https://k9c201.p.ssafy.io/api" + usage.getEndpoint(), 0);
+            endpointAmount.put("https://k9c201.p.ssafy.io/api" + usage.getEndpoint(), oneAmount + 1);
+            one.put(usage.getResponseCode(), endpointAmount);
         });
 
-        map.forEach((key, value) -> {
-            responseCodeResponses.add(new ResponseCodeResponse(key, value));
+        total.forEach((key, value) -> {
+            Map<String, Integer> endpointAmount = one.get(key);
+            List<ApiCount> apiCounts = new ArrayList<>();
+            endpointAmount.forEach((endpoint, amount) -> {
+                Api api = apiRepository.findByEndpoint(endpoint).orElseThrow();
+                apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
+            });
+
+            responseCodeCategories.add(new ResponseCodeCategory(key, value, apiCounts));
         });
-        return responseCodeResponses;
+
+        return responseCodeCategories;
     }
 }
