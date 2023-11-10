@@ -9,6 +9,7 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     data: monthlyData,
     isLoading: isMonthlyLoading,
     isError: isMonthlyError,
+    refetch: refetchMonthly,
   } = useQuery<TApiUsageList>(
     [`monthlyUsage_${apiId}_${teamName}`, { apiId, teamName }],
     () => getMonthlyUsage({ apiId, teamName }),
@@ -22,6 +23,7 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     data: dailyData,
     isLoading: isDailyLoading,
     isError: isDailyError,
+    refetch: refetchDaily,
   } = useQuery<TApiUsageList>(
     [`dailyUsage_${apiId}_${teamName}`, { apiId, teamName }],
     () => getDailyUsage({ apiId, teamName }),
@@ -35,6 +37,7 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     data: hourlyData,
     isLoading: isHourlyLoading,
     isError: isHourlyError,
+    refetch: refetchHourly,
   } = useQuery<TApiUsageList>(
     [`hourlyUsage_${apiId}_${teamName}`, { apiId, teamName }],
     () => getHourlyUsage({ apiId, teamName }),
@@ -64,6 +67,9 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     hourlyData: formatData(hourlyData as TApiUsageList),
     isHourlyLoading,
     isHourlyError,
+    refetchMonthly,
+    refetchDaily,
+    refetchHourly,
   };
 }
 

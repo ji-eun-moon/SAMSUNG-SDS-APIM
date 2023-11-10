@@ -13,6 +13,12 @@ function LineChart({ type, title, isSmooth, chartColor, chartDataValue, chartDat
       if (chartRef.current) {
         const chart = echarts.init(chartRef.current);
         const options: echarts.EChartOption = {
+          grid: {
+            top: '10%',
+            right: '10%',
+            bottom: '10%',
+            left: '10%',
+          },
           xAxis: {
             type: 'category',
             data: chartDataName.map((item: string) => formatTimeToHHMM(item)),
@@ -80,6 +86,12 @@ function LineChart({ type, title, isSmooth, chartColor, chartDataValue, chartDat
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
       const options: echarts.EChartOption = {
+        grid: {
+          top: '10%',
+          right: '10%',
+          bottom: '10%',
+          left: '10%',
+        },
         xAxis: {
           type: 'category',
           data: chartDataName,
@@ -112,6 +124,6 @@ function LineChart({ type, title, isSmooth, chartColor, chartDataValue, chartDat
     }
   }, [title, isSmooth, chartColor, chartDataName, chartDataValue, type, props]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '350px' }} />;
+  return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;
 }
 export default LineChart;
