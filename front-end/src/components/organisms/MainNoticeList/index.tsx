@@ -19,7 +19,7 @@ function MainNoticeList() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-3/5">
       <div className="flex justify-between">
         <div className="flex items-center pb-1">
           <svg
@@ -38,7 +38,7 @@ function MainNoticeList() {
               d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"
             />
           </svg>
-          알림 확인하기
+          <div className="samsungLogo">알림 확인</div>
         </div>
         <button type="button" className={style.goDetail} onClick={() => router.push('/notice/receive')}>
           상세보기
@@ -60,7 +60,7 @@ function MainNoticeList() {
         </button>
       </div>
       <BorderCard>
-        <div className="h-56">
+        <div style={{ height: '225px' }} className="flex justify-center flex-col">
           {noticeList && noticeList.content.length !== 0 ? (
             noticeList.content?.map((notice, index) => (
               <div key={notice.noticeId}>

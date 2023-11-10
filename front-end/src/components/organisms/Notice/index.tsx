@@ -13,6 +13,13 @@ function Notice({ position, type, ...props }: NoticeProps) {
   //   setIsModalOpen(!isModalOpen);
   // };
 
+  const truncateText = (text: string, num: number) => {
+    if (text?.length <= num) {
+      return text;
+    }
+    return `${text?.substring(0, num)}...`;
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -100,17 +107,19 @@ function Notice({ position, type, ...props }: NoticeProps) {
           onClick={() => router.push(`/notice/${type}/${noticeInfo.noticeId}`)}
           className="w-full p-2"
         >
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <ProfileImg width={50} height={50} src={noticeInfo.senderImage} />
-              <div className="flex flex-col pl-3 justify-start">
-                <div className="text-left font-semibold pb-2">{noticeInfo.senderName}</div>
-                <div className="text-sm">{noticeInfo.title}</div>
+          <div className="flex w-full">
+            <div className="flex items-center w-full">
+              <ProfileImg width={40} height={40} src={noticeInfo.senderImage} />
+              <div className="flex-col flex w-full">
+                <div className="flex pl-3 justify-between pb-1">
+                  <div className="flex text-left font-semibold">{noticeInfo.senderName}</div>
+                  <div className="flex text-sm text-right itdaSecondary">{formatDate(noticeInfo.createdAt)}</div>
+                </div>
+                <div className="flex pl-3">
+                  <div className="text-sm">{truncateText(noticeInfo.title, 20)}</div>
+                  {/* <div className="itdaBlue text-sm text-right">{noticeInfo.read ? '읽음' : '안읽음'}</div> */}
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="text-sm text-right pb-2">{formatDate(noticeInfo.createdAt)}</div>
-              <div className="itdaBlue text-sm text-right">{noticeInfo.read ? '읽음' : '안읽음'}</div>
             </div>
           </div>
         </button>

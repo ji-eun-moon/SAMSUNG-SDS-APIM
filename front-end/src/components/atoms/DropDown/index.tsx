@@ -3,6 +3,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-o
 import { DropDownProps, UrlProps, ModalProps } from '@/types/props/DropDownProps';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { logout } from '@/utils/axios/auth';
 
 function DropDown({ type, ...props }: DropDownProps) {
   const router = useRouter();
@@ -10,18 +11,33 @@ function DropDown({ type, ...props }: DropDownProps) {
   if (type === 'url') {
     const { trigger, list } = props as UrlProps;
 
+    const handleLogout = async () => {
+      await logout();
+      await router.push(`/login`);
+    };
+
     return (
       <Dropdown>
         <DropdownTrigger>{trigger}</DropdownTrigger>
         <DropdownMenu variant="flat">
-          {list?.map((item) => (
-            <DropdownItem key={item.title} onClick={() => router.push(`${item.url}`)} startContent={item.icon}>
+          {list?.map((item, index) => (
+            <DropdownItem
+              showDivider={index === list.length - 2}
+              key={item.title}
+              onClick={() => {
+                if (item.onClickHandler === 'logout') {
+                  handleLogout();
+                } else {
+                  router.push(`${item.onClickHandler}`);
+                }
+              }}
+              startContent={item.icon}
+              className={item.type === 'danger' ? 'text-danger' : undefined}
+              color={item.type === 'danger' ? 'danger' : undefined}
+            >
               {item.title}
             </DropdownItem>
           ))}
-          {/* <DropdownItem key="delete" className="text-danger" color="danger">
-            Delete file
-          </DropdownItem> */}
         </DropdownMenu>
       </Dropdown>
     );

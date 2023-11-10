@@ -131,3 +131,17 @@ export async function apiSearch(apiName: string) {
     return null;
   }
 }
+
+export async function getStatusCount() {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/status-count',
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
