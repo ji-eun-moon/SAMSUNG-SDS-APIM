@@ -89,7 +89,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
             <SideBarMenu title="제공 신청 내역" conditionList={provideCondition} />
           </div>
         )}
-        {isUser && (
+        {isUser && userInfo?.authority !== '관리자' && (
           <StyledButton
             variant="solid"
             radius="full"
