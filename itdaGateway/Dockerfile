@@ -9,7 +9,7 @@ ARG JAR_FILE=build/libs/*.jar
 # 현재 경로/target/be-0.0.1-SNAPSHOT.jar에 해당하는 파일을
 # Docker Container의 WORKDIR 위치로 복사 (이미지 생성할 때 동작)
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT["-Djava.net.preferIPv4Stack=true"]
+ENV JAVA_OPTS="-Djava.net.preferIPv4Stack=true"
 
 # COPY된 jar파일 실행하기 (컨테이너 실행할 때 동작)
 CMD ["java", "-jar", "./app.jar"]
