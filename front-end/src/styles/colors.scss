@@ -3,6 +3,15 @@ $itda-text: #5f6165;
 $itda-secondary: #9a9a9a;
 $itda-border: #dddddd;
 $itda-danger: #ff5a5a;
+$samsung-logo: #17468f;
+
+.samsungLogo {
+  color: $samsung-logo;
+}
+
+.bgSamsungLogo {
+  background-color: $samsung-logo;
+}
 
 .itdaBlue {
   color: $itda-blue;

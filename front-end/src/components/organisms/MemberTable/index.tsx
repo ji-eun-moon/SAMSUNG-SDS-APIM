@@ -1,13 +1,28 @@
+import { useState } from 'react';
 import { TUserList } from '@/types/User';
 import DropDown from '@/components/atoms/DropDown';
 import styles from './MemberTable.module.scss';
+import Modal from '../Modal';
+import NoticeSendBox from '../NoticeSendBox';
 
 interface MemberTableProps {
   userList: TUserList;
 }
 
+interface Member {
+  name: string;
+  employeeId: string;
+}
+
 function MemberTable({ userList }: MemberTableProps) {
   const headers = ['사번', '성명', '부서', '팀', '이메일'];
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onModalHandler = (member: Member) => {
+    setSelectedMember(member);
+    setIsModalOpen(true);
+  };
   return (
     <div>
       <table className="w-full">
@@ -35,7 +50,7 @@ function MemberTable({ userList }: MemberTableProps) {
                 <td className={`${styles.tr} text-center`}>
                   <DropDown
                     trigger={<button type="button">{member.name}</button>}
-                    list={[{ title: '쪽지 보내기', icon: 'message', url: '' }]}
+                    list={[{ title: '쪽지 보내기', icon: 'message', onModalHandler: () => onModalHandler(member) }]}
                     type="modal"
                   />
                 </td>
@@ -53,6 +68,11 @@ function MemberTable({ userList }: MemberTableProps) {
           )}
         </tbody>
       </table>
+      {isModalOpen && selectedMember && (
+        <Modal type="server" onClose={() => setIsModalOpen(false)}>
+          <NoticeSendBox sendName={selectedMember.name} sendId={selectedMember.employeeId} />
+        </Modal>
+      )}
     </div>
   );
 }
