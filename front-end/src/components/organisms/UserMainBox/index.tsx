@@ -3,8 +3,8 @@ import MainNotice from '../MainNoticeList';
 
 function UserMainBox() {
   return (
-    <div>
-      <div className="w-4/12">
+    <div className="w-full">
+      <div className="w-2/5">
         <MainNotice />
       </div>
     </div>
