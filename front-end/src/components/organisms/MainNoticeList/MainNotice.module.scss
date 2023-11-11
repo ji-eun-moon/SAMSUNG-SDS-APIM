@@ -1,0 +1,11 @@
+.goDetail {
+  color: $itda-secondary;
+  font-size: 13px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  padding-right: 5px;
+  transition: transform 0.3s;
+
+  cursor: pointer;
+}

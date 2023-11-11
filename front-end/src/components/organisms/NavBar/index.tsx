@@ -139,17 +139,71 @@ function NavBar({ position }: NavBarProps) {
 
             {/* 텍스트 바로가기 */}
             <div className="itdaText flex flex-col gap-3">
-              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/team')} aria-hidden>
+              <div
+                className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
+                onClick={() => router.push('/team')}
+                aria-hidden
+              >
                 <div className="text-sm">팀정보</div>
-                <Image src="/icons/user.png" alt="user icon" width={20} height={16} />
+                {/* <Image src="/icons/user.png" alt="user icon" width={20} height={16} /> */}
+                <svg
+                  className={`${styles.shortcutBtn} w-4 h-4 text-gray-400 dark:text-white`}
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"
+                  />
+                </svg>
               </div>
-              <div className="flex justify-between cursor-pointer" onClick={() => router.push('/mypage')} aria-hidden>
+              <div
+                className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
+                onClick={() => router.push('/mypage')}
+                aria-hidden
+              >
                 <div className="text-sm">마이페이지</div>
-                <Image src="/icons/setting.png" alt="setting icon" width={23} height={21} />
+                {/* <Image src="/icons/setting.png" alt="setting icon" width={23} height={21} /> */}
+                <svg
+                  className="w-4 h-4 text-gray-400 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                    <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z" />
+                    <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                  </g>
+                </svg>
               </div>
-              <div className="flex justify-between cursor-pointer" onClick={handleLogout} aria-hidden>
+              <div
+                className={`${styles.logoutBtn} flex justify-between cursor-pointer`}
+                onClick={handleLogout}
+                aria-hidden
+              >
                 <div className="text-sm">로그아웃</div>
-                <Image src="/icons/logout.png" alt="setting icon" width={18} height={12} />
+                {/* <Image src="/icons/logout.png" alt="setting icon" width={18} height={12} /> */}
+                <svg
+                  className="w-4 h-4 text-gray-400 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -247,7 +301,7 @@ function NavBar({ position }: NavBarProps) {
                 </button>
               }
             >
-              <div style={{ minWidth: '320px' }} className="w-fit">
+              <div style={{ width: '380px' }} className="w-fit">
                 <NavBarNotice />
               </div>
             </NoticeDropDown>
@@ -261,7 +315,7 @@ function NavBar({ position }: NavBarProps) {
                 </Button>
               }
               list={
-                userInfo.authority === '관리자'
+                userInfo?.authority === '관리자'
                   ? getAdminDropDownList({ categoryId: firstCategory, apiId: firstApi })
                   : getUserDropDownList({ categoryId: firstCategory, apiId: firstApi })
               }

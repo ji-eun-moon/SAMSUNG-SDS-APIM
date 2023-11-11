@@ -52,7 +52,7 @@ function StatusBox({ statusList, searchWord, changeSearchWord }: StatusBoxProps)
             <div
               onClick={clearSearchFilter}
               aria-hidden
-              className="flex items-center text-sm cursor-pointer itdaSecondary"
+              className="flex items-center w-full  text-sm cursor-pointer itdaSecondary"
             >
               검색 필터 초기화
             </div>
