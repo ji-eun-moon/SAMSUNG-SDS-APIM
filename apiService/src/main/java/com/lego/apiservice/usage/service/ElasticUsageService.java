@@ -65,7 +65,7 @@ public class ElasticUsageService {
 
                 CreateUsageRequest createUsageRequest = new CreateUsageRequest(dateTime, api.getApiMethod(),
                         api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        "3팀", api.getCategory().getId(), random.nextLong(200)+50, code, "");
+                        "3팀", String.valueOf(api.getCategory().getId()), random.nextLong(200)+50, code, "");
 
                 register(createUsageRequest);
                 dateTime = dateTime.plusMinutes(random.nextLong(100) + 1);
@@ -369,11 +369,11 @@ public class ElasticUsageService {
         List<ElasticUsage> usages;
         if (teamName == null) {
             usages = elasticUsageRepository.findAllByCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
-                    categoryId,
+                    String.valueOf(categoryId),
                     LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         } else {
             usages = elasticUsageRepository.findAllByTeamNameAndCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
-                    teamName, categoryId,
+                    teamName, String.valueOf(categoryId),
                     LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         }
 

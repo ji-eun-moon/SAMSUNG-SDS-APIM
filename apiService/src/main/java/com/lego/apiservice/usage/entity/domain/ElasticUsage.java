@@ -33,7 +33,7 @@ public class ElasticUsage {
     private ApiMethod method;
     private String endpoint;
     private String teamName;
-    private Long categoryId;
+    private String categoryId;
     private Long responseTime;
     private String responseCode;
     private String remoteAddr;

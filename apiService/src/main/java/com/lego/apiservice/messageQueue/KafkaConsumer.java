@@ -41,7 +41,7 @@ public class KafkaConsumer {
             if (jsonObject.get("categoryId") != null && jsonObject.get("teamName") != null) {
                 elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
                         jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
-                        Long.valueOf(jsonObject.get("categoryId").toString()), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
+                        jsonObject.get("categoryId").toString(), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
                         jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
             } else {
                 elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
