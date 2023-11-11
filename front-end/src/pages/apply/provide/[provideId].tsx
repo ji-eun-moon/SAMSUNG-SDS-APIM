@@ -36,8 +36,8 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [endPoint, setEndPoint] = useState('');
 
-  const onModalHandler = () => {
-    setIsModalOpen(!isModalOpen);
+  const onModalHandler = (state: boolean) => {
+    setIsModalOpen(state);
   };
 
   useEffect(() => {
@@ -106,20 +106,23 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   };
 
   const onSubmitHandler = async () => {
-    onModalHandler();
     if (action === 'accept') {
       // 승인 처리
       const response = await putProvideApplyAccept(provideId, content);
       // onModalHandler()
       if (response === 'DENY') {
         if (isModalOpen) {
-          <Modal type="alert" onClose={onModalHandler} alertMessage="테스트 실패로 제공 신청 승인이 거절되었습니다" />;
+          <Modal
+            type="alert"
+            onClose={() => onModalHandler(false)}
+            alertMessage="테스트 실패로 제공 신청 승인이 거절되었습니다"
+          />;
         }
 
         postNoticeResult(details.serverName, details.teamName, '제공', '테스트 실패');
       } else if (response === 'ACCEPT') {
         if (isModalOpen) {
-          <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 승인되었습니다." />;
+          <Modal type="alert" onClose={() => onModalHandler(false)} alertMessage="제공 신청이 승인되었습니다." />;
         }
 
         postNoticeResult(details.serverName, details.teamName, '제공', '승인');
@@ -128,7 +131,7 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
       // 거절 처리
       await putProvideApplyDeny(provideId, content);
       if (isModalOpen) {
-        <Modal type="alert" onClose={onModalHandler} alertMessage="제공 신청이 거절되었습니다." />;
+        <Modal type="alert" onClose={() => onModalHandler(false)} alertMessage="제공 신청이 거절되었습니다." />;
       }
       postNoticeResult(details.serverName, details.teamName, '제공', '거절');
     }
@@ -241,7 +244,7 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
                 variant="solid"
                 type="button"
                 onClick={async () => {
-                  await onModalHandler();
+                  await onModalHandler(true);
                   onSubmitHandler();
                 }}
               />
