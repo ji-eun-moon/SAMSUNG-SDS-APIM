@@ -4,7 +4,8 @@ import { useQuery } from 'react-query';
 import { getReceiveList } from '@/utils/axios/notice';
 import { TNoticeList } from '@/types/Notice';
 import MainNotice from '@/components/atoms/MainNotice';
-import BorderCard from '@/components/atoms/BorderCard';
+// import BorderCard from '@/components/atoms/BorderCard';
+import ShadowCard from '@/components/atoms/ShadowCard';
 import style from './MainNotice.module.scss';
 
 function MainNoticeList() {
@@ -59,8 +60,8 @@ function MainNoticeList() {
           </svg>
         </button>
       </div>
-      <BorderCard>
-        <div style={{ height: '225px' }} className="flex justify-center flex-col">
+      <ShadowCard type="bordersmall">
+        <div className="flex justify-center flex-col px-2 py-1">
           {noticeList && noticeList.content.length !== 0 ? (
             noticeList.content?.map((notice, index) => (
               <div key={notice.noticeId}>
@@ -74,7 +75,7 @@ function MainNoticeList() {
             <div className="flex justify-center items-center">쪽지가 없습니다</div>
           )}
         </div>
-      </BorderCard>
+      </ShadowCard>
     </div>
   );
 }

@@ -19,10 +19,10 @@ function MainNotice({ notice }: MainNoticeProps) {
   };
 
   const truncateText = (text: string) => {
-    if (text?.length <= 35) {
+    if (text?.length <= 20) {
       return text;
     }
-    return `${text?.substring(0, 35)}...`;
+    return `${text?.substring(0, 20)}...`;
   };
 
   return (

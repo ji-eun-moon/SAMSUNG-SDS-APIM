@@ -5,8 +5,8 @@ import { getApiStatus } from '@/utils/axios/api';
 import { QueryClient, useQuery } from 'react-query';
 import { GetServerSideProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
-import BorderCard from '@/components/atoms/BorderCard';
-// import ShadowCard from '@/components/atoms/ShadowCard';
+// import BorderCard from '@/components/atoms/BorderCard';
+import ShadowCard from '@/components/atoms/ShadowCard';
 import Status from '@/components/atoms/Status';
 import ApiStatusSummary from '@/components/organisms/ApiStatusSummary';
 import style from './MainApiStatus.module.scss';
@@ -80,32 +80,20 @@ function MainApiStatus() {
         </button>
       </div>
       {/* <ShadowCard type="bordersmall" bgcolor="#ffffff"> */}
-      <BorderCard>
+      <ShadowCard type="bordersmall">
         <div className="min-h-max">
-          <ApiStatusSummary />
-          <div className="w-full flex gap-2 justify-end text-sm">
-            <button type="button" onClick={() => onClickHandler('전체')}>
-              전체
-            </button>
-            <button type="button" onClick={() => onClickHandler('정상')}>
-              정상
-            </button>
-            <button type="button" onClick={() => onClickHandler('점검')}>
-              점검
-            </button>
-            <button type="button" onClick={() => onClickHandler('오류')}>
-              오류
-            </button>
-          </div>
+          <ApiStatusSummary onClickHandler={onClickHandler} />
           <div className="p-3">
             {mainApiStatus && mainApiStatus.content.length !== 0 ? (
               mainApiStatus.content?.map((item, index) => (
-                <div key={item.apiId} className="flex justify-between itdaText text-sm">
-                  <div className="flex w-4/5 items-center gap-2">
-                    <Status status={item.apiStatus} size="small" />
-                    <div className="text-start">{item.apiName}</div>
+                <div>
+                  <div key={item.apiId} className="flex justify-between itdaText text-sm">
+                    <div className="flex w-full items-center gap-2">
+                      <Status status={item.apiStatus} size="small" />
+                      <div className="text-start w-full">{item.apiName}</div>
+                    </div>
+                    <div className="w-full flex justify-end">{item.responseTime}ms</div>
                   </div>
-                  <div className="w-full flex justify-end">{item.responseTime}ms</div>
                   {index !== mainApiStatus.content.length - 1 && (
                     <hr style={{ marginTop: '4px', marginBottom: '4px' }} />
                   )}
@@ -116,7 +104,7 @@ function MainApiStatus() {
             )}
           </div>
         </div>
-      </BorderCard>
+      </ShadowCard>
       {/* </ShadowCard> */}
     </div>
   );

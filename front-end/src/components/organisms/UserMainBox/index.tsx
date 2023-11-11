@@ -2,15 +2,20 @@ import React from 'react';
 import UserShortCuts from '@/components/atoms/UserShortCuts';
 import MainApiStatus from '@/components/organisms/MainApiStatus';
 import MainNotice from '../MainNoticeList';
+import MainStatistics from '../MainStatistics';
+// import styles from './UserMainBox.module.scss';
 
 function UserMainBox() {
   return (
     <div className="w-full flex flex-col gap-3">
+      <UserShortCuts />
       <div className="flex gap-3">
-        <UserShortCuts />
         <MainNotice />
+        <MainApiStatus />
       </div>
-      <MainApiStatus />
+      <div className="flex gap-3">
+        <MainStatistics />
+      </div>
     </div>
   );
 }

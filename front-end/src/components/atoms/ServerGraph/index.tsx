@@ -53,21 +53,37 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
         onFocus={() => {}}
         onBlur={() => {}}
       >
-        <iframe
-          src={`${defaultSrc}&from=${from}&to=now&refresh=1s&theme=light&${src}`}
-          style={{ width: `${width}`, height: '22vh' }}
-          title="Server Graph"
-        />
+        {src.includes('http') ? (
+          <iframe
+            src="https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603827358&to=1699625427358&theme=light&panelId=1"
+            style={{ width: `${width}`, height: '22vh', border: 'none' }}
+            title="Server Graph"
+          />
+        ) : (
+          <iframe
+            src={`${defaultSrc}&from=${from}&to=now&refresh=1s&theme=light&${src}`}
+            style={{ width: `${width}`, height: '22vh', border: 'none' }}
+            title="Server Graph"
+          />
+        )}
       </div>
 
       {isModalOpen && (
         <Modal type="server" onClose={onModalHandler}>
           <div>
-            <iframe
-              src={`${defaultSrc}&from=now-30m&to=now&refresh=5s&theme=light&${modalSrc}`}
-              style={{ width: '75vw', height: '65vh', borderRadius: '10px' }}
-              title="Server Modal Graph"
-            />
+            {src.includes('http') ? (
+              <iframe
+                src="https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603827358&to=1699625427358&theme=light&panelId=1"
+                style={{ width: '75vw', height: '75vh', borderRadius: '10px' }}
+                title="Server Graph"
+              />
+            ) : (
+              <iframe
+                src={`${defaultSrc}&from=now-30m&to=now&refresh=5s&theme=light&${modalSrc}`}
+                style={{ width: '75vw', height: '65vh', borderRadius: '10px' }}
+                title="Server Modal Graph"
+              />
+            )}
           </div>
         </Modal>
       )}

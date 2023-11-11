@@ -254,7 +254,7 @@ function NavBar({ position }: NavBarProps) {
           ) : (
             <div className="flex items-center">
               {/* 팀 선택 */}
-              {teamList && (
+              {teamList && userInfo.authority !== '관리자' && (
                 <div className="mr-10">
                   <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
                 </div>
