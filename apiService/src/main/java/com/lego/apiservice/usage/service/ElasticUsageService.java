@@ -4,6 +4,7 @@ import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.repository.CategoryRepository;
+import com.lego.apiservice.redis.service.RedisService;
 import com.lego.apiservice.usage.entity.domain.ElasticUsage;
 import com.lego.apiservice.usage.entity.dto.request.CreateUsageRequest;
 import com.lego.apiservice.usage.entity.dto.response.ElasticUsageResponse;
@@ -26,7 +27,7 @@ public class ElasticUsageService {
 
     private final ElasticUsageRepository elasticUsageRepository;
     private final ApiRepository apiRepository;
-    private final CategoryRepository categoryRepository;
+    private final RedisService redisService;
 
     @Transactional
     public void register(CreateUsageRequest createUsageRequest) {
@@ -365,15 +366,16 @@ public class ElasticUsageService {
         Map<String, Integer> total = new HashMap<>();
         Map<String, Map<String, Integer>> one = new HashMap<>();
         List<ResponseCodeCategory> responseCodeCategories = new ArrayList<>();
+        String categoryName = redisService.getValue(String.valueOf(categoryId));
 
         List<ElasticUsage> usages;
         if (teamName == null) {
             usages = elasticUsageRepository.findAllByCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
-                    String.valueOf(categoryId),
+                    categoryName,
                     LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         } else {
             usages = elasticUsageRepository.findAllByTeamNameAndCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
-                    teamName, String.valueOf(categoryId),
+                    teamName, categoryName,
                     LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         }
 

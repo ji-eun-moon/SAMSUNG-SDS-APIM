@@ -1,6 +1,7 @@
 package com.lego.apiservice.messageQueue;
 
 import com.lego.apiservice.api.entity.domain.ApiMethod;
+import com.lego.apiservice.redis.service.RedisService;
 import com.lego.apiservice.usage.entity.dto.request.CreateUsageRequest;
 import com.lego.apiservice.usage.service.ElasticUsageService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class KafkaConsumer {
 
     // 레포지 토리 연결
     private final ElasticUsageService elasticUsageService;
+    private final RedisService redisService;
 
     @KafkaListener(topics = "${kafka-topic}")
     public void usageRegisterQty(String kafkaMessage) {
@@ -37,11 +39,11 @@ public class KafkaConsumer {
             if (jsonObject.isEmpty()) {
                 throw new RuntimeException();
             }
-
+            String categoryName = redisService.getValue(jsonObject.get("categoryId").toString());
 
             elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
                     jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
-                    jsonObject.get("categoryId").toString(), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
+                    categoryName, Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
                     jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
 
 
