@@ -6,6 +6,7 @@ import com.lego.secondsubmit.dto.request.ProductLineReq;
 import com.lego.secondsubmit.dto.response.ProductRes;
 import com.lego.secondsubmit.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,9 +50,9 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> lineSearch(@RequestParam("line") ProductLineReq req) {
+    public ResponseEntity<?> lineSearch(@Parameter(description = "라인", example = "1", name = "line") String line) {
 
-        return ResponseEntity.ok().body(productService.lineSearch(req.getLine()));
+        return ResponseEntity.ok().body(productService.lineSearch(line));
 
     }
 
@@ -113,9 +114,9 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> statusSearch(@RequestParam("status") ProductStatusSearchReq req) {
+    public ResponseEntity<?> statusSearch(@Parameter(description = "동작 상태", example = "점검 중", name = "status") String status) {
 
-        return ResponseEntity.ok().body(productService.statusSearch(req.getStatus()));
+        return ResponseEntity.ok().body(productService.statusSearch(status));
 
     }
 
@@ -129,9 +130,9 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> productSearch(@RequestParam("productName") ProductNameSearchReq req) {
+    public ResponseEntity<?> productSearch(@Parameter(description = "제품명", example = "삼성 냉장고", name = "productName") String productName) {
 
-        return ResponseEntity.ok().body(productService.productSearch(req.getProductName()));
+        return ResponseEntity.ok().body(productService.productSearch(productName));
 
     }
 
