@@ -89,7 +89,7 @@ const ReceiveList: NextPage = () => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '10px 200px' }}>
+      <div style={{ margin: '30px 200px' }}>
         {/* <GoBack label="쪽지함" /> */}
         <NoticeCategory select="receive" />
         <NoticeList

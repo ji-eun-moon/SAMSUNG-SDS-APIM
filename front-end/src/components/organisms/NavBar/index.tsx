@@ -75,24 +75,33 @@ function NavBar({ position }: NavBarProps) {
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">
-          <ProfileImg src={userInfo?.imageUrl} width={120} height={115} />
+          <ProfileImg src={userInfo?.imageUrl} width={112} height={112} />
         </div>
 
         {/* 회원 정보 */}
         <div className="grid grid-cols-1 content-between h-full">
           <div className="grid grid-cols-4 gap-3 my-3 col-span-1">
-            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="col-span-1 font-semibold itdaSecondary text-sm">이름</div>
+            <div
+              className="col-span-4 grid grid-cols-4 gap-3 text-sm"
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <div className="col-span-1 font-semibold itdaSecondary">이름</div>
               <div className="col-span-3 itdaText">{userInfo?.name}</div>
             </div>
 
-            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="col-span-1 font-semibold itdaSecondary text-sm">사번</div>
+            <div
+              className="col-span-4 grid grid-cols-4 gap-3 text-sm"
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <div className="col-span-1 font-semibold itdaSecondary">사번</div>
               <div className="col-span-3 itdaText">{userInfo?.employeeId}</div>
             </div>
 
-            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="col-span-1 font-semibold itdaSecondary text-sm">부서</div>
+            <div
+              className="col-span-4 grid grid-cols-4 gap-3 text-sm"
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <div className="col-span-1 font-semibold itdaSecondary">부서</div>
               <div className="col-span-3 flex gap-1 itdaText">
                 <div>{userInfo?.department}</div>
               </div>
@@ -145,7 +154,6 @@ function NavBar({ position }: NavBarProps) {
                 aria-hidden
               >
                 <div className="text-sm">팀정보</div>
-                {/* <Image src="/icons/user.png" alt="user icon" width={20} height={16} /> */}
                 <svg
                   className={`${styles.shortcutBtn} w-4 h-4 text-gray-400 dark:text-white`}
                   aria-hidden="true"
@@ -168,7 +176,6 @@ function NavBar({ position }: NavBarProps) {
                 aria-hidden
               >
                 <div className="text-sm">마이페이지</div>
-                {/* <Image src="/icons/setting.png" alt="setting icon" width={23} height={21} /> */}
                 <svg
                   className="w-4 h-4 text-gray-400 dark:text-white"
                   aria-hidden="true"
@@ -188,7 +195,6 @@ function NavBar({ position }: NavBarProps) {
                 aria-hidden
               >
                 <div className="text-sm">로그아웃</div>
-                {/* <Image src="/icons/logout.png" alt="setting icon" width={18} height={12} /> */}
                 <svg
                   className="w-4 h-4 text-gray-400 dark:text-white"
                   aria-hidden="true"
@@ -261,7 +267,7 @@ function NavBar({ position }: NavBarProps) {
               )}
               {/* 프로필 이미지 */}
               <div className="mr-3">
-                <ProfileImg src={userInfo?.imageUrl} width={40} height={40} />
+                <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
               </div>
               {/* 회원정보 */}
               <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
