@@ -84,9 +84,9 @@ spring:
         - id: fourth-submit
           uri: lb://FOURTH-SUBMIT-SERVICE
           predicates:
-            - Path=/transfer/**
+            - Path=/distribution/**
           filters:
-            - RewritePath=/transfer/(?<segment>.*), /${segment}
+            - RewritePath=/distribution/(?<segment>.*), /${segment}
             - name: ServerAuthenticationFilter
               args:
-                prefix: /transfer
+                prefix: /distribution
