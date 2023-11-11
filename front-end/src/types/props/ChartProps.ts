@@ -5,6 +5,7 @@ export interface IPieChartData {
 
 export interface PieChartProps {
   title: string;
+  pieColors: string[];
   chartData: IPieChartData[];
 }
 

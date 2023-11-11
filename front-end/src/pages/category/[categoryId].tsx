@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
-import { getCategoryList, getUseCategoryList, getProvideCategoryList } from '@/utils/axios/api';
+import { getCategoryList } from '@/utils/axios/api';
 import { TCategoryList, ICategory } from '@/types/Api';
 import ApiSideBar from '@/components/organisms/ApiSideBar';
 import BothLayout from '@/components/templates/BothLayout';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import PageLoading from '@/components/atoms/PageLoading';
 import useUserStore from '@/store/useUserStore';
 import ApiDescription from '@/components/organisms/api/ApiDescription';
+import useMyApi from '@/hooks/useMyApi';
 
 type SSGProps = {
   openCategory: number;
@@ -21,26 +22,7 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
   const { selectedTeam } = useUserStore();
   const router = useRouter();
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
-  const { data: useCategoryList } = useQuery<TCategoryList>(
-    `useCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getUseCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
-  const { data: provideCategoryList } = useQuery<TCategoryList>(
-    `provideCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getProvideCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
+  const { useCategoryList, provideCategoryList } = useMyApi(selectedTeam);
 
   if (!categoryList || !useCategoryList || !provideCategoryList) {
     return <PageLoading />;

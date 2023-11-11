@@ -25,7 +25,7 @@ function Drawer({ children }: Props) {
         <div className="w-3 h-0.5 rotate-45 bg-gray-400 rounded-lg" />
       </label>
       <div className="fixed top-0 left-0 z-20 w-52 h-full transition-all duration-500 transform -translate-x-full bg-white shadow-lg peer-checked:translate-x-0">
-        <div className="pt-16 px-2">{children}</div>
+        <div className="pt-16 pl-2">{children}</div>
       </div>
     </div>
   );

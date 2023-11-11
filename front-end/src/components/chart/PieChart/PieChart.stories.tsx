@@ -24,5 +24,6 @@ export const ErrorChart = {
       { value: 300, name: '400' },
       { value: 300, name: '401' },
     ],
+    pieColors: ['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF'],
   },
 };

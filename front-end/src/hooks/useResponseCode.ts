@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { IChartParams, TResponseCodeList } from '@/types/Statistics';
 import { getResponseCode } from '@/utils/axios/statistics';
 
-function useResponseCode({ apiId, teamName }: IChartParams) {
+function useResponseCode({ apiId, teamName, type }: IChartParams) {
   // 응답 코드 데이터 가져오기
   const {
     data: responseCodeData,
@@ -10,8 +10,8 @@ function useResponseCode({ apiId, teamName }: IChartParams) {
     isError: isResponseCodeError,
     refetch: refetchResponseCode,
   } = useQuery<TResponseCodeList>(
-    [`responseCode_${apiId}_${teamName}`, { apiId, teamName }],
-    () => getResponseCode({ apiId, teamName }),
+    [`responseCode`, { apiId, teamName, type }],
+    () => getResponseCode({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
     },
