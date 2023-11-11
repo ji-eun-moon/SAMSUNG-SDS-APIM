@@ -45,7 +45,7 @@ public class KafkaConsumer {
                         jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
             } else {
                 elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
-                        jsonObject.get("endpoint").toString(), null, null, Long.valueOf(jsonObject.get("ResponseTime").toString()) + 3,
+                        jsonObject.get("endpoint").toString(), "no team", "no category", Long.valueOf(jsonObject.get("ResponseTime").toString()) + 3,
                         jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
             }
 
