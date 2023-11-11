@@ -81,7 +81,7 @@ function MainApiStatus() {
       </div>
       {/* <ShadowCard type="bordersmall" bgcolor="#ffffff"> */}
       <ShadowCard type="bordersmall">
-        <div className="min-h-max">
+        <div style={{ height: '30vh' }}>
           <ApiStatusSummary onClickHandler={onClickHandler} />
           <div className="p-3">
             {mainApiStatus && mainApiStatus.content.length !== 0 ? (

@@ -9,29 +9,30 @@ interface DonutChartData {
 interface DonutChartProps {
   title: string;
   chartData: DonutChartData[];
+  use?: string;
 }
 
-const DonutChart: React.FC<DonutChartProps> = ({ title, chartData }) => {
+const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
-      const totalValue = chartData.reduce((acc, data) => acc + data.value, 0);
+      const totalValue = chartData?.reduce((acc, data) => acc + data.value, 0);
 
       const options: echarts.EChartOption = {
         title: {
           text: title,
-          subtext: totalValue.toLocaleString(),
-          left: '49.5%', // 원의 가로 중앙으로 이동
+          subtext: totalValue?.toLocaleString(),
+          left: '24%', // 원의 가로 중앙으로 이동
           top: '46%', // 타이틀 수직축
           textAlign: 'center', // 텍스트를 가로 중앙에 정렬
           textVerticalAlign: 'middle', // 텍스트를 세로 중앙에 정렬
           textStyle: {
-            fontSize: 22,
+            fontSize: 18,
           },
           subtextStyle: {
-            fontSize: 24,
+            fontSize: 20,
           },
         },
         tooltip: {
@@ -39,14 +40,15 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData }) => {
         },
         legend: {
           orient: 'vertical',
-          right: 10,
+          right: 5,
+          left: '55%',
           top: 'middle',
         },
         series: [
           {
-            name: 'API Access',
             type: 'pie',
-            radius: ['45%', '60%'], // 도넛의 두께
+            center: ['25%', '50%'],
+            radius: ['70%', '90%'], // 도넛의 두께
             label: {
               show: false,
               position: 'inside',
@@ -54,10 +56,21 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData }) => {
             labelLine: {
               show: false,
             },
+            // data: chartData,
             data: chartData.map((data, index) => ({
               ...data,
               itemStyle: {
-                color: ['#95B7E1', '#C4DEFF', '#E8F2F9', '#E7E7E7'][index],
+                color: [
+                  '#f19365',
+                  '#adbd6f',
+                  '#6783e5',
+                  '#7dcdff',
+                  '#e3999e',
+                  '#b4b0a3',
+                  '#72b6c6',
+                  '#ebd065',
+                  '#f1d7a9',
+                ][index],
               },
             })),
           },
@@ -72,7 +85,19 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData }) => {
     return undefined;
   }, [chartData, title]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '400px' }} />;
+  if (use === 'page') {
+    return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;
+  }
+
+  if (use === 'main') {
+    return <div ref={chartRef} style={{ width: '100%', height: '190px' }} />;
+  }
+
+  return null;
+};
+
+DonutChart.defaultProps = {
+  use: 'page',
 };
 
 export default DonutChart;

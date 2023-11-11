@@ -132,6 +132,38 @@ export async function apiSearch(apiName: string) {
   }
 }
 
+export async function getApiName(apiId: number) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/detail-name',
+      params: {
+        apiId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getCategoryName(categoryId: number) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/category/category-name',
+      params: {
+        categoryId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 export async function getStatusCount() {
   try {
     const response = await axiosInstance({

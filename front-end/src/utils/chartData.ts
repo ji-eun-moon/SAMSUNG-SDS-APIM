@@ -1,14 +1,12 @@
-import { TApiUsageList, TResponseCodeList, TResponseTimeList } from '../types/Statistics';
-
-// time string을 시간:분 형식으로 포맷팅 하는 함수
-export const formatTimeToHHMM = (rawTime: string) => {
-  const date = new Date(rawTime);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  const formattedTime = `${hours}:${String(minutes).padStart(2, '0')}`;
-  return formattedTime;
-};
+import {
+  TApiUsageList,
+  TResponseCodeList,
+  TResponseTimeList,
+  TCategoryUsageList,
+  IFormattedChartData,
+  TCategoryResponseCodeList,
+  ICategoryResponseCode,
+} from '../types/Statistics';
 
 // 사용량 데이터 차트에 사용할 수 있도록 바꾸기
 export const usageData = (data: TApiUsageList) => {
@@ -41,3 +39,51 @@ export const barResponseCode = (data: TResponseCodeList) => {
 
   return { xValues, yValues };
 };
+
+// 카테고리 월 총 사용량 차트에 사용할 수 있도록 바꾸기
+export const donutCategoryUsage = (data: TCategoryUsageList) => {
+  const chartData = data[0].countList?.map((apiCount) => ({
+    value: apiCount.count,
+    name: apiCount.title,
+  }));
+
+  return chartData;
+};
+
+// 카테고리 월별/일별/시간별 사용량
+export const formatCategoryChartData = (
+  data: TCategoryUsageList,
+): { chartDataTime: string[]; formattedChartData: IFormattedChartData[] } => {
+  const apiDataMap: { [apiId: number]: IFormattedChartData } = {};
+  const chartDataTime: string[] = [];
+
+  const colors = ['#f19365', '#adbd6f', '#6783e5', '#7dcdff', '#e3999e', '#b4b0a3', '#72b6c6', '#ebd065', '#f1d7a9'];
+
+  let colorIndex = 0;
+
+  data.forEach((categoryUsage) => {
+    chartDataTime.push(categoryUsage.date);
+
+    categoryUsage.countList.forEach((apiCount) => {
+      if (!apiDataMap[apiCount.apiId]) {
+        apiDataMap[apiCount.apiId] = {
+          name: apiCount.title,
+          data: [],
+          color: colors[colorIndex % colors.length],
+        };
+        colorIndex = (colorIndex + 1) % colors.length; // 증가 연산 대신 이 방식 사용
+      }
+      apiDataMap[apiCount.apiId].data.push(apiCount.count);
+    });
+  });
+
+  const formattedChartData = Object.values(apiDataMap);
+  return { chartDataTime, formattedChartData };
+};
+
+export const formatCategoryPieChartData = (data: TCategoryResponseCodeList) =>
+  data.map((item: ICategoryResponseCode) => ({
+    name: item.responseCode,
+    value: item.count,
+    countList: item.countList,
+  }));

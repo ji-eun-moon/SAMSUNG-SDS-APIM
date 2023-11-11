@@ -61,7 +61,7 @@ function MainNoticeList() {
         </button>
       </div>
       <ShadowCard type="bordersmall">
-        <div className="flex justify-center flex-col px-2 py-1">
+        <div className="flex flex-col px-2 py-1" style={{ height: '30vh' }}>
           {noticeList && noticeList.content.length !== 0 ? (
             noticeList.content?.map((notice, index) => (
               <div key={notice.noticeId}>

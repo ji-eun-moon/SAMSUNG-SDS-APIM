@@ -8,12 +8,14 @@ import ChartFrame from '@/components/atoms/ChartFrame';
 interface Props {
   apiId: number;
   teamName: string;
+  type: 'use' | 'provide';
 }
 
-function ResponseTime({ apiId, teamName }: Props) {
+function ResponseTime({ apiId, teamName, type }: Props) {
   const { responseTimeData, isResponseTimeLoading, refetchResponseTime } = useResponseTime({
     apiId,
     teamName,
+    type,
   });
 
   if (isResponseTimeLoading || !responseTimeData) {

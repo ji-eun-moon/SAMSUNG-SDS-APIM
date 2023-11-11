@@ -1,12 +1,5 @@
-.SideBarBody {
-  width: 255px;
+.ChartSideBarBody {
   height: 90vh;
-  padding: 20px 45px;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  z-index: 1;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -25,4 +18,15 @@
       background: #a1a1a1; // 스크롤바 핸들에 마우스를 올렸을 때의 색상
     }
   }
+}
+
+.tabBody {
+  display: block !important;
+}
+
+.chip {
+  max-width: 100px;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
 }

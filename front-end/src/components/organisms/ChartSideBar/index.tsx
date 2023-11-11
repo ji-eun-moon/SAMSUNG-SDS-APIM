@@ -1,43 +1,69 @@
-// import SideBarBody from '@/components/atoms/SideBarBody';
-import { TCategoryList } from '@/types/Api';
-import { getUseCategoryList } from '@/utils/axios/api';
-import { useQuery } from 'react-query';
 import useUserStore from '@/store/useUserStore';
-import useApiStore from '@/store/useApiStore';
 import PageLoading from '@/components/atoms/PageLoading';
+import useMyApi from '@/hooks/useMyApi';
+import { Chip } from '@nextui-org/react';
+import { useRouter } from 'next/router';
 import CategoryList from '../CategoryList';
+import styles from './ChartSideBar.module.scss';
 
-function ChartSideBar() {
+interface Props {
+  type: 'use' | 'provide';
+  openCategoryId: number;
+}
+
+function ChartSideBar({ type, openCategoryId }: Props) {
+  const router = useRouter();
   const { selectedTeam } = useUserStore();
-  const { selectApi, selectedApi } = useApiStore();
-  const { data: useCategoryList } = useQuery<TCategoryList>(
-    `useCategoryList ${selectedTeam}`,
-    async () => {
-      const result: TCategoryList = await getUseCategoryList(selectedTeam || '');
-      if (result && result.length > 0 && selectedApi.id === 0) {
-        selectApi(result[0].apiList[0].apiName, result[0].apiList[0].apiId);
-      }
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
+  const { useCategoryList, provideCategoryList, firstProvideCategoryId, firstUseCategoryId } = useMyApi(selectedTeam);
 
-  if (useCategoryList === undefined) {
+  if (useCategoryList === undefined || provideCategoryList === undefined) {
     return <PageLoading />;
   }
 
-  const firstCategory = useCategoryList[0]?.categoryId || -1;
+  const sideBarBody = () => {
+    if (type === 'use') {
+      if (useCategoryList.length === 0) {
+        return <div className="my-5 textSecondary text-sm">사용 중인 API가 없습니다.</div>;
+      }
+      return <CategoryList categoryList={useCategoryList} openCategory={openCategoryId} my={false} type="use" />;
+    }
+    if (type === 'provide') {
+      if (provideCategoryList.length === 0) {
+        return <div className="my-5 textSecondary text-sm">제공 중인 API가 없습니다.</div>;
+      }
+      return (
+        <CategoryList categoryList={provideCategoryList} openCategory={openCategoryId} my={false} type="provide" />
+      );
+    }
+    return null;
+  };
 
   return (
-    <div className="p-5">
-      <div className="my-2 font-bold text-xl itdaText">API 사용 통계</div>
-      {firstCategory === -1 ? (
-        <div className="flex itdaSecondary my-5 text-sm">사용중인 API가 없습니다.</div>
-      ) : (
-        <CategoryList categoryList={useCategoryList} openCategory={firstCategory} my={false} type="statistics" />
-      )}
+    <div className="py-5 pr-2 pl-1">
+      <div className="bg-gray-100 flex p-1 rounded-lg justify-center w-full">
+        <Chip
+          size="lg"
+          radius="sm"
+          onClick={() => router.push(`/statistics/category/use/${firstUseCategoryId}`)}
+          className={`text-sm font-bold cursor-pointer w-1/2 text-center ${
+            type === 'use' ? 'bg-white text-black border' : 'bg-gray-100 text-gray-400'
+          } ${styles.chip}`}
+        >
+          사용
+        </Chip>
+        <Chip
+          onClick={() => router.push(`/statistics/category/provide/${firstProvideCategoryId}`)}
+          size="lg"
+          radius="sm"
+          className={`text-sm text-black font-bold cursor-pointer w-1/2 text-center ${
+            type === 'provide' ? 'bg-white text-black border' : 'bg-gray-100 text-gray-400'
+          } ${styles.chip}`}
+        >
+          제공
+        </Chip>
+      </div>
+
+      <div className={`py-5 px-3 flex flex-col ${styles.ChartSideBarBody}`}>{sideBarBody()}</div>
     </div>
   );
 }

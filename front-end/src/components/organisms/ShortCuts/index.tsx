@@ -8,25 +8,27 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 // import Link from 'next/link';
 import { IUser } from '@/types/User';
+import useMyApi from '@/hooks/useMyApi';
 import { getUserInfo } from '@/utils/axios/user';
+import useUserStore from '@/store/useUserStore';
 import Modal from '../Modal';
 
 function ShortCuts() {
   const router = useRouter();
+  const { selectedTeam } = useUserStore();
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
+  const { firstUseCategoryId } = useMyApi(selectedTeam);
 
   let firstCategory = 0;
-  // const firstApi = 0;
   if (categoryList) {
     firstCategory = categoryList[0]?.categoryId || 0;
-    // firstApi = categoryList[0]?.apiList[0].apiId;
   }
 
   const urlList = {
     ApiStatus: `/apis/status`,
-    statistics: `/statistics`,
+    statistics: `/statistics/category/use/${firstUseCategoryId}`,
     monitoring: '/monitoring',
     applyList: '/apply/use/list',
     adminApplyList: '/admin/useApplyList',
