@@ -38,16 +38,12 @@ public class KafkaConsumer {
                 throw new RuntimeException();
             }
 
-            if (jsonObject.get("categoryId") != null && jsonObject.get("teamName") != null) {
-                elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
-                        jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
-                        jsonObject.get("categoryId").toString(), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
-                        jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
-            } else {
-                elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
-                        jsonObject.get("endpoint").toString(), "no team", "no category", Long.valueOf(jsonObject.get("ResponseTime").toString()) + 3,
-                        jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
-            }
+
+            elasticUsageService.register(new CreateUsageRequest(LocalDateTime.parse(jsonObject.get("createdAt").toString()), apiMethod,
+                    jsonObject.get("endpoint").toString(), jsonObject.get("teamName").toString(),
+                    jsonObject.get("categoryId").toString(), Long.valueOf(jsonObject.get("ResponseTime").toString()) + 10,
+                    jsonObject.get("ResponseCode").toString(), jsonObject.get("remoteAddr").toString()));
+
 
         } catch (ParseException e) {
             e.printStackTrace();
