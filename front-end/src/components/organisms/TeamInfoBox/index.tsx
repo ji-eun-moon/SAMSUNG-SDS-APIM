@@ -17,7 +17,7 @@ function TeamInfoBox({ teamList, currentTeam, setTeam }: TeamInfoBoxProps) {
 
   return (
     <div className="mt-8 ml-8">
-      <ShadowCard type="big">
+      <ShadowCard type="bordersmall" bgcolor="#ffffff">
         <div className="px-4 py-3 relative">
           {/* 팀 선택 SelectBox */}
           <div className="absolute right-5">

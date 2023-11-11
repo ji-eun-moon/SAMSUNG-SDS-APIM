@@ -79,7 +79,6 @@ function MainApiStatus() {
           </svg>
         </button>
       </div>
-      {/* <ShadowCard type="bordersmall" bgcolor="#ffffff"> */}
       <ShadowCard type="bordersmall">
         <div style={{ height: '30vh' }}>
           <ApiStatusSummary onClickHandler={onClickHandler} />

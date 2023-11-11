@@ -4,8 +4,9 @@ import { NextPage, GetStaticProps } from 'next';
 import { useQuery, QueryClient } from 'react-query';
 import { getUserInfo, getTeamInfo, getTeamToken } from '@/utils/axios/user';
 import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
-import SideLayout from '@/components/templates/SideLayout';
-import GoBack from '@/components/atoms/GoBack';
+// import SideLayout from '@/components/templates/SideLayout';
+import TopLayout from '@/components/templates/TopLayout';
+// import GoBack from '@/components/atoms/GoBack';
 import TeamInfoBox from '@/components/organisms/TeamInfoBox';
 import { dehydrate } from 'react-query/hydration';
 
@@ -21,12 +22,12 @@ const Team: NextPage = () => {
   }
 
   return (
-    <SideLayout>
-      <div>
-        <GoBack label="팀 정보" />
+    <TopLayout>
+      <div style={{ margin: '30px 200px' }}>
+        {/* <GoBack label="팀 정보" /> */}
         <TeamInfoBox teamList={userInfo.teams} setTeam={(teamName) => setTeam(teamName)} currentTeam={team} />
       </div>
-    </SideLayout>
+    </TopLayout>
   );
 };
 
