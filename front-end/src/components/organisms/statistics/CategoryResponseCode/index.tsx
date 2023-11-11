@@ -1,20 +1,19 @@
-import useResponseCode from '@/hooks/useResponseCode';
+import useCategoryResponseCode from '@/hooks/useCategoryResponseCode';
 import { Spinner } from '@nextui-org/react';
-import PieChart from '@/components/chart/PieChart';
-import BarChart from '@/components/chart/BarChart';
+import { formatCategoryPieChartData } from '@/utils/chartData';
+import CategoryPieChart from '@/components/chart/CategoryPieChart';
 import Refresh from '@/components/atoms/Refresh';
 import ChartFrame from '@/components/atoms/ChartFrame';
-import { transformResponseCodeData, barResponseCode } from '@/utils/chartData';
 
 interface Props {
-  apiId: number;
+  categoryId: number;
   teamName: string;
   type: 'use' | 'provide';
 }
 
-function ResponseCode({ apiId, teamName, type }: Props) {
-  const { responseCodeData, isResponseCodeLoading, refetchResponseCode } = useResponseCode({
-    apiId,
+function CategoryResponseCode({ categoryId, teamName, type }: Props) {
+  const { responseCodeData, isResponseCodeLoading, refetchResponseCode } = useCategoryResponseCode({
+    categoryId,
     teamName,
     type,
   });
@@ -29,8 +28,7 @@ function ResponseCode({ apiId, teamName, type }: Props) {
     );
   }
 
-  const pieChartData = transformResponseCodeData(responseCodeData);
-  const BarChartData = barResponseCode(responseCodeData);
+  const chartData = formatCategoryPieChartData(responseCodeData);
 
   return (
     <div>
@@ -43,16 +41,10 @@ function ResponseCode({ apiId, teamName, type }: Props) {
       </div>
       <ChartFrame>
         <div className="flex gap-5">
-          <PieChart
+          <CategoryPieChart
             title=""
-            chartData={pieChartData}
+            chartData={chartData}
             pieColors={['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF']}
-          />
-          <BarChart
-            title=""
-            chartDataName={BarChartData.xValues}
-            chartDataValue={BarChartData.yValues}
-            barColors={['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF']}
           />
         </div>
       </ChartFrame>
@@ -60,4 +52,4 @@ function ResponseCode({ apiId, teamName, type }: Props) {
   );
 }
 
-export default ResponseCode;
+export default CategoryResponseCode;

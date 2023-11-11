@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { IChartParams, TResponseTimeList } from '@/types/Statistics';
 import { getResponseTime } from '@/utils/axios/statistics';
 
-function useResponseTime({ apiId, teamName }: IChartParams) {
+function useResponseTime({ apiId, teamName, type }: IChartParams) {
   // 응답 시간 데이터 가져오기
   const {
     data: responseTimeData,
@@ -10,8 +10,8 @@ function useResponseTime({ apiId, teamName }: IChartParams) {
     isError: isResponseTimeError,
     refetch: refetchResponseTime,
   } = useQuery<TResponseTimeList>(
-    [`responseTime_${apiId}_${teamName}`, { apiId, teamName }],
-    () => getResponseTime({ apiId, teamName }),
+    [`responseTime`, { apiId, teamName, type }],
+    () => getResponseTime({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
     },

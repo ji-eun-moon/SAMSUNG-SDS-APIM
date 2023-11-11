@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { LineChartProps, ResponseTimeChartProps } from '@/types/props/ChartProps';
 import * as echarts from 'echarts';
-import { formatTimeToHHMM } from '@/utils/chartData';
+import { formatTimeToHHMM } from '@/utils/format';
 
 function LineChart({ type, title, isSmooth, chartColor, chartDataValue, chartDataName, ...props }: LineChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);

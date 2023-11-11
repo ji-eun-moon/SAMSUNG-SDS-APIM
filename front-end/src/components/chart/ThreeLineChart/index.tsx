@@ -1,21 +1,45 @@
 import React, { useEffect, useRef } from 'react';
+import { hexToRGBA } from '@/utils/format';
 import * as echarts from 'echarts';
 
+interface LineChartData {
+  name: string;
+  data: number[];
+  color: string; // 선과 영역의 색상
+}
+
 interface ThreeLineChartProps {
-  chartDataValue1: number[];
-  chartDataValue2: number[];
-  chartDataValue3: number[];
+  chartData: LineChartData[];
   chartDataTime: string[];
 }
 
-function ThreeLineChart({ chartDataValue1, chartDataValue2, chartDataValue3, chartDataTime }: ThreeLineChartProps) {
+function ThreeLineChart({ chartData, chartDataTime }: ThreeLineChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
+
+  // series 배열 동적 생성
+  const series = chartData.map((data) => ({
+    name: data.name,
+    data: data.data,
+    type: 'line',
+    areaStyle: {
+      color: hexToRGBA(data.color, 0.2),
+    },
+    itemStyle: {
+      color: data.color,
+    },
+  }));
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
       const options: echarts.EChartOption = {
+        grid: {
+          top: '10%',
+          right: '10%',
+          bottom: '10%',
+          left: '10%',
+        },
         xAxis: {
           type: 'category',
           data: chartDataTime,
@@ -24,50 +48,22 @@ function ThreeLineChart({ chartDataValue1, chartDataValue2, chartDataValue3, cha
           type: 'value',
           splitNumber: 3,
         },
-        series: [
-          {
-            name: 'Data Line 1',
-            data: chartDataValue1,
-            type: 'line',
-            areaStyle: {
-              color: 'rgba(255, 144, 62, 0.2)', // FF903E의 투명한 배경색
-            },
-            itemStyle: {
-              color: '#FF903E', // 고정된 색상 1
-            },
+        series,
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
           },
-          {
-            name: 'Data Line 2',
-            data: chartDataValue2,
-            type: 'line',
-            areaStyle: {
-              color: 'rgba(88, 215, 100, 0.2)', // 58D764의 투명한 배경색
-            },
-            itemStyle: {
-              color: '#58D764', // 고정된 색상 2
-            },
-          },
-          {
-            name: 'Data Line 3',
-            data: chartDataValue3,
-            type: 'line',
-            areaStyle: {
-              color: 'rgba(251, 233, 71, 0.2)', // FBE947의 투명한 배경색
-            },
-            itemStyle: {
-              color: '#FBE947', // 고정된 색상 3
-            },
-          },
-        ],
+        },
       };
       chart.setOption(options);
       return () => {
         chart.dispose();
       };
     }
-  }, [chartDataTime, chartDataValue1, chartDataValue2, chartDataValue3]);
+  }, [chartDataTime, chartData, series]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;
 }
 
 export default ThreeLineChart;

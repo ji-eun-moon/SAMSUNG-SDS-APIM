@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import { IApiCount } from '@/types/Statistics';
 import { PieChartProps } from '@/types/props/ChartProps';
 import * as echarts from 'echarts';
 
-function PieChart({ title, chartData, pieColors }: PieChartProps) {
+function CategoryPieChart({ title, chartData, pieColors }: PieChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   // eslint-disable-next-line consistent-return
@@ -16,12 +17,20 @@ function PieChart({ title, chartData, pieColors }: PieChartProps) {
         },
         tooltip: {
           trigger: 'item',
+          formatter: (params: echarts.EChartOption.Tooltip.Format) => {
+            const data = params.data as { name: string; value: number; countList: IApiCount[] };
+            let tooltipText = `${data.name}: ${data.value}<br/>`;
+            data.countList.forEach((apiCount: IApiCount) => {
+              tooltipText += `${apiCount.title}: ${apiCount.count}<br/>`;
+            });
+            return tooltipText;
+          },
         },
         legend: {
           orient: 'vertical',
           right: 5,
-          left: '80%',
           top: 'middle',
+          left: '80%',
         },
         series: [
           {
@@ -67,4 +76,4 @@ function PieChart({ title, chartData, pieColors }: PieChartProps) {
   return <div ref={chartRef} style={{ width: '100%', height: '250px' }} />;
 }
 
-export default PieChart;
+export default CategoryPieChart;
