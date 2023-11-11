@@ -1,20 +1,20 @@
 import { useQuery } from 'react-query';
-import { IChartParams, TApiUsageList } from '@/types/Statistics';
-import { getMonthlyUsage, getDailyUsage, getHourlyUsage } from '@/utils/axios/statistics';
+import { ICategoryChartParams, TCategoryUsageList } from '@/types/Statistics';
+import { getCategoryMonthlyUsage, getCategoryDailyUsage, getCategoryHourlyUsage } from '@/utils/axios/statistics';
 import { formatTimeToHHMM } from '@/utils/format';
 
-function useUsageData({ apiId, teamName, type }: IChartParams) {
+function useCategoryListUsage({ categoryId, teamName, type }: ICategoryChartParams) {
   // 월간 데이터 가져오기
   const {
     data: monthlyData,
     isLoading: isMonthlyLoading,
     isError: isMonthlyError,
     refetch: refetchMonthly,
-  } = useQuery<TApiUsageList>(
-    [`monthlyUsage`, { apiId, teamName, type }],
-    () => getMonthlyUsage({ apiId, teamName, type }),
+  } = useQuery<TCategoryUsageList>(
+    [`monthlyUsage`, { categoryId, teamName, type }],
+    () => getCategoryMonthlyUsage({ categoryId, teamName, type }),
     {
-      enabled: !!apiId && !!teamName,
+      enabled: !!categoryId && !!teamName,
     },
   );
 
@@ -24,11 +24,11 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     isLoading: isDailyLoading,
     isError: isDailyError,
     refetch: refetchDaily,
-  } = useQuery<TApiUsageList>(
-    [`dailyUsage`, { apiId, teamName, type }],
-    () => getDailyUsage({ apiId, teamName, type }),
+  } = useQuery<TCategoryUsageList>(
+    [`dailyUsage`, { categoryId, teamName, type }],
+    () => getCategoryDailyUsage({ categoryId, teamName, type }),
     {
-      enabled: !!apiId && !!teamName,
+      enabled: !!categoryId && !!teamName,
     },
   );
 
@@ -38,16 +38,16 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     isLoading: isHourlyLoading,
     isError: isHourlyError,
     refetch: refetchHourly,
-  } = useQuery<TApiUsageList>(
-    [`hourlyUsage`, { apiId, teamName, type }],
-    () => getHourlyUsage({ apiId, teamName, type }),
+  } = useQuery<TCategoryUsageList>(
+    [`hourlyUsage`, { categoryId, teamName, type }],
+    () => getCategoryHourlyUsage({ categoryId, teamName, type }),
     {
-      enabled: !!apiId && !!teamName,
+      enabled: !!categoryId && !!teamName,
     },
   );
 
   // 시간 데이터 가공
-  const formatData = (data: TApiUsageList) => {
+  const formatData = (data: TCategoryUsageList) => {
     if (!data) return [];
     // 시간 데이터 가공
     const formattedData = data.map((item) => ({
@@ -64,7 +64,7 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     dailyData,
     isDailyLoading,
     isDailyError,
-    hourlyData: formatData(hourlyData as TApiUsageList),
+    hourlyData: formatData(hourlyData as TCategoryUsageList),
     isHourlyLoading,
     isHourlyError,
     refetchMonthly,
@@ -73,4 +73,4 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
   };
 }
 
-export default useUsageData;
+export default useCategoryListUsage;

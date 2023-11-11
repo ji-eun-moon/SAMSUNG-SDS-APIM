@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import useUsageData from '@/hooks/useUsageData';
-import { usageData } from '@/utils/chartData';
-import LineChart from '@/components/chart/LineChart';
+import useCategoryListUsage from '@/hooks/useCategoryListUsage';
+import { formatCategoryChartData } from '@/utils/chartData';
 import ChartFrame from '@/components/atoms/ChartFrame';
-import { Spinner } from '@nextui-org/react';
+import ThreeLineChart from '@/components/chart/ThreeLineChart';
 import CustomSelect from '@/components/atoms/CustomSelect';
 import Refresh from '@/components/atoms/Refresh';
+import { Spinner } from '@nextui-org/react';
 
 interface Props {
-  apiId: number;
+  categoryId: number;
   teamName: string;
   type: 'use' | 'provide';
 }
@@ -19,7 +19,7 @@ enum ChartType {
   Hourly,
 }
 
-function Usage({ apiId, teamName, type }: Props) {
+function CategoryListUsage({ categoryId, teamName, type }: Props) {
   const [selected, setSelected] = useState('월별');
   const {
     monthlyData,
@@ -31,8 +31,8 @@ function Usage({ apiId, teamName, type }: Props) {
     refetchMonthly,
     refetchDaily,
     refetchHourly,
-  } = useUsageData({
-    apiId,
+  } = useCategoryListUsage({
+    categoryId,
     teamName,
     type,
   });
@@ -55,16 +55,16 @@ function Usage({ apiId, teamName, type }: Props) {
   let chartData;
   switch (selectedChart) {
     case ChartType.Monthly:
-      chartData = usageData(monthlyData);
+      chartData = formatCategoryChartData(monthlyData);
       break;
     case ChartType.Daily:
-      chartData = usageData(dailyData);
+      chartData = formatCategoryChartData(dailyData);
       break;
     case ChartType.Hourly:
-      chartData = usageData(hourlyData);
+      chartData = formatCategoryChartData(hourlyData);
       break;
     default:
-      chartData = usageData(monthlyData); // 기본값 설정
+      chartData = formatCategoryChartData(monthlyData); // 기본값 설정
   }
 
   const handleSelectChange = (value: string) => {
@@ -103,7 +103,7 @@ function Usage({ apiId, teamName, type }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <div>{type === 'use' ? '사용량' : '제공량'}</div>
+        <div>{type === 'use' ? 'API별 사용량' : 'API별 제공량'}</div>
         <div className="flex gap-2">
           <div className="w-28">
             <CustomSelect items={['월별', '일별', '시간별']} value={selected} onChange={handleSelectChange} />
@@ -112,17 +112,10 @@ function Usage({ apiId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <LineChart
-          type="Usage"
-          title=""
-          isSmooth={false}
-          chartDataName={chartData.xValues}
-          chartDataValue={chartData.yValues}
-          chartColor="#8FCACA"
-        />
+        <ThreeLineChart chartData={chartData.formattedChartData} chartDataTime={chartData.chartDataTime} />
       </ChartFrame>
     </div>
   );
 }
 
-export default Usage;
+export default CategoryListUsage;
