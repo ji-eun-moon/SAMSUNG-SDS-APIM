@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { getCategoryList } from '@/utils/axios/api';
 import ServerGraph from '@/components/atoms/ServerGraph';
 import Link from 'next/link';
+import Image from 'next/image';
 import style from './AdminMain.module.scss';
 
 function AdminMainBox() {
@@ -123,15 +124,7 @@ function AdminMainBox() {
               <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
                 <Link href="/monitoring/server" target="_blank">
                   <div className={style.shortcut}>
-                    <svg
-                      className="w-4 h-4 text-gray-800 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 14 18"
-                    >
-                      <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                    </svg>
+                    <Image src="/images/desktop.png" alt="itda logo" width={22} height={22} />
                     <span>서버 모니터링</span>
                   </div>
                 </Link>
@@ -139,15 +132,8 @@ function AdminMainBox() {
               <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
                 <Link href="/kibana" target="_blank">
                   <div className={style.shortcut}>
-                    <svg
-                      className="w-4 h-4 text-gray-800 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 14 18"
-                    >
-                      <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                    </svg>
+                    <Image src="/images/database.png" alt="itda logo" width={22} height={22} />
+
                     <span>사용량 모니터링</span>
                   </div>
                 </Link>
