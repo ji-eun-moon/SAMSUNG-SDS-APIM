@@ -1,13 +1,13 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
 import DrawerLayout from '@/components/templates/DrawerLayout';
+import ChartSideBar from '@/components/organisms/ChartSideBar';
+import GoBack from '@/components/atoms/GoBack';
 import CategoryChartLayout from '@/components/templates/CategoryChartLayout';
 import CategoryUsage from '@/components/organisms/statistics/CategoryUsage';
 import CategoryListUsage from '@/components/organisms/statistics/CategoryListUsage';
 import CategoryResponseCode from '@/components/organisms/statistics/CategoryResponseCode';
 import CategoryResponseTime from '@/components/organisms/statistics/CategoryResponseTime';
-import ChartSideBar from '@/components/organisms/ChartSideBar';
-import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
-import { getProvideCategoryList, getCategoryName } from '@/utils/axios/api';
+import { getCategoryList, getCategoryName } from '@/utils/axios/api';
 import {
   getCategoryMonthlyUsage,
   getCategoryDailyUsage,
@@ -18,14 +18,12 @@ import {
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { ICategory } from '@/types/Api';
-import GoBack from '@/components/atoms/GoBack';
 
 type SSGProps = {
   categoryId: number;
 };
 
-const ProvideCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
-  const { selectedTeam } = useUserStore();
+const AdminCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { data } = useQuery<string>(['categoryName', categoryId], () => getCategoryName(categoryId));
   return (
     <DrawerLayout>
@@ -37,13 +35,13 @@ const ProvideCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
           <CategoryChartLayout>
             <GoBack label={data || ''} />
             {/* 월 총 사용량 */}
-            <CategoryUsage type="provide" categoryId={categoryId} teamName={selectedTeam} />
+            <CategoryUsage type="provide" categoryId={categoryId} teamName="admin" />
             {/* 기간별 사용량 */}
-            <CategoryListUsage type="provide" categoryId={categoryId} teamName={selectedTeam} />
+            <CategoryListUsage type="provide" categoryId={categoryId} teamName="admin" />
             {/* 응답 코드 */}
-            <CategoryResponseCode type="provide" categoryId={categoryId} teamName={selectedTeam} />
+            <CategoryResponseCode type="provide" categoryId={categoryId} teamName="admin" />
             {/* 응답 시간 */}
-            <CategoryResponseTime type="provide" categoryId={categoryId} teamName={selectedTeam} />
+            <CategoryResponseTime type="provide" categoryId={categoryId} teamName="admin" />
           </CategoryChartLayout>
         </div>
       )}
@@ -52,10 +50,9 @@ const ProvideCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const selectedTeam = await getSelectedTeam();
-  const useCategoryList = await getProvideCategoryList(selectedTeam);
+  const categoryList = await getCategoryList();
   const paths =
-    useCategoryList?.map((category: ICategory) => ({
+    categoryList?.map((category: ICategory) => ({
       params: { categoryId: category.categoryId.toString() },
     })) || [];
   return {
@@ -65,28 +62,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const selectedTeam = await getSelectedTeam();
   const categoryId = Number(params?.categoryId);
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(['categoryName', categoryId], () => getCategoryName(categoryId));
-  await queryClient.prefetchQuery([`monthlyUsage`, { categoryId, teamName: selectedTeam, type: 'provide' }], () =>
-    getCategoryMonthlyUsage({ categoryId, teamName: selectedTeam, type: 'provide' }),
+  await queryClient.prefetchQuery([`monthlyUsage`, { categoryId, teamName: 'admin', type: 'provide' }], () =>
+    getCategoryMonthlyUsage({ categoryId, teamName: 'admin', type: 'provide' }),
   );
-  await queryClient.prefetchQuery([`dailyUsage`, { categoryId, teamName: selectedTeam, type: 'provide' }], () =>
-    getCategoryDailyUsage({ categoryId, teamName: selectedTeam, type: 'provide' }),
+  await queryClient.prefetchQuery([`dailyUsage`, { categoryId, teamName: 'admin', type: 'provide' }], () =>
+    getCategoryDailyUsage({ categoryId, teamName: 'admin', type: 'provide' }),
   );
-  await queryClient.prefetchQuery([`hourlyUsage`, { categoryId, teamName: selectedTeam, type: 'provide' }], () =>
-    getCategoryHourlyUsage({ categoryId, teamName: selectedTeam, type: 'provide' }),
+  await queryClient.prefetchQuery([`hourlyUsage`, { categoryId, teamName: 'admin', type: 'provide' }], () =>
+    getCategoryHourlyUsage({ categoryId, teamName: 'admin', type: 'provide' }),
   );
-  await queryClient.prefetchQuery([`responseCode`, { categoryId, teamName: selectedTeam, type: 'provide' }], () =>
-    getCategoryResponseCode({ categoryId, teamName: selectedTeam, type: 'provide' }),
+  await queryClient.prefetchQuery([`responseCode`, { categoryId, teamName: 'admin', type: 'provide' }], () =>
+    getCategoryResponseCode({ categoryId, teamName: 'admin', type: 'provide' }),
   );
-  await queryClient.prefetchQuery([`responseTime`, { categoryId, teamName: selectedTeam, type: 'provide' }], () =>
-    getCategoryResponseTime({ categoryId, teamName: selectedTeam, type: 'provide' }),
+  await queryClient.prefetchQuery([`responseTime`, { categoryId, teamName: 'admin', type: 'provide' }], () =>
+    getCategoryResponseTime({ categoryId, teamName: 'admin', type: 'provide' }),
   );
   return {
     props: { categoryId, dehydratedState: dehydrate(queryClient) },
   };
 };
 
-export default ProvideCategoryChart;
+export default AdminCategoryChart;

@@ -1,3 +1,4 @@
+// API 관련
 export interface IChartParams {
   apiId: number;
   teamName: string;
@@ -32,6 +33,7 @@ export interface IResponseCode {
 
 export type TResponseCodeList = IResponseCode[];
 
+// 카테고리 관련
 export interface IApiCount {
   apiId: number;
   title: string;
@@ -58,3 +60,17 @@ export interface ICategoryResponseCode {
 }
 
 export type TCategoryResponseCodeList = ICategoryResponseCode[];
+
+export interface IApiResponse {
+  date: string;
+  responseCode: string;
+  responseTime: number;
+}
+
+export interface ICategoryResponseTime {
+  apiId: number;
+  apiTitle: string;
+  responseTimeResponses: IApiResponse[];
+}
+
+export type TCategoryResponseTimeList = ICategoryResponseTime[];

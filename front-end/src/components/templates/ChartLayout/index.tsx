@@ -3,7 +3,7 @@ function ChartLayout({ children }: { children: React.ReactNode[] }) {
     <div>
       {/* Go Back */}
       {children && children[0]}
-      <div className="flex flex-col gap-2 my-3">
+      <div className="flex flex-col gap-4 my-5">
         <div className="flex w-full gap-2">
           <div className="w-1/2">
             {/* 사용량 */}
