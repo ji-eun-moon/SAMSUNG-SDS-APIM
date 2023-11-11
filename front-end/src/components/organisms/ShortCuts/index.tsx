@@ -34,6 +34,7 @@ function ShortCuts() {
     adminApplyList: '/admin/useApplyList',
     allApi: `/category/${firstCategory}`,
     memberList: `/member/list`,
+    team: `/team`,
   };
 
   const closeModal = () => {
@@ -209,7 +210,7 @@ function ShortCuts() {
               if (firstCategory === 0) {
                 setAlertOpen(true);
               } else {
-                router.push(urlList.allApi);
+                router.push(urlList.team);
               }
             }}
             aria-hidden
@@ -226,7 +227,7 @@ function ShortCuts() {
                       className={style.iconImg}
                     />
                   </div>
-                  <p className={style.cardtitle}>마이페이지</p>
+                  <p className={style.cardtitle}>팀 정보</p>
                 </div>
               </ShadowCard>
             </div>

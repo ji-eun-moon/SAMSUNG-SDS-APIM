@@ -33,3 +33,25 @@
   height: 40px;
   margin: 10px 15px;
 }
+
+.shortcutBtn {
+  color: $itda-secondary;
+
+  &:hover {
+    color: $itda-text;
+    & svg {
+      color: $itda-text;
+    }
+  }
+}
+
+.logoutBtn {
+  color: $itda-secondary;
+
+  &:hover {
+    color: #ee4587;
+    & svg {
+      color: #ee4587;
+    }
+  }
+}

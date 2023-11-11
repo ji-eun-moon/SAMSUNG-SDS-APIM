@@ -9,9 +9,10 @@ interface DonutChartData {
 interface DonutChartProps {
   title: string;
   chartData: DonutChartData[];
+  use?: string;
 }
 
-const DonutChart: React.FC<DonutChartProps> = ({ title, chartData }) => {
+const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,7 +85,19 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData }) => {
     return undefined;
   }, [chartData, title]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;
+  if (use === 'page') {
+    return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;
+  }
+
+  if (use === 'main') {
+    return <div ref={chartRef} style={{ width: '100%', height: '190px' }} />;
+  }
+
+  return null;
+};
+
+DonutChart.defaultProps = {
+  use: 'page',
 };
 
 export default DonutChart;
