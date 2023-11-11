@@ -1,3 +1,4 @@
+import { ScatterDataItem } from '@/types/props/ChartProps';
 import {
   TApiUsageList,
   TResponseCodeList,
@@ -6,6 +7,7 @@ import {
   IFormattedChartData,
   TCategoryResponseCodeList,
   ICategoryResponseCode,
+  TCategoryResponseTimeList,
 } from '../types/Statistics';
 
 // 사용량 데이터 차트에 사용할 수 있도록 바꾸기
@@ -87,3 +89,34 @@ export const formatCategoryPieChartData = (data: TCategoryResponseCodeList) =>
     value: item.count,
     countList: item.countList,
   }));
+
+export const formatScatterChartData = (data: TCategoryResponseTimeList): ScatterDataItem[] => {
+  // 시간대 별로 그룹화하는 함수
+  const groupByHour = (dateString: string) => {
+    const timePart = dateString.split('T')[1];
+    if (!timePart) {
+      return 'Unknown';
+    }
+    const parts = timePart.split(':');
+    if (parts.length < 2) {
+      return 'Unknown';
+    }
+    const hour = parts[0];
+    const minute = parts[1];
+    const second = parts[2].substring(0, 2);
+    return `${hour}:${minute}:${second}`;
+  };
+
+  const scatterData = data.map((api) => ({
+    name: api.apiTitle,
+    type: 'scatter',
+    symbolSize: 8,
+    data: api.responseTimeResponses.map((response) => ({
+      value: [groupByHour(response.date), response.responseTime] as [string, number],
+      date: response.date,
+      responseCode: response.responseCode,
+    })),
+  }));
+
+  return scatterData;
+};
