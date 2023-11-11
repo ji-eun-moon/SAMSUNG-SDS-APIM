@@ -19,6 +19,7 @@ public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
     public RestHighLevelClient elasticsearchClient() {
         ClientConfiguration clientConfiguration = ClientConfiguration.builder()
                 .connectedTo("k9c201.p.ssafy.io:9200")
+                .withBasicAuth("elastic", "itda1235")
                 .build();
         return RestClients.create(clientConfiguration).rest();
     }
