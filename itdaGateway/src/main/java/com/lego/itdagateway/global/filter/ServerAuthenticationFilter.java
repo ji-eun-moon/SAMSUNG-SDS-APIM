@@ -53,6 +53,24 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
 
             String header = exchange.getRequest().getHeaders().getFirst("Authorization");
             log.info(config.getPrefix() + exchange.getRequest().getPath());
+            String categoryId = redisService.getValue(config.getPrefix() + exchange.getRequest().getPath());
+
+            if (categoryId == null) {
+                log.info("잘못된 주소 입니다.");
+                long responseTime = System.currentTimeMillis() - startTime;
+                Map<String, String> map = new HashMap<>();
+                map.put("createdAt", String.valueOf(LocalDateTime.now()));
+                map.put("method", exchange.getRequest().getMethod().toString());
+                map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                map.put("ResponseTime", String.valueOf(responseTime));
+                map.put("ResponseCode", "404");
+                map.put("teamName", "no team");
+                map.put("categoryId", "no category");
+                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                kafkaProducer.send(topic, map);
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
 
             if (!StringUtils.hasText(header)) {
                 log.info("토큰이 없습니다.");
@@ -61,6 +79,8 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
                 map.put("method", exchange.getRequest().getMethod().toString());
                 map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                map.put("teamName", "no team");
+                map.put("categoryId", categoryId);
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", "401");
                 map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
@@ -88,6 +108,8 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     map.put("createdAt", String.valueOf(LocalDateTime.now()));
                     map.put("method", exchange.getRequest().getMethod().toString());
                     map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                    map.put("teamName", "no team");
+                    map.put("categoryId", categoryId);
                     map.put("ResponseTime", String.valueOf(responseTime));
                     map.put("ResponseCode", "401");
                     map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
@@ -96,7 +118,6 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }
-                String categoryId = redisService.getValue(config.getPrefix() + exchange.getRequest().getPath());
                 if (!info[0].replace("category", "").equals(categoryId)) {
                     log.info("잘못된 카테고리 토큰입니다.");
                     long responseTime = System.currentTimeMillis() - startTime;
@@ -104,6 +125,8 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     map.put("createdAt", String.valueOf(LocalDateTime.now()));
                     map.put("method", exchange.getRequest().getMethod().toString());
                     map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                    map.put("teamName", "no team");
+                    map.put("categoryId", categoryId);
                     map.put("ResponseTime", String.valueOf(responseTime));
                     map.put("ResponseCode", "401");
                     map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
@@ -124,6 +147,8 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
                 map.put("method", exchange.getRequest().getMethod().toString());
                 map.put("endpoint",  config.getPrefix() + exchange.getRequest().getPath());
+                map.put("teamName", "no team");
+                map.put("categoryId", categoryId);
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", "401");
                 map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
