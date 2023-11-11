@@ -180,3 +180,21 @@ export async function getCategoryResponseCode({ categoryId, teamName, type }: IC
     return null;
   }
 }
+
+export async function getCategoryResponseTime({ categoryId, teamName, type }: ICategoryChartParams) {
+  const teamParam = type === 'use' ? teamName : null;
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/usage/responseTime-category',
+      params: {
+        categoryId,
+        teamName: teamParam,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

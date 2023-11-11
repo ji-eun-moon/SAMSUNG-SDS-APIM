@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
 import DrawerLayout from '@/components/templates/DrawerLayout';
-import ChartLayout from '@/components/templates/ChartLayout';
+import CategoryChartLayout from '@/components/templates/CategoryChartLayout';
 import ChartSideBar from '@/components/organisms/ChartSideBar';
 import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import { getUseCategoryList, getCategoryName } from '@/utils/axios/api';
@@ -11,12 +11,13 @@ import GoBack from '@/components/atoms/GoBack';
 import CategoryUsage from '@/components/organisms/statistics/CategoryUsage';
 import CategoryListUsage from '@/components/organisms/statistics/CategoryListUsage';
 import CategoryResponseCode from '@/components/organisms/statistics/CategoryResponseCode';
+import CategoryResponseTime from '@/components/organisms/statistics/CategoryResponseTime';
 
 type SSGProps = {
   categoryId: number;
 };
 
-const CategoryList: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
+const UseCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
   const { data } = useQuery<string>(['categoryName', categoryId], () => getCategoryName(categoryId));
 
@@ -27,12 +28,17 @@ const CategoryList: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
         <div className="flex w-full justify-center my-80">사용 중인 API가 없습니다.</div>
       ) : (
         <div>
-          <ChartLayout>
+          <CategoryChartLayout>
             <GoBack label={data || ''} />
+            {/* 월 총 사용량 */}
             <CategoryUsage type="use" categoryId={categoryId} teamName={selectedTeam} />
+            {/* 기간별 사용량 */}
             <CategoryListUsage type="use" categoryId={categoryId} teamName={selectedTeam} />
+            {/* 응답 코드 */}
             <CategoryResponseCode type="use" categoryId={categoryId} teamName={selectedTeam} />
-          </ChartLayout>
+            {/* 응답 시간 */}
+            <CategoryResponseTime type="use" categoryId={categoryId} teamName={selectedTeam} />
+          </CategoryChartLayout>
         </div>
       )}
     </DrawerLayout>
@@ -61,4 +67,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-export default CategoryList;
+export default UseCategoryChart;
