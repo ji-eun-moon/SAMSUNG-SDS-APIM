@@ -193,7 +193,9 @@ public class ServerService {
                                 .description(tag.getDescription())
                                 .server(server)
                         .build());
+                redisService.setValue(String.valueOf(savedCategory.getId()), savedCategory.getName());
             }
+
         });
     }
 
