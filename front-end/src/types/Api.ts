@@ -98,3 +98,12 @@ export interface Pageable {
 export interface StatusPageable extends Pageable {
   apiName: string;
 }
+
+export interface IApiName {
+  apiName: string;
+  categoryId: number;
+}
+
+export interface ICategoryName {
+  categoryName: string;
+}

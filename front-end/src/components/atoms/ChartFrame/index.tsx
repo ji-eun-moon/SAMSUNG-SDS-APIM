@@ -9,14 +9,12 @@ import React from 'react';
  */
 
 interface ChartFrameProps {
-  title: string;
   children: React.ReactElement;
 }
 
-function ChartFrame({ title, children }: ChartFrameProps) {
+function ChartFrame({ children }: ChartFrameProps) {
   return (
-    <div className="border relative border-gray-400 rounded-lg bg-white pt-4">
-      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-8 text-xl itdaText bg-white">{title}</div>
+    <div className="border relative border-gray-400 rounded-lg bg-white py-2">
       <div>{children}</div>
     </div>
   );

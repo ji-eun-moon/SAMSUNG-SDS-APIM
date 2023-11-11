@@ -64,9 +64,14 @@ function NavBar({ position }: NavBarProps) {
     return (
       <div className={styles.navSideBody}>
         {alertOpen && <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={() => setAlertOpen(false)} />}
-        <button type="button" onClick={() => router.push('/')}>
+
+        {router.pathname === '/' ? (
           <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-        </button>
+        ) : (
+          <button type="button" onClick={() => router.push('/')}>
+            <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+          </button>
+        )}
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mt-10 mb-6">
@@ -156,9 +161,13 @@ function NavBar({ position }: NavBarProps) {
   if (position === 'top') {
     return (
       <div className={styles.navTopBody}>
-        <Link href="/">
+        {router.pathname === '/' ? (
           <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-        </Link>
+        ) : (
+          <Link href="/">
+            <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+          </Link>
+        )}
         <div className="flex items-center">
           {searchOpen ? (
             <div className="flex items-center">

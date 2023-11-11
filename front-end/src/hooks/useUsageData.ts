@@ -1,17 +1,18 @@
 import { useQuery } from 'react-query';
 import { IChartParams, TApiUsageList } from '@/types/Statistics';
 import { getMonthlyUsage, getDailyUsage, getHourlyUsage } from '@/utils/axios/statistics';
-import { formatTimeToHHMM } from '@/utils/chartData';
+import { formatTimeToHHMM } from '@/utils/format';
 
-function useUsageData({ apiId, teamName }: IChartParams) {
+function useUsageData({ apiId, teamName, type }: IChartParams) {
   // 월간 데이터 가져오기
   const {
     data: monthlyData,
     isLoading: isMonthlyLoading,
     isError: isMonthlyError,
+    refetch: refetchMonthly,
   } = useQuery<TApiUsageList>(
-    [`monthlyUsage_${apiId}_${teamName}`, { apiId, teamName }],
-    () => getMonthlyUsage({ apiId, teamName }),
+    [`monthlyUsage`, { apiId, teamName, type }],
+    () => getMonthlyUsage({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
     },
@@ -22,9 +23,10 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     data: dailyData,
     isLoading: isDailyLoading,
     isError: isDailyError,
+    refetch: refetchDaily,
   } = useQuery<TApiUsageList>(
-    [`dailyUsage_${apiId}_${teamName}`, { apiId, teamName }],
-    () => getDailyUsage({ apiId, teamName }),
+    [`dailyUsage`, { apiId, teamName, type }],
+    () => getDailyUsage({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
     },
@@ -35,9 +37,10 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     data: hourlyData,
     isLoading: isHourlyLoading,
     isError: isHourlyError,
+    refetch: refetchHourly,
   } = useQuery<TApiUsageList>(
-    [`hourlyUsage_${apiId}_${teamName}`, { apiId, teamName }],
-    () => getHourlyUsage({ apiId, teamName }),
+    [`hourlyUsage`, { apiId, teamName, type }],
+    () => getHourlyUsage({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
     },
@@ -64,6 +67,9 @@ function useUsageData({ apiId, teamName }: IChartParams) {
     hourlyData: formatData(hourlyData as TApiUsageList),
     isHourlyLoading,
     isHourlyError,
+    refetchMonthly,
+    refetchDaily,
+    refetchHourly,
   };
 }
 

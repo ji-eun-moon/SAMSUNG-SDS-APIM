@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { PieChartProps } from '@/types/props/ChartProps';
 import * as echarts from 'echarts';
 
-function PieChart({ title, chartData }: PieChartProps) {
+function PieChart({ title, chartData, pieColors }: PieChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   // eslint-disable-next-line consistent-return
@@ -19,23 +19,39 @@ function PieChart({ title, chartData }: PieChartProps) {
         },
         legend: {
           orient: 'vertical',
-          right: 20,
+          right: 5,
+          left: '80%',
           top: 'middle',
         },
         series: [
           {
             type: 'pie',
-            radius: '50%',
+            radius: ['0%', '80%'],
+            center: ['40%', '50%'],
             data: chartData,
             label: {
               show: true,
               formatter: '{d}%',
+            },
+            labelLine: {
+              length: 5,
+              length2: 5,
             },
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+            itemStyle: {
+              color(params: echarts.EChartOption.Tooltip.Format) {
+                if (typeof params.dataIndex === 'number') {
+                  // 각 데이터 항목마다 다른 색상을 지정
+                  const colors = pieColors;
+                  return colors[params.dataIndex];
+                }
+                return '#000'; // 기본 색상 설정 또는 다른 예외 처리
               },
             },
           },
@@ -46,9 +62,9 @@ function PieChart({ title, chartData }: PieChartProps) {
         chart.dispose();
       };
     }
-  }, [chartData, title]);
+  }, [chartData, title, pieColors]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '350px' }} />;
+  return <div ref={chartRef} style={{ width: '100%', height: '250px' }} />;
 }
 
 export default PieChart;

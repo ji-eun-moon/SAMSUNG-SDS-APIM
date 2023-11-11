@@ -6,5 +6,5 @@ export interface CategoryProps {
   categoryId: number;
   isOpen: boolean;
   my: boolean;
-  type: 'apis' | 'statistics';
+  type: 'apis' | 'use' | 'provide';
 }
