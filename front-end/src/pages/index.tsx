@@ -1,6 +1,6 @@
 import React from 'react';
 import style from '@/styles/MainPage.module.scss';
-// import SideLayout from '@/components/templates/SideLayout';
+import SideLayout from '@/components/templates/SideLayout';
 import TopLayout from '@/components/templates/TopLayout';
 // import ShortCuts from '@/components/organisms/ShortCuts';
 // import ApplySummary from '@/components/organisms/ApplySummary';
@@ -90,15 +90,31 @@ const Home: NextPage = () => {
     return <PageLoading />;
   }
 
-  return (
-    <main>
-      <TopLayout>
-        <div className={`${style.mainPageContainer}`}>
-          {userInfo.authority === '관리자' ? <AdminMainBox /> : <UserMainBox />}
-        </div>
-      </TopLayout>
-    </main>
-  );
+  if (userInfo.authority === '관리자') {
+    return (
+      <main>
+        <TopLayout>
+          <div className={`${style.mainPageContainer}`}>
+            <AdminMainBox />
+          </div>
+        </TopLayout>
+      </main>
+    );
+  }
+
+  if (userInfo.authority === '일반') {
+    return (
+      <main>
+        <SideLayout>
+          <div className={`${style.mainPageContainer}`}>
+            <UserMainBox />
+          </div>
+        </SideLayout>
+      </main>
+    );
+  }
+
+  return null;
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {

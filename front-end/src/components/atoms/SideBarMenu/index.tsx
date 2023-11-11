@@ -16,7 +16,7 @@ function SideBarMenu({ title, conditionList }: SideBarMenuProps) {
 
   return (
     <Accordion isCompact defaultExpandedKeys={defaultKeys}>
-      <AccordionItem key="1" aria-label="Accordion 1" title={<p className="itdaBlue font-medium">{title}</p>}>
+      <AccordionItem key="1" aria-label="Accordion 1" title={<p className="samsungLogo font-medium">{title}</p>}>
         <ul>
           {conditionList.map((condition) => (
             <li
