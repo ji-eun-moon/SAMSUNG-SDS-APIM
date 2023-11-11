@@ -21,7 +21,7 @@ public class UsageResponse {
     private String teamToken;
     private Long categoryId;
     private Long responseTime;
-    private Integer responseCode;
+    private String responseCode;
 
     public UsageResponse(Usage usage) {
         usageId = usage.get_id();

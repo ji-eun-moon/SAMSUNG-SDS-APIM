@@ -23,7 +23,7 @@ public class ElasticUsageResponse {
     private String teamName;
     private Long categoryId;
     private Long responseTime;
-    private Integer responseCode;
+    private String responseCode;
 
     public ElasticUsageResponse(ElasticUsage usage) {
         usageId = usage.get_id();

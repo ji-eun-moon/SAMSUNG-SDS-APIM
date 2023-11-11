@@ -15,9 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,7 +31,7 @@ public class ElasticUsageService {
     @Transactional
     public void register(CreateUsageRequest createUsageRequest) {
         ElasticUsage usage = ElasticUsage.builder()
-                .createdAt(createUsageRequest.getCreatedAt())
+                .createdAt(createUsageRequest.getCreatedAt().minusHours(9))
                 .method(createUsageRequest.getMethod())
                 .endpoint(createUsageRequest.getEndpoint())
                 .teamName(createUsageRequest.getTeamName())
@@ -51,18 +49,18 @@ public class ElasticUsageService {
         List<Api> apis = apiRepository.findAll();
         apis.forEach(api -> {
             LocalDateTime dateTime = LocalDateTime.of(2023, 6, 1, 0, 0, 0,0);
-            while (dateTime.isBefore(LocalDateTime.now().plusHours(8))) {
+            while (dateTime.isBefore(LocalDateTime.now())) {
                 int k = random.nextInt(20);
-                int code = 200;
+                String code = "200";
                 if (api.getApiMethod().equals(ApiMethod.POST)) {
-                    code = 201;
+                    code = "201";
                 }
                 if (k == 5) {
-                    code = 400;
+                    code = "400";
                 } else if (k == 6) {
-                    code = 404;
+                    code = "404";
                 } else if (k == 7) {
-                    code = 500;
+                    code = "500";
                 }
 
                 CreateUsageRequest createUsageRequest = new CreateUsageRequest(dateTime, api.getApiMethod(),
@@ -95,7 +93,8 @@ public class ElasticUsageService {
             List<ApiCount> apiCounts = new ArrayList<>();
             apis.forEach(api -> {
                 int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        yearMonth.atDay(1).atTime(0, 0, 0), yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0)).size();
+                        yearMonth.atDay(1).atTime(0, 0, 0).minusHours(9),
+                        yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0).minusHours(9)).size();
 
                 apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
             });
@@ -113,7 +112,8 @@ public class ElasticUsageService {
             List<ApiCount> apiCounts = new ArrayList<>();
             apis.forEach(api -> {
                 int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        yearMonth.atDay(1).atTime(0, 0, 0), yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0)).size();
+                        yearMonth.atDay(1).atTime(0, 0, 0).minusHours(9),
+                        yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0).minusHours(9)).size();
 
                 apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
             });
@@ -131,7 +131,8 @@ public class ElasticUsageService {
             List<ApiCount> apiCounts = new ArrayList<>();
             apis.forEach(api -> {
                 int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        date.atTime(0, 0, 0), date.plusDays(1).atTime(0, 0, 0)).size();
+                        date.atTime(0, 0, 0).minusHours(9),
+                        date.plusDays(1).atTime(0, 0, 0).minusHours(9)).size();
 
                 apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
             });
@@ -150,7 +151,8 @@ public class ElasticUsageService {
             List<ApiCount> apiCounts = new ArrayList<>();
             apis.forEach(api -> {
                 int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        date.atTime(0, 0, 0), date.plusDays(1).atTime(0, 0, 0)).size();
+                        date.atTime(0, 0, 0).minusHours(9),
+                        date.plusDays(1).atTime(0, 0, 0).minusHours(9)).size();
 
                 apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
             });
@@ -170,8 +172,8 @@ public class ElasticUsageService {
             List<ApiCount> apiCounts = new ArrayList<>();
             apis.forEach(api -> {
                 int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        date.toLocalDate().atTime(date.getHour(), 0, 0),
-                        date.toLocalDate().atTime(date.getHour(), 0, 0).plusHours(1)).size();
+                        date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(9),
+                        date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(8)).size();
 
                 apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
             });
@@ -191,8 +193,8 @@ public class ElasticUsageService {
             apis.forEach(api -> {
                 int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName,
                         api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        date.toLocalDate().atTime(date.getHour(), 0, 0),
-                        date.toLocalDate().atTime(date.getHour(), 0, 0).plusHours(1)).size();
+                        date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(9),
+                        date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(8)).size();
 
                 apiCounts.add(new ApiCount(api.getId(), api.getTitle(), amount));
             });
@@ -210,7 +212,8 @@ public class ElasticUsageService {
         for (int i = 0; i < 6; i++) {
             YearMonth yearMonth = YearMonth.from(LocalDate.now().minusMonths(5 - i));
             int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    yearMonth.atDay(1).atTime(0, 0, 0), yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0)).size();
+                    yearMonth.atDay(1).atTime(0, 0, 0).minusHours(9),
+                    yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0).minusHours(9)).size();
 
             monthlyResponses.add(new MonthlyResponse(yearMonth, amount));
         }
@@ -225,7 +228,8 @@ public class ElasticUsageService {
             YearMonth yearMonth = YearMonth.from(LocalDate.now().minusMonths(5 - i));
             int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                     teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    yearMonth.atDay(1).atTime(0, 0, 0), yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0)).size();
+                    yearMonth.atDay(1).atTime(0, 0, 0).minusHours(9),
+                    yearMonth.plusMonths(1).atDay(1).atTime(0, 0, 0).minusHours(9)).size();
 
             monthlyResponses.add(new MonthlyResponse(yearMonth, amount));
         }
@@ -239,7 +243,8 @@ public class ElasticUsageService {
         for (int i = 0; i < 31; i++) {
             LocalDate date = LocalDate.now().minusDays(29 - i);
             int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    date.atTime(0, 0, 0), date.plusDays(1).atTime(0, 0, 0)).size();
+                    date.atTime(0, 0, 0).minusHours(9),
+                    date.plusDays(1).atTime(0, 0, 0).minusHours(9)).size();
 
             dailyResponses.add(new DailyResponse(date, amount));
         }
@@ -254,7 +259,8 @@ public class ElasticUsageService {
             LocalDate date = LocalDate.now().minusDays(29 - i);
             int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName,
                     api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    date.atTime(0, 0, 0), date.plusDays(1).atTime(0, 0, 0)).size();
+                    date.atTime(0, 0, 0).minusHours(9),
+                    date.plusDays(1).atTime(0, 0, 0).minusHours(9)).size();
 
             dailyResponses.add(new DailyResponse(date, amount));
         }
@@ -269,8 +275,8 @@ public class ElasticUsageService {
             LocalDateTime date = LocalDateTime.now().minusHours(23 - i);
             int amount = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                     api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    date.toLocalDate().atTime(date.getHour(), 0, 0),
-                    date.toLocalDate().atTime(date.getHour(), 0, 0).plusHours(1)).size();
+                    date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(9),
+                    date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(8)).size();
 
             hourlyResponses.add(new HourlyResponse(date, amount));
         }
@@ -285,8 +291,8 @@ public class ElasticUsageService {
             LocalDateTime date = LocalDateTime.now().minusHours(23 - i);
             int amount = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(teamName,
                     api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    date.toLocalDate().atTime(date.getHour(), 0, 0),
-                    date.toLocalDate().atTime(date.getHour(), 0, 0).plusHours(1)).size();
+                    date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(9),
+                    date.toLocalDate().atTime(date.getHour(), 0, 0).minusHours(8)).size();
 
             hourlyResponses.add(new HourlyResponse(date, amount));
         }
@@ -299,7 +305,7 @@ public class ElasticUsageService {
 
         return elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                         api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        LocalDateTime.now().minusHours(24), LocalDateTime.now()).stream()
+                        LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9)).stream()
                 .map(ResponseTimeResponse::new).collect(Collectors.toList());
     }
 
@@ -308,7 +314,7 @@ public class ElasticUsageService {
 
         return elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                         teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        LocalDateTime.now().minusHours(24), LocalDateTime.now()).stream()
+                        LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9)).stream()
                 .map(ResponseTimeResponse::new).collect(Collectors.toList());
     }
 
@@ -335,15 +341,15 @@ public class ElasticUsageService {
         if (teamName == null) {
             usages = elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                     api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+                    LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         } else {
             usages = elasticUsageRepository.findAllByTeamNameAndEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                     teamName, api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+                    LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
 
         }
         List<ResponseCodeResponse> responseCodeResponses = new ArrayList<>();
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         usages.forEach(usage -> {
             int amount =  map.getOrDefault(usage.getResponseCode(), 0);
             map.put(usage.getResponseCode(), amount + 1);
@@ -356,19 +362,19 @@ public class ElasticUsageService {
     }
 
     public List<ResponseCodeCategory> getResponseCodeCategory(Long categoryId, String teamName) {
-        Map<Integer, Integer> total = new HashMap<>();
-        Map<Integer, Map<String, Integer>> one = new HashMap<>();
+        Map<String, Integer> total = new HashMap<>();
+        Map<String, Map<String, Integer>> one = new HashMap<>();
         List<ResponseCodeCategory> responseCodeCategories = new ArrayList<>();
 
         List<ElasticUsage> usages;
         if (teamName == null) {
             usages = elasticUsageRepository.findAllByCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                     categoryId,
-                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+                    LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         } else {
             usages = elasticUsageRepository.findAllByTeamNameAndCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                     teamName, categoryId,
-                    LocalDateTime.now().minusHours(24), LocalDateTime.now());
+                    LocalDateTime.now().minusHours(33), LocalDateTime.now().minusHours(9));
         }
 
         usages.forEach(usage -> {

@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponseCodeCategory {
 
-    private Integer responseCode;
+    private String responseCode;
     private Integer count;
     private List<ApiCount> countList;
 }

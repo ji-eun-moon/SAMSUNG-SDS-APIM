@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ResponseTimeResponse {
 
     private LocalDateTime date;
-    private Integer ResponseCode;
+    private String ResponseCode;
     private Long ResponseTime;
 
     public ResponseTimeResponse(ElasticUsage usage) {

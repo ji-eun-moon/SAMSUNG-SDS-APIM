@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseCodeResponse {
 
-    private Integer responseCode;
+    private String responseCode;
     private Integer count;
 }

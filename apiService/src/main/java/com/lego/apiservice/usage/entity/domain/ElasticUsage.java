@@ -35,6 +35,6 @@ public class ElasticUsage {
     private String teamName;
     private Long categoryId;
     private Long responseTime;
-    private Integer responseCode;
+    private String responseCode;
     private String remoteAddr;
 }
