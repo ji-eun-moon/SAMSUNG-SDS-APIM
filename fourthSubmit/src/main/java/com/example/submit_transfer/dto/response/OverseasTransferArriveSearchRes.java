@@ -1,33 +1,23 @@
-package com.example.submit_transfer.entity;
+package com.example.submit_transfer.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 @AllArgsConstructor
-@Builder
-public class Transfer {
+public class OverseasTransferArriveSearchRes {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transfer_id")
-    @Schema(description = "국내 운송 시퀸스", example = "1")
-    private Long id;
-
-    @Schema(description = "운송장 번호", example = "INV0001")
-    @Column(unique = true)
+    @Schema(description = "운송장 번호", example = "PER0001")
     private String wayBillNumber;
 
-    @Schema(description = "출발지", example = "광명시")
+    @Schema(description = "출발지", example = "Seoul")
     private String departureLocation;
 
-    @Schema(description = "도착지", example = "부여군")
+    @Schema(description = "도착지", example = "New York")
     private String destinationLocation;
 
     @Schema(description = "운송 수단", example = "비행기")

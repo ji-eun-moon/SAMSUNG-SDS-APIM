@@ -13,21 +13,21 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Transfer {
+public class OverseasTransfer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transfer_id")
-    @Schema(description = "국내 운송 시퀸스", example = "1")
+    @Schema(description = "해외 운송 시퀸스", example = "1")
     private Long id;
 
-    @Schema(description = "운송장 번호", example = "INV0001")
+    @Schema(description = "운송장 번호", example = "PER0001")
     @Column(unique = true)
     private String wayBillNumber;
 
-    @Schema(description = "출발지", example = "광명시")
+    @Schema(description = "출발지", example = "Seoul")
     private String departureLocation;
 
-    @Schema(description = "도착지", example = "부여군")
+    @Schema(description = "도착지", example = "New York")
     private String destinationLocation;
 
     @Schema(description = "운송 수단", example = "비행기")

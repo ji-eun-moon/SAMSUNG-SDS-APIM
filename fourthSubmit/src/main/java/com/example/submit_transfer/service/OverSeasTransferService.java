@@ -2,7 +2,9 @@ package com.example.submit_transfer.service;
 
 import com.example.submit_transfer.dto.request.TransferRegisterReq;
 import com.example.submit_transfer.dto.response.TransferArriveSearchRes;
+import com.example.submit_transfer.entity.OverseasTransfer;
 import com.example.submit_transfer.entity.Transfer;
+import com.example.submit_transfer.repository.OverseasTransferRepository;
 import com.example.submit_transfer.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +15,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TransferService {
+public class OverSeasTransferService {
 
-    private final TransferRepository transferRepository;
+    private final OverseasTransferRepository transferRepository;
 
     public void register(TransferRegisterReq req) {
 
-        Transfer save = transferRepository.save(Transfer.builder()
+        OverseasTransfer save = transferRepository.save(OverseasTransfer.builder()
                 .wayBillNumber(req.getWayBillNumber())
                 .departureLocation(req.getDepartureLocation())
                 .destinationLocation(req.getDestinationLocation())
