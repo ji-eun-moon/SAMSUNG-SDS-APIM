@@ -5,7 +5,8 @@ export interface NavBarProps {
 export interface IDropdownItem {
   title: string;
   icon: React.ReactNode;
-  url: string;
+  type: string;
+  onClickHandler: string;
 }
 
 export interface ProfileImgProps {

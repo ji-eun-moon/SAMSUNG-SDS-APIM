@@ -50,7 +50,7 @@ const Home: NextPage = () => {
     return (
       <main>
         <TopLayout>
-          <div className={`${style.mainPageContainer}`}>
+          <div className={`${style.topPageContainer}`}>
             <AdminMainBox />
           </div>
         </TopLayout>

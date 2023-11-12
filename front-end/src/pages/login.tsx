@@ -25,6 +25,8 @@ export default function Login() {
     onError: () => {
       setIdAlert(false);
       setPasswordAlert(false);
+      setEmployeeId('');
+      setPassword('');
       setLoginAlert(true);
     },
   });

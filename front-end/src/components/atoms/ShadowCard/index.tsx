@@ -3,7 +3,7 @@ import React from 'react';
 import style from './ShadowCard.module.scss';
 
 interface ShadowCardProps {
-  type: 'small' | 'bordersmall' | 'big' | 'button' | 'monitoring';
+  type: 'small' | 'bordersmall' | 'big' | 'button' | 'monitoring' | 'noShadow';
   children: React.ReactNode;
   bgcolor?: string;
   border?: string;
@@ -41,6 +41,12 @@ function ShadowCard({ type, children, bgcolor, border, onClickHandler }: ShadowC
 
     return (
       <div className={classNames} style={{ ...shadow, border }}>
+        {children}
+      </div>
+    );
+  } else if (type === 'noShadow') {
+    return (
+      <div className="bg-white p-2 w-full rounded-xl border" style={{ opacity: '100' }}>
         {children}
       </div>
     );

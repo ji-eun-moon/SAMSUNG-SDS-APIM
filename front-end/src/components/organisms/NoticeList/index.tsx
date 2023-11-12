@@ -40,7 +40,7 @@ function NoticeList({
 
     return (
       <div className="ml-8">
-        <ShadowCard type="big">
+        <ShadowCard type="bordersmall" bgcolor="#ffffff">
           <div className="py-1 px-3">
             <div className="pl-2 pb-4 flex justify-between">
               <div className="flex items-center">
@@ -121,7 +121,7 @@ function NoticeList({
 
     return (
       <div className="ml-8">
-        <ShadowCard type="big">
+        <ShadowCard type="noShadow">
           <div className="py-1 px-3">
             <div className="pl-2 pb-4 flex justify-between">
               <div className="flex items-center">
