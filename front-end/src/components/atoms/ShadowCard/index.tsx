@@ -7,6 +7,7 @@ interface ShadowCardProps {
   children: React.ReactNode;
   bgcolor?: string;
   border?: string;
+  onClickHandler?: () => void;
 }
 
 /**
@@ -18,8 +19,8 @@ const shadow = {
   boxShadow: '0px 4px 40px 0px rgba(198, 195, 195, 0.25)',
 };
 
-function ShadowCard({ type, children, bgcolor, border }: ShadowCardProps) {
-  let classNames = 'bg-white p-2 w-full';
+function ShadowCard({ type, children, bgcolor, border, onClickHandler }: ShadowCardProps) {
+  let classNames = 'bg-white p-2 w-full h-full';
 
   if (type === 'small') {
     classNames += ' rounded-2xl';
@@ -31,7 +32,7 @@ function ShadowCard({ type, children, bgcolor, border }: ShadowCardProps) {
     classNames += ` rounded-2xl border-2 ${style.hover}`;
 
     return (
-      <div className={classNames} style={{ ...shadow }}>
+      <div className={classNames} style={{ ...shadow }} onClick={onClickHandler} aria-hidden>
         {children}
       </div>
     );
@@ -61,6 +62,7 @@ function ShadowCard({ type, children, bgcolor, border }: ShadowCardProps) {
 ShadowCard.defaultProps = {
   bgcolor: '#ffffff',
   border: 'none',
+  onClickHandler: () => {},
 };
 
 export default ShadowCard;

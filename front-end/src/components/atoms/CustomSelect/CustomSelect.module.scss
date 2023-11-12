@@ -1,6 +1,7 @@
 $hover-color: #f2f2f2;
 
 .dropdown {
+  width: 20%;
   margin: 0 auto;
   background-color: white;
   z-index: 10000;
@@ -20,8 +21,8 @@ $hover-color: #f2f2f2;
     justify-content: space-between;
     padding: 5px;
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid #ddd;
+    border-radius: 7px;
     color: $itda-text;
     font-weight: 500;
   }
@@ -30,8 +31,8 @@ $hover-color: #f2f2f2;
     position: absolute;
     left: 0;
     width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    border: 2px solid #ddd;
+    border-radius: 7px;
     background-color: white;
 
     .item {
