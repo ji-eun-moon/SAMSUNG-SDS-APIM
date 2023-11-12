@@ -19,6 +19,7 @@ import AdminMainBox from '@/components/organisms/AdminMainBox';
 
 const Home: NextPage = () => {
   const { selectedTeam } = useUserStore();
+
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: apiStatus } = useQuery<IApiStatusInfo>('apiStatus', () =>
     getApiStatus({ status: '', page: 0, size: 3, apiName: '' }),

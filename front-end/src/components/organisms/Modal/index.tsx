@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   ModalProps,
@@ -17,15 +17,33 @@ import ModalStyle from './Modal.module.scss';
  * - `type = custom` 일 경우 필수 props : `onClose`, `children`, `buttonLabel`, `onButton`
  */
 function Modal({ type, onClose, ...props }: ModalProps) {
+  const [isClosing, setIsClosing] = useState(false);
+
   const handleClose = (e: MouseEvent) => {
     e.preventDefault();
-    onClose();
+    setIsClosing(true);
+    // 페이드 아웃 애니메이션을 위해 실제로 닫히는 것을 지연시킵니다.
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 500); // CSS 애니메이션 기간에 맞추어 조절하세요.
   };
 
+  useEffect(() => {
+    if (isClosing) {
+      const modal = document.querySelector(`.${ModalStyle.modal}`);
+      if (modal) {
+        modal.classList.add('closing'); // 여기서 'closing' 클래스를 추가합니다.
+        modal.addEventListener('animationend', () => {
+          onClose();
+        });
+      }
+    }
+  }, [isClosing, onClose]);
   if (type === 'alert') {
     const { alertMessage } = props as AlertModalProps;
     return (
-      <div className={ModalStyle.overlay} aria-hidden="true">
+      <div className={!isClosing ? ModalStyle.overlay : ModalStyle.overlayClosing} aria-hidden="true">
         <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
           <button type="button" onClick={onClose} className={ModalStyle.closeButton}>
             <Image src="/icons/close.png" alt="close-icon" width={15} height={15} />
@@ -71,23 +89,46 @@ function Modal({ type, onClose, ...props }: ModalProps) {
     const { title, buttonLabel, children, onButton } = props as CustomModalProps;
     return (
       <div className={ModalStyle.overlay} aria-hidden="true">
-        <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
-          <button type="button" onClick={onClose} className={ModalStyle.closeButton}>
-            <Image src="/icons/close.png" alt="close-icon" width={15} height={15} />
-          </button>
-          <div className="my-4 mx-4">
-            <div className="font-bold text-xl my-2">{title}</div>
-            <div>{children}</div>
-          </div>
-          <div className="flex justify-center">
-            <div className="w-fit">
-              <StyledButton label={buttonLabel} variant="solid" onClick={onButton} radius="sm" type="button" />
+        <div className={ModalStyle.show}>
+          <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
+            <button type="button" onClick={onClose} className={ModalStyle.closeButton}>
+              <Image src="/icons/close.png" alt="close-icon" width={15} height={15} />
+            </button>
+            <div className="my-4 mx-4">
+              <div className="font-bold text-xl my-2">{title}</div>
+              <div>{children}</div>
+            </div>
+            <div className="flex justify-center">
+              <div className="w-fit">
+                <StyledButton label={buttonLabel} variant="solid" onClick={onButton} radius="sm" type="button" />
+              </div>
             </div>
           </div>
         </div>
       </div>
     );
   }
+  // if (type === 'custom') {
+  //   const { title, buttonLabel, children, onButton } = props as CustomModalProps;
+  //   return (
+  //     <div className={ModalStyle.overlay} aria-hidden="true">
+  //       <div className={ModalStyle.modal} onClick={(e) => e.stopPropagation} aria-hidden="true">
+  //         <button type="button" onClick={onClose} className={ModalStyle.closeButton}>
+  //           <Image src="/icons/close.png" alt="close-icon" width={15} height={15} />
+  //         </button>
+  //         <div className="my-4 mx-4">
+  //           <div className="font-bold text-xl my-2">{title}</div>
+  //           <div>{children}</div>
+  //         </div>
+  //         <div className="flex justify-center">
+  //           <div className="w-fit">
+  //             <StyledButton label={buttonLabel} variant="solid" onClick={onButton} radius="sm" type="button" />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (type === 'server') {
     const { children } = props as ServerModalProps;
@@ -97,13 +138,13 @@ function Modal({ type, onClose, ...props }: ModalProps) {
           <button
             type="button"
             onClick={(e) => e.stopPropagation()}
-            className={`absolute ${ModalStyle.closeBtn}`}
+            className="absolute"
             style={{ right: '2%', top: '3%' }}
           >
-            <Image src="/icons/close.png" alt="close-icon" width={11} height={11} onClick={onClose} />
+            <Image src="/icons/close.png" alt="close-icon" width={10} height={10} onClick={onClose} />
           </button>
           <button type="button" onClick={(e) => e.stopPropagation()}>
-            <div className="pb-3">{children}</div>
+            <div>{children}</div>
           </button>
         </button>
       </button>
