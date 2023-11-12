@@ -34,10 +34,11 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
   const [action, setAction] = useState('');
   const [content, setContent] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   // const [endPoint, setEndPoint] = useState('');
 
-  const onModalHandler = (state: boolean) => {
-    setIsModalOpen(state);
+  const onModalHandler = async () => {
+    await setIsModalOpen(!isModalOpen);
   };
 
   useEffect(() => {
@@ -109,33 +110,19 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
     if (action === 'accept') {
       // 승인 처리
       const response = await putProvideApplyAccept(provideId, content);
-      // onModalHandler()
       if (response === 'DENY') {
-        if (isModalOpen) {
-          <Modal
-            type="alert"
-            onClose={() => onModalHandler(false)}
-            alertMessage="테스트 실패로 제공 신청 승인이 거절되었습니다"
-          />;
-        }
-
-        postNoticeResult(details.serverName, details.teamName, '제공', '테스트 실패');
+        setModalMessage('테스트 실패로 제공 신청 승인이 거절되었습니다.');
+        await postNoticeResult(details.serverName, details.teamName, '제공', '테스트 실패');
       } else if (response === 'ACCEPT') {
-        if (isModalOpen) {
-          <Modal type="alert" onClose={() => onModalHandler(false)} alertMessage="제공 신청이 승인되었습니다." />;
-        }
-
-        postNoticeResult(details.serverName, details.teamName, '제공', '승인');
+        setModalMessage('제공 신청이 승인되었습니다.');
+        await postNoticeResult(details.serverName, details.teamName, '제공', '승인');
       }
     } else if (action === 'deny') {
       // 거절 처리
+      setModalMessage('제공 신청이 거절되었습니다.');
+      await postNoticeResult(details.serverName, details.teamName, '제공', '거절');
       await putProvideApplyDeny(provideId, content);
-      if (isModalOpen) {
-        <Modal type="alert" onClose={() => onModalHandler(false)} alertMessage="제공 신청이 거절되었습니다." />;
-      }
-      postNoticeResult(details.serverName, details.teamName, '제공', '거절');
     }
-    router.push('/admin/provideApplyList');
   };
 
   return (
@@ -244,13 +231,23 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
                 variant="solid"
                 type="button"
                 onClick={async () => {
-                  await onModalHandler(true);
-                  onSubmitHandler();
+                  await onModalHandler();
+                  await onSubmitHandler();
                 }}
               />
             </div>
           </div>
         ) : null}
+        {isModalOpen && (
+          <Modal
+            type="alert"
+            onClose={() => {
+              onModalHandler();
+              router.push('/admin/provideApplyList');
+            }}
+            alertMessage={modalMessage}
+          />
+        )}
       </div>
     </BothLayout>
   );

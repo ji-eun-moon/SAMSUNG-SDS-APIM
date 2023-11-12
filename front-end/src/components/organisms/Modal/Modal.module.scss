@@ -3,6 +3,24 @@
   top: 0;
   left: 0;
   width: 100%;
+  height: 100vh;
+  // background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.5s ease 0s 1 normal forwards;
+
+  // opacity: 0; /* 초기 투명도를 0으로 설정합니다. */
+  // transition: opacity 0.3s ease;
+}
+.overlayClosing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   // background-color: rgba(0, 0, 0, 0.5);
   background-color: rgba(0, 0, 0, 0.1);
@@ -11,6 +29,9 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  visibility: hidden;
+
+  animation: fadeOut 0.5s ease 0s 1 normal forwards;
 
   // opacity: 0; /* 초기 투명도를 0으로 설정합니다. */
   // transition: opacity 0.3s ease;
@@ -27,7 +48,6 @@
   // box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   min-width: 400px;
-  max-width: 70%;
   min-height: 150px;
   max-height: 80%;
   overflow-y: auto;
@@ -48,6 +68,25 @@
   height: 35px;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 // .closeBtn {
 //   background-color: transparent;
 //   border: none;
@@ -58,3 +97,64 @@
 //   border-radius: 50%;
 //   padding: 0.5rem;
 // }
+
+// .overlay {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   // background-color: rgba(0, 0, 0, 0.5);
+//   background-color: rgba(0, 0, 0, 0.1);
+//   backdrop-filter: blur(10px);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   z-index: 9999;
+
+//   // opacity: 0; /* 초기 투명도를 0으로 설정합니다. */
+//   // transition: opacity 0.3s ease;
+// }
+
+// // .overlay.show {
+// //   opacity: 1; /* 모달이 나타날 때의 투명도를 1로 설정합니다. */
+// // }
+
+// .modal {
+//   background: #fff;
+//   padding: 20px;
+//   border-radius: 10px;
+//   // box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+//   position: relative;
+//   min-width: 400px;
+//   max-width: 70%;
+//   min-height: 150px;
+//   max-height: 80%;
+//   overflow-y: auto;
+// }
+
+// .closeButton {
+//   position: absolute;
+//   top: 15px;
+//   right: 15px;
+//   background: none;
+//   border: none;
+//   font-size: 20px;
+//   cursor: pointer;
+// }
+
+// .closeButtonImg {
+//   width: 35px;
+//   height: 35px;
+// }
+
+// // .closeBtn {
+// //   background-color: transparent;
+// //   border: none;
+// // }
+
+// // .closeBtn:hover {
+// //   background-color: itdaText;
+// //   border-radius: 50%;
+// //   padding: 0.5rem;
+// // }

@@ -16,8 +16,8 @@ const Monitoring: NextPage = () => {
       const handleResize = () => {
         setWindowSize({
           // 현재 브라우저의 가로, 세로 길이로 셋팅
-          w: window.innerWidth,
-          h: window.innerHeight,
+          w: window.innerWidth - 30,
+          h: window.innerHeight - 70,
         });
       };
 
@@ -36,7 +36,7 @@ const Monitoring: NextPage = () => {
     <TopLayout>
       <div style={{ width: `${w}px`, height: `${h}px` }}>
         <iframe
-          src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/5c853750-8099-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-log,viewMode:view)"
+          src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/9e206b90-8147-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:5000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-dashboard,viewMode:view)"
           height="100%"
           width="100%"
           title="monitoring"
