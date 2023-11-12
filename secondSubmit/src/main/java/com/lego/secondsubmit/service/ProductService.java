@@ -4,6 +4,7 @@ import com.lego.secondsubmit.dto.response.ProductRes;
 import com.lego.secondsubmit.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,52 +17,50 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<ProductRes> all() {
+    public List<ProductRes> all(Pageable pageable) {
 
-        return productRepository.all();
+        return productRepository.all(pageable);
 
     }
 
-    public List<ProductRes> lineSearch(String line) {
+    public List<ProductRes> lineSearch(String line, Pageable pageable) {
 
         log.info("{} 번 라인 검색", line);
         String str = "라인-" + line;
         log.info("{} 검색", str);
-        return productRepository.lineSearch(str);
+        return productRepository.lineSearch(str, pageable);
 
     }
 
-    public List<ProductRes> dynamicSearch() {
+    public List<ProductRes> dynamicSearch(LocalDateTime date, Pageable pageable) {
 
-        return productRepository.dynamicSearch();
+        return productRepository.dynamicSearch(date, pageable);
 
     }
 
-    public List<ProductRes> statusSearch(String status) {
+    public List<ProductRes> statusSearch(String status, Pageable pageable) {
 
         log.info("{} 상태 검색", status);
-        return productRepository.statusSearch(status);
+        return productRepository.statusSearch(status, pageable);
 
     }
 
-    public List<ProductRes> productSearch(String product) {
+    public List<ProductRes> productSearch(String product, Pageable pageable) {
 
         log.info("{} 상품 검색", product);
-        return productRepository.productSearch(product);
+        return productRepository.productSearch(product, pageable);
 
     }
 
-    public List<ProductRes> alreadyEndSearch() {
+    public List<ProductRes> alreadyEndSearch(LocalDateTime localDateTime, Pageable pageable) {
 
-        log.info("{} 전에 끝난 상품 검색", LocalDateTime.now());
-        return productRepository.alreadyEndSearch();
+        return productRepository.alreadyEndSearch(localDateTime, pageable);
 
     }
 
-    public List<ProductRes> yetStartSearch() {
+    public List<ProductRes> yetStartSearch(LocalDateTime localDateTime, Pageable pageable) {
 
-        log.info("{} 이후 시작 상품 검색", LocalDateTime.now());
-        return productRepository.yetStartSearch();
+        return productRepository.yetStartSearch(localDateTime, pageable);
 
     }
 }

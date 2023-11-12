@@ -13,13 +13,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product")
-@Tag(name = "상품 상태 현황 조회", description = "해당 상품에 대한 상태나 라인을 조회하는 기능을 제공하고 있습니다.")
+@Tag(name = "MES - 상품 현황", description = "해당 상품에 대한 상태나 라인을 조회하는 기능을 제공하고 있습니다.")
 public class ProductController {
 
     private final ProductService productService;
@@ -34,10 +40,21 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> all() {
+    public ResponseEntity<?> all(@Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                 @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.all());
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
 
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.all(pageable));
     }
 
     @GetMapping("/line-search")
@@ -50,10 +67,21 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> lineSearch(@Parameter(description = "라인", example = "1", name = "line") String line) {
+    public ResponseEntity<?> lineSearch(@Parameter(description = "라인", example = "1", name = "line") String line,
+                                        @Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                        @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.lineSearch(line));
-
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.lineSearch(line, pageable));
     }
 
     @GetMapping("/dynamic-search")
@@ -66,9 +94,22 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> dynamicSearch() {
+    public ResponseEntity<?> dynamicSearch(@Parameter(description = "날짜", example = "2023-06-29T00:00:00.000", name = "date")@RequestParam LocalDateTime date,
+                                           @Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                           @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.dynamicSearch());
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
+
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.dynamicSearch(date, pageable));
 
     }
 
@@ -82,9 +123,22 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> alreadyEndSearch() {
+    public ResponseEntity<?> alreadyEndSearch(@Parameter(description = "날짜", example = "2023-03-03T00:00:00.000", name = "date")@RequestParam LocalDateTime date,
+                                              @Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                              @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.alreadyEndSearch());
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
+
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.alreadyEndSearch(date, pageable));
 
     }
 
@@ -98,9 +152,22 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> yetStartSearch() {
+    public ResponseEntity<?> yetStartSearch(@Parameter(description = "날짜", example = "2023-03-03T00:00:00.000", name = "date")@RequestParam LocalDateTime date,
+                                            @Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                            @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.yetStartSearch());
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
+
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.yetStartSearch(date, pageable));
 
     }
 
@@ -114,9 +181,22 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> statusSearch(@Parameter(description = "동작 상태", example = "점검 중", name = "status") String status) {
+    public ResponseEntity<?> statusSearch(@Parameter(description = "동작 상태", example = "점검 중", name = "status") String status,
+                                          @Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                          @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.statusSearch(status));
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
+
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.statusSearch(status, pageable));
 
     }
 
@@ -130,11 +210,20 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> productSearch(@Parameter(description = "제품명", example = "삼성 냉장고", name = "productName") String productName) {
+    public ResponseEntity<?> productSearch(@Parameter(description = "제품명", example = "삼성 냉장고", name = "productName") String productName,
+                                           @Parameter(description = "원하는 페이지", example = "0", name = "page")@RequestParam(required = false) Integer page,
+                                           @Parameter(description = "원하는 사이즈", example = "2", name = "size")@RequestParam(required = false) Integer size) {
 
-        return ResponseEntity.ok().body(productService.productSearch(productName));
-
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 2;
+        }
+        if (page < 0 || size < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(productService.productSearch(productName, pageable));
     }
-
-
 }
