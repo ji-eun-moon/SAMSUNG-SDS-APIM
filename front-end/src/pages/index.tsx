@@ -2,10 +2,6 @@ import React from 'react';
 import style from '@/styles/MainPage.module.scss';
 import SideLayout from '@/components/templates/SideLayout';
 import TopLayout from '@/components/templates/TopLayout';
-// import ShortCuts from '@/components/organisms/ShortCuts';
-// import ApplySummary from '@/components/organisms/ApplySummary';
-// import StatusSummary from '@/components/organisms/StatusSummary';
-// import RealTimeLog from '@/components/organisms/RealTimeLog';
 import { NextPage, GetServerSideProps } from 'next';
 import { getUserInfo } from '@/utils/axios/user';
 import PageLoading from '@/components/atoms/PageLoading';
@@ -20,24 +16,9 @@ import { getUseApplyList, getProvideApplyList } from '@/utils/axios/apply';
 import { IResponseUse, IResponseProvide } from '@/types/Apply';
 import UserMainBox from '@/components/organisms/UserMainBox';
 import AdminMainBox from '@/components/organisms/AdminMainBox';
-// import ShadowCard from '@/components/atoms/ShadowCard';
-// import Link from 'next/link';
-// import Image from 'next/image';
 
 const Home: NextPage = () => {
   const { selectedTeam } = useUserStore();
-
-  // const formatDate = (date: Date | string) => {
-  //   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  //   const year = dateObj.getFullYear();
-  //   const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  //   const day = String(dateObj.getDate()).padStart(2, '0');
-  //   const hours = String(dateObj.getHours()).padStart(2, '0');
-  //   const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-
-  //   return `${year}-${month}-${day} ${hours}:${minutes}`;
-  // };
-
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: apiStatus } = useQuery<IApiStatusInfo>('apiStatus', () =>
     getApiStatus({ status: '', page: 0, size: 3, apiName: '' }),
@@ -59,32 +40,6 @@ const Home: NextPage = () => {
   if (!responseProvide) {
     return null;
   }
-  // const useLists = responseUse.content;
-  // const provideLists = responseProvide.content;
-
-  // const bodyUse = () =>
-  //   useLists.map((item) => (
-  //     <div key={item.useApplyId} className={`${style.secondContent}`}>
-  //       <div className={`${style.secondInContent}`}>
-  //         <span>{item?.categoryName}</span>
-  //         <span>{item?.state}</span>
-  //         <span>|</span>
-  //         <span>{formatDate(item?.createdAt)}</span>
-  //       </div>
-  //     </div>
-  //   ));
-
-  // const bodyProvide = () =>
-  //   provideLists.map((item) => (
-  //     <div key={item.provideId} className={`${style.secondContent}`}>
-  //       <div className={`${style.secondInContent}`}>
-  //         <span>{item?.serverName}</span>
-  //         <span>{item?.state}</span>
-  //         <span>|</span>
-  //         <span>{formatDate(item?.createdAt)}</span>
-  //       </div>
-  //     </div>
-  //   ));
 
   if (!apiStatus || !userInfo) {
     return <PageLoading />;
