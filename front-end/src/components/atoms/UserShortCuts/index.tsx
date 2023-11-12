@@ -8,7 +8,7 @@ function UserShortCuts() {
   return (
     <div className="mb-3">
       <div className="flex gap-2">
-        <Link href="/api/category">
+        <Link href="/category">
           <ShadowCard type="button">
             <div className={styles.shortcut}>
               <svg

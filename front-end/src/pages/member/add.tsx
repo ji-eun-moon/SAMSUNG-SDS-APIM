@@ -1,6 +1,6 @@
 import React from 'react';
 import { IUser } from '@/types/User';
-import SideLayout from '@/components/templates/SideLayout';
+import TopLayout from '@/components/templates/TopLayout';
 import GoBack from '@/components/atoms/GoBack';
 import AddMemberBox from '@/components/organisms/AddMemberBox';
 import { NextPage } from 'next';
@@ -18,12 +18,14 @@ const MemberAdd: NextPage = () => {
   }
 
   return (
-    <SideLayout>
-      <div>
-        <GoBack label="사원생성" />
-        <AddMemberBox />
+    <TopLayout>
+      <div style={{ margin: '30px 200px' }}>
+        <div>
+          <GoBack label="사원생성" />
+          <AddMemberBox />
+        </div>
       </div>
-    </SideLayout>
+    </TopLayout>
   );
 };
 

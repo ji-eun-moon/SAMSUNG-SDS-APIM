@@ -10,24 +10,21 @@
   gap: 7px;
   align-items: center;
   justify-content: center;
-  width: 10vw;
+  width: 7vw;
 }
 
 .goDetail {
+  color: $itda-secondary;
   font-size: 13px;
   font-weight: 400;
   display: flex;
   align-items: center;
-  padding-right: 8px;
+  padding-right: 5px;
   transition: transform 0.3s;
 
   cursor: pointer;
 }
 
-.slick-slider .slick-track span {
-  width: 100% !important;
-  // overflow: hidden !important;
-  // margin: 0 auto !important;
-  // /* 위에는 이미지를 div에 꽉 채우기 위한 3가지 설정 */
-  // height: 400px !important; /* slick 이미지 height 고정 */
+.statusCategory:hover {
+  font-weight: 600;
 }

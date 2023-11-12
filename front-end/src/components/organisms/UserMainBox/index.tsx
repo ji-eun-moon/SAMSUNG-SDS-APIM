@@ -8,13 +8,13 @@ import MainProvideStatistics from '../MainProvideStatistics';
 
 function UserMainBox() {
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-3">
       <UserShortCuts />
       <div className="flex gap-4">
         <MainNotice />
         <MainApiStatus />
       </div>
-      <div className="flex w-full gap-4">
+      <div className="flex w-full gap-3">
         <MainUseStatistics />
         <MainProvideStatistics />
       </div>
