@@ -39,7 +39,7 @@ function StatusBox({ statusList, searchWord, changeSearchWord }: StatusBoxProps)
   };
 
   return (
-    <div className="ml-8 mt-7 itdaText">
+    <div className="mt-7 itdaText">
       <div className="w-full mb-3 flex justify-between items-center">
         <div className="flex gap-2">
           <SearchBar

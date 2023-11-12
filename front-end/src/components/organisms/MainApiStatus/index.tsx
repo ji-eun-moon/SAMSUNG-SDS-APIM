@@ -1,41 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { IApiStatusInfo } from '@/types/Api';
-import { getApiStatus } from '@/utils/axios/api';
+import { getStatusCount, getApiStatus } from '@/utils/axios/api';
 import { QueryClient, useQuery } from 'react-query';
 import { GetServerSideProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
-// import BorderCard from '@/components/atoms/BorderCard';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import Status from '@/components/atoms/Status';
 import ApiStatusSummary from '@/components/organisms/ApiStatusSummary';
 import style from './MainApiStatus.module.scss';
 
+interface IApiCount {
+  success: number;
+  warning: number;
+  error: number;
+}
+
 function MainApiStatus() {
+  const [all, setAll] = useState(0);
+  const { data: apiCount } = useQuery<IApiCount>('apiCount', getStatusCount);
+  useEffect(() => {
+    if (apiCount !== undefined) {
+      const successCount = apiCount.success ?? 0;
+      const warningCount = apiCount.warning ?? 0;
+      const errorCount = apiCount.error ?? 0;
+
+      setAll(successCount + warningCount + errorCount);
+    }
+  }, [apiCount]);
+
   const [mainApiStatus, setMainApiStatus] = useState<IApiStatusInfo | null>(null);
   const router = useRouter();
   const { data: apiStatusList } = useQuery<IApiStatusInfo>('apiStatuslist 전체', async () => {
-    const res = await getApiStatus({ status: '', page: 0, size: 6, apiName: '' });
+    const res = await getApiStatus({ status: '', page: 0, size: all, apiName: '' });
     setMainApiStatus(res);
     return res;
   });
 
   const onClickHandler = async (item: string) => {
     if (item === '전체') {
-      const result = await getApiStatus({ status: '', page: 0, size: 6, apiName: '' });
+      const result = await getApiStatus({ status: '', page: 0, size: all, apiName: '' });
       setMainApiStatus(result);
       console.log(result.content);
     }
     if (item === '정상') {
-      const result = await getApiStatus({ status: '정상', page: 0, size: 6, apiName: '' });
+      const result = await getApiStatus({ status: '정상', page: 0, size: all, apiName: '' });
       setMainApiStatus(result);
     }
     if (item === '오류') {
-      const result = await getApiStatus({ status: '오류', page: 0, size: 6, apiName: '' });
+      const result = await getApiStatus({ status: '오류', page: 0, size: all, apiName: '' });
       setMainApiStatus(result);
     }
     if (item === '점검') {
-      const result = await await getApiStatus({ status: '점검', page: 0, size: 6, apiName: '' });
+      const result = await getApiStatus({ status: '점검', page: 0, size: all, apiName: '' });
       setMainApiStatus(result);
     }
   };
@@ -80,10 +97,11 @@ function MainApiStatus() {
         </button>
       </div>
       <ShadowCard type="bordersmall">
-        <div style={{ height: '30vh' }}>
+        <div style={{ height: '31vh' }}>
           <ApiStatusSummary onClickHandler={onClickHandler} />
-          <div className="p-3">
-            {mainApiStatus && mainApiStatus.content.length !== 0 ? (
+          <div className={`p-3 ${style.scroll}`} style={{ maxHeight: '25vh', overflowY: 'auto' }}>
+            {mainApiStatus &&
+              mainApiStatus.content.length !== 0 &&
               mainApiStatus.content?.map((item, index) => (
                 <div>
                   <div key={item.apiId} className="flex justify-between itdaText text-sm">
@@ -97,20 +115,22 @@ function MainApiStatus() {
                     <hr style={{ marginTop: '4px', marginBottom: '4px' }} />
                   )}
                 </div>
-              ))
-            ) : (
-              <div className="flex justify-center items-center">해당 API가 없습니다</div>
+              ))}
+            {mainApiStatus && mainApiStatus.content.length === 0 && (
+              <div className={`p-3 ${style.scroll}`} style={{ maxHeight: '25vh', overflowY: 'auto' }}>
+                <div className="h-full flex justify-center items-center text-sm itdaText">해당 API가 없습니다</div>
+              </div>
             )}
           </div>
         </div>
       </ShadowCard>
-      {/* </ShadowCard> */}
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('apiCount', getStatusCount);
   await queryClient.prefetchQuery('allApiStatus', () => getApiStatus({ status: '', page: 0, size: 3, apiName: '' }));
   return {
     props: {
