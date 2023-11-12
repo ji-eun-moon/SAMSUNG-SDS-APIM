@@ -49,10 +49,10 @@ function AdminMainBox() {
     <div className="px-4 py-3" style={{ position: 'relative' }}>
       <div className="flex justify-between items-center ">
         <div className="items-baseline w-full">
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '7px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', gap: '10px', width: '40%', marginBottom: '10px' }}>
-              <ShadowCard type="button">
-                <div className={style.shortcut} onClick={() => router.push(urlList.allApi)} aria-hidden>
+              <ShadowCard type="button" onClickHandler={() => router.push(urlList.allApi)}>
+                <div className={style.shortcut}>
                   <svg
                     className="w-4 h-4 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -70,8 +70,8 @@ function AdminMainBox() {
                   <span>API 목록</span>
                 </div>
               </ShadowCard>
-              <ShadowCard type="button">
-                <div className={style.shortcut} onClick={() => router.push(urlList.ApiStatus)} aria-hidden>
+              <ShadowCard type="button" onClickHandler={() => router.push(urlList.ApiStatus)}>
+                <div className={style.shortcut}>
                   <svg
                     className="w-4 h-4 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -84,8 +84,8 @@ function AdminMainBox() {
                   <span>API 상태</span>
                 </div>
               </ShadowCard>
-              <ShadowCard type="button">
-                <div className={style.shortcut} onClick={() => router.push(urlList.adminApplyList)} aria-hidden>
+              <ShadowCard type="button" onClickHandler={() => router.push(urlList.adminApplyList)}>
+                <div className={style.shortcut}>
                   <svg
                     className="w-4 h-4 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -105,8 +105,8 @@ function AdminMainBox() {
                   <span>신청 내역</span>
                 </div>
               </ShadowCard>
-              <ShadowCard type="button">
-                <div className={style.shortcut} onClick={() => router.push(urlList.memberList)} aria-hidden>
+              <ShadowCard type="button" onClickHandler={() => router.push(urlList.memberList)}>
+                <div className={style.shortcut}>
                   <svg
                     className="w-4 h-4 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -120,24 +120,34 @@ function AdminMainBox() {
                 </div>
               </ShadowCard>
             </div>
-            <div style={{ display: 'flex', gap: '10px', width: '31%', marginBottom: '10px', paddingRight: '5px' }}>
-              <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
-                <Link href="/monitoring/server" target="_blank">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                gap: '10px',
+                width: '27%',
+                marginBottom: '10px',
+                paddingRight: '7px',
+              }}
+            >
+              <Link href="/monitoring/server" target="_blank">
+                <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
                   <div className={style.shortcut}>
                     <Image src="/images/desktop.png" alt="itda logo" width={22} height={22} />
                     <span>서버 모니터링</span>
                   </div>
-                </Link>
-              </ShadowCard>
-              <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
-                <Link href="/kibana" target="_blank">
+                </ShadowCard>
+              </Link>
+
+              <Link href="/monitoring/usage" target="_blank">
+                <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
                   <div className={style.shortcut}>
                     <Image src="/images/database.png" alt="itda logo" width={22} height={22} />
 
                     <span>사용량 모니터링</span>
                   </div>
-                </Link>
-              </ShadowCard>
+                </ShadowCard>
+              </Link>
             </div>
           </div>
 
@@ -167,12 +177,20 @@ function AdminMainBox() {
               </div>
               <div className={`${style.showGraph3}`}>
                 <ShadowCard type="small">
-                  <iframe
+                  <div>
+                    <iframe
+                      src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/5c853750-8099-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:1000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-log,viewMode:view)&hide-filter-bar=true&hideNavBar=true"
+                      height="100%"
+                      width="100%"
+                      title="usageLog"
+                    />
+                  </div>
+                  {/* <iframe
                     src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/57bd9f00-7f9a-11ee-9ca5-352b710d4b2c?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-recode,viewMode:view)&hide-filter-bar=true"
                     height="100%"
                     width="100%"
                     title="usageLog"
-                  />
+                  /> */}
                 </ShadowCard>
               </div>
             </div>
