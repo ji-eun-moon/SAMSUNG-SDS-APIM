@@ -12,7 +12,7 @@ function BothLayout({ children }: { children: React.ReactNode[] }) {
     <div>
       {/* Top NavBar */}
       <NavBar position="top" />
-      <div className="flex">
+      <div className="flex" style={{ height: '100vh' }}>
         {/* Side NavBar */}
         <div className={style.sideBar}>{children && children[0]}</div>
         {/* Page Content */}

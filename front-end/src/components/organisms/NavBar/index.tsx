@@ -225,9 +225,9 @@ function NavBar({ position }: NavBarProps) {
             <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
           </Link>
         )}
-        <div className="flex items-center" style={{ width: '33%' }}>
+        <div className="flex items-center" style={{ width: userInfo.authority !== '관리자' ? '33%' : '22%' }}>
           {searchOpen ? (
-            <div className="flex items-center" style={{ width: '70%' }}>
+            <div className="flex items-center" style={{ width: '80%' }}>
               <div className="">
                 <SearchBar
                   keyword={searchWord}
