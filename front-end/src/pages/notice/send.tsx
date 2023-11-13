@@ -7,6 +7,7 @@ import NoticeList from '@/components/organisms/NoticeList';
 import { getSendList, deleteSendNotice, getSendReadList, getSendUnreadList } from '@/utils/axios/notice';
 import { TNoticeSendList, ISendNotice } from '@/types/Notice';
 import StyledPagination from '@/components/atoms/StyledPagination';
+import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
 const SendList: NextPage = () => {
   const [clickPage, setClickPage] = useState(1);
@@ -73,19 +74,21 @@ const SendList: NextPage = () => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '30px 200px' }}>
-        <NoticeCategory select="send" />
-        <NoticeList
-          type="send"
-          noticeList={sendItems}
-          checkedItems={checkedItems}
-          category={category}
-          onClickHandler={(item: string) => onClickHandler(item)}
-          setCheckedItems={(list: number[]) => setCheckedItems(list)}
-          selectDelete={(list: number[]) => selectDelete(list)}
-        />
-        <div className="flex justify-center mt-4">
-          <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
+      <div className={styles.topPageContainer}>
+        <div style={{ margin: '0 200px' }}>
+          <NoticeCategory select="send" />
+          <NoticeList
+            type="send"
+            noticeList={sendItems}
+            checkedItems={checkedItems}
+            category={category}
+            onClickHandler={(item: string) => onClickHandler(item)}
+            setCheckedItems={(list: number[]) => setCheckedItems(list)}
+            selectDelete={(list: number[]) => selectDelete(list)}
+          />
+          <div className="flex justify-center mt-4">
+            <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
+          </div>
         </div>
       </div>
     </TopLayout>

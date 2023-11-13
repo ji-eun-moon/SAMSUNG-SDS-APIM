@@ -7,6 +7,7 @@ import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import TopLayout from '@/components/templates/TopLayout';
 import TeamInfoBox from '@/components/organisms/TeamInfoBox';
 import { dehydrate } from 'react-query/hydration';
+import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
 const Team: NextPage = () => {
   const { selectedTeam } = useUserStore();
@@ -21,8 +22,10 @@ const Team: NextPage = () => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '30px 200px' }}>
-        <TeamInfoBox teamList={userInfo.teams} setTeam={(teamName) => setTeam(teamName)} currentTeam={team} />
+      <div className={styles.topPageContainer}>
+        <div style={{ margin: '0 200px' }}>
+          <TeamInfoBox teamList={userInfo.teams} setTeam={(teamName) => setTeam(teamName)} currentTeam={team} />
+        </div>
       </div>
     </TopLayout>
   );
