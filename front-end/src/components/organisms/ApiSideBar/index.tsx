@@ -3,7 +3,7 @@ import { ApiSideBarProps } from '@/types/props/SideBarProps';
 import SearchBar from '@/components/atoms/SearchBar';
 import CategoryList from '@/components/organisms/CategoryList';
 import SideBarBody from '@/components/atoms/SideBarBody';
-import { Tabs, Tab } from '@nextui-org/react';
+import { Tabs, Tab, Divider } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 
 function ApiSideBar({
@@ -41,6 +41,7 @@ function ApiSideBar({
             <div className="font-medium itdaText my-2">사용 API</div>
             <CategoryList categoryList={useCategoryList} openCategory={openMyCategory} my type="apis" />
           </div>
+          <Divider className="my-5" />
           <div className="mt-5">
             <div className="font-medium itdaText my-2">제공 API</div>
             <CategoryList categoryList={provideCategoryList} openCategory={-1} my type="apis" />

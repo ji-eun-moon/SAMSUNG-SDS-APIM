@@ -1,11 +1,12 @@
 import { IDropdownItem } from '../types/props/NavBarProps';
 
 interface IParams {
-  categoryId: number;
-  apiId: number;
+  userStatisticsUrl: string;
+  adminStatisticsUrl: string;
+  categoryUrl: string;
 }
 
-export const getUserDropDownList = ({ categoryId, apiId }: IParams): IDropdownItem[] => {
+export const getUserDropDownList = ({ userStatisticsUrl, categoryUrl }: IParams): IDropdownItem[] => {
   const userDropDown: IDropdownItem[] = [
     {
       title: 'API 상태',
@@ -43,7 +44,7 @@ export const getUserDropDownList = ({ categoryId, apiId }: IParams): IDropdownIt
         </svg>
       ),
       type: 'common',
-      onClickHandler: `/statistics/${apiId}`,
+      onClickHandler: `${userStatisticsUrl}`,
     },
     {
       title: '서버 모니터링',
@@ -98,7 +99,7 @@ export const getUserDropDownList = ({ categoryId, apiId }: IParams): IDropdownIt
         </svg>
       ),
       type: 'common',
-      onClickHandler: `/category/${categoryId}`,
+      onClickHandler: `${categoryUrl}`,
     },
     {
       title: '로그아웃',
@@ -127,7 +128,7 @@ export const getUserDropDownList = ({ categoryId, apiId }: IParams): IDropdownIt
   return userDropDown;
 };
 
-export const getAdminDropDownList = ({ categoryId, apiId }: IParams): IDropdownItem[] => {
+export const getAdminDropDownList = ({ adminStatisticsUrl, categoryUrl }: IParams): IDropdownItem[] => {
   const adminDropDown: IDropdownItem[] = [
     {
       title: 'API 상태',
@@ -165,7 +166,7 @@ export const getAdminDropDownList = ({ categoryId, apiId }: IParams): IDropdownI
         </svg>
       ),
       type: 'common',
-      onClickHandler: `/statistics/${apiId}`,
+      onClickHandler: `${adminStatisticsUrl}`,
     },
     {
       title: '서버 모니터링',
@@ -220,7 +221,7 @@ export const getAdminDropDownList = ({ categoryId, apiId }: IParams): IDropdownI
         </svg>
       ),
       type: 'common',
-      onClickHandler: `/category/${categoryId}`,
+      onClickHandler: `${categoryUrl}`,
     },
     {
       title: '로그아웃',

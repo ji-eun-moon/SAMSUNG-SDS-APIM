@@ -14,6 +14,7 @@ function useResponseCode({ apiId, teamName, type }: IChartParams) {
     () => getResponseCode({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 

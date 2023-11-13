@@ -14,6 +14,7 @@ function useCategoryResponseCode({ categoryId, teamName, type }: ICategoryChartP
     () => getCategoryResponseCode({ categoryId, teamName, type }),
     {
       enabled: !!categoryId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 
