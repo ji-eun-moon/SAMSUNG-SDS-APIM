@@ -15,12 +15,12 @@ function CategoryChartLayout({ children }: { children: React.ReactNode[] }) {
           </div>
         </div>
         {/* 응답 코드 */}
-        <div className="flex w-full gap-2">
-          <div className="w-1/2">
+        <div className="flex w-full gap-2 grid grid-cols-3">
+          <div className="col-span-1">
             {/* 응답 코드 */}
             {children && children[3]}
           </div>
-          <div className="w-1/2">
+          <div className="col-span-2">
             {/* 응답시간 */}
             {children && children[4]}
           </div>

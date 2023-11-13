@@ -138,14 +138,17 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
               <div>
                 <div className={`${style.inputTitle}`}>타겟 서버</div>
                 <div style={{ display: 'flex', gap: '7px' }}>
-                  <CustomSelect
-                    items={['http', 'https']}
-                    value={target}
-                    size="18px"
-                    onChange={(e) => {
-                      onTargetHandler(e);
-                    }}
-                  />
+                  <div className="w-48">
+                    <CustomSelect
+                      items={['http', 'https']}
+                      value={target}
+                      fontSize="15px"
+                      height="39px"
+                      onChange={(e) => {
+                        onTargetHandler(e);
+                      }}
+                    />
+                  </div>
                   <Input
                     backgroundColor="#ffffff"
                     isPassword={false}

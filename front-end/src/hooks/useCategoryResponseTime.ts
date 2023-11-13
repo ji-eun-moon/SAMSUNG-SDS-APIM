@@ -14,6 +14,7 @@ function useCategoryResponseTime({ categoryId, teamName, type }: ICategoryChartP
     () => getCategoryResponseTime({ categoryId, teamName, type }),
     {
       enabled: !!categoryId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 

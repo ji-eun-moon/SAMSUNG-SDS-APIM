@@ -4,7 +4,8 @@ import styles from './CustomSelect.module.scss';
 interface SelectBoxProps {
   items: string[];
   value: string;
-  size?: string;
+  fontSize?: string;
+  height: string;
   onChange: (item: string) => void;
 }
 
@@ -16,7 +17,7 @@ interface SelectBoxProps {
  * @example const [selected, setSelected] = useState('초기 옵션 값'); -> selected = value, setSelected = onChange
  */
 
-function CustomSelect({ size, items, value, onChange }: SelectBoxProps) {
+function CustomSelect({ fontSize, items, value, height, onChange }: SelectBoxProps) {
   const [isActive, setIsActive] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
@@ -26,8 +27,8 @@ function CustomSelect({ size, items, value, onChange }: SelectBoxProps) {
   };
 
   return (
-    <div className={styles.dropdown} style={{ fontSize: size }}>
-      <div onClick={() => setIsActive(!isActive)} className={styles.dropdownBtn} aria-hidden="true">
+    <div className={styles.dropdown} style={{ fontSize }}>
+      <div onClick={() => setIsActive(!isActive)} className={styles.dropdownBtn} aria-hidden="true" style={{ height }}>
         {value}
         {isActive ? (
           <svg
@@ -86,7 +87,7 @@ function CustomSelect({ size, items, value, onChange }: SelectBoxProps) {
 }
 
 CustomSelect.defaultProps = {
-  size: '12px',
+  fontSize: '12px',
 };
 
 export default CustomSelect;

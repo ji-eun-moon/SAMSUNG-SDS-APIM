@@ -18,9 +18,9 @@ import { IUser } from '@/types/User';
 import { useQuery } from 'react-query';
 import { getUserInfo } from '@/utils/axios/user';
 import { getNoticeCnt } from '@/utils/axios/notice';
-import { TCategoryList } from '@/types/Api';
-import { getCategoryList } from '@/utils/axios/api';
 import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
+import useUrl from '@/hooks/useUrl';
+import useApi from '@/hooks/useApi';
 import NavBarNotice from '../NavBarNotice';
 import Modal from '../Modal';
 import styles from './NavBar.module.scss';
@@ -29,8 +29,9 @@ function NavBar({ position }: NavBarProps) {
   const router = useRouter();
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: noticeCnt } = useQuery<number>('noticeCnt', getNoticeCnt);
-  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
+  const { firstCategoryId } = useApi();
   const { selectedTeam, setSelectedTeam } = useUserStore();
+  const { userStatisticsUrl, adminStatisticsUrl, categoryUrl } = useUrl(selectedTeam);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchWord, setSearchWord] = useState('');
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
@@ -53,12 +54,9 @@ function NavBar({ position }: NavBarProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!userInfo || noticeCnt === undefined || !categoryList) {
+  if (!userInfo || noticeCnt === undefined) {
     return null;
   }
-
-  const firstCategory = categoryList[0]?.categoryId;
-  const firstApi = categoryList[0]?.apiList[0].apiId;
 
   if (position === 'side') {
     return (
@@ -124,10 +122,10 @@ function NavBar({ position }: NavBarProps) {
                 variant="bordered"
                 label="API 전체보기"
                 onClick={() => {
-                  if (firstCategory === 0 || firstCategory === undefined) {
+                  if (firstCategoryId === 0 || firstCategoryId === undefined) {
                     setAlertOpen(true);
                   } else {
-                    router.push(`/category/${firstCategory}`);
+                    router.push(`${categoryUrl}`);
                   }
                 }}
                 aria-hidden
@@ -322,8 +320,8 @@ function NavBar({ position }: NavBarProps) {
               }
               list={
                 userInfo?.authority === '관리자'
-                  ? getAdminDropDownList({ categoryId: firstCategory, apiId: firstApi })
-                  : getUserDropDownList({ categoryId: firstCategory, apiId: firstApi })
+                  ? getAdminDropDownList({ adminStatisticsUrl, categoryUrl, userStatisticsUrl })
+                  : getUserDropDownList({ adminStatisticsUrl, userStatisticsUrl, categoryUrl })
               }
               type="url"
             />

@@ -46,7 +46,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
           </div>
         </div>
         <div className="w-full h-full">
-          <DonutChart title="총 사용량" chartData={chartData} use="main" />
+          <DonutChart title={`총 ${type === 'use' ? '사용' : '제공'}량`} chartData={chartData} use="main" />
         </div>
       </div>
     );
@@ -62,7 +62,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
           <Refresh onClick={refetchCategoryUsage} />
         </div>
         <ChartFrame>
-          <DonutChart title="총 사용량" chartData={chartData} />
+          <DonutChart title={`총 ${type === 'use' ? '사용' : '제공'}량`} chartData={chartData} />
         </ChartFrame>
       </div>
     );

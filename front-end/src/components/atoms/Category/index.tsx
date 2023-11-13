@@ -120,6 +120,35 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
         </div>
       );
     }
+    if (type === 'admin') {
+      return (
+        <div>
+          <Link
+            href={{
+              pathname: `/statistics/category/admin/${categoryId}`,
+            }}
+            className={`my-2 itdaText cursor-pointer text-sm ${
+              currentPath === `/statistics/category/admin/${categoryId}` ? 'font-semibold' : ''
+            }`}
+          >
+            카테고리 통계
+          </Link>
+          <ul>
+            {apiList.map((item) => (
+              <div key={item.apiId} aria-hidden onClick={() => router.push(`/statistics/api/admin/${item.apiId}`)}>
+                <div
+                  className={`my-2 itdaText cursor-pointer text-sm ${
+                    currentPath === `/statistics/api/admin/${item.apiId}` ? 'font-semibold' : ''
+                  }`}
+                >
+                  {item.apiName}
+                </div>
+              </div>
+            ))}
+          </ul>
+        </div>
+      );
+    }
     return null;
   };
 
