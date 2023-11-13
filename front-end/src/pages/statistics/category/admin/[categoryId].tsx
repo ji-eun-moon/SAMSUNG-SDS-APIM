@@ -27,9 +27,9 @@ const AdminCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { data } = useQuery<string>(['categoryName', categoryId], () => getCategoryName(categoryId));
   return (
     <DrawerLayout>
-      <ChartSideBar type="provide" openCategoryId={categoryId} />
+      <ChartSideBar type="admin" openCategoryId={categoryId} />
       {categoryId === 0 ? (
-        <div className="flex w-full justify-center my-80">제공 중인 API가 없습니다.</div>
+        <div className="flex w-full justify-center my-80">API가 없습니다.</div>
       ) : (
         <div>
           <CategoryChartLayout>

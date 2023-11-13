@@ -33,25 +33,25 @@ function ApiStatusSummary({ onClickHandler }: ApiStatusSummaryProps) {
     <div className={`${styles.apiSummaryBox} border-1 text-sm`}>
       <div className="flex items-center justify-between">
         <button type="button" className="flex items-center" onClick={() => onClickHandler('전체')}>
-          <div className="ml-1 mr-3">전체 API</div>
+          <div className={`ml-1 mr-3 ${styles.statusCategory}`}>전체 API</div>
           <div>{all}건</div>
         </button>
         <div className="flex gap-1 justify-center items-center">
           <button type="button" className="flex items-center" onClick={() => onClickHandler('정상')}>
             <Status status="정상" size="small" />
-            <div className="ml-1 mr-3">정상작동</div>
+            <div className={`ml-1 mr-3 ${styles.statusCategory}`}>정상작동</div>
             <div>{apiCount?.success}</div>
           </button>
           <div>&nbsp;|&nbsp;</div>
           <button type="button" className="flex items-center" onClick={() => onClickHandler('점검')}>
             <Status status="점검" size="small" />
-            <div className="ml-1 mr-3">점검중</div>
+            <div className={`ml-1 mr-3 ${styles.statusCategory}`}>점검중</div>
             <div>{apiCount?.warning}</div>
           </button>
           <div>&nbsp;|&nbsp;</div>
           <button type="button" className="flex items-center" onClick={() => onClickHandler('오류')}>
             <Status status="오류" size="small" />
-            <div className="ml-1 mr-3">오류발생</div>
+            <div className={`ml-1 mr-3 ${styles.statusCategory}`}>오류발생</div>
             <div>{apiCount?.error}</div>
           </button>
         </div>

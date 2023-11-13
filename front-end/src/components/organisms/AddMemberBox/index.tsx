@@ -140,59 +140,51 @@ export default function MemberAdd() {
   };
 
   return (
-    <div className="mt-8 ml-8">
-      <ShadowCard type="big">
-        {file && (
-          <div className="px-10 py-6">
-            <button type="button" onClick={() => setFile(null)} className={`${styles.fileName} flex items-center mb-4`}>
-              <div className="mr-5 idtaText cursor-pointer">{file.name}</div>
-              <Cancel />
+    <ShadowCard type="big">
+      {file && (
+        <div className="px-10 py-6">
+          <button type="button" onClick={() => setFile(null)} className={`${styles.fileName} flex items-center mb-4`}>
+            <div className="mr-5 idtaText cursor-pointer">{file.name}</div>
+            <Cancel />
+          </button>
+          <RegisterTable headerContent={header} bodyContent={body} height="400px" />
+          <div className="mt-5 flex justify-end">
+            <div className="w-36">
+              <StyledButton type="button" variant="solid" label="회원 생성하기" radius="sm" onClick={() => signUp()} />
+            </div>
+          </div>
+        </div>
+      )}
+      {!file && (
+        <div className="px-12 py-8 h-full flex flex-col justify-between">
+          <div className="pb-5">사원 생성을 위한 CSV 파일을 업로드 해주세요</div>
+          <label
+            htmlFor="fileDrag"
+            className={`mb-5 ${styles.filebox} ${isActive ? 'active' : ''}`}
+            onDragEnter={handleDragStart}
+            onDragLeave={handleDragEnd}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <Image src="/images/upload.png" alt="upload-img" width={200} height={200} />
+            <div className={styles.fileBtn}>파일 선택</div>
+            <div className="mb-2 text-gray-400">또는</div>
+            <div className="itdaText">파일을 여기로 드래그합니다</div>
+            <input type="file" accept=".csv" id="fileDrag" className={styles.file} onChange={handleFileInputChange} />
+          </label>
+          <div className="flex">
+            <button type="button" onClick={downloadCSV} className={`${styles.download} mr-2`}>
+              혹시 CSV 파일 양식을 가지고 있지 않나요?
             </button>
-            <RegisterTable headerContent={header} bodyContent={body} height="400px" />
-            <div className="mt-5 flex justify-end">
-              <div className="w-36">
-                <StyledButton
-                  type="button"
-                  variant="solid"
-                  label="회원 생성하기"
-                  radius="sm"
-                  onClick={() => signUp()}
-                />
+            <ToolTip>
+              <div className="text-sm text-gray-500">
+                <div>권한은 &apos;일반&apos; 또는 &apos;관리자&apos;로 구분하여 입력하시면 됩니다.</div>
+                <div>여러 팀에 소속된 경우 팀에 &apos; , &apos; 기호로 구분하여 적으시면 됩니다.</div>
               </div>
-            </div>
+            </ToolTip>
           </div>
-        )}
-        {!file && (
-          <div className="px-12 py-8 h-full flex flex-col justify-between">
-            <div className="pb-5">사원 생성을 위한 CSV 파일을 업로드 해주세요</div>
-            <label
-              htmlFor="fileDrag"
-              className={`mb-5 ${styles.filebox} ${isActive ? 'active' : ''}`}
-              onDragEnter={handleDragStart}
-              onDragLeave={handleDragEnd}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              <Image src="/images/upload.png" alt="upload-img" width={200} height={200} />
-              <div className={styles.fileBtn}>파일 선택</div>
-              <div className="mb-2 text-gray-400">또는</div>
-              <div className="itdaText">파일을 여기로 드래그합니다</div>
-              <input type="file" accept=".csv" id="fileDrag" className={styles.file} onChange={handleFileInputChange} />
-            </label>
-            <div className="flex">
-              <button type="button" onClick={downloadCSV} className={`${styles.download} mr-2`}>
-                혹시 CSV 파일 양식을 가지고 있지 않나요?
-              </button>
-              <ToolTip>
-                <div className="text-sm text-gray-500">
-                  <div>권한은 &apos;일반&apos; 또는 &apos;관리자&apos;로 구분하여 입력하시면 됩니다.</div>
-                  <div>여러 팀에 소속된 경우 팀에 &apos; , &apos; 기호로 구분하여 적으시면 됩니다.</div>
-                </div>
-              </ToolTip>
-            </div>
-          </div>
-        )}
-      </ShadowCard>
-    </div>
+        </div>
+      )}
+    </ShadowCard>
   );
 }

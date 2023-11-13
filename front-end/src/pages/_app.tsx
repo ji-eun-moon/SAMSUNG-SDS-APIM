@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState}>
         <NextUIProvider>
           <Head>
-            <title>ITDA</title>
+            <title>APIM</title>
           </Head>
           <main className={notoSansKr.className}>
             <Component {...pageProps} />

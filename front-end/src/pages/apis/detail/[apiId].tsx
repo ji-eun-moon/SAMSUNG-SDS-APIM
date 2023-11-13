@@ -93,7 +93,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
                   <th className="bgItdaBlue text-white pr-3">필수</th>
                 </tr>
               </thead>
-              <tbody className="bg-white w-full">
+              <tbody className="bg-white w-full border-b">
                 <tr className="text-center">
                   <td className="py-3">Authorization</td>
                   <td className="py-3">

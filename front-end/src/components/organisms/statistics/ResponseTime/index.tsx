@@ -1,6 +1,6 @@
 import useResponseTime from '@/hooks/useResponseTime';
 import { responseData } from '@/utils/chartData';
-import LineChart from '@/components/chart/LineChart';
+import ResponseTimeLine from '@/components/chart/ResponseTimeLine';
 import { Spinner } from '@nextui-org/react';
 import Refresh from '@/components/atoms/Refresh';
 import ChartFrame from '@/components/atoms/ChartFrame';
@@ -40,9 +40,7 @@ function ResponseTime({ apiId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <LineChart
-          title=""
-          type="ResponseTime"
+        <ResponseTimeLine
           isSmooth={false}
           chartDataName={chartData.xValues}
           chartDataValue={chartData.yValues}

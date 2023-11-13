@@ -92,30 +92,41 @@ export const formatCategoryPieChartData = (data: TCategoryResponseCodeList) =>
 
 export const formatScatterChartData = (data: TCategoryResponseTimeList): ScatterDataItem[] => {
   // 시간대 별로 그룹화하는 함수
-  const groupByHour = (dateString: string) => {
+  const groupByDateTime = (dateString: string) => {
+    const datePart = dateString.split('T')[0];
     const timePart = dateString.split('T')[1];
-    if (!timePart) {
-      return 'Unknown';
+
+    // 기본값 설정
+    let group = 'Unknown';
+    let displayTime = 'Unknown';
+
+    if (timePart) {
+      const parts = timePart.split(':');
+      if (parts.length >= 2) {
+        const hour = parts[0];
+        const minute = parts[1];
+        group = datePart;
+        displayTime = `${hour}:${minute}`;
+      }
     }
-    const parts = timePart.split(':');
-    if (parts.length < 2) {
-      return 'Unknown';
-    }
-    const hour = parts[0];
-    const minute = parts[1];
-    const second = parts[2].substring(0, 2);
-    return `${hour}:${minute}:${second}`;
+
+    return { group, displayTime };
   };
 
   const scatterData = data.map((api) => ({
     name: api.apiTitle,
     type: 'scatter',
     symbolSize: 8,
-    data: api.responseTimeResponses.map((response) => ({
-      value: [groupByHour(response.date), response.responseTime] as [string, number],
-      date: response.date,
-      responseCode: response.responseCode,
-    })),
+    data: api.responseTimeResponses.map((response) => {
+      const { group, displayTime } = groupByDateTime(response.date);
+      return {
+        value: [group, response.responseTime] as [string, number], // 전체 날짜와 시간을 기준으로 그룹화
+        displayTime, // X 축에 표시될 시간과 분
+        responseTime: response.responseTime,
+        date: response.date,
+        responseCode: response.responseCode,
+      };
+    }),
   }));
 
   return scatterData;

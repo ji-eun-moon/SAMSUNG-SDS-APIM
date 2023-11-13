@@ -4,7 +4,7 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getMembers } from '@/utils/axios/user';
 import { IUserInfo } from '@/types/User';
-import SideLayout from '@/components/templates/SideLayout';
+import TopLayout from '@/components/templates/TopLayout';
 import GoBack from '@/components/atoms/GoBack';
 import UserListBox from '@/components/organisms/UserListBox';
 import ShadowCard from '@/components/atoms/ShadowCard';
@@ -26,17 +26,23 @@ const MemberList: NextPage = () => {
   };
 
   return (
-    <SideLayout>
-      <GoBack label="사원 관리" />
-      <div className="mt-8 ml-8">
-        <ShadowCard type="big">
-          <UserListBox userList={memberList.content} />
-          <div className="flex justify-center mt-4">
-            <StyledPagination totalPage={memberList?.totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
-          </div>
-        </ShadowCard>
+    <TopLayout>
+      <div style={{ margin: '30px 200px' }}>
+        <GoBack label="사원 관리" />
+        <div className="mt-8">
+          <ShadowCard type="big">
+            <UserListBox userList={memberList.content} />
+            <div className="flex justify-center mt-4">
+              <StyledPagination
+                totalPage={memberList?.totalPages}
+                clickPage={clickPage}
+                onClickPage={handlePageClick}
+              />
+            </div>
+          </ShadowCard>
+        </div>
       </div>
-    </SideLayout>
+    </TopLayout>
   );
 };
 

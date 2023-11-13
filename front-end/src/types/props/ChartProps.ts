@@ -16,20 +16,14 @@ export interface BarChartProps {
   barColors: string[];
 }
 
-export interface LineChartType {
-  type: 'Usage' | 'ResponseTime';
-}
-
-export interface UsageChartProps extends LineChartType {
-  title: string;
+export interface UsageChartProps {
   isSmooth: boolean;
   chartColor: string;
   chartDataValue: number[];
   chartDataName: string[];
 }
 
-export interface ResponseTimeChartProps extends LineChartType {
-  title: string;
+export interface ResponseTimeChartProps {
   isSmooth: boolean;
   chartColor: string;
   chartDataValue: number[];
@@ -37,13 +31,13 @@ export interface ResponseTimeChartProps extends LineChartType {
   responseCodeList: number[];
 }
 
-export type LineChartProps = UsageChartProps | ResponseTimeChartProps;
-
 export interface ScatterDataItem {
   name: string;
   type: string;
   data: Array<{
+    displayTime: string;
     value: [string, number]; // 날짜와 응답 시간
+    responseTime: number;
     date: string;
     responseCode: string; // 응답 코드
   }>;
