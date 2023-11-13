@@ -33,7 +33,7 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
   if (type === 'receive') {
     const { notice } = props as ReceiveNoticeProps;
     return (
-      <ShadowCard type="big">
+      <ShadowCard type="noShadow">
         <div className="w-full p-5">
           <div className="text-xl font-bold mb-5">{notice?.title}</div>
           <div className="flex justify-between items-center mb-3">
