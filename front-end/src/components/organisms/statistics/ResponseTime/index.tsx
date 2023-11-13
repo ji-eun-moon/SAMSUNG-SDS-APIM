@@ -18,13 +18,15 @@ function ResponseTime({ apiId, teamName, type }: Props) {
     type,
   });
 
-  if (isResponseTimeLoading || !responseTimeData) {
+  if (!responseTimeData) {
     return (
-      <ChartFrame>
-        <div className="flex items-center justify-center" style={{ height: '200px' }}>
-          <Spinner />
-        </div>
-      </ChartFrame>
+      <div className="my-8">
+        <ChartFrame>
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        </ChartFrame>
+      </div>
     );
   }
 
@@ -40,13 +42,19 @@ function ResponseTime({ apiId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <ResponseTimeLine
-          isSmooth={false}
-          chartDataName={chartData.xValues}
-          chartDataValue={chartData.yValues}
-          responseCodeList={chartData.responseCodeList}
-          chartColor="#95B7E1"
-        />
+        {isResponseTimeLoading ? (
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <ResponseTimeLine
+            isSmooth={false}
+            chartDataName={chartData.xValues}
+            chartDataValue={chartData.yValues}
+            responseCodeList={chartData.responseCodeList}
+            chartColor="#95B7E1"
+          />
+        )}
       </ChartFrame>
     </div>
   );

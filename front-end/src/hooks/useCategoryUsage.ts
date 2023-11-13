@@ -5,7 +5,7 @@ import { getCategoryUsage } from '@/utils/axios/statistics';
 function useCategoryUsage({ categoryId, teamName, type }: ICategoryChartParams) {
   const {
     data: categoryUsageData,
-    isLoading: categoryUsageLoading,
+    isFetching: categoryUsageLoading,
     isError: categoryUsageError,
     refetch: refetchCategoryUsage,
   } = useQuery<ICategoryUsage[]>(
