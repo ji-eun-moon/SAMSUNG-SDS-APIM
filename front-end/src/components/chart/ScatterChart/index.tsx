@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ScatterChartProps } from '@/types/props/ChartProps';
-import { formatTimeToHHMM } from '@/utils/format';
+// import { formatTimeToHHMM } from '@/utils/format';
 import * as echarts from 'echarts';
 
 const ScatterChart = ({ chartData }: ScatterChartProps) => {
@@ -14,7 +14,7 @@ const ScatterChart = ({ chartData }: ScatterChartProps) => {
       const options: echarts.EChartOption = {
         grid: {
           top: '10%',
-          right: '30%',
+          right: '32%',
           bottom: '10%',
           left: '5%',
         },
@@ -41,7 +41,7 @@ const ScatterChart = ({ chartData }: ScatterChartProps) => {
             }
             return `
                 <div>
-                <div style="font-weight: 500;">${data.date} ms</div>
+                <div style="font-weight: 500;">${data.date}</div>
                   <div>${params.seriesName}</div>
                   <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div style="font-weight: 900;">${data.responseTime} ms</div>
@@ -55,18 +55,16 @@ const ScatterChart = ({ chartData }: ScatterChartProps) => {
           },
         },
         xAxis: {
-          type: 'category',
-          axisLabel: {
-            formatter(value: string) {
-              return formatTimeToHHMM(value); // 날짜 포맷팅 적용
-            },
-          },
+          type: 'time',
         },
         yAxis: {
           type: 'value',
           scale: true,
         },
-        series: chartData,
+        series: chartData.map((dataSeries) => ({
+          ...dataSeries,
+          type: 'scatter',
+        })),
       };
       chart.setOption(options);
       return () => {
