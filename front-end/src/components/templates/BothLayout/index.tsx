@@ -11,14 +11,13 @@ function BothLayout({ children }: { children: React.ReactNode[] }) {
   return (
     <div className={`${style.page}`}>
       {/* Top NavBar */}
-      <NavBar position="top" />
-      <div className={`${style.bottomPage}`}>
-        {/* Side NavBar */}
-        {children && children[0]}
-        {/* Side NavBar 오른쪽 부분 */}
-        <div>
-          <div className={`${style.pageContainer}`}>{children && children[1]}</div>
-        </div>
+      <div style={{ zIndex: '2' }}>
+        <NavBar position="top" />
+      </div>
+      {/* Side NavBar */}
+      <div>{children && children[0]}</div>
+      <div>
+        <div className={`${style.pageContainer}`}>{children && children[1]}</div>
       </div>
     </div>
   );
