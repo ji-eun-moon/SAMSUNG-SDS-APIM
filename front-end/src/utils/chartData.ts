@@ -96,7 +96,7 @@ export const formatScatterChartData = (data: TCategoryResponseTimeList): Scatter
     type: 'scatter',
     symbolSize: 8,
     data: api.responseTimeResponses.map((response) => ({
-      value: [response.date, response.responseTime] as [string, number], // 전체 날짜와 시간을 기준으로 그룹화
+      value: [new Date(response.date), response.responseTime] as [Date, number],
       responseTime: response.responseTime,
       date: response.date,
       responseCode: response.responseCode,
