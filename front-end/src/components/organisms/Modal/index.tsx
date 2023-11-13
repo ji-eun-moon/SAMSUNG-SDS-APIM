@@ -139,9 +139,9 @@ function Modal({ type, onClose, ...props }: ModalProps) {
             type="button"
             onClick={(e) => e.stopPropagation()}
             className="absolute"
-            style={{ right: '2%', top: '3%' }}
+            style={{ right: '15px', top: '15px' }}
           >
-            <Image src="/icons/close.png" alt="close-icon" width={10} height={10} onClick={onClose} />
+            <Image src="/icons/close.png" alt="close-icon" width={12} height={12} onClick={onClose} />
           </button>
           <button type="button" onClick={(e) => e.stopPropagation()}>
             <div>{children}</div>
