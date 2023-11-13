@@ -3,9 +3,11 @@ import BothLayout from '@/components/templates/BothLayout';
 import ApiSideBar from '@/components/organisms/ApiSideBar';
 import { useRouter } from 'next/router';
 import { useQuery, QueryClient } from 'react-query';
-import { TCategoryList, IApiDetail } from '@/types/Api';
+import { IApiDetail } from '@/types/Api';
 import useUserStore from '@/store/useUserStore';
-import { getCategoryList, getUseCategoryList, getProvideCategoryList, getApiDetail } from '@/utils/axios/api';
+import useMyApi from '@/hooks/useMyApi';
+import useApi from '@/hooks/useApi';
+import { getApiDetail } from '@/utils/axios/api';
 import PageLoading from '@/components/atoms/PageLoading';
 import GoBack from '@/components/atoms/GoBack';
 import { dehydrate } from 'react-query/hydration';
@@ -25,28 +27,8 @@ type SSGProps = {
 const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   const router = useRouter();
   const { selectedTeam } = useUserStore();
-  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
-  const { data: useCategoryList } = useQuery<TCategoryList>(
-    `useCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getUseCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
-  const { data: provideCategoryList } = useQuery<TCategoryList>(
-    `provideCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getProvideCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
-
+  const { useCategoryList, provideCategoryList } = useMyApi(selectedTeam);
+  const { categoryList } = useApi();
   const { data: apiDetail } = useQuery<IApiDetail>(`apiDetail ${apiId}`, async () => {
     const result = await getApiDetail(apiId);
     return result;
@@ -69,10 +51,10 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
       <ApiSideBar
         useCategoryList={useCategoryList}
         provideCategoryList={provideCategoryList}
-        openCategory={1}
+        openCategory={apiDetail.categoryId}
         categoryList={categoryList}
         defaultSelectedKey={(router.query.defaultSelectedKey as string) || 'all'}
-        openMyCategory={1}
+        openMyCategory={apiDetail.categoryId}
       />
       <div>
         <GoBack label={apiDetail?.title} />
