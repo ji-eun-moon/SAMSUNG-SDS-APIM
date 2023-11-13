@@ -9,7 +9,7 @@ import Notice from '../Notice';
 
 function NavBarNotice() {
   const [clickPage, setClickPage] = useState(1);
-  const { data: unreadReceiveList } = useQuery<TNoticeList>(`unreadReceiveList ${clickPage}`, async () => {
+  const { data: unreadReceiveList } = useQuery<TNoticeList>(['unreadReceiveList', clickPage - 1], async () => {
     const result = await getUnreadReceiveNotice({ page: clickPage - 1, size: 5 });
     return result;
   });
@@ -18,7 +18,7 @@ function NavBarNotice() {
     setClickPage(clickedPage);
   };
 
-  if (unreadReceiveList === undefined) {
+  if (!unreadReceiveList) {
     return null;
   }
 

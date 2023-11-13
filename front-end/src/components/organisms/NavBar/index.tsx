@@ -12,6 +12,7 @@ import DropDown from '@/components/atoms/DropDown';
 // import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
+// import useNoticeStore from '@/store/useNoticeStore';
 import Link from 'next/link';
 import SearchBar from '@/components/atoms/SearchBar';
 import { IUser } from '@/types/User';
@@ -27,8 +28,11 @@ import styles from './NavBar.module.scss';
 
 function NavBar({ position }: NavBarProps) {
   const router = useRouter();
+  // const { setNoticeCount, noticeCount } = useNoticeStore((state) => state);
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
-  const { data: noticeCnt } = useQuery<number>('noticeCnt', getNoticeCnt);
+  const { data: noticeCount } = useQuery<number>('noticeCnt', getNoticeCnt, {
+    refetchOnWindowFocus: true,
+  });
   const { firstCategoryId } = useApi();
   const { selectedTeam, setSelectedTeam } = useUserStore();
   const { userStatisticsUrl, adminStatisticsUrl, categoryUrl } = useUrl(selectedTeam);
@@ -54,7 +58,7 @@ function NavBar({ position }: NavBarProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!userInfo || noticeCnt === undefined) {
+  if (!userInfo || noticeCount === undefined) {
     return null;
   }
 
@@ -133,7 +137,7 @@ function NavBar({ position }: NavBarProps) {
                 type="button"
               />
 
-              <CountBadge count={noticeCnt?.toString()}>
+              <CountBadge count={noticeCount?.toString()}>
                 <StyledButton
                   variant="solid"
                   label="쪽지함"
@@ -299,7 +303,7 @@ function NavBar({ position }: NavBarProps) {
             <NoticeDropDown
               trigger={
                 <button type="button" className="flex justify-center items-center">
-                  <CountBadge count={noticeCnt?.toString()}>
+                  <CountBadge count={noticeCount?.toString()}>
                     <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
                   </CountBadge>
                 </button>
