@@ -1,0 +1,35 @@
+server:
+  port: 9300
+
+spring:
+  rabbitmq:
+    host: k9c201.p.ssafy.io
+    port: 5672
+    username: guest
+    password: guest
+
+  profiles:
+    default: dev
+  application:
+    name: notice-service
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://k9c201.p.ssafy.io:3307/itda_notice?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: itda1235!@#%
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpExchanges, busRefresh
