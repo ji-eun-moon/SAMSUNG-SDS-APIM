@@ -33,6 +33,7 @@ function NavBar({ position }: NavBarProps) {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: noticeCount } = useQuery<number>('noticeCnt', getNoticeCnt, {
     refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
   const { firstCategoryId } = useApi();
   const { selectedTeam, setSelectedTeam } = useUserStore();
