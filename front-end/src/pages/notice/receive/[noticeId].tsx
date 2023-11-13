@@ -1,6 +1,6 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import { useQuery, QueryClient } from 'react-query';
-import SideLayout from '@/components/templates/SideLayout';
+import TopLayout from '@/components/templates/TopLayout';
 import GoBack from '@/components/atoms/GoBack';
 import NoticeCategory from '@/components/atoms/NoticeCategory';
 import { getReceiveNoticeDetail } from '@/utils/axios/notice';
@@ -23,13 +23,13 @@ const ReceiveDetail: NextPage<SSGProps> = ({ noticeId }: SSGProps) => {
   }
 
   return (
-    <SideLayout>
-      <div>
+    <TopLayout>
+      <div style={{ margin: '30px 200px' }}>
         <GoBack label="쪽지 상세보기" />
         <NoticeCategory select="receive" />
         <NoticeDetail type="receive" notice={noticeDetail} />
       </div>
-    </SideLayout>
+    </TopLayout>
   );
 };
 
