@@ -17,7 +17,7 @@ function NoticeCategory({ select }: NoticeCategoryProps) {
   };
 
   return (
-    <div className="flex justify-between ml-8 mt-4 mb-2 text-lg">
+    <div className="flex justify-between mb-2 text-lg">
       <div className="flex items-center gap-3">
         <button
           type="button"
