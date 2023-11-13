@@ -9,6 +9,7 @@ import GoBack from '@/components/atoms/GoBack';
 import UserListBox from '@/components/organisms/UserListBox';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import StyledPagination from '@/components/atoms/StyledPagination';
+import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
 const MemberList: NextPage = () => {
   const [clickPage, setClickPage] = useState(1);
@@ -27,19 +28,21 @@ const MemberList: NextPage = () => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '30px 200px' }}>
-        <GoBack label="사원 관리" />
-        <div className="mt-8">
-          <ShadowCard type="big">
-            <UserListBox userList={memberList.content} />
-            <div className="flex justify-center mt-4">
-              <StyledPagination
-                totalPage={memberList?.totalPages}
-                clickPage={clickPage}
-                onClickPage={handlePageClick}
-              />
-            </div>
-          </ShadowCard>
+      <div className={styles.topPageContainer}>
+        <div style={{ margin: '0 200px' }}>
+          <GoBack label="사원 관리" />
+          <div className="mt-8">
+            <ShadowCard type="big">
+              <UserListBox userList={memberList.content} />
+              <div className="flex justify-center mt-4">
+                <StyledPagination
+                  totalPage={memberList?.totalPages}
+                  clickPage={clickPage}
+                  onClickPage={handlePageClick}
+                />
+              </div>
+            </ShadowCard>
+          </div>
         </div>
       </div>
     </TopLayout>

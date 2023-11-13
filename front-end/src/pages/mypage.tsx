@@ -6,6 +6,7 @@ import { NextPage } from 'next';
 import { getUserInfo } from '@/utils/axios/user';
 import { useQuery } from 'react-query';
 import TopLayout from '@/components/templates/TopLayout';
+import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
 const MyPage: NextPage = () => {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
@@ -16,8 +17,8 @@ const MyPage: NextPage = () => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '30px 200px' }}>
-        <div>
+      <div className={styles.topPageContainer}>
+        <div style={{ margin: '0 200px' }}>
           <GoBack label="마이페이지" />
           <MyPageBox userInfo={userInfo} />
         </div>

@@ -7,6 +7,7 @@ import { getReceiveNoticeDetail } from '@/utils/axios/notice';
 import { dehydrate } from 'react-query/hydration';
 import { INoticeDetail } from '@/types/Notice';
 import NoticeDetail from '@/components/organisms/NoticeDetail';
+import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
 type SSGProps = {
   noticeId: number;
@@ -24,10 +25,12 @@ const ReceiveDetail: NextPage<SSGProps> = ({ noticeId }: SSGProps) => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '30px 200px' }}>
-        <GoBack label="쪽지 상세보기" />
-        <NoticeCategory select="receive" />
-        <NoticeDetail type="receive" notice={noticeDetail} />
+      <div className={styles.topPageContainer}>
+        <div style={{ margin: '0 200px' }}>
+          <GoBack label="쪽지 상세보기" />
+          <NoticeCategory select="receive" />
+          <NoticeDetail type="receive" notice={noticeDetail} />
+        </div>
       </div>
     </TopLayout>
   );
