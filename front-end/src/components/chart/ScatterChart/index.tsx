@@ -1,17 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { ScatterChartProps } from '@/types/props/ChartProps';
+import { formatTimeToHHMM } from '@/utils/format';
 import * as echarts from 'echarts';
 
 const ScatterChart = ({ chartData }: ScatterChartProps) => {
   const chartRef = useRef(null);
 
-  // X 축에 표시될 시간 데이터 생성
-  const xAxisData = Array.from(new Set(chartData.flatMap((item) => item.data.map((d) => d.displayTime)))).sort();
-
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
+
       const options: echarts.EChartOption = {
         grid: {
           top: '10%',
@@ -57,28 +56,24 @@ const ScatterChart = ({ chartData }: ScatterChartProps) => {
         },
         xAxis: {
           type: 'category',
-          data: xAxisData,
+          axisLabel: {
+            formatter(value: string) {
+              return formatTimeToHHMM(value); // 날짜 포맷팅 적용
+            },
+          },
         },
         yAxis: {
           type: 'value',
           scale: true,
         },
-        series: chartData.map((item) => ({
-          ...item,
-          data: item.data.map((d) => ({
-            value: [d.displayTime, d.value[1]],
-            responseCode: d.responseCode,
-            responseTime: d.responseTime,
-            date: d.date,
-          })),
-        })),
+        series: chartData,
       };
       chart.setOption(options);
       return () => {
         chart.dispose();
       };
     }
-  }, [chartData, xAxisData]);
+  }, [chartData]);
 
   return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;
 };

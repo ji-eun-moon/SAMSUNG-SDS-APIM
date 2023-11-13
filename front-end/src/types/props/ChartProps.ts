@@ -35,7 +35,7 @@ export interface ScatterDataItem {
   name: string;
   type: string;
   data: Array<{
-    displayTime: string;
+    // displayTime: string;
     value: [string, number]; // 날짜와 응답 시간
     responseTime: number;
     date: string;
