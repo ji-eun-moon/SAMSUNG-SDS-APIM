@@ -49,27 +49,39 @@ public class ElasticUsageService {
         Random random = new Random();
         List<Api> apis = apiRepository.findAll();
         apis.forEach(api -> {
-            LocalDateTime dateTime = LocalDateTime.of(2023, 6, 1, 0, 0, 0,0);
-            while (dateTime.isBefore(LocalDateTime.now())) {
-                int k = random.nextInt(20);
-                String code = "200";
-                if (api.getApiMethod().equals(ApiMethod.POST)) {
-                    code = "201";
-                }
-                if (k == 5) {
-                    code = "400";
-                } else if (k == 6) {
-                    code = "404";
-                } else if (k == 7) {
-                    code = "500";
-                }
+            if (api.getId() < 26) {
+                LocalDateTime dateTime = LocalDateTime.of(2023, 11, 13, 0, 0, 0, 0);
+                while (dateTime.isBefore(LocalDateTime.of(2023, 11, 30, 0, 0, 0, 0))) {
+                    int k = random.nextInt(20);
+                    String code = "200";
+                    if (api.getApiMethod().equals(ApiMethod.POST)) {
+                        code = "201";
+                    }
+                    if (k == 5) {
+                        code = "400";
+                    } else if (k == 6) {
+                        code = "404";
+                    } else if (k == 7) {
+                        code = "500";
+                    }
+                    Random rand = new Random();
+                    StringBuilder ipAddress = new StringBuilder();
+                    ipAddress.append("/");
+                    // 생성된 IP 주소는 0.0.0.0 ~ 255.255.255.255 범위에 있어야 합니다.
+                    for (int i = 0; i < 4; i++) {
+                        ipAddress.append(rand.nextInt(256)); // 각 부분을 0에서 255까지의 난수로 설정
+                        if (i < 3) {
+                            ipAddress.append(".");
+                        }
+                    }
 
-                CreateUsageRequest createUsageRequest = new CreateUsageRequest(dateTime, api.getApiMethod(),
-                        api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
-                        "3팀", String.valueOf(api.getCategory().getId()), random.nextLong(200)+50, code, "");
+                    CreateUsageRequest createUsageRequest = new CreateUsageRequest(dateTime, api.getApiMethod(),
+                            api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                            "3팀", api.getCategory().getName(), random.nextLong(200) + 50, code, ipAddress.toString());
 
-                register(createUsageRequest);
-                dateTime = dateTime.plusMinutes(random.nextLong(100) + 1);
+                    register(createUsageRequest);
+                    dateTime = dateTime.plusMinutes(random.nextLong(100) + 1);
+                }
             }
         });
 
