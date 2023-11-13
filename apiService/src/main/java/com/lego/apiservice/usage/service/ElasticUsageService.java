@@ -50,8 +50,8 @@ public class ElasticUsageService {
         List<Api> apis = apiRepository.findAll();
         apis.forEach(api -> {
             if (api.getId() < 26) {
-                LocalDateTime dateTime = LocalDateTime.of(2023, 11, 13, 0, 0, 0, 0);
-                while (dateTime.isBefore(LocalDateTime.of(2023, 11, 30, 0, 0, 0, 0))) {
+                LocalDateTime dateTime = LocalDateTime.of(2023, 11, 10, 0, 0, 0, 0);
+                while (dateTime.isBefore(LocalDateTime.of(2023, 11, 13, 0, 0, 0, 0))) {
                     int k = random.nextInt(20);
                     String code = "200";
                     if (api.getApiMethod().equals(ApiMethod.POST)) {
@@ -95,7 +95,7 @@ public class ElasticUsageService {
 
     @Transactional
     public void deleteAll() {
-        elasticUsageRepository.deleteAll();
+        elasticUsageRepository.deleteAll(elasticUsageRepository.findAllByCreatedAtGreaterThanEqual(LocalDateTime.of(2023, 11, 17, 3, 0, 0, 0)));
     }
 
     public List<MonthCategoryResponse> getMonthCategory(Long categoryId, Integer monthCount) {

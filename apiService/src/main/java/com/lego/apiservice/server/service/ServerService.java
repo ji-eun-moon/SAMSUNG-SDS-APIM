@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -194,8 +195,9 @@ public class ServerService {
                                 .server(server)
                         .build());
                 redisService.setValue(String.valueOf(savedCategory.getId()), savedCategory.getName());
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             }
-
         });
     }
 

@@ -19,4 +19,5 @@ public interface ElasticUsageRepository extends ElasticsearchRepository<ElasticU
 
     List<ElasticUsage> findAllByTeamNameAndCategoryIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(String teamName, String categoryId, LocalDateTime startDate, LocalDateTime endDate);
 
+    List<ElasticUsage> findAllByCreatedAtGreaterThanEqual(LocalDateTime date);
 }
