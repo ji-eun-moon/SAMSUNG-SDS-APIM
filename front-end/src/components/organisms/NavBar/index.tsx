@@ -79,40 +79,28 @@ function NavBar({ position }: NavBarProps) {
 
         {/* 회원 정보 */}
         <div className="grid grid-cols-1 content-between h-full">
-          <div className="grid grid-cols-3 gap-3 my-3 col-span-1">
-            <div
-              className="col-span-3 grid grid-cols-3 gap-3 text-sm"
-              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
-            >
+          <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div className={`${styles.info}`}>
               <div className="font-semibold itdaSecondary">이름</div>
               <div className="itdaText">{userInfo?.name}</div>
             </div>
 
-            <div
-              className="col-span-3 grid grid-cols-3 gap-3 text-sm"
-              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
-            >
+            <div className={`${styles.info}`}>
               <div className="font-semibold itdaSecondary">사번</div>
               <div className="itdaText">{userInfo?.employeeId}</div>
             </div>
 
-            <div
-              className="col-span-3 grid grid-cols-3 gap-3 text-sm"
-              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
-            >
+            <div className={`${styles.info}`}>
               <div className="font-semibold itdaSecondary">부서</div>
               <div className="flex gap-1 itdaText">
                 <div>{userInfo?.department}</div>
               </div>
             </div>
 
-            <div
-              className="col-span-3 grid grid-cols-3 gap-3"
-              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
-            >
+            <div className={`${styles.info}`}>
               <div className="flex items-center font-semibold itdaSecondary text-sm">팀명</div>
               {teamList && (
-                <div className="itdaText flex items-center w-full">
+                <div className="itdaText flex items-center justify-start w-full">
                   <CustomSelect
                     items={teamList}
                     value={selectedTeam}
@@ -237,9 +225,9 @@ function NavBar({ position }: NavBarProps) {
             <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
           </Link>
         )}
-        <div className="flex items-center">
+        <div className="flex items-center" style={{ width: userInfo.authority !== '관리자' ? '33%' : '22%' }}>
           {searchOpen ? (
-            <div className="flex items-center">
+            <div className="flex items-center" style={{ width: '80%' }}>
               <div className="">
                 <SearchBar
                   keyword={searchWord}
@@ -267,10 +255,10 @@ function NavBar({ position }: NavBarProps) {
               </svg>
             </div>
           ) : (
-            <div className="flex items-center">
+            <div className="flex items-center" style={{ width: '80%' }}>
               {/* 팀 선택 */}
               {teamList && userInfo.authority !== '관리자' && (
-                <div className="mr-8">
+                <div className="mr-8" style={{ width: '35%' }}>
                   <CustomSelect
                     items={teamList}
                     value={selectedTeam}
@@ -328,7 +316,7 @@ function NavBar({ position }: NavBarProps) {
             </NoticeDropDown>
           </div>
           {/* 바로가기 드롭다운 */}
-          <div className="mr-3">
+          <div className="mr-2">
             <DropDown
               trigger={
                 <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
