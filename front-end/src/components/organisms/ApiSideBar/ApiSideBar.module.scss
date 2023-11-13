@@ -1,0 +1,46 @@
+.SideBarBody {
+  width: 255px;
+  height: 90vh;
+  padding: 20px 0px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.SideBarContent {
+  height: 90vh;
+  margin-top: 20px;
+  padding-bottom: 150px;
+  padding-left: 30px;
+  padding-right: 30px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #bdbdbd; // 스크롤바 핸들(움직이는 부분)의 배경 색상
+    border-radius: 10px; // 스크롤바 핸들의 둥근 모서리
+
+    &:hover {
+      background: #a1a1a1; // 스크롤바 핸들에 마우스를 올렸을 때의 색상
+    }
+  }
+}
+
+.tabBody {
+  display: block !important;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.searchBar {
+  padding-left: 30px;
+  padding-right: 30px;
+}
