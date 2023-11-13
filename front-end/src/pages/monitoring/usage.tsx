@@ -18,7 +18,7 @@ const Monitoring: NextPage = () => {
         setWindowSize({
           // 현재 브라우저의 가로, 세로 길이로 셋팅
           w: window.innerWidth - 30,
-          h: window.innerHeight - 70,
+          h: window.innerHeight - 75,
         });
       };
 

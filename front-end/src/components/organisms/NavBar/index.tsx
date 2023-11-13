@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { logout } from '@/utils/axios/auth';
 import { Button } from '@nextui-org/react';
 import CountBadge from '@/components/atoms/CountBadge';
-import SelectBox from '@/components/atoms/SelectBox';
+// import SelectBox from '@/components/atoms/SelectBox';
 import NoticeDropDown from '@/components/atoms/NoticeDropDown';
 import DropDown from '@/components/atoms/DropDown';
 // import LogoWithName from '@/components/atoms/LogoWithName';
@@ -21,6 +21,7 @@ import { getNoticeCnt } from '@/utils/axios/notice';
 import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
 import useUrl from '@/hooks/useUrl';
 import useApi from '@/hooks/useApi';
+import CustomSelect from '@/components/atoms/CustomSelect';
 import NavBarNotice from '../NavBarNotice';
 import Modal from '../Modal';
 import styles from './NavBar.module.scss';
@@ -78,38 +79,48 @@ function NavBar({ position }: NavBarProps) {
 
         {/* 회원 정보 */}
         <div className="grid grid-cols-1 content-between h-full">
-          <div className="grid grid-cols-4 gap-3 my-3 col-span-1">
+          <div className="grid grid-cols-3 gap-3 my-3 col-span-1">
             <div
-              className="col-span-4 grid grid-cols-4 gap-3 text-sm"
-              style={{ display: 'flex', alignItems: 'center' }}
+              className="col-span-3 grid grid-cols-3 gap-3 text-sm"
+              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
             >
-              <div className="col-span-1 font-semibold itdaSecondary">이름</div>
-              <div className="col-span-3 itdaText">{userInfo?.name}</div>
+              <div className="font-semibold itdaSecondary">이름</div>
+              <div className="itdaText">{userInfo?.name}</div>
             </div>
 
             <div
-              className="col-span-4 grid grid-cols-4 gap-3 text-sm"
-              style={{ display: 'flex', alignItems: 'center' }}
+              className="col-span-3 grid grid-cols-3 gap-3 text-sm"
+              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
             >
-              <div className="col-span-1 font-semibold itdaSecondary">사번</div>
-              <div className="col-span-3 itdaText">{userInfo?.employeeId}</div>
+              <div className="font-semibold itdaSecondary">사번</div>
+              <div className="itdaText">{userInfo?.employeeId}</div>
             </div>
 
             <div
-              className="col-span-4 grid grid-cols-4 gap-3 text-sm"
-              style={{ display: 'flex', alignItems: 'center' }}
+              className="col-span-3 grid grid-cols-3 gap-3 text-sm"
+              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
             >
-              <div className="col-span-1 font-semibold itdaSecondary">부서</div>
-              <div className="col-span-3 flex gap-1 itdaText">
+              <div className="font-semibold itdaSecondary">부서</div>
+              <div className="flex gap-1 itdaText">
                 <div>{userInfo?.department}</div>
               </div>
             </div>
 
-            <div className="col-span-4 grid grid-cols-4 gap-3" style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="flex items-center col-span-1 font-semibold itdaSecondary text-sm">팀명</div>
+            <div
+              className="col-span-3 grid grid-cols-3 gap-3"
+              style={{ display: 'grid', alignItems: 'center', gridAutoColumns: '35% 65%' }}
+            >
+              <div className="flex items-center font-semibold itdaSecondary text-sm">팀명</div>
               {teamList && (
-                <div className="col-span-3 itdaText flex items-center w-9/12">
-                  <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} />
+                <div className="itdaText flex items-center w-full">
+                  <CustomSelect
+                    items={teamList}
+                    value={selectedTeam}
+                    height="39px"
+                    fontSize="13px"
+                    onChange={handleSelectTeam}
+                  />
+                  {/* <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} /> */}
                 </div>
               )}
             </div>
@@ -259,8 +270,14 @@ function NavBar({ position }: NavBarProps) {
             <div className="flex items-center">
               {/* 팀 선택 */}
               {teamList && userInfo.authority !== '관리자' && (
-                <div className="mr-10">
-                  <SelectBox list={teamList} onChange={handleSelectTeam} width="w-40" defaultSelect={selectedTeam} />
+                <div className="mr-8">
+                  <CustomSelect
+                    items={teamList}
+                    value={selectedTeam}
+                    height="39px"
+                    fontSize="13px"
+                    onChange={handleSelectTeam}
+                  />
                 </div>
               )}
               {/* 프로필 이미지 */}

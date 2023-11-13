@@ -138,7 +138,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
               <div>
                 <div className={`${style.inputTitle}`}>타겟 서버</div>
                 <div style={{ display: 'flex', gap: '7px' }}>
-                  <div className="w-48">
+                  <div className="w-40">
                     <CustomSelect
                       items={['http', 'https']}
                       value={target}
