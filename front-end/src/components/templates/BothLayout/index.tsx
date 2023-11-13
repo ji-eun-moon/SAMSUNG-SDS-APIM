@@ -9,15 +9,14 @@ import style from './BothLayout.module.scss';
 
 function BothLayout({ children }: { children: React.ReactNode[] }) {
   return (
-    <div className={`${style.page}`}>
+    <div>
       {/* Top NavBar */}
-      <div style={{ zIndex: '2' }}>
-        <NavBar position="top" />
-      </div>
-      {/* Side NavBar */}
-      <div>{children && children[0]}</div>
-      <div>
-        <div className={`${style.pageContainer}`}>{children && children[1]}</div>
+      <NavBar position="top" />
+      <div className="flex">
+        {/* Side NavBar */}
+        <div className={style.sideBar}>{children && children[0]}</div>
+        {/* Page Content */}
+        <div className={style.pageContent}>{children && children[1]}</div>
       </div>
     </div>
   );
