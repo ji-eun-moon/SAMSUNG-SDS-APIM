@@ -11,15 +11,18 @@
 }
 
 .topPageContainer {
-  margin-left: 110px;
-  margin-right: 110px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  min-height: 88vh;
+  padding-top: 65px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  // flex-direction: column;
+}
+
+.serverPageContainer {
+  min-height: 100vh;
+  padding-top: 70px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .mainUserContainer {

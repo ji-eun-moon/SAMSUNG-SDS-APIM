@@ -332,7 +332,7 @@ function NavBar({ position }: NavBarProps) {
             <DropDown
               trigger={
                 <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
-                  <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
+                  <Image src="/icons/dropdown.png" alt="dropdown-icon" width={18} height={18} />
                 </Button>
               }
               list={

@@ -12,7 +12,7 @@ function TopLayout({ children }: { children: React.ReactNode }) {
     <div className={`${style.page}`}>
       {/* Top NavBar */}
       <NavBar position="top" />
-      <div className={style.topPageContainer}>{children}</div>
+      <div>{children}</div>
     </div>
   );
 }

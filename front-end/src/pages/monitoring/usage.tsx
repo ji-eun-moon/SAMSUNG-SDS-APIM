@@ -1,6 +1,7 @@
 // import { number } from 'echarts';
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import style from '@/styles/MainPage.module.scss';
 import TopLayout from '@/components/templates/TopLayout';
 
 const Monitoring: NextPage = () => {
@@ -34,13 +35,15 @@ const Monitoring: NextPage = () => {
   }, []); // 컴포넌트가 처음 마운트 될때와 언마운트 될 때 실행
   return (
     <TopLayout>
-      <div style={{ width: `${w}px`, height: `${h}px` }}>
-        <iframe
-          src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/9e206b90-8147-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:5000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-dashboard,viewMode:view)"
-          height="100%"
-          width="100%"
-          title="monitoring"
-        />
+      <div className={`${style.topPageContainer}`}>
+        <div style={{ width: `${w}px`, height: `${h}px` }}>
+          <iframe
+            src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/9e206b90-8147-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:5000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-dashboard,viewMode:view)"
+            height="100%"
+            width="100%"
+            title="monitoring"
+          />
+        </div>
       </div>
     </TopLayout>
   );

@@ -1,28 +1,27 @@
 .SideBarBody {
   width: 255px;
   height: 90vh;
-  padding: 20px 45px;
+  padding: 20px 35px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   position: fixed;
-  // z-index: 1;
-  overflow-y: auto;
+  // overflow-y: auto;
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 5px;
+  // }
 
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
+  // &::-webkit-scrollbar-track {
+  //   background: #f1f1f1;
+  // }
 
-  &::-webkit-scrollbar-thumb {
-    background: #bdbdbd; // 스크롤바 핸들(움직이는 부분)의 배경 색상
-    border-radius: 10px; // 스크롤바 핸들의 둥근 모서리
+  // &::-webkit-scrollbar-thumb {
+  //   background: #bdbdbd; // 스크롤바 핸들(움직이는 부분)의 배경 색상
+  //   border-radius: 10px; // 스크롤바 핸들의 둥근 모서리
 
-    &:hover {
-      background: #a1a1a1; // 스크롤바 핸들에 마우스를 올렸을 때의 색상
-    }
-  }
+  //   &:hover {
+  //     background: #a1a1a1; // 스크롤바 핸들에 마우스를 올렸을 때의 색상
+  //   }
+  // }
 }
