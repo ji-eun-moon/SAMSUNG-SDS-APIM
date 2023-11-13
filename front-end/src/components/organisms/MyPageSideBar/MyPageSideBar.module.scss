@@ -1,0 +1,17 @@
+.SideBarBody {
+  width: 255px;
+  height: 90vh;
+  padding: 20px 0px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.SideBarContent {
+  height: 90vh;
+  margin-top: 20px;
+  padding-bottom: 150px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
