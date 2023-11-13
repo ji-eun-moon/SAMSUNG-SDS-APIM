@@ -13,7 +13,7 @@ export interface CategoryListProps {
   categoryList: TCategoryList;
   openCategory: number;
   my: boolean;
-  type: 'apis' | 'use' | 'provide';
+  type: 'apis' | 'use' | 'provide' | 'admin';
 }
 
 export interface IFilterCondition {

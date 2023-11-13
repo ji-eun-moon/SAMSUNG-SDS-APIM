@@ -6,11 +6,9 @@
 // 사용량 모니터링
 
 import React from 'react';
-import { TCategoryList } from '@/types/Api';
-import { useQuery } from 'react-query';
+import useUrl from '@/hooks/useUrl';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import { useRouter } from 'next/router';
-import { getCategoryList } from '@/utils/axios/api';
 import ServerGraph from '@/components/atoms/ServerGraph';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,7 +16,7 @@ import style from './AdminMain.module.scss';
 
 function AdminMainBox() {
   const router = useRouter();
-  const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
+  const { adminStatisticsUrl, categoryUrl } = useUrl('admin');
 
   const src = {
     ErrorLogs: 'panelId=10',
@@ -28,18 +26,10 @@ function AdminMainBox() {
     ErrorLogsDetail:
       'https://k9c201.p.ssafy.io/grafana/d/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603573167&to=1699625173167&viewPanel=1',
   };
-  let firstCategory = 0;
-  let firstApi = 0;
-  if (categoryList) {
-    firstCategory = categoryList[0]?.categoryId || 0;
-    firstApi = categoryList[0]?.apiList[0].apiId;
-  }
 
   const urlList = {
     ApiStatus: `/apis/status`,
-    statistics: `/statistics/${firstApi}`,
     adminApplyList: '/admin/useApplyList',
-    allApi: `/category/${firstCategory}`,
     memberList: `/member/list`,
     servermonitoring: '/monitoring/server',
     usagemonitoring: '/kibana',
@@ -50,8 +40,8 @@ function AdminMainBox() {
       <div className="flex justify-between items-center ">
         <div className="items-baseline w-full">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', gap: '10px', width: '40%', marginBottom: '10px' }}>
-              <ShadowCard type="button" onClickHandler={() => router.push(urlList.allApi)}>
+            <div style={{ display: 'flex', gap: '10px', width: '50%', marginBottom: '10px' }}>
+              <ShadowCard type="button" onClickHandler={() => router.push(categoryUrl)}>
                 <div className={style.shortcut}>
                   <svg
                     className="w-4 h-4 text-gray-800 dark:text-white"
@@ -117,6 +107,26 @@ function AdminMainBox() {
                     <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                   </svg>
                   <span>팀 관리</span>
+                </div>
+              </ShadowCard>
+              <ShadowCard type="button" onClickHandler={() => router.push(adminStatisticsUrl)}>
+                <div className={style.shortcut}>
+                  <svg
+                    className="w-4 h-4 text-gray-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 17 18"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 12v5m5-9v9m5-5v5m5-9v9M1 7l5-6 5 6 5-6"
+                    />
+                  </svg>
+                  <span>통계</span>
                 </div>
               </ShadowCard>
             </div>

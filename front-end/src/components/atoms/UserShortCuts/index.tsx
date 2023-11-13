@@ -1,14 +1,18 @@
 import React from 'react';
+import useUserStore from '@/store/useUserStore';
+import useUrl from '@/hooks/useUrl';
 import Link from 'next/link';
 // import BorderCard from '../BorderCard';
 import styles from '@/components/organisms/UserMainBox/UserMainBox.module.scss';
 import ShadowCard from '../ShadowCard';
 
 function UserShortCuts() {
+  const { selectedTeam } = useUserStore();
+  const { userStatisticsUrl, categoryUrl } = useUrl(selectedTeam);
   return (
     <div className="mb-3">
       <div className="flex gap-2">
-        <Link href="/api/category">
+        <Link href={categoryUrl}>
           <ShadowCard type="button">
             <div className={styles.shortcut}>
               <svg
@@ -41,7 +45,7 @@ function UserShortCuts() {
           </ShadowCard>
         </Link>
 
-        <Link href="/statistics">
+        <Link href={userStatisticsUrl}>
           <ShadowCard type="button">
             <div className={styles.shortcut}>
               <svg

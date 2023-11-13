@@ -106,7 +106,12 @@ function CategoryListUsage({ categoryId, teamName, type }: Props) {
         <div>{type === 'use' ? 'API별 사용량' : 'API별 제공량'}</div>
         <div className="flex gap-2">
           <div className="w-28">
-            <CustomSelect items={['월별', '일별', '시간별']} value={selected} onChange={handleSelectChange} />
+            <CustomSelect
+              height="30px"
+              items={['월별', '일별', '시간별']}
+              value={selected}
+              onChange={handleSelectChange}
+            />
           </div>
           <Refresh onClick={refreshData} />
         </div>

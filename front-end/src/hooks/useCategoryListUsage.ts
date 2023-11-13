@@ -15,6 +15,7 @@ function useCategoryListUsage({ categoryId, teamName, type }: ICategoryChartPara
     () => getCategoryMonthlyUsage({ categoryId, teamName, type }),
     {
       enabled: !!categoryId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 
@@ -29,6 +30,7 @@ function useCategoryListUsage({ categoryId, teamName, type }: ICategoryChartPara
     () => getCategoryDailyUsage({ categoryId, teamName, type }),
     {
       enabled: !!categoryId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 
@@ -43,6 +45,7 @@ function useCategoryListUsage({ categoryId, teamName, type }: ICategoryChartPara
     () => getCategoryHourlyUsage({ categoryId, teamName, type }),
     {
       enabled: !!categoryId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 

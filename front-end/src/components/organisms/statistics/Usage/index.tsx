@@ -106,15 +106,18 @@ function Usage({ apiId, teamName, type }: Props) {
         <div>{type === 'use' ? '사용량' : '제공량'}</div>
         <div className="flex gap-2">
           <div className="w-28">
-            <CustomSelect items={['월별', '일별', '시간별']} value={selected} onChange={handleSelectChange} />
+            <CustomSelect
+              items={['월별', '일별', '시간별']}
+              value={selected}
+              onChange={handleSelectChange}
+              height="30px"
+            />
           </div>
           <Refresh onClick={refreshData} />
         </div>
       </div>
       <ChartFrame>
         <LineChart
-          type="Usage"
-          title=""
           isSmooth={false}
           chartDataName={chartData.xValues}
           chartDataValue={chartData.yValues}
