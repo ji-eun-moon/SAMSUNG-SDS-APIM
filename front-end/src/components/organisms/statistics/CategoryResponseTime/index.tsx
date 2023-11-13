@@ -18,13 +18,15 @@ function CategoryResponseTime({ categoryId, teamName, type }: Props) {
     type,
   });
 
-  if (isResponseTimeLoading || !responseTimeData) {
+  if (!responseTimeData) {
     return (
-      <ChartFrame>
-        <div className="flex items-center justify-center" style={{ height: '200px' }}>
-          <Spinner />
-        </div>
-      </ChartFrame>
+      <div className="my-8">
+        <ChartFrame>
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        </ChartFrame>
+      </div>
     );
   }
 
@@ -40,7 +42,13 @@ function CategoryResponseTime({ categoryId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <ScatterChart chartData={chartData} />
+        {isResponseTimeLoading ? (
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <ScatterChart chartData={chartData} />
+        )}
       </ChartFrame>
     </div>
   );
