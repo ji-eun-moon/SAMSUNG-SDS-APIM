@@ -42,7 +42,7 @@ function Input({ backgroundColor, isPassword = false, inputWord, placeholder, on
         value={inputWord}
         placeholder={placeholder}
         className={`mx-1 w-full outline-none flex-grow px-2 ${backgroundColor}`}
-        style={{ fontSize: '0.9rem' }}
+        style={{ fontSize: '0.9rem', backgroundColor: `${backgroundColor}` }}
         onFocus={() => setIsFocused(true)} // 포커스되면 상태를 true로 변경
         onBlur={() => setIsFocused(false)} // 포커스가 없어지면 상태를 false로 변경
         onChange={handleInputChange}
