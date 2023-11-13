@@ -1,38 +1,52 @@
 import { IUser } from '@/types/User';
-import ShadowCard from '@/components/atoms/ShadowCard';
-import { Tabs, Tab } from '@nextui-org/react';
+// import ShadowCard from '@/components/atoms/ShadowCard';
+import GoBack from '@/components/atoms/GoBack';
 import UserInfo from '@/components/organisms/UserInfo';
 import ChangePassword from '@/components/organisms/ChangePasswordBox';
+import ToolTip from '@/components/atoms/ToolTip';
 
 interface MyPageBoxProps {
   userInfo: IUser;
+  type: string;
 }
 
-function MyPageBox({ userInfo }: MyPageBoxProps) {
-  return (
-    <div className="mt-8">
-      <ShadowCard type="big">
-        <div className="flex flex-col px-8 py-4 w-full">
-          <Tabs aria-label="Options">
-            <Tab key="info" title="개인정보 확인">
-              <div className="flex justify-center items-center" style={{ minHeight: '60vh' }}>
-                <div className="w-full h-full pt-8 flex justify-center">
-                  <UserInfo userInfo={userInfo} />
-                </div>
-              </div>
-            </Tab>
-            <Tab key="password" title="비밀번호 변경">
-              <div className="flex justify-center items-center" style={{ minHeight: '60vh' }}>
-                <div className="w-3/5 h-full flex justify-center">
-                  <ChangePassword />
-                </div>
-              </div>
-            </Tab>
-          </Tabs>
+function MyPageBox({ type, userInfo }: MyPageBoxProps) {
+  if (type === 'info') {
+    return (
+      <div className="px-4 py-3">
+        <GoBack label="개인정보확인" />
+        {/* <ShadowCard type="noShadow"> */}
+        <div className="flex ml-4 mt-8 justify-center items-center" style={{ fontSize: '0.9rem' }}>
+          <div className="w-full h-full">
+            <UserInfo userInfo={userInfo} />
+          </div>
         </div>
-      </ShadowCard>
-    </div>
-  );
+        {/* </ShadowCard> */}
+      </div>
+    );
+  }
+
+  if (type === 'password') {
+    return (
+      <div className="px-4 py-3">
+        <div className="flex gap-3">
+          <GoBack label="비밀번호변경" />
+          <ToolTip>
+            <div className="itdaSecondary" style={{ fontSize: '0.9rem' }}>
+              아직 처음 계정 생성시 발급받은 임시비밀번호를 사용중이시라면 비밀번호를 꼭 변경하세요
+            </div>
+          </ToolTip>
+        </div>
+        <div className="flex ml-4 mt-8" style={{ minHeight: '60vh' }}>
+          <div className="w-3/5 ">
+            {/* <ShadowCard type="noShadow"> */}
+            <ChangePassword />
+            {/* </ShadowCard> */}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default MyPageBox;
