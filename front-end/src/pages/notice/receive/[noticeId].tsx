@@ -1,5 +1,5 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
-import { useQuery, QueryClient } from 'react-query';
+import { useQuery, QueryClient, useQueryClient } from 'react-query';
 import TopLayout from '@/components/templates/TopLayout';
 import GoBack from '@/components/atoms/GoBack';
 import NoticeCategory from '@/components/atoms/NoticeCategory';
@@ -13,8 +13,10 @@ type SSGProps = {
 };
 
 const ReceiveDetail: NextPage<SSGProps> = ({ noticeId }: SSGProps) => {
+  const queryClient = useQueryClient();
   const { data: noticeDetail } = useQuery<INoticeDetail>(`noticeDetail ${noticeId}`, async () => {
     const result = await getReceiveNoticeDetail(noticeId);
+    queryClient.invalidateQueries('noticeCnt');
     return result;
   });
 
