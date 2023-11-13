@@ -8,6 +8,7 @@ import { getUserInfo } from '@/utils/axios/user';
 import { useQuery } from 'react-query';
 import { getCategoryList } from '@/utils/axios/api';
 import { TCategoryList } from '@/types/Api';
+import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
 const MemberAdd: NextPage = () => {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
@@ -19,8 +20,8 @@ const MemberAdd: NextPage = () => {
 
   return (
     <TopLayout>
-      <div style={{ margin: '30px 200px' }}>
-        <div>
+      <div className={styles.topPageContainer}>
+        <div style={{ margin: '0 200px' }}>
           <GoBack label="사원생성" />
           <AddMemberBox />
         </div>
