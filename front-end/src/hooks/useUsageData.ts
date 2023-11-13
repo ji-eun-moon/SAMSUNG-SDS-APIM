@@ -15,6 +15,7 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     () => getMonthlyUsage({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 
@@ -29,6 +30,7 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     () => getDailyUsage({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 
@@ -43,6 +45,7 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     () => getHourlyUsage({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 

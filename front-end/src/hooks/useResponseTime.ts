@@ -14,6 +14,7 @@ function useResponseTime({ apiId, teamName, type }: IChartParams) {
     () => getResponseTime({ apiId, teamName, type }),
     {
       enabled: !!apiId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 

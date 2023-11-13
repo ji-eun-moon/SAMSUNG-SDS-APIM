@@ -1,7 +1,6 @@
 $hover-color: #f2f2f2;
 
 .dropdown {
-  width: 20%;
   margin: 0 auto;
   background-color: white;
   z-index: 10000;
@@ -21,10 +20,11 @@ $hover-color: #f2f2f2;
     justify-content: space-between;
     padding: 5px;
     background: white;
-    border: 2px solid #ddd;
+    border: 2px solid #e5e7eb;
     border-radius: 7px;
     color: $itda-text;
-    font-weight: 500;
+    font-weight: 400;
+    height: 100%;
   }
 
   .dropdownContent {

@@ -46,13 +46,13 @@ function CategoryPieChart({ title, chartData, pieColors }: PieChartProps) {
           orient: 'vertical',
           right: 5,
           top: 'middle',
-          left: '55%',
+          left: '70%',
         },
         series: [
           {
             type: 'pie',
             radius: ['0%', '90%'],
-            center: ['25%', '50%'],
+            center: ['35%', '50%'],
             data: formattedChartData,
             label: {
               show: true,

@@ -16,7 +16,6 @@ import {
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { IApi, IApiName, ICategory } from '@/types/Api';
-import PageLoading from '@/components/atoms/PageLoading';
 import GoBack from '@/components/atoms/GoBack';
 import Link from 'next/link';
 
@@ -27,19 +26,19 @@ type SSGProps = {
 const AdminApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   const { data, isLoading } = useQuery<IApiName>(['apiName', apiId], () => getApiName(apiId));
 
-  if (isLoading || !data) {
-    return <PageLoading />;
+  if (!data) {
+    return null;
   }
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="provide" openCategoryId={data.categoryId} />
+      <ChartSideBar type="admin" openCategoryId={data.categoryId} />
       {apiId === 0 ? (
         <div className="flex w-full justify-center my-80">API가 없습니다.</div>
       ) : (
         <ChartLayout>
           <div className="flex justify-between">
-            <GoBack label={data.apiName} />
+            <GoBack label={isLoading ? 'loading...' : data.apiName} />
             <Link href={`/apis/detail/${apiId}`}>
               <div className="underline cursor-pointer">API 상세 보기</div>
             </Link>

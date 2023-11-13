@@ -13,6 +13,7 @@ function useCategoryUsage({ categoryId, teamName, type }: ICategoryChartParams) 
     () => getCategoryUsage({ categoryId, teamName, type }),
     {
       enabled: !!categoryId && !!teamName,
+      refetchOnWindowFocus: false,
     },
   );
 
