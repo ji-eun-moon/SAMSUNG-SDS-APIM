@@ -43,6 +43,13 @@ public class MemberService {
     private String secretKey;
     private final Random random = new Random();
 
+    public Member findMember(String employeeId) {
+
+        return memberRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+
+    }
+
     public Member register(CreateMemberRequest request) throws MessagingException {
 
         log.info("{MemberService} : register 실행");

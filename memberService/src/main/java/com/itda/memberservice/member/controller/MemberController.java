@@ -37,6 +37,15 @@ public class MemberController {
     private final TeamService teamService;
     private final MemberTeamService memberTeamService;
 
+    @GetMapping("/get-MemberId")
+    public ResponseEntity<Member> getMemberId(@RequestParam("employeeId") String employeeId) {
+
+        log.info("{} 사번의 회원 ID 찾기", employeeId);
+
+        return ResponseEntity.ok().body(memberService.findMember(employeeId));
+
+    }
+
     @PostMapping("/sign-up")
     @Operation(summary = "회원 가입", description = "정해진 정보를 통해 회원 가입")
     @ApiResponses(value = {
