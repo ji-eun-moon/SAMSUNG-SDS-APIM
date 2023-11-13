@@ -76,7 +76,7 @@ function MainProvideStatistics() {
               arrows={false}
               slidesToShow={1}
               speed={2000}
-              autoplaySpeed={1700}
+              autoplaySpeed={5000}
             >
               {provideCategoryList &&
                 provideCategoryList.length !== 0 &&

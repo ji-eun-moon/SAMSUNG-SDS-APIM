@@ -76,7 +76,7 @@ function MainUseStatistics() {
               arrows={false}
               slidesToShow={1}
               speed={2000}
-              autoplaySpeed={1700}
+              autoplaySpeed={5000}
             >
               {useCategoryList &&
                 useCategoryList.length !== 0 &&
