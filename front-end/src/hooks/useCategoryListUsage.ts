@@ -7,7 +7,7 @@ function useCategoryListUsage({ categoryId, teamName, type }: ICategoryChartPara
   // 월간 데이터 가져오기
   const {
     data: monthlyData,
-    isLoading: isMonthlyLoading,
+    isFetching: isMonthlyLoading,
     isError: isMonthlyError,
     refetch: refetchMonthly,
   } = useQuery<TCategoryUsageList>(

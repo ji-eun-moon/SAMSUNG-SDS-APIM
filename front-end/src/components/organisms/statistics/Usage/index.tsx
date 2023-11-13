@@ -38,13 +38,17 @@ function Usage({ apiId, teamName, type }: Props) {
   });
   const [selectedChart, setSelectedChart] = useState<ChartType>(ChartType.Monthly);
 
-  if (isMonthlyLoading || isDailyLoading || isHourlyLoading || !monthlyData || !dailyData || !hourlyData) {
+  const isLoading = isMonthlyLoading || isDailyLoading || isHourlyLoading;
+
+  if (!monthlyData || !dailyData || !hourlyData) {
     return (
-      <ChartFrame>
-        <div className="flex items-center justify-center" style={{ height: '200px' }}>
-          <Spinner />
-        </div>
-      </ChartFrame>
+      <div className="my-8">
+        <ChartFrame>
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        </ChartFrame>
+      </div>
     );
   }
 
@@ -117,12 +121,18 @@ function Usage({ apiId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <LineChart
-          isSmooth={false}
-          chartDataName={chartData.xValues}
-          chartDataValue={chartData.yValues}
-          chartColor="#8FCACA"
-        />
+        {isLoading ? (
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <LineChart
+            isSmooth={false}
+            chartDataName={chartData.xValues}
+            chartDataValue={chartData.yValues}
+            chartColor="#8FCACA"
+          />
+        )}
       </ChartFrame>
     </div>
   );

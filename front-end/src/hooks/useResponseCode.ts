@@ -6,7 +6,7 @@ function useResponseCode({ apiId, teamName, type }: IChartParams) {
   // 응답 코드 데이터 가져오기
   const {
     data: responseCodeData,
-    isLoading: isResponseCodeLoading,
+    isFetching: isResponseCodeLoading,
     isError: isResponseCodeError,
     refetch: refetchResponseCode,
   } = useQuery<TResponseCodeList>(

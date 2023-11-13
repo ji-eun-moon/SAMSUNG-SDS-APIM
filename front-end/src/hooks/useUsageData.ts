@@ -7,7 +7,7 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
   // 월간 데이터 가져오기
   const {
     data: monthlyData,
-    isLoading: isMonthlyLoading,
+    isFetching: isMonthlyLoading,
     isError: isMonthlyError,
     refetch: refetchMonthly,
   } = useQuery<TApiUsageList>(
@@ -16,13 +16,14 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     {
       enabled: !!apiId && !!teamName,
       refetchOnWindowFocus: false,
+      refetchIntervalInBackground: false,
     },
   );
 
   // 일간 데이터 가져오기
   const {
     data: dailyData,
-    isLoading: isDailyLoading,
+    isFetching: isDailyLoading,
     isError: isDailyError,
     refetch: refetchDaily,
   } = useQuery<TApiUsageList>(
@@ -31,13 +32,14 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     {
       enabled: !!apiId && !!teamName,
       refetchOnWindowFocus: false,
+      refetchIntervalInBackground: false,
     },
   );
 
   // 시간별 데이터 가져오기
   const {
     data: hourlyData,
-    isLoading: isHourlyLoading,
+    isFetching: isHourlyLoading,
     isError: isHourlyError,
     refetch: refetchHourly,
   } = useQuery<TApiUsageList>(
@@ -46,6 +48,7 @@ function useUsageData({ apiId, teamName, type }: IChartParams) {
     {
       enabled: !!apiId && !!teamName,
       refetchOnWindowFocus: false,
+      refetchIntervalInBackground: false,
     },
   );
 
