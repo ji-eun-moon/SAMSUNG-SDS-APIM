@@ -70,6 +70,15 @@ spring:
             - RewritePath=/server/(?<segment>.*), /${segment}
             - RemoveRequestHeader=Cookie
             - AuthorizationHeaderFilter
+
+        - id: notice-service
+          uri: lb://NOTICE-SERVICE
+          predicates:
+            - Path=/notice/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/notice/(?<segment>.*), /${segment}
+            - AuthorizationHeaderFilter
             
         - id: first-submit
           uri: lb://FIRST-SUBMIT-SERVICE
