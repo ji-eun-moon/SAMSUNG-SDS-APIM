@@ -66,12 +66,13 @@ function MainApiStatus() {
       <div className="flex justify-between">
         <div className="flex items-center pb-1">
           <svg
-            className="w-4 h-4 mr-1 dark:text-white"
+            className="w-4 h-4 mx-1 dark:text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
             viewBox="0 0 16 22"
-            style={{ color: '#9a9a9a' }}
+            // style={{ color: '#9a9a9a' }}
+            style={{ color: '#17468f' }}
           >
             <path d="M15.458 4a3 3 0 1 0-4.478 2.6A2.6 2.6 0 0 1 8.4 9H6.6a4.57 4.57 0 0 0-2.6.814v-3a3 3 0 1 0-2 0v8.368a3 3 0 1 0 2 0V13.6A2.607 2.607 0 0 1 6.6 11h1.8a4.6 4.6 0 0 0 4.548-4.049A3 3 0 0 0 15.458 4Z" />
           </svg>
