@@ -60,7 +60,7 @@ export default function Login() {
           height: '100%',
           background: 'url(/images/login2.png)',
           backgroundSize: 'contain',
-          filter: 'brightness(0.5)',
+          filter: 'brightness(0.7)',
         }}
       />
 

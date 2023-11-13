@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '@/styles/MainPage.module.scss';
 import SideLayout from '@/components/templates/SideLayout';
 import TopLayout from '@/components/templates/TopLayout';
@@ -19,31 +19,37 @@ import AdminMainBox from '@/components/organisms/AdminMainBox';
 
 const Home: NextPage = () => {
   const { selectedTeam } = useUserStore();
+  const [loading, setLoading] = useState(true);
 
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: apiStatus } = useQuery<IApiStatusInfo>('apiStatus', () =>
     getApiStatus({ status: '', page: 0, size: 3, apiName: '' }),
   );
 
-  const { data: responseUse } = useQuery<IResponseUse>(
-    [`useApplyList${selectedTeam}`, 0, ''], // 첫 번째 인자는 쿼리 키
-    () => getUseApplyList(selectedTeam, 0, ''), // 두 번째 인자는 해당 쿼리에 대한 함수
+  const { data: responseUse } = useQuery<IResponseUse>([`useApplyList${selectedTeam}`, 0, ''], () =>
+    getUseApplyList(selectedTeam, 0, ''),
   );
 
-  const { data: responseProvide } = useQuery<IResponseProvide>(
-    [`provideApplyList${selectedTeam}`, 0, ''], // 첫 번째 인자는 쿼리 키
-    () => getProvideApplyList(selectedTeam, 0, ''), // 두 번째 인자는 해당 쿼리에 대한 함수
+  const { data: responseProvide } = useQuery<IResponseProvide>([`provideApplyList${selectedTeam}`, 0, ''], () =>
+    getProvideApplyList(selectedTeam, 0, ''),
   );
 
-  if (!responseUse) {
-    return null;
-  }
-  if (!responseProvide) {
-    return null;
-  }
+  useEffect(() => {
+    // Simulate a 2-second delay
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
 
-  if (!apiStatus || !userInfo) {
+    // Clean up the timeout to avoid memory leaks
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  if (loading) {
     return <PageLoading />;
+  }
+
+  if (!responseUse || !responseProvide || !apiStatus || !userInfo) {
+    return null;
   }
 
   if (userInfo.authority === '관리자') {
