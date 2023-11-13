@@ -9,7 +9,6 @@ import CountBadge from '@/components/atoms/CountBadge';
 // import SelectBox from '@/components/atoms/SelectBox';
 import NoticeDropDown from '@/components/atoms/NoticeDropDown';
 import DropDown from '@/components/atoms/DropDown';
-// import LogoWithName from '@/components/atoms/LogoWithName';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
 // import useNoticeStore from '@/store/useNoticeStore';
@@ -51,6 +50,11 @@ function NavBar({ position }: NavBarProps) {
     await router.push(`/login`);
   };
 
+  const onClickHandler = () => {
+    setSearchWord('');
+    setSearchOpen(false);
+  };
+
   const teamList = userInfo?.teams?.map((team) => team.teamName);
 
   useEffect(() => {
@@ -84,18 +88,18 @@ function NavBar({ position }: NavBarProps) {
 
         {/* 회원 정보 */}
         <div className="grid grid-cols-1 content-between h-full">
-          <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <div className={`${styles.info}`}>
+          <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className={`${styles.info} mb-3`}>
               <div className="font-semibold itdaSecondary">이름</div>
               <div className="itdaText">{userInfo?.name}</div>
             </div>
 
-            <div className={`${styles.info}`}>
+            <div className={`${styles.info} mb-3`}>
               <div className="font-semibold itdaSecondary">사번</div>
               <div className="itdaText">{userInfo?.employeeId}</div>
             </div>
 
-            <div className={`${styles.info}`}>
+            <div className={`${styles.info} mb-2`}>
               <div className="font-semibold itdaSecondary">부서</div>
               <div className="flex gap-1 itdaText">
                 <div>{userInfo?.department}</div>
@@ -103,7 +107,7 @@ function NavBar({ position }: NavBarProps) {
             </div>
 
             <div className={`${styles.info}`}>
-              <div className="flex items-center font-semibold itdaSecondary text-sm">팀명</div>
+              <div className="flex items-center font-semibold itdaSecondary">팀명</div>
               {teamList && (
                 <div className="itdaText flex items-center justify-start w-full">
                   <CustomSelect
@@ -152,7 +156,7 @@ function NavBar({ position }: NavBarProps) {
             <div className="itdaText flex flex-col gap-3">
               <div
                 className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
-                onClick={() => router.push('/team')}
+                onClick={() => router.push('/team/token')}
                 aria-hidden
               >
                 <div className="text-sm">팀정보</div>
@@ -174,7 +178,7 @@ function NavBar({ position }: NavBarProps) {
               </div>
               <div
                 className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
-                onClick={() => router.push('/mypage')}
+                onClick={() => router.push('/mypage/info')}
                 aria-hidden
               >
                 <div className="text-sm">마이페이지</div>
@@ -244,7 +248,7 @@ function NavBar({ position }: NavBarProps) {
               <div className={styles.updownSearch} />
               <svg
                 className="w-5 h-5 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
-                onClick={() => setSearchOpen(false)}
+                onClick={() => onClickHandler()}
                 aria-hidden
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -325,7 +329,7 @@ function NavBar({ position }: NavBarProps) {
             <DropDown
               trigger={
                 <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
-                  <Image src="/icons/dropdown.png" alt="dropdown-icon" width={18} height={18} />
+                  <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
                 </Button>
               }
               list={

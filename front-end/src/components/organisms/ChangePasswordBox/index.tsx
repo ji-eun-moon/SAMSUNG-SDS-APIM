@@ -1,26 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import Input from '@/components/atoms/Input';
-// import BorderCard from '@/components/atoms/BorderCard';
 import { ChangePassword } from '@/utils/axios/auth';
 import StyledButton from '@/components/atoms/StyledButton';
-
-// const Icon = () => (
-//   <svg
-//     className="w-5 h-5 itdaSecondary dark:text-white"
-//     aria-hidden="true"
-//     xmlns="http://www.w3.org/2000/svg"
-//     fill="none"
-//     viewBox="0 0 16 20"
-//   >
-//     <path
-//       stroke="currentColor"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//       strokeWidth="2"
-//       d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"
-//     />
-//   </svg>
-// );
+import Modal from '../Modal';
 
 function ChangePasswordBox() {
   const [originalPassword, setOriginalPassword] = useState('');
@@ -29,6 +11,8 @@ function ChangePasswordBox() {
   const [checkOriginal, setCheckOriginal] = useState(true);
   const [checkChange, setCheckChange] = useState(true);
   const [checkConfirm, setCheckConfirm] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const check = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/;
 
@@ -40,6 +24,10 @@ function ChangePasswordBox() {
     } else {
       setCheckOriginal(true);
     }
+  };
+
+  const onModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const onChangeHandler = (value: string) => {
@@ -62,10 +50,25 @@ function ChangePasswordBox() {
     }
   };
 
-  const onSubmitHandler = (event: FormEvent) => {
+  const onSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (checkOriginal && checkChange && checkConfirm) {
-      ChangePassword({ originalPassword, changePassword });
+      const res = await ChangePassword({ originalPassword, changePassword });
+      console.log(res);
+      if (res === '비밀번호 변경') {
+        setAlertMessage('비밀번호가 변경되었습니다');
+        setOriginalPassword('');
+        setChangePassword('');
+        setConfirmPassword('');
+        onModalHandler();
+      }
+      if (res === null) {
+        setAlertMessage('현재 비밀번호를 다시 확인하세요');
+        setOriginalPassword('');
+        setChangePassword('');
+        setConfirmPassword('');
+        onModalHandler();
+      }
     }
   };
 
@@ -127,13 +130,13 @@ function ChangePasswordBox() {
             )}
           </div>
         </div>
-        {/* </BorderCard> */}
-        <div className="flex justify-center">
-          <div className="w-1/5 mt-3">
-            <StyledButton type="submit" variant="solid" radius="full" label="비밀번호 변경" />
+        <div className="flex justify-end mr-5">
+          <div className="w-1/5 mt-4">
+            <StyledButton type="submit" variant="solid" radius="sm" label="비밀번호 변경" />
           </div>
         </div>
       </form>
+      {isModalOpen && <Modal type="alert" onClose={onModalHandler} alertMessage={alertMessage} />}
     </div>
   );
 }

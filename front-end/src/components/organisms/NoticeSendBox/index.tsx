@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { sendNotice, searchMember } from '@/utils/axios/notice';
 import { TSearchMembers } from '@/types/User';
 import { Listbox, ListboxItem } from '@nextui-org/react';
@@ -26,7 +25,6 @@ interface NoticeSendBoxProps {
 }
 
 function NoticeSendBox({ sendName, sendId }: NoticeSendBoxProps) {
-  const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [members, setMembers] = useState<MemberType[]>([]);
@@ -44,7 +42,7 @@ function NoticeSendBox({ sendName, sendId }: NoticeSendBoxProps) {
       const employeeIds = members.map((member) => member.memberId);
       const res = await sendNotice({ employeeIds, title, content });
       if (res === '쪽지 보내는거 성공') {
-        router.push('/notice/send');
+        window.location.href = '/notice/send';
       }
     }
   };
