@@ -11,6 +11,7 @@ import NoticeDropDown from '@/components/atoms/NoticeDropDown';
 import DropDown from '@/components/atoms/DropDown';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import useUserStore from '@/store/useUserStore';
+// import useNoticeStore from '@/store/useNoticeStore';
 import Link from 'next/link';
 import SearchBar from '@/components/atoms/SearchBar';
 import { IUser } from '@/types/User';
@@ -27,8 +28,12 @@ import styles from './NavBar.module.scss';
 
 function NavBar({ position }: NavBarProps) {
   const router = useRouter();
+  // const { setNoticeCount, noticeCount } = useNoticeStore((state) => state);
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
-  const { data: noticeCnt } = useQuery<number>('noticeCnt', getNoticeCnt);
+  const { data: noticeCount } = useQuery<number>('noticeCnt', getNoticeCnt, {
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+  });
   const { firstCategoryId } = useApi();
   const { selectedTeam, setSelectedTeam } = useUserStore();
   const { userStatisticsUrl, adminStatisticsUrl, categoryUrl } = useUrl(selectedTeam);
@@ -59,7 +64,7 @@ function NavBar({ position }: NavBarProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!userInfo || noticeCnt === undefined) {
+  if (!userInfo || noticeCount === undefined) {
     return null;
   }
 
@@ -83,18 +88,18 @@ function NavBar({ position }: NavBarProps) {
 
         {/* 회원 정보 */}
         <div className="grid grid-cols-1 content-between h-full">
-          <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <div className={`${styles.info}`}>
+          <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className={`${styles.info} mb-3`}>
               <div className="font-semibold itdaSecondary">이름</div>
               <div className="itdaText">{userInfo?.name}</div>
             </div>
 
-            <div className={`${styles.info}`}>
+            <div className={`${styles.info} mb-3`}>
               <div className="font-semibold itdaSecondary">사번</div>
               <div className="itdaText">{userInfo?.employeeId}</div>
             </div>
 
-            <div className={`${styles.info}`}>
+            <div className={`${styles.info} mb-2`}>
               <div className="font-semibold itdaSecondary">부서</div>
               <div className="flex gap-1 itdaText">
                 <div>{userInfo?.department}</div>
@@ -102,7 +107,7 @@ function NavBar({ position }: NavBarProps) {
             </div>
 
             <div className={`${styles.info}`}>
-              <div className="flex items-center font-semibold itdaSecondary text-sm">팀명</div>
+              <div className="flex items-center font-semibold itdaSecondary">팀명</div>
               {teamList && (
                 <div className="itdaText flex items-center justify-start w-full">
                   <CustomSelect
@@ -136,7 +141,7 @@ function NavBar({ position }: NavBarProps) {
                 type="button"
               />
 
-              <CountBadge count={noticeCnt?.toString()}>
+              <CountBadge count={noticeCount?.toString()}>
                 <StyledButton
                   variant="solid"
                   label="쪽지함"
@@ -308,8 +313,8 @@ function NavBar({ position }: NavBarProps) {
             <NoticeDropDown
               trigger={
                 <button type="button" className="flex justify-center items-center">
-                  <CountBadge count={noticeCnt?.toString()}>
-                    <Image src="/icons/notice.png" alt="notice-icon" width={20} height={20} />
+                  <CountBadge count={noticeCount?.toString()}>
+                    <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
                   </CountBadge>
                 </button>
               }
