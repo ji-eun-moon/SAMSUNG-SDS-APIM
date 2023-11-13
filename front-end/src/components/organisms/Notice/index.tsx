@@ -4,10 +4,13 @@ import { Checkbox } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { NoticeProps, ReceiveNoticeProps, SendNoticeProps, NavBarNoticeProps } from '@/types/props/NoticeListProps';
 // import Modal from '../Modal';
+// import NoticeDetail from '../NoticeDetail';
+// import NoticeSendBox from '../NoticeSendBox';
 
 function Notice({ position, type, ...props }: NoticeProps) {
   const router = useRouter();
   // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [send, setSend] = useState(false);
 
   // const onModalHandler = () => {
   //   setIsModalOpen(!isModalOpen);
@@ -61,7 +64,10 @@ function Notice({ position, type, ...props }: NoticeProps) {
         </button>
         {/* {isModalOpen && (
           <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox name={noticeInfo} memberId={Number(member.employeeId)} />
+            <NoticeDetail type="receive" notice={noticeInfo} />
+          </Modal>
+          <Modal type="server" onClose={onModalHandler}>
+            <NoticeSendBox sendName={noticeInfo.senderName} sendId={noticeInfo.senderEmployeeId.toString()} />
           </Modal>
         )} */}
       </div>

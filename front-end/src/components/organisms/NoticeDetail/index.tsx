@@ -33,80 +33,75 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
   if (type === 'receive') {
     const { notice } = props as ReceiveNoticeProps;
     return (
-      <div className="ml-8">
-        <ShadowCard type="big">
-          <div className="w-full p-5">
-            <div className="text-xl font-bold mb-5">{notice?.title}</div>
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center mb-3 mx-1">
-                {/* <div className="mr-3 font-semibold">보낸사람</div> */}
-                {notice && <ProfileImg src={notice?.senderImage} width={35} height={35} />}
-                <div className="mx-3">{notice?.senderName}</div>
-                <div className="flex text-sm itdaSecondary">
-                  <div>{notice?.senderDepartment}</div>&nbsp;|&nbsp;
-                  <div>{notice?.senderPosition}</div>
-                </div>
+      <ShadowCard type="big">
+        <div className="w-full p-5">
+          <div className="text-xl font-bold mb-5">{notice?.title}</div>
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center mb-3 mx-1">
+              {/* <div className="mr-3 font-semibold">보낸사람</div> */}
+              {notice && <ProfileImg src={notice?.senderImage} width={35} height={35} />}
+              <div className="mx-3">{notice?.senderName}</div>
+              <div className="flex text-sm itdaSecondary">
+                <div>{notice?.senderDepartment}</div>&nbsp;|&nbsp;
+                <div>{notice?.senderPosition}</div>
               </div>
-              <div className="itdaSecondary">{notice && formatToCustomDate(notice?.createdAt)}</div>
             </div>
-            <BorderCard>
-              <div className="text-start p-1" style={{ height: '200px' }}>
-                {notice?.content}
-              </div>
-            </BorderCard>
-            <div className="w-full flex justify-end">
-              <div className="mt-3 w-2/12 flex">
-                <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={onModalHandler} />
-              </div>
+            <div className="itdaSecondary">{notice && formatToCustomDate(notice?.createdAt)}</div>
+          </div>
+          <BorderCard>
+            <div className="text-start p-1" style={{ height: '200px' }}>
+              {notice?.content}
+            </div>
+          </BorderCard>
+          <div className="w-full flex justify-end">
+            <div className="mt-3 w-2/12 flex">
+              <StyledButton variant="solid" label="답장 보내기" radius="sm" type="button" onClick={onModalHandler} />
             </div>
           </div>
-          {isModalOpen && (
-            <Modal type="server" onClose={onModalHandler}>
-              <NoticeSendBox sendName={notice.senderName} sendId={notice.senderEmployeeId.toString()} />
-            </Modal>
-          )}
-        </ShadowCard>
-      </div>
+        </div>
+        {isModalOpen && (
+          <Modal type="server" onClose={onModalHandler}>
+            <NoticeSendBox sendName={notice.senderName} sendId={notice.senderEmployeeId.toString()} />
+          </Modal>
+        )}
+      </ShadowCard>
     );
   }
 
   if (type === 'send') {
     const { notice } = props as SendNoticeProps;
     return (
-      <div className="ml-8">
-        <ShadowCard type="big">
-          <div className="w-full p-5">
-            <div className="text-xl font-bold mb-5">{notice?.title}</div>
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center mb-3 mx-1">
-                {/* <div className="mr-3 font-semibold">보낸사람</div> */}
-                {notice && <ProfileImg src={notice?.receiverImage} width={35} height={35} />}
-                <div className="mx-3">{notice?.receiverName}</div>
-                <div className="flex text-sm itdaSecondary">
-                  <div>{notice?.receiverDepartment}</div>&nbsp;|&nbsp;
-                  <div>{notice?.receiverPosition}</div>
-                </div>
+      <ShadowCard type="big">
+        <div className="w-full p-5">
+          <div className="text-xl font-bold mb-5">{notice?.title}</div>
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center mb-3 mx-1">
+              {notice && <ProfileImg src={notice?.receiverImage} width={35} height={35} />}
+              <div className="mx-3">{notice?.receiverName}</div>
+              <div className="flex text-sm itdaSecondary">
+                <div>{notice?.receiverDepartment}</div>&nbsp;|&nbsp;
+                <div>{notice?.receiverPosition}</div>
               </div>
-              <div className="itdaSecondary">{notice && formatToCustomDate(notice?.createdAt)}</div>
             </div>
-            <BorderCard>
-              <div className="text-start p-1" style={{ height: '200px' }}>
-                {notice?.content}
-              </div>
-            </BorderCard>
-            <div className="w-full flex justify-end">
-              <div className="mt-3 w-2/12 flex">
-                <StyledButton variant="solid" label="쪽지 보내기" radius="sm" type="button" onClick={onModalHandler} />
-              </div>
+            <div className="flex itdaSecondary">{notice && formatToCustomDate(notice?.createdAt)}</div>
+          </div>
+          <BorderCard>
+            <div className="text-start p-1" style={{ height: '200px' }}>
+              {notice?.content}
+            </div>
+          </BorderCard>
+          <div className="w-full flex justify-end">
+            <div className="mt-3 w-2/12 flex">
+              <StyledButton variant="solid" label="쪽지 보내기" radius="sm" type="button" onClick={onModalHandler} />
             </div>
           </div>
-          {isModalOpen && (
-            <Modal type="server" onClose={onModalHandler}>
-              <NoticeSendBox sendName={notice.receiverName} sendId={notice.receiverEmployeeId.toString()} />
-            </Modal>
-          )}
-        </ShadowCard>
-      </div>
+        </div>
+        {isModalOpen && (
+          <Modal type="server" onClose={onModalHandler}>
+            <NoticeSendBox sendName={notice.receiverName} sendId={notice.receiverEmployeeId.toString()} />
+          </Modal>
+        )}
+      </ShadowCard>
     );
   }
 }
