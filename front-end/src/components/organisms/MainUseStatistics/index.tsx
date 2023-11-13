@@ -30,12 +30,13 @@ function MainUseStatistics() {
       <div className="flex justify-between">
         <div className="flex items-center pb-1">
           <svg
-            className="w-4 h-4 mr-1 dark:text-white"
+            className="w-4 h-4 mx-1 dark:text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 17 18"
-            style={{ color: '#9a9a9a' }}
+            // style={{ color: '#9a9a9a' }}
+            style={{ color: '#17468f' }}
           >
             <path
               stroke="currentColor"
@@ -76,7 +77,7 @@ function MainUseStatistics() {
               arrows={false}
               slidesToShow={1}
               speed={2000}
-              autoplaySpeed={1700}
+              autoplaySpeed={5000}
             >
               {useCategoryList &&
                 useCategoryList.length !== 0 &&
