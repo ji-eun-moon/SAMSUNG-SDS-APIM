@@ -1,10 +1,11 @@
 import React from 'react';
-import SelectBox from '@/components/atoms/SelectBox';
+// import SelectBox from '@/components/atoms/SelectBox';
 import ShadowCard from '@/components/atoms/ShadowCard';
 import { TTeamList } from '@/types/User';
 import TeamTable from '@/components/organisms/TeamTable';
 import TeamToken from '@/components/organisms/TeamToken';
 import { Tabs, Tab } from '@nextui-org/react';
+import CustomSelect from '@/components/atoms/CustomSelect';
 
 interface TeamInfoBoxProps {
   teamList: TTeamList;
@@ -21,7 +22,8 @@ function TeamInfoBox({ teamList, currentTeam, setTeam }: TeamInfoBoxProps) {
         {/* 팀 선택 SelectBox */}
         <div className="absolute right-5">
           <div className="w-36">
-            <SelectBox list={list} defaultSelect={currentTeam} onChange={(teamName) => setTeam(teamName)} />
+            <CustomSelect items={list} value={currentTeam} onChange={(teamName) => setTeam(teamName)} height="39px" />
+            {/* <SelectBox list={list} defaultSelect={currentTeam} onChange={(teamName) => setTeam(teamName)} /> */}
           </div>
         </div>
         <div className="flex justify-between items-center mb-4">
