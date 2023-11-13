@@ -2,38 +2,11 @@ import React from 'react';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import { Checkbox } from '@nextui-org/react';
 import { useRouter } from 'next/router';
+import { formatDate, truncateText } from '@/utils/format';
 import { NoticeProps, ReceiveNoticeProps, SendNoticeProps, NavBarNoticeProps } from '@/types/props/NoticeListProps';
-// import Modal from '../Modal';
-// import NoticeDetail from '../NoticeDetail';
-// import NoticeSendBox from '../NoticeSendBox';
 
 function Notice({ position, type, ...props }: NoticeProps) {
   const router = useRouter();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [send, setSend] = useState(false);
-
-  // const onModalHandler = () => {
-  //   setIsModalOpen(!isModalOpen);
-  // };
-
-  const truncateText = (text: string, num: number) => {
-    if (text?.length <= num) {
-      return text;
-    }
-    return `${text?.substring(0, num)}...`;
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
 
   if (position === 'page' && type === 'receive') {
     const { noticeInfo, isSelected, category, onCheckboxToggle } = props as ReceiveNoticeProps;
@@ -42,7 +15,6 @@ function Notice({ position, type, ...props }: NoticeProps) {
         <button
           type="button"
           onClick={() => router.push(`/notice/${type}/${noticeInfo.noticeId}`)}
-          // onClick={onModalHandler}
           className="w-full p-2"
         >
           <div className="flex justify-between items-center">
@@ -62,14 +34,6 @@ function Notice({ position, type, ...props }: NoticeProps) {
             </div>
           </div>
         </button>
-        {/* {isModalOpen && (
-          <Modal type="server" onClose={onModalHandler}>
-            <NoticeDetail type="receive" notice={noticeInfo} />
-          </Modal>
-          <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox sendName={noticeInfo.senderName} sendId={noticeInfo.senderEmployeeId.toString()} />
-          </Modal>
-        )} */}
       </div>
     );
   }
@@ -123,7 +87,6 @@ function Notice({ position, type, ...props }: NoticeProps) {
                 </div>
                 <div className="flex pl-3">
                   <div className="text-sm">{truncateText(noticeInfo.title, 20)}</div>
-                  {/* <div className="itdaBlue text-sm text-right">{noticeInfo.read ? '읽음' : '안읽음'}</div> */}
                 </div>
               </div>
             </div>
