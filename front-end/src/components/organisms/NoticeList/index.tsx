@@ -39,7 +39,7 @@ function NoticeList({
     };
 
     return (
-      <ShadowCard type="bordersmall" bgcolor="#ffffff">
+      <ShadowCard type="noShadow">
         <div className="py-1 px-3">
           <div className="pl-2 pb-4 flex justify-between">
             <div className="flex items-center">
