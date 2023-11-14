@@ -118,7 +118,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async ({ query }
   const queryClient = new QueryClient();
   // 사용자 정보 가져오기
   const selectedTeam = getSelectedTeam();
-  await queryClient.prefetchQuery(`provideApplyList${selectedTeam}`, () =>
+  await queryClient.prefetchQuery([`provideApplyList${selectedTeam}`, clickPage, state], () =>
     getProvideApplyList(selectedTeam, clickPage, state),
   );
   const isUser = true;

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from 'react-query';
 import { sendNotice, searchMember } from '@/utils/axios/notice';
 import { TSearchMembers } from '@/types/User';
 import { Listbox, ListboxItem } from '@nextui-org/react';
@@ -22,14 +24,25 @@ interface MemberType {
 interface NoticeSendBoxProps {
   sendName?: string;
   sendId?: string;
+  onSendBoxClose: () => void;
 }
 
-function NoticeSendBox({ sendName, sendId }: NoticeSendBoxProps) {
+function NoticeSendBox({ sendName, sendId, onSendBoxClose }: NoticeSendBoxProps) {
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [members, setMembers] = useState<MemberType[]>([]);
   const [searchMembers, setSearchMembers] = useState<TSearchMembers>([]);
   const [input, setInput] = useState('');
+
+  const { mutate: send } = useMutation(sendNotice, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['sendList', '전체보기', 1]);
+      onSendBoxClose();
+      router.push(`/notice/send`);
+    },
+  });
 
   useEffect(() => {
     if (sendName && sendId && sendName !== '' && sendId !== '0') {
@@ -40,10 +53,7 @@ function NoticeSendBox({ sendName, sendId }: NoticeSendBoxProps) {
   const onSubmitHandler = async () => {
     if (title && content && members) {
       const employeeIds = members.map((member) => member.memberId);
-      const res = await sendNotice({ employeeIds, title, content });
-      if (res === '쪽지 보내는거 성공') {
-        window.location.href = '/notice/send';
-      }
+      await send({ employeeIds, title, content });
     }
   };
 
@@ -134,7 +144,8 @@ function NoticeSendBox({ sendName, sendId }: NoticeSendBoxProps) {
           <div>
             <TextArea
               textAreaWord={content}
-              placeholder="내용을 입력하세요"
+              placeholder="내용을 입력하세요 (최대 255자)"
+              maxLength={255}
               onChange={setContent}
               width="w-full"
               height="h-64"

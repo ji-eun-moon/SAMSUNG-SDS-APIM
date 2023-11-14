@@ -65,7 +65,11 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
         </div>
         {isModalOpen && (
           <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox sendName={notice?.senderName} sendId={notice?.senderEmployeeId.toString()} />
+            <NoticeSendBox
+              sendName={notice?.senderName}
+              sendId={notice?.senderEmployeeId.toString()}
+              onSendBoxClose={onModalHandler}
+            />
           </Modal>
         )}
       </ShadowCard>
@@ -102,7 +106,11 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
         </div>
         {isModalOpen && (
           <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox sendName={notice.receiverName} sendId={notice.receiverEmployeeId.toString()} />
+            <NoticeSendBox
+              sendName={notice.receiverName}
+              sendId={notice.receiverEmployeeId.toString()}
+              onSendBoxClose={onModalHandler}
+            />
           </Modal>
         )}
       </ShadowCard>
