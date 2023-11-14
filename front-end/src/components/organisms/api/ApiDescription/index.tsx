@@ -160,7 +160,41 @@ function ApiDescription({ type, categoryId, content, ...props }: DescriptionProp
             <div className="font-semibold text-lg">사용 신청이 완료 되었습니다.</div>
             <div className="flex my-3">
               <Link href="/apply/use/list">
-                <div className="itdaSecondary underline cursor-pointer">☞ 신청 내역으로 이동하기</div>
+                <div className="itdaSecondary underline cursor-pointer flex items-center">
+                  {/* <svg
+                    className="w-3 h-3 text-gray-400 dark:text-white ml-2 mr-1"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 5h12m0 0L9 1m4 4L9 9"
+                    />
+                    
+                  </svg> */}
+                  <svg
+                    className="w-4 h-4 text-gray-400 dark:text-white ml-2 mr-1"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="20"
+                    fill="none"
+                    viewBox="0 0 18 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeWidth="2"
+                      d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5"
+                    />
+                  </svg>
+                  <span>신청 내역으로 이동하기</span>
+                </div>
               </Link>
             </div>
           </div>
