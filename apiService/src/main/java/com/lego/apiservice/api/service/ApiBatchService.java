@@ -4,6 +4,8 @@ import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiMethod;
 import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.repostiory.ApiRepository;
+import com.lego.apiservice.category.repository.CategoryRepository;
+import com.lego.apiservice.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -30,6 +32,8 @@ import java.util.*;
 public class ApiBatchService {
 
     private final ApiRepository apiRepository;
+    private final CategoryRepository categoryRepository;
+    private final RedisService redisService;
 
     @Scheduled(cron = "0 0/30 * * * *")
     public void apiHealthCheck() {
@@ -138,5 +142,16 @@ public class ApiBatchService {
         api.setResponseTime(String.valueOf(diff.toMillis()));
         api.setUpdatedAt(LocalDateTime.now());
         apiRepository.save(api);
+    }
+
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void categoryUpdate() {
+        categoryRepository.findAll().forEach(category -> {
+            redisService.setValue(String.valueOf(category.getId()), category.getName());
+        });
+        apiRepository.findAll().forEach(api -> {
+            redisService.setValue(api.getEndpoint().replace("https://k9c201.p.ssafy.io/api", ""),
+                    String.valueOf(api.getCategory().getId()));
+        });
     }
 }
