@@ -16,7 +16,9 @@ function BothLayout({ children }: { children: React.ReactNode[] }) {
         {/* Side NavBar */}
         <div className={style.sideBar}>{children && children[0]}</div>
         {/* Page Content */}
-        <div className={style.pageContent}>{children && children[1]}</div>
+        <div className={style.pageContent} style={{ overflowY: 'auto' }}>
+          {children && children[1]}
+        </div>
       </div>
     </div>
   );

@@ -28,6 +28,11 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             className={`my-2 itdaText cursor-pointer text-sm ${
               currentPath === `/category/${categoryId}` ? 'font-semibold' : ''
             }`}
+            onClick={(e) => {
+              if (currentPath === `/category/${categoryId}`) {
+                e.preventDefault();
+              }
+            }}
           >
             전체 보기
           </Link>
@@ -40,6 +45,11 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
                   query: { defaultSelectedKey: defaultKey() },
                 }}
                 as={`/apis/detail/${item.apiId}`}
+                onClick={(e) => {
+                  if (currentPath === `/apis/detail/${item.apiId}`) {
+                    e.preventDefault();
+                  }
+                }}
               >
                 <div
                   className={`my-2 itdaText cursor-pointer text-sm ${
@@ -66,6 +76,11 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             className={`my-2 itdaText cursor-pointer text-sm ${
               currentPath === `/statistics/category/use/${categoryId}` ? 'font-semibold' : ''
             }`}
+            onClick={(e) => {
+              if (currentPath === `/statistics/category/use/${categoryId}`) {
+                e.preventDefault();
+              }
+            }}
           >
             카테고리 통계
           </Link>
@@ -76,6 +91,11 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
                 aria-hidden
                 href={{
                   pathname: `/statistics/api/use/${item.apiId}`,
+                }}
+                onClick={(e) => {
+                  if (currentPath === `/statistics/api/use/${item.apiId}`) {
+                    e.preventDefault();
+                  }
                 }}
               >
                 <div
@@ -101,12 +121,25 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             className={`my-2 itdaText cursor-pointer text-sm ${
               currentPath === `/statistics/category/provide/${categoryId}` ? 'font-semibold' : ''
             }`}
+            onClick={(e) => {
+              if (currentPath === `/statistics/category/provide/${categoryId}`) {
+                e.preventDefault();
+              }
+            }}
           >
             카테고리 통계
           </Link>
           <ul>
             {apiList.map((item) => (
-              <div key={item.apiId} aria-hidden onClick={() => router.push(`/statistics/api/provide/${item.apiId}`)}>
+              <div
+                key={item.apiId}
+                aria-hidden
+                onClick={() => {
+                  if (currentPath !== `/statistics/api/provide/${item.apiId}`) {
+                    router.push(`/statistics/api/provide/${item.apiId}`);
+                  }
+                }}
+              >
                 <div
                   className={`my-2 itdaText cursor-pointer text-sm ${
                     currentPath === `/statistics/api/provide/${item.apiId}` ? 'font-semibold' : ''
@@ -130,12 +163,25 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             className={`my-2 itdaText cursor-pointer text-sm ${
               currentPath === `/statistics/category/admin/${categoryId}` ? 'font-semibold' : ''
             }`}
+            onClick={(e) => {
+              if (currentPath === `/statistics/category/admin/${categoryId}`) {
+                e.preventDefault();
+              }
+            }}
           >
             카테고리 통계
           </Link>
           <ul>
             {apiList.map((item) => (
-              <div key={item.apiId} aria-hidden onClick={() => router.push(`/statistics/api/admin/${item.apiId}`)}>
+              <div
+                key={item.apiId}
+                aria-hidden
+                onClick={() => {
+                  if (currentPath !== `/statistics/api/admin/${item.apiId}`) {
+                    router.push(`/statistics/api/admin/${item.apiId}`);
+                  }
+                }}
+              >
                 <div
                   className={`my-2 itdaText cursor-pointer text-sm ${
                     currentPath === `/statistics/api/admin/${item.apiId}` ? 'font-semibold' : ''
