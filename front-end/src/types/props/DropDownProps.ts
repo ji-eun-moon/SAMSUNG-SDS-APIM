@@ -3,6 +3,7 @@ import { IDropdownItem } from '@/types/props/NavBarProps';
 export interface UrlProps extends TypeDropDownProps {
   list: IDropdownItem[];
   trigger: React.ReactNode;
+  use: string;
 }
 
 export interface IMember {

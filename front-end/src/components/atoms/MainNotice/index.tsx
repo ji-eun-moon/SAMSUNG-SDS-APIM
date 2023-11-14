@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { INotice, INoticeDetail } from '@/types/Notice';
 import Modal from '@/components/organisms/Modal';
 import NoticeDetail from '@/components/organisms/NoticeDetail';
@@ -12,17 +11,17 @@ interface MainNoticeProps {
 
 function MainNotice({ notice }: MainNoticeProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const onModalHandler = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-  const { data: noticeDetail } = useQuery<INoticeDetail>(`noticeDetail ${notice.noticeId}`, async () => {
-    const result = await getReceiveNoticeDetail(notice.noticeId);
-    return result;
-  });
+  const [noticeDetail, setNoticeDetail] = useState<INoticeDetail | null>(null);
 
-  if (!noticeDetail) {
-    return null;
-  }
+  const onModalCloseHandler = () => {
+    setIsModalOpen(false);
+  };
+
+  const onModalOpenHandler = async () => {
+    const result = await getReceiveNoticeDetail(notice.noticeId);
+    setNoticeDetail(result);
+    setIsModalOpen(true);
+  };
 
   const formatDate = (date: Date | string) => {
     const dateObj = typeof date === 'string' ? new Date(date) : date;
@@ -44,7 +43,7 @@ function MainNotice({ notice }: MainNoticeProps) {
     <div>
       <button
         type="button"
-        onClick={() => onModalHandler()}
+        onClick={() => onModalOpenHandler()}
         className={`w-full flex justify-between text-sm ${styles.hoverEffect}`}
       >
         <div className="text-start">{truncateText(notice.title)}</div>
@@ -52,7 +51,7 @@ function MainNotice({ notice }: MainNoticeProps) {
       </button>
 
       {isModalOpen && (
-        <Modal type="server" onClose={onModalHandler}>
+        <Modal type="server" onClose={onModalCloseHandler}>
           <NoticeDetail type="main" notice={noticeDetail} />
         </Modal>
       )}
