@@ -57,7 +57,14 @@ function MainApiStatus() {
     }
   };
 
-  if (apiStatusList === undefined) {
+  const truncateText = (text: string) => {
+    if (text?.length <= 36) {
+      return text;
+    }
+    return `${text?.substring(0, 36)}...`;
+  };
+
+  if (!apiStatusList) {
     return null;
   }
 
@@ -108,7 +115,7 @@ function MainApiStatus() {
                   <div key={item.apiId} className="flex justify-between itdaText text-sm">
                     <div className="flex w-full items-center gap-2">
                       <Status status={item.apiStatus} size="small" />
-                      <div className="text-start w-full">{item.apiName}</div>
+                      <div className="text-start w-full">{truncateText(item.apiName)}</div>
                     </div>
                     <div className="w-full flex justify-end">{item.responseTime}ms</div>
                   </div>

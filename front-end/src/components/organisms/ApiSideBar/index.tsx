@@ -29,7 +29,7 @@ function ApiSideBar({
 
   return (
     <div className={styles.SideBarBody}>
-      {userInfo.authority === '관리자' ? (
+      {userInfo?.authority === '관리자' ? (
         <div className={styles.searchBar}>
           <SearchBar
             onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
