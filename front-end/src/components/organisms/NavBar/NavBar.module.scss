@@ -63,7 +63,9 @@
   grid-template-columns: 35% 65%;
 }
 
-.topInfo:hover {
-  background-color: #f8f8f8;
-  border-radius: 10px;
+.right {
+  width: 38%;
+  display: grid;
+  grid-template-columns: 80% 6% 14%;
+  align-items: center;
 }

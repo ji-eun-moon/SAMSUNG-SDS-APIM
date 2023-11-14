@@ -234,10 +234,10 @@ function NavBar({ position }: NavBarProps) {
             <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
           </Link>
         )}
-        <div className="flex items-center" style={{ width: userInfo.authority !== '관리자' ? '33%' : '22%' }}>
+        <div className={`${styles.right}`}>
           {searchOpen ? (
-            <div className="flex items-center" style={{ width: '80%' }}>
-              <div className="">
+            <div className="flex items-center justify-end">
+              <div>
                 <SearchBar
                   keyword={searchWord}
                   onChange={setSearchWord}
@@ -264,10 +264,10 @@ function NavBar({ position }: NavBarProps) {
               </svg>
             </div>
           ) : (
-            <div className="flex items-center" style={{ width: '80%' }}>
+            <div className="flex items-center justify-end">
               {/* 팀 선택 */}
               {teamList && userInfo.authority !== '관리자' && (
-                <div className="mr-8" style={{ width: '35%' }}>
+                <div className="mr-6" style={{ width: '30%' }}>
                   <CustomSelect
                     items={teamList}
                     value={selectedTeam}
@@ -317,7 +317,7 @@ function NavBar({ position }: NavBarProps) {
             </div>
           )}
           {/* 쪽지 */}
-          <div className="flex mr-6">
+          <div className="flex justify-end mr-3">
             <NoticeDropDown
               trigger={
                 <button type="button" className="flex justify-center items-center">
@@ -333,7 +333,7 @@ function NavBar({ position }: NavBarProps) {
             </NoticeDropDown>
           </div>
           {/* 바로가기 드롭다운 */}
-          <div className="mr-2">
+          <div className="flex justify-end mr-2">
             <DropDown
               trigger={
                 <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
