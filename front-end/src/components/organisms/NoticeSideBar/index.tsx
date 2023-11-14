@@ -36,23 +36,25 @@ function NoticeSideBar() {
   ];
 
   return (
-    <SideBarBody>
-      <div className="my-5 text-xl font-bold mx-2">쪽지함</div>
-      <div className="grid grid-cols-1 content-between h-full mb-5">
-        <div>
-          <SideBarMenu title="받은 쪽지" conditionList={receiveCondition} />
-          <SideBarMenu title="보낸 쪽지" conditionList={sendCondition} />
+    <div>
+      <SideBarBody>
+        <div className="my-5 text-xl font-bold mx-2">쪽지함</div>
+        <div className="grid grid-cols-1 content-between h-full mb-5">
+          <div>
+            <SideBarMenu title="받은 쪽지" conditionList={receiveCondition} />
+            <SideBarMenu title="보낸 쪽지" conditionList={sendCondition} />
+          </div>
+          <StyledButton variant="solid" radius="full" label="쪽지 보내기" onClick={onModalHandler} type="button" />
         </div>
-        <StyledButton variant="solid" radius="full" label="쪽지 보내기" onClick={onModalHandler} type="button" />
-      </div>
+      </SideBarBody>
       {isModalOpen && (
         <div className={`${styles.modalContainer}`}>
           <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox />
+            <NoticeSendBox onSendBoxClose={onModalHandler} />
           </Modal>
         </div>
       )}
-    </SideBarBody>
+    </div>
   );
 }
 

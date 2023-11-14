@@ -40,7 +40,7 @@ function NoticeCategory({ select }: NoticeCategoryProps) {
       </div>
       {isModalOpen && (
         <Modal type="server" onClose={onModalHandler}>
-          <NoticeSendBox />
+          <NoticeSendBox onSendBoxClose={onModalHandler} />
         </Modal>
       )}
     </div>

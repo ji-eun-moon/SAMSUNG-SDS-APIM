@@ -16,6 +16,7 @@ import StyledPagination from '@/components/atoms/StyledPagination';
 import BothLayout from '@/components/templates/BothLayout';
 import NoticeSideBar from '@/components/organisms/NoticeSideBar';
 import GoBack from '@/components/atoms/GoBack';
+import style from '@/styles/ProvideList.module.scss';
 
 const ReceiveList: NextPage = () => {
   const router = useRouter();
@@ -96,8 +97,8 @@ const ReceiveList: NextPage = () => {
   return (
     <BothLayout>
       <NoticeSideBar />
-      <div>
-        <div className="mb-4">
+      <div className={`${style.listContainer}`}>
+        <div className={`${style.label}`}>
           <GoBack label="받은 쪽지" />
         </div>
         {/* <NoticeCategory select="receive" /> */}
@@ -111,9 +112,7 @@ const ReceiveList: NextPage = () => {
           selectDelete={(list: number[]) => selectDelete(list)}
           selectRead={(list: number[]) => selectRead(list)}
         />
-        <div className="flex justify-center mt-4">
-          <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
-        </div>
+        <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
       </div>
     </BothLayout>
   );
