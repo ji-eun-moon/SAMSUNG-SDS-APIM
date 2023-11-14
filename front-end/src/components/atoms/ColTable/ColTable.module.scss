@@ -24,3 +24,10 @@
   // border-bottom: 1px solid #f7f7f7;
   cursor: pointer;
 }
+
+.hover {
+  &:hover {
+    /* 호버 시 스타일 */
+    background-color: #f0f0f0; /* 호버 시 배경색 변경 (원하는 색상으로 수정 가능) */
+  }
+}
