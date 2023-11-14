@@ -1,6 +1,8 @@
 package com.itda.memberservice.member.service;
 
 import com.itda.memberservice.common.util.JwtUtil;
+import com.itda.memberservice.error.CustomException;
+import com.itda.memberservice.error.ErrorCode;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
@@ -77,7 +79,7 @@ public class MemberService {
     public String login(LoginMemberRequest request){
 
         Member member = memberRepository.findByEmployeeId(request.getEmployeeId())
-                .orElseThrow(() -> new RuntimeException("해당하는 회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         byte[] secretKeyByte = DatatypeConverter.parseBase64Binary(secretKey);
 
@@ -87,7 +89,7 @@ public class MemberService {
             Long accessExpiration = (long) (60 * 60 * 24 * 7 * 1000);
             return JwtUtil.createToken(request.getEmployeeId(), key, accessExpiration);
         } else {
-            throw new RuntimeException("비밀번호가 일치하지않습니다.");
+            throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
 
     }
@@ -109,11 +111,11 @@ public class MemberService {
 
         Member member = memberRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() ->
-                        new RuntimeException("회원이 존재하지 않습니다.")
+                        new CustomException(ErrorCode.EMPLOYEE_ID_NOT_FOUND)
                 );
 
         if (!encoder.matches(request.getOriginalPassword(), member.getPassword())) {
-            throw new RuntimeException("올바르지 않은 비밀번호입니다.");
+            throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
 
         member.changePassword(encoder.encode(request.getChangePassword()));
