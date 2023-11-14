@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import Link from 'next/link';
 import BothLayout from '@/components/templates/BothLayout';
 import ApiSideBar from '@/components/organisms/ApiSideBar';
 import useUserStore from '@/store/useUserStore';
@@ -109,7 +110,9 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
                 </tr>
               </tbody>
             </table>
-            <div className="flex justify-end text-sm underline itdaSecondary cursor-pointer ">키 확인하기</div>
+            <Link href="/team/token">
+              <div className="flex justify-end text-sm underline itdaSecondary cursor-pointer">키 확인하기</div>
+            </Link>
           </div>
 
           {/* 쿼리 입력 표 */}

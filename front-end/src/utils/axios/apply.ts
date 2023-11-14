@@ -59,8 +59,15 @@ export async function getAdminUseApplyList(clickPage: number, state: string) {
 
 //--------------------------------------------------------------------------------------------------------
 
+interface Params {
+  teamName: string;
+  serverName: string;
+  description: string;
+  endpoint: string;
+}
+
 // 제공신청하기
-export async function postProvideApply(teamName: string, serverName: string, description: string, endpoint: string) {
+export async function postProvideApply({ teamName, serverName, description, endpoint }: Params) {
   try {
     const response = await axiosInstance({
       method: 'POST',

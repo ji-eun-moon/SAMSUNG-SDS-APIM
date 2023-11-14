@@ -84,7 +84,7 @@ const SendList: NextPage = () => {
       <NoticeSideBar />
       <div>
         <div className="mb-4">
-          <GoBack label="받은 쪽지" />
+          <GoBack label="보낸 쪽지" />
         </div>
         {/* <NoticeCategory select="send" /> */}
         <NoticeList

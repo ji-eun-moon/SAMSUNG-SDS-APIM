@@ -28,7 +28,6 @@ function RowTable({ type, title, headerContent, bodyContent, onApproveDeny }: Ro
   const [contents, setContents] = useState('');
 
   const onSelectChange = (value: string) => {
-    console.log('e는?', value);
     if (selected !== value) setContents('');
   };
 
@@ -81,7 +80,6 @@ function RowTable({ type, title, headerContent, bodyContent, onApproveDeny }: Ro
               textAreaWord={contents}
               placeholder={type === '사용' ? '사용 신청이 승인되었습니다' : '서버 주소를 입력하세요'}
               onChange={(e) => {
-                console.log('eeeeeeeeeeeeeeeee', e);
                 setContents(e);
                 onApproveDeny('accept', e);
               }}
@@ -95,7 +93,6 @@ function RowTable({ type, title, headerContent, bodyContent, onApproveDeny }: Ro
               textAreaWord={contents}
               placeholder="거절 사유를 입력하세요"
               onChange={(e) => {
-                console.log('eeeeeeeeeeeeeeeee', e);
                 setContents(e);
                 onApproveDeny('deny', e);
               }}
@@ -149,6 +146,7 @@ function RowTable({ type, title, headerContent, bodyContent, onApproveDeny }: Ro
                             pathname: `${renderContent(body, header)}`,
                           }}
                           className={`${style.hover}`}
+                          target="_blank"
                         >
                           {renderContent(body, header)}
                         </Link>

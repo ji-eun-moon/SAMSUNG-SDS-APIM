@@ -38,14 +38,16 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
       <ShadowCard type="noShadow">
         <div className="w-full p-5">
           <div className="text-xl font-bold mb-5">{notice?.title}</div>
-          <div className="flex justify-between items-center mb-3">
+          <div className="flex justify-between items-baseline mb-3">
             <div className="flex items-center mb-3 mx-1">
               {/* <div className="mr-3 font-semibold">보낸사람</div> */}
-              {notice && <ProfileImg src={notice?.senderImage} width={35} height={35} />}
-              <div className="mx-3">{notice?.senderName}</div>
-              <div className="flex text-sm itdaSecondary">
-                <div>{notice?.senderDepartment}</div>&nbsp;|&nbsp;
-                <div>{notice?.senderPosition}</div>
+              {notice && <ProfileImg src={notice?.senderImage} width={38} height={38} />}
+              <div className="flex flex-col">
+                <div className="mx-3">{notice?.senderName}</div>
+                <div className="flex text-sm itdaSecondary mx-3">
+                  <div>{notice?.senderDepartment}</div>&nbsp;|&nbsp;
+                  <div>{notice?.senderPosition}</div>
+                </div>
               </div>
             </div>
             <div className="itdaSecondary">{notice && formatToCustomDate(notice?.createdAt)}</div>
@@ -63,7 +65,11 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
         </div>
         {isModalOpen && (
           <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox sendName={notice.senderName} sendId={notice.senderEmployeeId.toString()} />
+            <NoticeSendBox
+              sendName={notice?.senderName}
+              sendId={notice?.senderEmployeeId.toString()}
+              onSendBoxClose={onModalHandler}
+            />
           </Modal>
         )}
       </ShadowCard>
@@ -100,7 +106,11 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
         </div>
         {isModalOpen && (
           <Modal type="server" onClose={onModalHandler}>
-            <NoticeSendBox sendName={notice.receiverName} sendId={notice.receiverEmployeeId.toString()} />
+            <NoticeSendBox
+              sendName={notice.receiverName}
+              sendId={notice.receiverEmployeeId.toString()}
+              onSendBoxClose={onModalHandler}
+            />
           </Modal>
         )}
       </ShadowCard>

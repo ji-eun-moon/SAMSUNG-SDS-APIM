@@ -18,7 +18,7 @@ import { IUser } from '@/types/User';
 import { useQuery } from 'react-query';
 import { getUserInfo } from '@/utils/axios/user';
 import { getNoticeCnt } from '@/utils/axios/notice';
-import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
+import { getUserDropDownList, getAdminDropDownList, getAdminMypageList, getUserMypageList } from '@/utils/dropDown';
 import useUrl from '@/hooks/useUrl';
 import useApi from '@/hooks/useApi';
 import CustomSelect from '@/components/atoms/CustomSelect';
@@ -277,17 +277,25 @@ function NavBar({ position }: NavBarProps) {
                   />
                 </div>
               )}
-              {/* 프로필 이미지 */}
-              <div className="mr-3">
-                <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
-              </div>
               {/* 회원정보 */}
-              <button type="button" className="flex flex-col mr-3 text-sm" onClick={() => router.push('/mypage')}>
-                <div className="itdaText text-left font-semibold">{userInfo?.name}</div>
-                <div className="flex itdaSecondary">
-                  <div>{userInfo?.department}</div>
-                </div>
-              </button>
+              <DropDown
+                trigger={
+                  <div className={`${styles.topInfo} flex px-2 py-1`}>
+                    <div className="mr-3">
+                      <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
+                    </div>
+                    <div className="flex flex-col text-sm">
+                      <div className="flex itdaText text-left font-semibold">{userInfo?.name}</div>
+                      <div className="flex itdaSecondary">
+                        <div>{userInfo?.department}</div>
+                      </div>
+                    </div>
+                  </div>
+                }
+                list={userInfo?.authority === '관리자' ? getAdminMypageList() : getUserMypageList()}
+                type="url"
+                use="mypage"
+              />
               <div className={styles.updown} />
               {/* API 검색 */}
               <svg
@@ -338,6 +346,7 @@ function NavBar({ position }: NavBarProps) {
                   : getUserDropDownList({ adminStatisticsUrl, userStatisticsUrl, categoryUrl })
               }
               type="url"
+              use="shortcut"
             />
           </div>
         </div>

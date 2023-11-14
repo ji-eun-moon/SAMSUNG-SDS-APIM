@@ -23,6 +23,15 @@ const ScatterChart = ({ chartData }: ScatterChartProps) => {
           left: '70%',
           top: 'middle',
           orient: 'vertical',
+          type: 'scroll',
+          scrollDataIndex: 0,
+          pageIconColor: '#17468f',
+          pageIconInactiveColor: '#9a9a9a',
+          pageIconSize: 10,
+          pageTextStyle: {
+            color: 'black',
+          },
+          pageButtonItemGap: 5,
           formatter(name) {
             // 범례 아이템 이름이 너무 길 때 줄 바꿈 처리
             const maxLength = 25; // 원하는 최대 길이 설정

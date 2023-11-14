@@ -33,8 +33,8 @@ function ApiStatusSummary({ onClickHandler }: ApiStatusSummaryProps) {
     <div className={`${styles.apiSummaryBox} border-1 text-sm`}>
       <div className="flex items-center justify-between">
         <button type="button" className="flex items-center" onClick={() => onClickHandler('전체')}>
-          <div className={`ml-1 ${styles.statusCategory}`}>전체 API</div>
-          <div className="ml-3">{all}건</div>
+          <div className={`ml-1 mr-3 ${styles.statusCategory}`}>전체 API</div>
+          <div>{all}건</div>
         </button>
         <div className="flex gap-1 justify-center items-center">
           <button type="button" className="flex items-center" onClick={() => onClickHandler('정상')}>

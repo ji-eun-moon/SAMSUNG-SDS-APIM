@@ -21,6 +21,18 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
       const totalValue = chartData?.reduce((acc, data) => acc + data.value, 0);
 
       const options: echarts.EChartOption = {
+        color: [
+          '#f19365',
+          '#adbd6f',
+          '#6783e5',
+          '#7dcdff',
+          '#e3999e',
+          '#b4b0a3',
+          '#72b6c6',
+          '#ebd065',
+          '#f1d7a9',
+          '#c2b0c9',
+        ],
         title: {
           text: title,
           subtext: totalValue?.toLocaleString(),
@@ -43,13 +55,24 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
           right: 5,
           left: '55%',
           top: 'middle',
+          type: 'scroll',
+          scrollDataIndex: 0,
+          pageIconColor: '#17468f',
+          pageIconInactiveColor: '#9a9a9a',
+          pageIconSize: 10,
+          pageTextStyle: {
+            color: 'black',
+          },
           formatter(name) {
+            let maxLength = 0;
             // 범례 아이템 이름이 너무 길 때 줄 바꿈 처리
             if (use === 'main') {
-              const maxLength = 17; // 원하는 최대 길이 설정
-              if (name.length > maxLength) {
-                return `${name.slice(0, maxLength)}\n${name.slice(maxLength)}`;
-              }
+              maxLength = 17; // 원하는 최대 길이 설정
+            } else {
+              maxLength = 25;
+            }
+            if (name.length > maxLength) {
+              return `${name.slice(0, maxLength)}\n${name.slice(maxLength)}`;
             }
             return name;
           },
@@ -66,23 +89,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
             labelLine: {
               show: false,
             },
-            // data: chartData,
-            data: chartData.map((data, index) => ({
-              ...data,
-              itemStyle: {
-                color: [
-                  '#f19365',
-                  '#adbd6f',
-                  '#6783e5',
-                  '#7dcdff',
-                  '#e3999e',
-                  '#b4b0a3',
-                  '#72b6c6',
-                  '#ebd065',
-                  '#f1d7a9',
-                ][index],
-              },
-            })),
+            data: chartData,
           },
         ],
       };

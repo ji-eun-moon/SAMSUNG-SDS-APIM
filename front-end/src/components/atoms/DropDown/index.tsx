@@ -9,7 +9,7 @@ function DropDown({ type, ...props }: DropDownProps) {
   const router = useRouter();
 
   if (type === 'url') {
-    const { trigger, list } = props as UrlProps;
+    const { trigger, list, use } = props as UrlProps;
 
     const handleLogout = async () => {
       await logout();
@@ -22,7 +22,7 @@ function DropDown({ type, ...props }: DropDownProps) {
         <DropdownMenu variant="flat">
           {list?.map((item, index) => (
             <DropdownItem
-              showDivider={index === list.length - 2}
+              showDivider={use === 'mypage' && index === list.length - 2}
               key={item.title}
               onClick={() => {
                 if (item.onClickHandler === 'logout') {

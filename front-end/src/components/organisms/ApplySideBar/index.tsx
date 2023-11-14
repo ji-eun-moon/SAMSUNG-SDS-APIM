@@ -1,17 +1,16 @@
 import SideBarMenu from '@/components/atoms/SideBarMenu';
 import StyledButton from '@/components/atoms/StyledButton';
 import SideBarBody from '@/components/atoms/SideBarBody';
-
+import { useRouter } from 'next/router';
 import Modal from '@/components/organisms/Modal';
 import Input from '@/components/atoms/Input';
 import TextArea from '@/components/atoms/TextArea';
 import CustomSelect from '@/components/atoms/CustomSelect';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useState } from 'react';
 import { IUser } from '@/types/User';
 import { getUserInfo } from '@/utils/axios/user';
 import useUserStore from '@/store/useUserStore';
-
 import { postProvideApply } from '@/utils/axios/apply';
 // import { useRouter } from 'next/router';
 import style from './ApplySideBar.module.scss';
@@ -21,9 +20,9 @@ interface ApplySideBarProps {
 }
 
 function ApplySideBar({ isUser }: ApplySideBarProps) {
-  // const router = useRouter();
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
-
   const useCondition = [
     { conditionId: '1', title: '전체 보기', url: '/apply/use/list' },
     { conditionId: '2', title: '대기 내역 보기', url: '/apply/use/list?filter=대기' },
@@ -58,26 +57,55 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
   const [serverDescription, setServerDescription] = useState('');
   const [endPoint, setEndPoint] = useState('');
   const [target, setTarget] = useState('http');
+  const [nameAlert, setNameAlert] = useState<boolean>(false);
+  const [descriptionAlert, setDescriptionAlert] = useState<boolean>(false);
+  const [endpointerAlert, setEndpointAlert] = useState<boolean>(false);
 
   const onModalOpenHandler = () => {
     setIsModalOpen(!isModalOpen);
+    setNameAlert(false);
+    setDescriptionAlert(false);
+    setEndpointAlert(false);
+    setServerName('');
+    setServerDescription('');
+    setEndPoint('');
   };
 
   const { selectedTeam } = useUserStore();
-  const onSubmitHandler = async () => {
-    if (serverName && serverDescription && endPoint) {
-      await postProvideApply(selectedTeam, serverName, serverDescription, `${target}://${endPoint}`);
+
+  const { mutate: provideApply } = useMutation(postProvideApply, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries([`provideApplyList${selectedTeam}`, 1, '']);
       onModalOpenHandler();
-      window.location.href = '/apply/provide/list';
-    } else {
-      alert('모든 값을 입력해주세요');
+      router.push(`/apply/provide/list`);
+    },
+  });
+
+  const onSubmitHandler = async () => {
+    if (!serverName) {
+      setNameAlert(true);
+      return;
     }
+    if (!serverDescription) {
+      setDescriptionAlert(true);
+      return;
+    }
+    if (!endPoint) {
+      setEndpointAlert(true);
+      return;
+    }
+    await provideApply({
+      teamName: selectedTeam,
+      serverName,
+      description: serverDescription,
+      endpoint: `${target}://${endPoint}`,
+    });
   };
 
   const onTargetHandler = (e: string) => {
-    console.log('e', e);
     setTarget(e);
   };
+
   return (
     <div>
       <SideBarBody>
@@ -116,7 +144,14 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
           >
             <div className={`${style.moduleContainer}`}>
               <div>
-                <div className={`${style.inputTitle}`}>서버 이름</div>
+                <div className={`${style.inputTitle}`}>
+                  <div>서버 이름</div>
+                  {nameAlert && !serverName && (
+                    <div className="text-sm itdaDanger m2-5 ml-1" style={{ backgroundColor: '#fff' }}>
+                      * 서버 이름은 필수 값입니다.
+                    </div>
+                  )}
+                </div>
                 <Input
                   backgroundColor="#ffffff"
                   isPassword={false}
@@ -126,7 +161,14 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
                 />
               </div>
               <div>
-                <div className={`${style.inputTitle}`}>서버 설명</div>
+                <div className={`${style.inputTitle}`}>
+                  <div>서버 설명</div>
+                  {descriptionAlert && !serverDescription && (
+                    <div className="text-sm itdaDanger m2-5 ml-1" style={{ backgroundColor: '#fff' }}>
+                      * 서버 설명은 필수 값입니다.
+                    </div>
+                  )}
+                </div>
                 <TextArea
                   width="w-full"
                   backgroundColor="#ffffff"
@@ -136,7 +178,14 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
                 />
               </div>
               <div>
-                <div className={`${style.inputTitle}`}>타겟 서버</div>
+                <div className={`${style.inputTitle}`}>
+                  <div>타겟 서버</div>
+                  {endpointerAlert && !endPoint && (
+                    <div className="text-sm itdaDanger m2-5 ml-1" style={{ backgroundColor: '#fff' }}>
+                      * 타겟 서버는 필수 값입니다.
+                    </div>
+                  )}
+                </div>
                 <div style={{ display: 'flex', gap: '7px' }}>
                   <div className="w-40">
                     <CustomSelect
