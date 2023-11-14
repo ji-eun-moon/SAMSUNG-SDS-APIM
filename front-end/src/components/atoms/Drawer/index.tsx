@@ -19,7 +19,7 @@ function Drawer({ children }: Props) {
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label
         htmlFor="drawer-toggle"
-        className="absolute top-0.5 left-0 inline-block p-3 transition-all duration-500 bg-white border-2 rounded-lg peer-checked:rotate-180 peer-checked:left-52"
+        className="cursor-pointer absolute top-0.5 left-0 inline-block p-3 transition-all duration-500 bg-white border-2 rounded-lg peer-checked:rotate-180 peer-checked:left-52"
       >
         <div className="w-3 h-0.5 mb-1.5 -rotate-45 bg-gray-400 rounded-lg" />
         <div className="w-3 h-0.5 rotate-45 bg-gray-400 rounded-lg" />

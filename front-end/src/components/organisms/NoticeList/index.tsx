@@ -1,7 +1,7 @@
 import React from 'react';
 import Notice from '@/components/organisms/Notice';
 import ShadowCard from '@/components/atoms/ShadowCard';
-import SelectBox from '@/components/atoms/SelectBox';
+import CustomSelect from '@/components/atoms/CustomSelect';
 import { Checkbox } from '@nextui-org/react';
 import { ListProps, SendNoticeListProps, ReceiveNoticeListProps } from '@/types/props/NoticeListProps';
 import styles from './NoticeList.module.scss';
@@ -58,11 +58,12 @@ function NoticeList({
                   선택삭제
                 </button>
               </div>
-              <div className="ml-2">
-                <SelectBox
-                  list={['전체보기', '읽은 쪽지', '안 읽은 쪽지']}
-                  defaultSelect={category}
-                  width="w-36"
+              <div className="ml-2 w-32">
+                <CustomSelect
+                  items={['전체보기', '읽은 쪽지', '안 읽은 쪽지']}
+                  value={category}
+                  height="35px"
+                  fontSize="14px"
                   onChange={(item) => {
                     onClickHandler(item);
                   }}
@@ -143,11 +144,12 @@ function NoticeList({
                   선택삭제
                 </button>
               </div>
-              <div className="ml-2">
-                <SelectBox
-                  list={['전체보기', '읽은 쪽지', '안 읽은 쪽지']}
-                  defaultSelect={category}
-                  width="w-36"
+              <div className="ml-2 w-32">
+                <CustomSelect
+                  items={['전체보기', '읽은 쪽지', '안 읽은 쪽지']}
+                  value={category}
+                  height="35px"
+                  fontSize="14px"
                   onChange={(item) => {
                     onClickHandler(item);
                   }}
