@@ -29,7 +29,7 @@ function ApiSideBar({
 
   return (
     <div className={styles.SideBarBody}>
-      {userInfo.authority === '관리자' ? (
+      {userInfo?.authority === '관리자' ? (
         <div className={styles.searchBar}>
           <SearchBar
             onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
@@ -37,7 +37,7 @@ function ApiSideBar({
             keyword={searchWord}
             onChange={setSearchWord}
           />
-          <div className="my-5">
+          <div className={styles.SideBarContent}>
             <CategoryList categoryList={categoryList} openCategory={openCategory} my={false} type="apis" />
           </div>
         </div>

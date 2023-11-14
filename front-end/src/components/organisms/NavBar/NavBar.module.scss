@@ -31,7 +31,7 @@
 .updownSearch {
   width: 0.1px;
   height: 40px;
-  margin: 10px 15px;
+  // margin: 10px 15px;
 }
 
 .shortcutBtn {
@@ -61,4 +61,9 @@
   display: grid;
   width: 100%;
   grid-template-columns: 35% 65%;
+}
+
+.topInfo:hover {
+  background-color: #f8f8f8;
+  border-radius: 10px;
 }

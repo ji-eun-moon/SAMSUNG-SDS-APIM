@@ -187,7 +187,7 @@ function AdminMainBox() {
               </div>
               <div className={`${style.showGraph3}`}>
                 <ShadowCard type="small">
-                  <div>
+                  <div className={style.usageLog}>
                     <iframe
                       src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/5c853750-8099-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:1000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-log,viewMode:view)&hide-filter-bar=true&hideNavBar=true"
                       height="100%"
@@ -195,12 +195,6 @@ function AdminMainBox() {
                       title="usageLog"
                     />
                   </div>
-                  {/* <iframe
-                    src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/57bd9f00-7f9a-11ee-9ca5-352b710d4b2c?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-recode,viewMode:view)&hide-filter-bar=true"
-                    height="100%"
-                    width="100%"
-                    title="usageLog"
-                  /> */}
                 </ShadowCard>
               </div>
             </div>

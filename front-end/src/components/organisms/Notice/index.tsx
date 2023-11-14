@@ -4,6 +4,7 @@ import { Checkbox } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { formatDate, truncateText } from '@/utils/format';
 import { NoticeProps, ReceiveNoticeProps, SendNoticeProps, NavBarNoticeProps } from '@/types/props/NoticeListProps';
+import styles from './Notice.module.scss';
 
 function Notice({ position, type, ...props }: NoticeProps) {
   const router = useRouter();
@@ -15,7 +16,7 @@ function Notice({ position, type, ...props }: NoticeProps) {
         <button
           type="button"
           onClick={() => router.push(`/notice/${type}/${noticeInfo.noticeId}`)}
-          className="w-full p-2"
+          className={`w-full p-2 ${styles.hoverEffect}`}
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center">
@@ -23,7 +24,7 @@ function Notice({ position, type, ...props }: NoticeProps) {
               <ProfileImg width={50} height={50} src={noticeInfo.senderImage} />
               <div className="flex flex-col pl-3 justify-start">
                 <div className="text-left font-semibold pb-1">{noticeInfo.senderName}</div>
-                <div className="text-left text-sm">{noticeInfo.title}</div>
+                <div className="text-left text-sm">{truncateText(noticeInfo.title, 40)}</div>
               </div>
             </div>
             <div className="flex flex-col">
@@ -45,7 +46,7 @@ function Notice({ position, type, ...props }: NoticeProps) {
         <button
           type="button"
           onClick={() => router.push(`/notice/${type}/${noticeInfo.noticeId}`)}
-          className="w-full p-2"
+          className={`w-full p-2 ${styles.hoverEffect}`}
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center">
@@ -53,7 +54,7 @@ function Notice({ position, type, ...props }: NoticeProps) {
               <ProfileImg width={50} height={50} src={noticeInfo.receiverImage} />
               <div className="flex flex-col pl-3 justify-start">
                 <div className="text-left font-semibold pb-1">{noticeInfo.receiverName}</div>
-                <div className="text-left text-sm">{noticeInfo.title}</div>
+                <div className="text-left text-sm">{truncateText(noticeInfo.title, 40)}</div>
               </div>
             </div>
             <div className="flex flex-col">
@@ -75,7 +76,7 @@ function Notice({ position, type, ...props }: NoticeProps) {
         <button
           type="button"
           onClick={() => router.push(`/notice/${type}/${noticeInfo.noticeId}`)}
-          className="w-full p-2"
+          className={`w-full p-2 ${styles.hoverEffect}`}
         >
           <div className="flex w-full">
             <div className="flex items-center w-full">
