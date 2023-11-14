@@ -61,14 +61,14 @@ const ProvideDetail: NextPage<SSGProps> = ({ isUser, provideId }: SSGProps) => {
     return `${details.serverName}`;
   };
 
-  const headerContentT = ['서버명', '서버설명', '신청팀', '담당자', '서버주소'];
+  const headerContentT = ['서버명', '서버설명', '신청팀', '담당자', '문서주소'];
   const bodyContentT = [
     {
       서버명: onApplyType(details.applyType),
       서버설명: details.description,
       신청팀: details.teamName,
       담당자: details.providerName,
-      서버주소: details.apiDocs,
+      문서주소: details.apiDocs,
     },
   ];
 
