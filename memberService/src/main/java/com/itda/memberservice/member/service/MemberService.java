@@ -93,7 +93,11 @@ public class MemberService {
     public String login(LoginMemberRequest request){
 
         Member member = memberRepository.findByEmployeeId(request.getEmployeeId())
-                .orElseThrow(() -> new RuntimeException("해당하는 회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundException("해당하는 회원이 존재하지 않습니다."));
+
+        if (request.getEmployeeId().equals(member.getEmployeeId())) {
+            throw new NotFoundException("해당하는 회원이 존재하지 않습니다.");
+        }
 
         byte[] secretKeyByte = DatatypeConverter.parseBase64Binary(secretKey);
 
