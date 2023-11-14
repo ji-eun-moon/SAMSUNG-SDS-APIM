@@ -27,6 +27,7 @@ function ApiDescription({ type, categoryId, content, ...props }: DescriptionProp
   });
 
   const closeModal = () => {
+    setTextWord('');
     setIsModalOpen(false);
   };
 
@@ -89,7 +90,8 @@ function ApiDescription({ type, categoryId, content, ...props }: DescriptionProp
                 width="w-full"
                 backgroundColor="#ffffff"
                 textAreaWord={textWord}
-                placeholder="신청 내용을 입력하세요."
+                maxLength={255}
+                placeholder="신청 내용을 입력하세요. (최대 255자)"
                 onChange={setTextWord}
               />
             </div>
