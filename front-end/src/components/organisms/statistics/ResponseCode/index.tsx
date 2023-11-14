@@ -19,13 +19,15 @@ function ResponseCode({ apiId, teamName, type }: Props) {
     type,
   });
 
-  if (isResponseCodeLoading || !responseCodeData) {
+  if (!responseCodeData) {
     return (
-      <ChartFrame>
-        <div className="flex items-center justify-center" style={{ height: '200px' }}>
-          <Spinner />
-        </div>
-      </ChartFrame>
+      <div className="my-8">
+        <ChartFrame>
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        </ChartFrame>
+      </div>
     );
   }
 
@@ -42,19 +44,25 @@ function ResponseCode({ apiId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <div className="flex gap-5">
-          <PieChart
-            title=""
-            chartData={pieChartData}
-            pieColors={['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF']}
-          />
-          <BarChart
-            title=""
-            chartDataName={BarChartData.xValues}
-            chartDataValue={BarChartData.yValues}
-            barColors={['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF']}
-          />
-        </div>
+        {isResponseCodeLoading ? (
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <div className="flex gap-5">
+            <PieChart
+              title=""
+              chartData={pieChartData}
+              pieColors={['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF']}
+            />
+            <BarChart
+              title=""
+              chartDataName={BarChartData.xValues}
+              chartDataValue={BarChartData.yValues}
+              barColors={['#FEAEAE', '#FDD09F', '#FBE38E', '#A9F4D0', '#D0E8FF', '#9A89FF']}
+            />
+          </div>
+        )}
       </ChartFrame>
     </div>
   );
