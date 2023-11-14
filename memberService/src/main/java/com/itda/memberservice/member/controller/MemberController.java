@@ -91,22 +91,14 @@ public class MemberController {
     })
     public ResponseEntity<?> login(@RequestBody LoginMemberRequest request) {
 
-        try {
 
-            // 로그인 성공시 토큰 반환
-            String token = memberService.login(request);
+        // 로그인 성공시 토큰 반환
+        String token = memberService.login(request);
 
-            return ResponseEntity.ok().body(LoginMemberResponse.builder()
-                    .token(token)
-                    .build());
+        return ResponseEntity.ok().body(LoginMemberResponse.builder()
+                .token(token)
+                .build());
 
-        } catch (Exception e) {
-
-            // 아이디 없거나 비밀번호 틀린경우 오류 메시지 반환
-            log.error("로그인 실패");
-            return ResponseEntity.status(401).body(e.getMessage());
-
-        }
 
     }
 
