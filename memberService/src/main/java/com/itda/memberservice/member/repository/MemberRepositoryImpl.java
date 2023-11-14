@@ -59,7 +59,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public List<NameSearchResponse> findByName(String name) {
+    public List<NameSearchResponse> findByName(String employeeId, String name) {
         return queryFactory
                 .select(Projections.fields(NameSearchResponse.class,
                         member.employeeId,
@@ -67,7 +67,8 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                         member.department,
                         member.position,
                         member.imageUrl))
-                .where(member.name.contains(name))
+                .where(member.name.contains(name)
+                        .and(member.employeeId.notEqualsIgnoreCase(employeeId)))
                 .from(member)
                 .fetch();
     }

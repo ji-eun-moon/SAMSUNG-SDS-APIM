@@ -12,7 +12,7 @@ public interface MemberQueryRepository {
 
     EmployeeSearchResponse findMemberByEmployeeId(String employeeId);
 
-    List<NameSearchResponse> findByName(String name);
+    List<NameSearchResponse> findByName(String employeeId, String name);
 
     Page<MemberResponse> findMemberResponse(Pageable pageable);
 

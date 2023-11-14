@@ -155,12 +155,12 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByName(@ModelAttribute NameSearchRequest request) {
+    public ResponseEntity<?> findByName(@RequestHeader("member-id") String employeeId, @ModelAttribute NameSearchRequest request) {
 
         log.info("{MemberController} : 회원 검색 " +
                 "name = " + request.getName());
 
-        return ResponseEntity.ok(memberService.findByName(request.getName()));
+        return ResponseEntity.ok(memberService.findByName(employeeId, request.getName()));
 
     }
 

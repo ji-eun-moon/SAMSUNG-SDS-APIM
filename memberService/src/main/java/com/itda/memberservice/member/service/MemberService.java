@@ -147,8 +147,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public List<NameSearchResponse> findByName(String name) {
-        return memberRepository.findByName(name);
+    public List<NameSearchResponse> findByName(String employeeId, String name) {
+        return memberRepository.findByName(employeeId, name);
     }
 
     @Transactional(readOnly = true)
