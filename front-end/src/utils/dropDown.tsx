@@ -108,6 +108,27 @@ export const getUserDropDownList = ({ userStatisticsUrl, categoryUrl }: IParams)
 export const getAdminDropDownList = ({ adminStatisticsUrl, categoryUrl }: IParams): IDropdownItem[] => {
   const adminDropDown: IDropdownItem[] = [
     {
+      title: 'API 목록',
+      icon: (
+        <svg
+          className="w-4 h-4 text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 17 10"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+            d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01"
+          />
+        </svg>
+      ),
+      type: 'common',
+      onClickHandler: `${categoryUrl}`,
+    },
+    {
       title: 'API 상태',
       icon: (
         <svg
@@ -123,44 +144,22 @@ export const getAdminDropDownList = ({ adminStatisticsUrl, categoryUrl }: IParam
       type: 'common',
       onClickHandler: `/apis/status`,
     },
-    {
-      title: '통계',
-      icon: (
-        <svg
-          className="w-4 h-4 text-gray-600 dark:text-white"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 17 18"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M1 12v5m5-9v9m5-5v5m5-9v9M1 7l5-6 5 6 5-6"
-          />
-        </svg>
-      ),
-      type: 'common',
-      onClickHandler: `${adminStatisticsUrl}`,
-    },
-    {
-      title: '서버 모니터링',
-      icon: (
-        <svg
-          className="w-4 h-4 text-gray-600 dark:text-white"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 18"
-        >
-          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-7.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM2 16V8h16v8H2Z" />
-        </svg>
-      ),
-      type: 'common',
-      onClickHandler: '/monitoring/server',
-    },
+    // {
+    //   title: '서버 모니터링',
+    //   icon: (
+    //     <svg
+    //       className="w-4 h-4 text-gray-600 dark:text-white"
+    //       aria-hidden="true"
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       fill="currentColor"
+    //       viewBox="0 0 20 18"
+    //     >
+    //       <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-7.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM2 16V8h16v8H2Z" />
+    //     </svg>
+    //   ),
+    //   type: 'common',
+    //   onClickHandler: '/monitoring/server',
+    // },
     {
       title: '신청 내역',
       icon: (
@@ -185,20 +184,42 @@ export const getAdminDropDownList = ({ adminStatisticsUrl, categoryUrl }: IParam
       onClickHandler: '/admin/useApplyList',
     },
     {
-      title: 'API 목록',
+      title: '사원 관리',
       icon: (
         <svg
           className="w-4 h-4 text-gray-800 dark:text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
-          viewBox="0 0 16 22"
+          viewBox="0 0 14 18"
         >
-          <path d="M15.458 4a3 3 0 1 0-4.478 2.6A2.6 2.6 0 0 1 8.4 9H6.6a4.57 4.57 0 0 0-2.6.814v-3a3 3 0 1 0-2 0v8.368a3 3 0 1 0 2 0V13.6A2.607 2.607 0 0 1 6.6 11h1.8a4.6 4.6 0 0 0 4.548-4.049A3 3 0 0 0 15.458 4Z" />
+          <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
         </svg>
       ),
       type: 'common',
-      onClickHandler: `${categoryUrl}`,
+      onClickHandler: '/member',
+    },
+    {
+      title: '통계',
+      icon: (
+        <svg
+          className="w-4 h-4 text-gray-600 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 17 18"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M1 12v5m5-9v9m5-5v5m5-9v9M1 7l5-6 5 6 5-6"
+          />
+        </svg>
+      ),
+      type: 'common',
+      onClickHandler: `${adminStatisticsUrl}`,
     },
   ];
   return adminDropDown;
