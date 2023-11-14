@@ -22,16 +22,16 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
 
       const options: echarts.EChartOption = {
         color: [
-          '#f19365',
-          '#adbd6f',
-          '#6783e5',
-          '#7dcdff',
-          '#e3999e',
-          '#b4b0a3',
-          '#72b6c6',
-          '#ebd065',
-          '#f1d7a9',
-          '#c2b0c9',
+          '#6591C9',
+          '#84BFB7',
+          '#EDF0A2',
+          '#F5D870',
+          '#F7C290',
+          '#FFA7A7',
+          '#9CD3E4',
+          '#DBB1EE',
+          '#B6D58F',
+          '#D6D6D6',
         ],
         title: {
           text: title,
