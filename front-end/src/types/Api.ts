@@ -106,4 +106,5 @@ export interface IApiName {
 
 export interface ICategoryName {
   categoryName: string;
+  categoryId: number;
 }
