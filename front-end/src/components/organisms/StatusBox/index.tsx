@@ -42,17 +42,19 @@ function StatusBox({ statusList, searchWord, changeSearchWord }: StatusBoxProps)
     <div className="mt-7 itdaText">
       <div className="w-full mb-3 flex justify-between items-center">
         <div className="flex gap-2">
-          <SearchBar
-            keyword={searchWord}
-            onChange={changeSearchWord}
-            onSearchHandler={onSearchHandler}
-            placeholder="API 검색"
-          />
+          <div className="w-52">
+            <SearchBar
+              keyword={searchWord}
+              onChange={changeSearchWord}
+              onSearchHandler={onSearchHandler}
+              placeholder="API 검색"
+            />
+          </div>
           {searchWord && (
             <div
               onClick={clearSearchFilter}
               aria-hidden
-              className="flex items-center w-full  text-sm cursor-pointer itdaSecondary"
+              className="flex items-center text-sm cursor-pointer itdaSecondary"
             >
               검색 필터 초기화
             </div>
