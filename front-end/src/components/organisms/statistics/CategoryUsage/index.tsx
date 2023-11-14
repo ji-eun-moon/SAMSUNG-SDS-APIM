@@ -6,6 +6,7 @@ import { donutCategoryUsage } from '@/utils/chartData';
 import { Spinner } from '@nextui-org/react';
 import Refresh from '@/components/atoms/Refresh';
 import { getCategoryName } from '@/utils/axios/api';
+import { ICategoryName } from '@/types/Api';
 
 interface Props {
   categoryId: number;
@@ -21,10 +22,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
     type,
   });
 
-  const { data: categoryName } = useQuery<string>(['teamInfo', categoryId], async () => {
-    const result = await getCategoryName(categoryId);
-    return result;
-  });
+  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId));
 
   if (!categoryUsageData) {
     return (
@@ -38,7 +36,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
     );
   }
 
-  if (categoryName === undefined) {
+  if (!data) {
     return null;
   }
 
@@ -50,11 +48,11 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
       <div className="w-full p-2">
         <div className="flex justify-end">
           <div className="text-sm itdaSecondary">
-            {month} {categoryName}
+            {month} {data.categoryName}
           </div>
         </div>
         <div className="w-full h-full">
-          <DonutChart title={`총 ${type === 'use' ? '사용' : '제공'}량`} chartData={chartData} use="main" />
+          <DonutChart title={`총 ${type === 'provide' ? '제공' : '사용'}량`} chartData={chartData} use="main" />
         </div>
       </div>
     );
