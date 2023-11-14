@@ -173,7 +173,8 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
                   width="w-full"
                   backgroundColor="#ffffff"
                   textAreaWord={serverDescription}
-                  placeholder="서버 설명"
+                  maxLength={255}
+                  placeholder="서버 설명 (최대 255자)"
                   onChange={setServerDescription}
                 />
               </div>

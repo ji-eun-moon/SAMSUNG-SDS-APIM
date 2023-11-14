@@ -70,7 +70,7 @@ function ApiSideBar({
               <CategoryList categoryList={useCategoryList} openCategory={openMyCategory} my type="apis" />
               <Divider className="my-5" />
               <div className="font-medium itdaText my-2">제공 API</div>
-              <CategoryList categoryList={provideCategoryList} openCategory={-1} my type="apis" />
+              <CategoryList categoryList={provideCategoryList} openCategory={openMyCategory} my type="apis" />
             </div>
           </Tab>
         </Tabs>

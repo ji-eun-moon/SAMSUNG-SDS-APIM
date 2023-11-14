@@ -6,6 +6,7 @@ interface TextAreaProps {
   textAreaWord: string;
   placeholder: string;
   height?: string;
+  maxLength?: number;
   onChange: (value: string) => void;
 }
 
@@ -17,11 +18,15 @@ interface TextAreaProps {
  * @param {string} placeholder - TextArea placeholder
  */
 
-function TextArea({ width, height, backgroundColor, textAreaWord, placeholder, onChange }: TextAreaProps) {
+function TextArea({ width, height, backgroundColor, textAreaWord, placeholder, maxLength, onChange }: TextAreaProps) {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
+    if (maxLength && newValue.length > maxLength) {
+      // 최대 글자 수를 초과하는 경우 입력을 제한
+      return;
+    }
     onChange(newValue); // 입력 값 변경 시 부모 컴포넌트로 전달
   };
   return (
@@ -43,6 +48,7 @@ TextArea.defaultProps = {
   width: 'w-64',
   backgroundColor: 'bg-white',
   height: '',
+  maxLength: null,
 };
 
 export default TextArea;
