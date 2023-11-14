@@ -43,6 +43,16 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
           right: 5,
           left: '55%',
           top: 'middle',
+          formatter(name) {
+            // 범례 아이템 이름이 너무 길 때 줄 바꿈 처리
+            if (use === 'main') {
+              const maxLength = 17; // 원하는 최대 길이 설정
+              if (name.length > maxLength) {
+                return `${name.slice(0, maxLength)}\n${name.slice(maxLength)}`;
+              }
+            }
+            return name;
+          },
         },
         series: [
           {
@@ -83,7 +93,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ title, chartData, use }) => {
       };
     }
     return undefined;
-  }, [chartData, title]);
+  }, [chartData, title, use]);
 
   if (use === 'page') {
     return <div ref={chartRef} style={{ width: '100%', height: '200px' }} />;

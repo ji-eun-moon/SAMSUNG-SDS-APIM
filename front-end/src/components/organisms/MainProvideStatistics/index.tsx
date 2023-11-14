@@ -11,6 +11,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import useMyApi from '@/hooks/useMyApi';
+import useUrl from '@/hooks/useUrl';
 import CategoryUsage from '../statistics/CategoryUsage';
 
 function MainProvideStatistics() {
@@ -20,6 +21,7 @@ function MainProvideStatistics() {
   const defaultTeamName = userInfo?.teams[0]?.teamName;
   const initialTeam = selectedTeam ?? defaultTeamName;
   const { provideCategoryList } = useMyApi(initialTeam);
+  const { userProvideStatisticsUrl } = useUrl(initialTeam);
 
   if (provideCategoryList === undefined) {
     return null;
@@ -48,7 +50,7 @@ function MainProvideStatistics() {
           </svg>
           <div className="samsungLogo">제공량 통계</div>
         </div>
-        <button type="button" className={styles.goDetail} onClick={() => router.push('/')}>
+        <button type="button" className={styles.goDetail} onClick={() => router.push(userProvideStatisticsUrl)}>
           상세보기
           <svg
             className="w-3 h-3 pl-2 text-gray-500 dark:text-white"
