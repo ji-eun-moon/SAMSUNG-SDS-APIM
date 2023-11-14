@@ -37,7 +37,7 @@ function ApiSideBar({
             keyword={searchWord}
             onChange={setSearchWord}
           />
-          <div className="my-5">
+          <div className={styles.SideBarContent}>
             <CategoryList categoryList={categoryList} openCategory={openCategory} my={false} type="apis" />
           </div>
         </div>

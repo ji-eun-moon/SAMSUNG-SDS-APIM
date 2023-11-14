@@ -20,9 +20,17 @@ const ScatterChart = ({ chartData }: ScatterChartProps) => {
         },
         legend: {
           show: true,
-          right: '2%',
+          left: '70%',
           top: 'middle',
           orient: 'vertical',
+          formatter(name) {
+            // 범례 아이템 이름이 너무 길 때 줄 바꿈 처리
+            const maxLength = 25; // 원하는 최대 길이 설정
+            if (name.length > maxLength) {
+              return `${name.slice(0, maxLength)}\n${name.slice(maxLength)}`;
+            }
+            return name;
+          },
         },
         tooltip: {
           trigger: 'item',

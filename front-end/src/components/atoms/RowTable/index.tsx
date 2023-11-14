@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { RadioGroup, Radio } from '@nextui-org/react';
 import TextArea from '@/components/atoms/TextArea';
 import { RowTableProps } from '@/types/props/RowTableProps';
+import Link from 'next/link';
 import style from './RowTable.module.scss';
 import Tag from '../Tag';
 
@@ -142,7 +143,18 @@ function RowTable({ type, title, headerContent, bodyContent, onApproveDeny }: Ro
                       className={`${style.right}`}
                       style={index === 0 ? { borderTop: '1px solid #9a9a9a', width: '100%' } : {}}
                     >
-                      <div style={{ wordBreak: 'break-all', width: '90%' }}>{renderContent(body, header)}</div>
+                      {header.text === '문서주소' ? (
+                        <Link
+                          href={{
+                            pathname: `${renderContent(body, header)}`,
+                          }}
+                          className={`${style.hover}`}
+                        >
+                          {renderContent(body, header)}
+                        </Link>
+                      ) : (
+                        <div style={{ wordBreak: 'break-all', width: '90%' }}>{renderContent(body, header)}</div>
+                      )}
                     </div>
                   </div>
                 ))}
