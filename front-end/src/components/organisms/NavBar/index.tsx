@@ -280,7 +280,7 @@ function NavBar({ position }: NavBarProps) {
               {/* 회원정보 */}
               <DropDown
                 trigger={
-                  <div className={`${styles.topInfo} flex px-2 py-1`}>
+                  <div className={`${styles.topInfo} flex px-2 py-1 cursor-pointer`}>
                     <div className="mr-3">
                       <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
                     </div>
