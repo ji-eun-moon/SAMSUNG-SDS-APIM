@@ -37,12 +37,19 @@ public class MemberController {
     private final TeamService teamService;
     private final MemberTeamService memberTeamService;
 
-    @GetMapping("/get-MemberId")
+    @GetMapping("/get-Member")
     public ResponseEntity<Member> getMemberId(@RequestParam("employeeId") String employeeId) {
 
         log.info("{} 사번의 회원 ID 찾기", employeeId);
 
         return ResponseEntity.ok().body(memberService.findMember(employeeId));
+
+    }
+
+    @GetMapping("/notice-information")
+    public ResponseEntity<?> getNoticeInformation(@RequestParam("memberId") Long memberId) {
+
+        return ResponseEntity.ok().body(memberService.findById(memberId));
 
     }
 

@@ -12,6 +12,7 @@ import com.itda.memberservice.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,14 @@ public class MemberService {
     @Value("${security.jwt.secret.key}")
     private String secretKey;
     private final Random random = new Random();
+
+    @Transactional(readOnly = true)
+    public Member findById(Long memberId) {
+
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("해당 회원은 존재하지 않습니다."));
+
+    }
 
     public Member findMember(String employeeId) {
 

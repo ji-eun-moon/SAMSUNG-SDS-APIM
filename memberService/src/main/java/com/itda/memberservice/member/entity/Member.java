@@ -23,7 +23,7 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(nullable = false, unique = true, length = 10, columnDefinition = "BINARY")
     private String employeeId;
 
     @Column(nullable = false, length = 20)
