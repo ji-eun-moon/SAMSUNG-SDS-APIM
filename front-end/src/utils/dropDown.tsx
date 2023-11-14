@@ -46,22 +46,22 @@ export const getUserDropDownList = ({ userStatisticsUrl, categoryUrl }: IParams)
       type: 'common',
       onClickHandler: `${userStatisticsUrl}`,
     },
-    {
-      title: '서버 모니터링',
-      icon: (
-        <svg
-          className="w-4 h-4 text-gray-600 dark:text-white"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 18"
-        >
-          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-7.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM2 16V8h16v8H2Z" />
-        </svg>
-      ),
-      type: 'common',
-      onClickHandler: '/monitoring/server',
-    },
+    // {
+    //   title: '서버 모니터링',
+    //   icon: (
+    //     <svg
+    //       className="w-4 h-4 text-gray-600 dark:text-white"
+    //       aria-hidden="true"
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       fill="currentColor"
+    //       viewBox="0 0 20 18"
+    //     >
+    //       <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-7.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM2 16V8h16v8H2Z" />
+    //     </svg>
+    //   ),
+    //   type: 'common',
+    //   onClickHandler: '/monitoring/server',
+    // },
     {
       title: '신청 내역',
       icon: (
@@ -144,22 +144,7 @@ export const getAdminDropDownList = ({ adminStatisticsUrl, categoryUrl }: IParam
       type: 'common',
       onClickHandler: `/apis/status`,
     },
-    // {
-    //   title: '서버 모니터링',
-    //   icon: (
-    //     <svg
-    //       className="w-4 h-4 text-gray-600 dark:text-white"
-    //       aria-hidden="true"
-    //       xmlns="http://www.w3.org/2000/svg"
-    //       fill="currentColor"
-    //       viewBox="0 0 20 18"
-    //     >
-    //       <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-7.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM2 16V8h16v8H2Z" />
-    //     </svg>
-    //   ),
-    //   type: 'common',
-    //   onClickHandler: '/monitoring/server',
-    // },
+
     {
       title: '신청 내역',
       icon: (

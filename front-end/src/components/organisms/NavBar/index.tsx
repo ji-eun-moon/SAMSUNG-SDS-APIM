@@ -237,7 +237,7 @@ function NavBar({ position }: NavBarProps) {
         <div className={`${styles.right}`}>
           {searchOpen ? (
             <div className="flex items-center justify-end">
-              <div>
+              <div className="mr-5">
                 <SearchBar
                   keyword={searchWord}
                   onChange={setSearchWord}

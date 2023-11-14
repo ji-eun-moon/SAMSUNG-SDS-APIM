@@ -46,7 +46,7 @@ export async function getAdminUseApplyList(clickPage: number, state: string) {
       params: {
         state,
         page: clickPage,
-        size: 10,
+        size: 9,
       },
     });
     console.log('사용신청내역(관리자)', response.data);
@@ -132,7 +132,7 @@ export async function getAdminProvideApplyList(clickPage: number, state: string)
       params: {
         state,
         page: clickPage,
-        size: 10,
+        size: 9,
       },
     });
     console.log('제공신청내역(관리자)', response.data);
