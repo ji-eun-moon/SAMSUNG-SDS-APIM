@@ -6,12 +6,13 @@ import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
 import { getUseCategoryList, getCategoryName } from '@/utils/axios/api';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { ICategory } from '@/types/Api';
+import { ICategory, ICategoryName } from '@/types/Api';
 import GoBack from '@/components/atoms/GoBack';
 import CategoryUsage from '@/components/organisms/statistics/CategoryUsage';
 import CategoryListUsage from '@/components/organisms/statistics/CategoryListUsage';
 import CategoryResponseCode from '@/components/organisms/statistics/CategoryResponseCode';
 import CategoryResponseTime from '@/components/organisms/statistics/CategoryResponseTime';
+import PageLoading from '@/components/atoms/PageLoading';
 
 type SSGProps = {
   categoryId: number;
@@ -19,17 +20,21 @@ type SSGProps = {
 
 const UseCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data } = useQuery<string>(['categoryName', categoryId], () => getCategoryName(categoryId));
+  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId));
+
+  if (!data) {
+    return <PageLoading />;
+  }
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="use" openCategoryId={categoryId} />
+      <ChartSideBar type="use" openCategoryId={data?.categoryId} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">사용 중인 API가 없습니다.</div>
       ) : (
         <div>
           <CategoryChartLayout>
-            <GoBack label={data || ''} />
+            <GoBack label={data?.categoryName} />
             {/* 월 총 사용량 */}
             <CategoryUsage type="use" categoryId={categoryId} teamName={selectedTeam} />
             {/* 기간별 사용량 */}
