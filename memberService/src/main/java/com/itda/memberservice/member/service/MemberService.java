@@ -95,7 +95,7 @@ public class MemberService {
         Member member = memberRepository.findByEmployeeId(request.getEmployeeId())
                 .orElseThrow(() -> new NotFoundException("해당하는 회원이 존재하지 않습니다."));
 
-        if (request.getEmployeeId().equals(member.getEmployeeId())) {
+        if (!request.getEmployeeId().equals(member.getEmployeeId())) {
             throw new NotFoundException("해당하는 회원이 존재하지 않습니다.");
         }
 
