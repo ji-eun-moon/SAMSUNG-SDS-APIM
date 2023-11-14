@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryTokenResponse {
 
-    public Long categoryId;
-    public String categoryName;
-    public String token;
+    private Long categoryId;
+    private String categoryName;
+    private String token;
 }
