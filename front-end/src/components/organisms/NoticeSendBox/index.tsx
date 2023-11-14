@@ -144,7 +144,8 @@ function NoticeSendBox({ sendName, sendId, onSendBoxClose }: NoticeSendBoxProps)
           <div>
             <TextArea
               textAreaWord={content}
-              placeholder="내용을 입력하세요"
+              placeholder="내용을 입력하세요 (최대 255자)"
+              maxLength={255}
               onChange={setContent}
               width="w-full"
               height="h-64"
