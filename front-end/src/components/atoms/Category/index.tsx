@@ -18,14 +18,14 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
   const renderApiList = () => {
     if (type === 'apis') {
       return (
-        <div>
+        <div className="pl-2">
           <Link
             href={{
               pathname: `/category/${categoryId}`,
               query: { defaultSelectedKey: defaultKey() },
             }}
             as={`/category/${categoryId}`}
-            className={`my-2 itdaText cursor-pointer text-sm ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
               currentPath === `/category/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -52,7 +52,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
                 }}
               >
                 <div
-                  className={`my-2 itdaText cursor-pointer text-sm ${
+                  className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
                     currentPath === `/apis/detail/${item.apiId}` || currentPath === `/apis/test/${item.apiId}`
                       ? 'font-semibold'
                       : ''
@@ -68,12 +68,12 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
     }
     if (type === 'use') {
       return (
-        <div>
+        <div className="pl-2">
           <Link
             href={{
               pathname: `/statistics/category/use/${categoryId}`,
             }}
-            className={`my-2 itdaText cursor-pointer text-sm ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
               currentPath === `/statistics/category/use/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -99,7 +99,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
                 }}
               >
                 <div
-                  className={`my-2 itdaText cursor-pointer text-sm ${
+                  className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
                     currentPath === `/statistics/api/use/${item.apiId}` ? 'font-semibold' : ''
                   }`}
                 >
@@ -113,12 +113,12 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
     }
     if (type === 'provide') {
       return (
-        <div>
+        <div className="pl-2">
           <Link
             href={{
               pathname: `/statistics/category/provide/${categoryId}`,
             }}
-            className={`my-2 itdaText cursor-pointer text-sm ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
               currentPath === `/statistics/category/provide/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -155,12 +155,12 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
     }
     if (type === 'admin') {
       return (
-        <div>
+        <div className="pl-2">
           <Link
             href={{
               pathname: `/statistics/category/admin/${categoryId}`,
             }}
-            className={`my-2 itdaText cursor-pointer text-sm ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
               currentPath === `/statistics/category/admin/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -183,7 +183,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
                 }}
               >
                 <div
-                  className={`my-2 itdaText cursor-pointer text-sm ${
+                  className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
                     currentPath === `/statistics/api/admin/${item.apiId}` ? 'font-semibold' : ''
                   }`}
                 >
