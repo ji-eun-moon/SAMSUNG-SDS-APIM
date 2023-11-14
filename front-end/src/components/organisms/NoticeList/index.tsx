@@ -59,8 +59,8 @@ function NoticeList({
               </div>
               <div className="ml-2">
                 <SelectBox
-                  list={['전체보기', '안 읽은 쪽지', '읽은 쪽지']}
-                  defaultSelect="전체보기"
+                  list={['전체보기', '읽은 쪽지', '안 읽은 쪽지']}
+                  defaultSelect={category}
                   width="w-36"
                   onChange={(item) => {
                     onClickHandler(item);
@@ -144,8 +144,8 @@ function NoticeList({
               </div>
               <div className="ml-2">
                 <SelectBox
-                  list={['전체보기', '안 읽은 쪽지', '읽은 쪽지']}
-                  defaultSelect="전체보기"
+                  list={['전체보기', '읽은 쪽지', '안 읽은 쪽지']}
+                  defaultSelect={category}
                   width="w-36"
                   onChange={(item) => {
                     onClickHandler(item);

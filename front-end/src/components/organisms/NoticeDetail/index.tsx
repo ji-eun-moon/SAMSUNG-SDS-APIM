@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import ProfileImg from '@/components/atoms/ProfileImg';
 import { NoticeDetailProps, SendNoticeProps, ReceiveNoticeProps } from '@/types/props/NoticeDetailProps';
 import ShadowCard from '@/components/atoms/ShadowCard';
@@ -8,6 +9,7 @@ import NoticeSendBox from '../NoticeSendBox';
 import Modal from '../Modal';
 
 function NoticeDetail({ type, ...props }: NoticeDetailProps) {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const onModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -49,7 +51,7 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
             <div className="itdaSecondary">{notice && formatToCustomDate(notice?.createdAt)}</div>
           </div>
           <BorderCard>
-            <div className="text-start p-1" style={{ height: '200px' }}>
+            <div className="text-start p-1" style={{ height: '270px' }}>
               {notice?.content}
             </div>
           </BorderCard>
@@ -101,6 +103,46 @@ function NoticeDetail({ type, ...props }: NoticeDetailProps) {
             <NoticeSendBox sendName={notice.receiverName} sendId={notice.receiverEmployeeId.toString()} />
           </Modal>
         )}
+      </ShadowCard>
+    );
+  }
+
+  if (type === 'main') {
+    const { notice } = props as ReceiveNoticeProps;
+    return (
+      <ShadowCard type="noShadow">
+        <div className="p-5" style={{ width: '30vw' }}>
+          <div className="text-xl font-bold mb-5 text-start">{notice?.title}</div>
+          <div className="flex justify-between items-baseline mb-3">
+            <div className="flex items-center mx-1">
+              {notice && <ProfileImg src={notice?.senderImage} width={35} height={35} />}
+              <div className="flex flex-col">
+                <div className="text-start text-sm font-medium itdaText mx-3">{notice?.senderName}</div>
+                <div className="mx-3 flex text-sm itdaSecondary">
+                  <div>{notice?.senderDepartment}</div>&nbsp;|&nbsp;
+                  <div>{notice?.senderPosition}</div>
+                </div>
+              </div>
+            </div>
+            <div className="itdaSecondary text-start text-sm">{notice && formatToCustomDate(notice?.createdAt)}</div>
+          </div>
+          <BorderCard>
+            <div className="text-start p-1" style={{ height: '200px' }}>
+              {notice?.content}
+            </div>
+          </BorderCard>
+          <div className="w-full flex justify-end">
+            <div className="mt-3 w-3/12 flex">
+              <StyledButton
+                variant="solid"
+                label="쪽지함 가기"
+                radius="sm"
+                type="button"
+                onClick={() => router.push('/notice/receive')}
+              />
+            </div>
+          </div>
+        </div>
       </ShadowCard>
     );
   }
