@@ -1,9 +1,11 @@
 package com.itda.memberservice.member.repository;
 
+import com.itda.memberservice.member.dto.request.NameSearchRequest;
 import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.team.dto.response.TeamResponse;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,6 +13,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -59,7 +62,13 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
     }
 
     @Override
-    public List<NameSearchResponse> findByName(String name) {
+    public List<NameSearchResponse> findByName(String employeeId, NameSearchRequest request) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.hasText(request.getName())) {
+            builder.and(member.name.contains(request.getName()));
+        }
+
         return queryFactory
                 .select(Projections.fields(NameSearchResponse.class,
                         member.employeeId,
@@ -67,7 +76,8 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                         member.department,
                         member.position,
                         member.imageUrl))
-                .where(member.name.contains(name))
+                .where(builder
+                        .and(member.employeeId.ne(employeeId)))
                 .from(member)
                 .fetch();
     }

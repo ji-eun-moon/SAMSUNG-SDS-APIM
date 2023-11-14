@@ -1,5 +1,6 @@
 package com.itda.memberservice.member.repository;
 
+import com.itda.memberservice.member.dto.request.NameSearchRequest;
 import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.NameSearchResponse;
@@ -12,7 +13,7 @@ public interface MemberQueryRepository {
 
     EmployeeSearchResponse findMemberByEmployeeId(String employeeId);
 
-    List<NameSearchResponse> findByName(String name);
+    List<NameSearchResponse> findByName(String employeeId, NameSearchRequest request);
 
     Page<MemberResponse> findMemberResponse(Pageable pageable);
 

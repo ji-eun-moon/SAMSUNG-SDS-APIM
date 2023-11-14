@@ -6,6 +6,7 @@ import com.itda.memberservice.error.ErrorCode;
 import com.itda.memberservice.member.dto.request.ChangePasswordRequest;
 import com.itda.memberservice.member.dto.request.CreateMemberRequest;
 import com.itda.memberservice.member.dto.request.LoginMemberRequest;
+import com.itda.memberservice.member.dto.request.NameSearchRequest;
 import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
 import com.itda.memberservice.member.dto.response.NameSearchResponse;
@@ -129,8 +130,11 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public List<NameSearchResponse> findByName(String name) {
-        return memberRepository.findByName(name);
+    public List<NameSearchResponse> findByName(String employeeId, NameSearchRequest request) {
+
+        log.info("NameSearchRequest = {}", request);
+
+        return memberRepository.findByName(employeeId, request);
     }
 
     @Transactional(readOnly = true)
