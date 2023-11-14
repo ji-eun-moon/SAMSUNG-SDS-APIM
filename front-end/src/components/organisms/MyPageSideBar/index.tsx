@@ -4,7 +4,6 @@ import { getUserInfo } from '@/utils/axios/user';
 import { useQuery, QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { IUser } from '@/types/User';
-// import styles from './MyPageSideBar.module.scss';
 import SideBarBody from '@/components/atoms/SideBarBody';
 import SideBarMenu from '@/components/atoms/SideBarMenu';
 
