@@ -71,6 +71,10 @@ public class NoticeService {
             Member receiver = memberRepository.findByEmployeeId(employee)
                                     .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다."));
 
+            if (employeeId.equals(receiver.getEmployeeId())) {
+                continue;
+            }
+
             log.info("receiver = " + receiver.toString());
 
             noticeRepository.save(Notice.builder()
