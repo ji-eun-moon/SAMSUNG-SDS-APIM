@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { NextPage } from 'next';
-import TopLayout from '@/components/templates/TopLayout';
-import NoticeCategory from '@/components/atoms/NoticeCategory';
+import { useRouter } from 'next/router';
 import NoticeList from '@/components/organisms/NoticeList';
 import {
   getReceiveList,
@@ -13,14 +12,29 @@ import {
 } from '@/utils/axios/notice';
 import { TNoticeList, INotice } from '@/types/Notice';
 import StyledPagination from '@/components/atoms/StyledPagination';
-import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
+// import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
+import BothLayout from '@/components/templates/BothLayout';
+import NoticeSideBar from '@/components/organisms/NoticeSideBar';
+import GoBack from '@/components/atoms/GoBack';
 
 const ReceiveList: NextPage = () => {
+  const router = useRouter();
   const [clickPage, setClickPage] = useState(1);
   const [category, setCategory] = useState('전체보기');
   const [totalPages, setTotalPages] = useState(1);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const [receiveItems, setReceiveItems] = useState<INotice[] | null>(null);
+
+  useEffect(() => {
+    const filter = Array.isArray(router.query.filter) ? router.query.filter[0] : router.query.filter;
+    if (filter === undefined || (filter !== 'read' && filter !== 'unread')) {
+      setCategory('전체보기');
+    } else if (filter === 'read') {
+      setCategory('읽은 쪽지');
+    } else if (filter === 'unread') {
+      setCategory('안 읽은 쪽지');
+    }
+  }, [router.query.filter, clickPage]);
 
   const { data: receiveList } = useQuery<TNoticeList>(['receiveList', category, clickPage], async () => {
     if (category === '전체보기') {
@@ -49,20 +63,13 @@ const ReceiveList: NextPage = () => {
     setCategory(item);
     setClickPage(1);
     if (item === '전체보기') {
-      const result = await getReceiveList({ page: clickPage - 1, size: 6 });
-      setTotalPages(result.totalPages);
-      setReceiveItems(result.content);
-      console.log(result.content);
+      router.push('/notice/receive');
     }
     if (item === '안 읽은 쪽지') {
-      const result = await getReceiveUnreadList({ page: clickPage - 1, size: 6 });
-      setTotalPages(result.totalPages);
-      setReceiveItems(result.content);
+      router.push('/notice/receive?filter=unread');
     }
     if (item === '읽은 쪽지') {
-      const result = await getReceiveReadList({ page: clickPage - 1, size: 6 });
-      setTotalPages(result.totalPages);
-      setReceiveItems(result.content);
+      router.push('/notice/receive?filter=read');
     }
   };
 
@@ -87,26 +94,28 @@ const ReceiveList: NextPage = () => {
   }
 
   return (
-    <TopLayout>
-      <div className={styles.topPageContainer}>
-        <div style={{ margin: '0 200px' }}>
-          <NoticeCategory select="receive" />
-          <NoticeList
-            type="receive"
-            category={category}
-            noticeList={receiveItems}
-            checkedItems={checkedItems}
-            onClickHandler={(item: string) => onClickHandler(item)}
-            setCheckedItems={(list: number[]) => setCheckedItems(list)}
-            selectDelete={(list: number[]) => selectDelete(list)}
-            selectRead={(list: number[]) => selectRead(list)}
-          />
-          <div className="flex justify-center mt-4">
-            <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
-          </div>
+    <BothLayout>
+      <NoticeSideBar />
+      <div>
+        <div className="mb-4">
+          <GoBack label="받은 쪽지" />
+        </div>
+        {/* <NoticeCategory select="receive" /> */}
+        <NoticeList
+          type="receive"
+          category={category}
+          noticeList={receiveItems}
+          checkedItems={checkedItems}
+          onClickHandler={(item: string) => onClickHandler(item)}
+          setCheckedItems={(list: number[]) => setCheckedItems(list)}
+          selectDelete={(list: number[]) => selectDelete(list)}
+          selectRead={(list: number[]) => selectRead(list)}
+        />
+        <div className="flex justify-center mt-4">
+          <StyledPagination totalPage={totalPages} clickPage={clickPage} onClickPage={handlePageClick} />
         </div>
       </div>
-    </TopLayout>
+    </BothLayout>
   );
 };
 

@@ -6,7 +6,7 @@ function useCategoryResponseTime({ categoryId, teamName, type }: ICategoryChartP
   // 응답 시간 데이터 가져오기
   const {
     data: responseTimeData,
-    isLoading: isResponseTimeLoading,
+    isFetching: isResponseTimeLoading,
     isError: isResponseTimeError,
     refetch: refetchResponseTime,
   } = useQuery<TCategoryResponseTimeList>(

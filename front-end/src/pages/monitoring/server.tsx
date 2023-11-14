@@ -18,7 +18,8 @@ const ServerMonitoring: NextPage = () => {
     ProcessOpenFiles: 'panelId=66',
     ResponseCount: 'panelId=4',
     ResponseTime: 'panelId=2',
-    ErrorLogsDetail: 'panelId=1',
+    ErrorLogsDetail:
+      'https://k9c201.p.ssafy.io/grafana/d/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603573167&to=1699625173167&viewPanel=1',
   };
 
   return (
@@ -28,10 +29,13 @@ const ServerMonitoring: NextPage = () => {
           <div className="flex w-full">
             <div className="flex flex-col" style={{ width: '45%' }}>
               <div className="flex w-full">
-                <ServerGraph src={src.HeapUsed} from="1s" />
-                <ServerGraph src={src.NonHeapUsed} from="1s" />
+                <ServerGraph src={src.HeapUsed} from="2s" />
+                <ServerGraph src={src.NonHeapUsed} from="2s" />
               </div>
-              <ServerGraph src={src.InfoLogs} />
+              <div className="flex">
+                <ServerGraph src={src.ErrorLogsDetail} />
+                <ServerGraph src={src.InfoLogs} />
+              </div>
               <div className="flex">
                 <ServerGraph src={src.ErrorLogs} />
                 <ServerGraph src={src.WarnLogs} />

@@ -1,5 +1,5 @@
 export interface BaseNoticeProps {
-  type: 'receive' | 'send';
+  type: 'receive' | 'send' | 'main';
 }
 
 export interface IReceiveNoticeDetail {

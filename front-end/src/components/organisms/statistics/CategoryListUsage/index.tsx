@@ -38,13 +38,17 @@ function CategoryListUsage({ categoryId, teamName, type }: Props) {
   });
   const [selectedChart, setSelectedChart] = useState<ChartType>(ChartType.Monthly);
 
-  if (isMonthlyLoading || isDailyLoading || isHourlyLoading || !monthlyData || !dailyData || !hourlyData) {
+  const isLoading = isMonthlyLoading || isDailyLoading || isHourlyLoading;
+
+  if (!monthlyData || !dailyData || !hourlyData) {
     return (
-      <ChartFrame>
-        <div className="flex items-center justify-center" style={{ height: '200px' }}>
-          <Spinner />
-        </div>
-      </ChartFrame>
+      <div className="my-8">
+        <ChartFrame>
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        </ChartFrame>
+      </div>
     );
   }
 
@@ -117,7 +121,13 @@ function CategoryListUsage({ categoryId, teamName, type }: Props) {
         </div>
       </div>
       <ChartFrame>
-        <ThreeLineChart chartData={chartData.formattedChartData} chartDataTime={chartData.chartDataTime} />
+        {isLoading ? (
+          <div className="flex items-center justify-center" style={{ height: '200px' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <ThreeLineChart chartData={chartData.formattedChartData} chartDataTime={chartData.chartDataTime} />
+        )}
       </ChartFrame>
     </div>
   );

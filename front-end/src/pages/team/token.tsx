@@ -4,12 +4,12 @@ import { NextPage, GetStaticProps } from 'next';
 import { useQuery, QueryClient } from 'react-query';
 import { getUserInfo, getTeamInfo, getTeamToken } from '@/utils/axios/user';
 import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
-import TopLayout from '@/components/templates/TopLayout';
+import BothLayout from '@/components/templates/BothLayout';
+import MyPageSideBar from '@/components/organisms/MyPageSideBar';
 import TeamInfoBox from '@/components/organisms/TeamInfoBox';
 import { dehydrate } from 'react-query/hydration';
-import styles from '@/components/templates/TopLayout/TopLayout.module.scss';
 
-const Team: NextPage = () => {
+const TeamToken: NextPage = () => {
   const { selectedTeam } = useUserStore();
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const defaultTeamName = userInfo?.teams[0]?.teamName;
@@ -21,13 +21,15 @@ const Team: NextPage = () => {
   }
 
   return (
-    <TopLayout>
-      <div className={styles.topPageContainer}>
-        <div style={{ margin: '0 200px' }}>
-          <TeamInfoBox teamList={userInfo.teams} setTeam={(teamName) => setTeam(teamName)} currentTeam={team} />
-        </div>
-      </div>
-    </TopLayout>
+    <BothLayout>
+      <MyPageSideBar />
+      <TeamInfoBox
+        teamList={userInfo.teams}
+        setTeam={(teamName) => setTeam(teamName)}
+        currentTeam={team}
+        type="token"
+      />
+    </BothLayout>
   );
 };
 
@@ -43,4 +45,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default Team;
+export default TeamToken;

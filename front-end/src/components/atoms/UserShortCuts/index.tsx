@@ -28,7 +28,7 @@ function UserShortCuts() {
             </div>
           </ShadowCard>
         </Link>
-        <Link href="/team">
+        <Link href="/team/token">
           <ShadowCard type="button">
             <div className={styles.shortcut}>
               <svg

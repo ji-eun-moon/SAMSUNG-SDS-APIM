@@ -93,7 +93,7 @@ function MemberTable({ team }: Props) {
           )}
         </tbody>
       </table>
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-8">
         <StyledPagination
           totalPage={teamInfo?.teamMembers.totalPages}
           clickPage={clickPage}
