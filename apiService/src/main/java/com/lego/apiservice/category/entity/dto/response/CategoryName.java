@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryName {
+    private Long categoryId;
     private String categoryName;
 
     public CategoryName(Category category) {
+        this.categoryId = category.getId();
         this.categoryName = category.getName();
     }
 }

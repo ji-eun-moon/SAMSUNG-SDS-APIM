@@ -44,7 +44,8 @@ public class ApiBatchService {
                 } else {
                     postRestTemplate(api);
                 }
-            } catch (ParseException e) {
+                Thread.sleep(1000L);
+            } catch (ParseException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
