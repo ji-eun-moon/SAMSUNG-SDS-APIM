@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,7 +119,7 @@ public class NoticeService {
 
                     log.info("eventData = {}", eventData);
 
-                    sseEmitter.send(SseEmitter.event().name("addNotice").data(eventData));
+                    sseEmitter.send(SseEmitter.event().name("newNotice").data(eventData, MediaType.APPLICATION_JSON));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -356,7 +357,7 @@ public class NoticeService {
 
                     log.info("eventData = {}", eventData);
 
-                    sseEmitter.send(SseEmitter.event().name("addNotice").data(eventData));
+                    sseEmitter.send(SseEmitter.event().name("newNotice").data(eventData, MediaType.APPLICATION_JSON));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -383,10 +384,10 @@ public class NoticeService {
 
     public SseEmitter sseRegister(String employeeId) {
 
-        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+        SseEmitter sseEmitter = new SseEmitter(60 * 1000L);
 
         try {
-            sseEmitter.send(SseEmitter.event().name("SSE 연결").data("SSE 연결이 완료되었습니다."));
+            sseEmitter.send(SseEmitter.event().name("connect").data("SSE 연결이 완료되었습니다.", MediaType.APPLICATION_JSON));
 
             log.info("{} SSE 연결 완료", employeeId);
 
@@ -400,11 +401,20 @@ public class NoticeService {
 
         log.info("{} {} 입력", employeeId, sseEmitter);
 
-        sseEmitter.onCompletion(() -> NoticeController.sseEmitters.remove(employeeId));
-        sseEmitter.onTimeout(() -> NoticeController.sseEmitters.remove(employeeId));
-        sseEmitter.onError((e) -> NoticeController.sseEmitters.remove(employeeId));
+        sseEmitter.onCompletion(() -> {
+            log.error("onCompletion Callback");
+            NoticeController.sseEmitters.remove(employeeId);
+        });
+        sseEmitter.onTimeout(() -> {
+            log.error("onTimeout Callback");
+            NoticeController.sseEmitters.remove(employeeId);
+        });
+        sseEmitter.onError((e) -> {
+            log.error("onError Callback");
+            NoticeController.sseEmitters.remove(employeeId);
+        });
 
-        log.info("SSE 연결 끝");
+        log.info("SSE 연결 설정 완료");
 
         return sseEmitter;
 
