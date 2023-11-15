@@ -18,6 +18,8 @@ public class ApiTestResponse {
     private String title;
     private ApiMethod method;
     private String categoryToken;
+    private Long categoryId;
+    private String categoryName;
 
     public ApiTestResponse(Api api) {
         this.apiId = api.getId();
@@ -27,5 +29,7 @@ public class ApiTestResponse {
         this.title = api.getTitle();
         this.categoryToken = "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91";
         this.method = api.getApiMethod();
+        this.categoryId = api.getCategory().getId();
+        this.categoryName = api.getCategory().getName();
     }
 }

@@ -20,6 +20,7 @@ public class ApiDetailResponse {
     private String content;
     private ApiMethod method;
     private Long categoryId;
+    private String categoryName;
 
     public ApiDetailResponse(Api api) {
         this.apiId = api.getId();
@@ -31,6 +32,7 @@ public class ApiDetailResponse {
         this.content = api.getContent();
         this.method = api.getApiMethod();
         this.categoryId = api.getCategory().getId();
+        this.categoryName = api.getCategory().getName();
     }
 
 }
