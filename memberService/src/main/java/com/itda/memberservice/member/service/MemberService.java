@@ -82,6 +82,10 @@ public class MemberService {
         Member member = memberRepository.findByEmployeeId(request.getEmployeeId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        if (!member.getEmployeeId().equals(request.getEmployeeId())) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+
         byte[] secretKeyByte = DatatypeConverter.parseBase64Binary(secretKey);
 
         Key key = new SecretKeySpec(secretKeyByte, SignatureAlgorithm.HS256.getJcaName());
@@ -100,7 +104,7 @@ public class MemberService {
         log.info("{멤버 삭제} : memberId = " + memberId);
 
         Member member = memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new RuntimeException("해당 회원은 존재하지않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         log.info("{멤버 삭제} : member = " + member);
 
