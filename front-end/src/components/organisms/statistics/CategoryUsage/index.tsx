@@ -52,7 +52,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
           </div>
         </div>
         <div className="w-full h-full">
-          <DonutChart title={`총 ${type === 'provide' ? '제공' : '사용'}량`} chartData={chartData} use="main" />
+          <DonutChart title={`Total${type === 'provide' ? 'Provide' : 'Usage'}`} chartData={chartData} use="main" />
         </div>
       </div>
     );
@@ -63,7 +63,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
       <div className="w-full">
         <div className="flex justify-between mb-1">
           <div>
-            {month} 총 {type === 'use' ? '사용' : '제공'}량
+            {month}&apos;s Total {type === 'use' ? 'Usage' : 'Provide'}
           </div>
           <Refresh onClick={refetchCategoryUsage} />
         </div>
@@ -73,7 +73,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
               <Spinner />
             </div>
           ) : (
-            <DonutChart title={`총 ${type === 'use' ? '사용' : '제공'}량`} chartData={chartData} />
+            <DonutChart title={`Total ${type === 'provide' ? 'Provide' : 'Usage'}`} chartData={chartData} />
           )}
         </ChartFrame>
       </div>

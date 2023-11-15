@@ -107,7 +107,7 @@ function Usage({ apiId, teamName, type }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <div>{type === 'use' ? '사용량' : '제공량'}</div>
+        <div>{type === 'use' ? 'Usage By Api' : 'Api Calls'}</div>
         <div className="flex gap-2">
           <div className="w-28">
             <CustomSelect
