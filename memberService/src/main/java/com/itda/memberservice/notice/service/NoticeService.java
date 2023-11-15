@@ -93,9 +93,9 @@ public class NoticeService {
                     .isReceiverDeleted(false)
                     .build());
 
-            if (NoticeController.sseEmitters.containsKey(employee)) {
+            if (NoticeController.sseEmitters.containsKey(receiver.getEmployeeId()) && NoticeController.sseEmitters.get(receiver.getEmployeeId()) != null) {
 
-                log.info("{} 번 사원에게 sseEmitter 전달", employee);
+                log.info("{} 번 사원에게 sseEmitter 전달, sseEmitter = {}", employee, NoticeController.sseEmitters.get(receiver.getEmployeeId()));
 
                 SseEmitter sseEmitter = NoticeController.sseEmitters.get(employee);
 
@@ -331,7 +331,7 @@ public class NoticeService {
 
             Notice saveNotice = sendResultNotice(sender, receiver, title, content);
 
-            if (NoticeController.sseEmitters.containsKey(receiver.getEmployeeId())) {
+            if (NoticeController.sseEmitters.containsKey(receiver.getEmployeeId()) && NoticeController.sseEmitters.get(receiver.getEmployeeId()) != null) {
 
                 log.info("{} 번 사원에게 sseEmitter 전달", receiver.getEmployeeId());
 
@@ -385,7 +385,6 @@ public class NoticeService {
             log.info("{} SSE 연결 완료", employeeId);
 
         } catch (IOException e) {
-
 
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
 
