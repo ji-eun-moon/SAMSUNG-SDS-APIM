@@ -20,7 +20,7 @@ spring:
     password: itda1235!@#%
 
   jpa:
-    open-in-view: true
+    open-in-view: false
     hibernate:
       ddl-auto: update
     show-sql: true
