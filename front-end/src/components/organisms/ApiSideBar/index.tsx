@@ -30,13 +30,15 @@ function ApiSideBar({
   return (
     <div className={styles.SideBarBody}>
       {userInfo?.authority === '관리자' ? (
-        <div className={styles.searchBar}>
-          <SearchBar
-            onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
-            placeholder="API 검색"
-            keyword={searchWord}
-            onChange={setSearchWord}
-          />
+        <div>
+          <div className={styles.searchBar}>
+            <SearchBar
+              onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
+              placeholder="API 검색"
+              keyword={searchWord}
+              onChange={setSearchWord}
+            />
+          </div>
           <div className={styles.SideBarContent}>
             <CategoryList categoryList={categoryList} openCategory={openCategory} my={false} type="apis" />
           </div>

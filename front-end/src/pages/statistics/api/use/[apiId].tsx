@@ -33,7 +33,6 @@ const UseApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     return <PageLoading />;
   }
 
-  
   return (
     <DrawerLayout>
       <ChartSideBar type="use" openCategoryId={data.categoryId} />

@@ -1,5 +1,5 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
-import Link from 'next/link';
+// import Link from 'next/link';
 import BothLayout from '@/components/templates/BothLayout';
 import ApiSideBar from '@/components/organisms/ApiSideBar';
 import { useRouter } from 'next/router';
@@ -17,6 +17,7 @@ import ApiDetailLayout from '@/components/templates/ApiDetailLayout';
 import ApiDescription from '@/components/organisms/api/ApiDescription';
 import ApiEndpoint from '@/components/organisms/api/ApiEndpoint';
 import ApiKeyTable from '@/components/organisms/api/ApiKeyTable';
+import GoStatistics from '@/components/atoms/GoStatistics';
 import Editor from '@monaco-editor/react';
 import { Code } from '@nextui-org/react';
 import { safeJsonParse } from '@/utils/json';
@@ -58,10 +59,25 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
         openMyCategory={apiDetail.categoryId}
       />
       <div>
-        <GoBack label={apiDetail?.title} />
+        <div className="flex justify-between">
+          <GoBack label={apiDetail?.title} />
+          <GoStatistics
+            type="api"
+            apiId={apiId}
+            useCategoryList={useCategoryList}
+            provideCategoryList={provideCategoryList}
+            categoryId={apiDetail.categoryId}
+          />
+        </div>
         <ApiDetailLayout>
           {/* Content */}
-          <ApiDescription type="api" content={apiDetail.content} apiId={apiId} categoryId={apiDetail.categoryId} />
+          <ApiDescription
+            type="api"
+            content={apiDetail.content}
+            apiId={apiId}
+            categoryId={apiDetail.categoryId}
+            categoryName={apiDetail.categoryName}
+          />
           {/* EndPoint */}
           <ApiEndpoint method={apiDetail.method} endpoint={apiDetail.endpoint} />
 
@@ -86,9 +102,9 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
                 </tr>
               </tbody>
             </table>
-            <Link href="/team/token">
+            {/* <Link href="/team/token">
               <div className="flex justify-end text-sm underline itdaSecondary cursor-pointer ">키 확인하기</div>
-            </Link>
+            </Link> */}
           </div>
 
           {/* Input - Parameters / Request Body */}
