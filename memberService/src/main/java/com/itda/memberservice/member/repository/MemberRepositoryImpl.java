@@ -1,5 +1,7 @@
 package com.itda.memberservice.member.repository;
 
+import com.itda.memberservice.error.CustomException;
+import com.itda.memberservice.error.ErrorCode;
 import com.itda.memberservice.member.dto.request.NameSearchRequest;
 import com.itda.memberservice.member.dto.response.EmployeeSearchResponse;
 import com.itda.memberservice.member.dto.response.MemberResponse;
@@ -46,7 +48,7 @@ public class MemberRepositoryImpl implements MemberQueryRepository {
                 .fetchOne();
 
         if (response == null) {
-            throw new RuntimeException("해당하는 회원이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
 
         List<String> teamList = queryFactory
