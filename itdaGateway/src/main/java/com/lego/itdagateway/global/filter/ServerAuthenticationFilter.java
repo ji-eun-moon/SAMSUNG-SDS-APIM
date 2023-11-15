@@ -52,11 +52,10 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             long startTime = System.currentTimeMillis();
 
             String header = exchange.getRequest().getHeaders().getFirst("Authorization");
-            log.info(config.getPrefix() + exchange.getRequest().getPath());
             String categoryId = redisService.getValue(config.getPrefix() + exchange.getRequest().getPath());
 
             if (categoryId == null) {
-                log.info("잘못된 주소 입니다.");
+                log.warn("잘못된 주소 입니다.");
                 long responseTime = System.currentTimeMillis() - startTime;
                 Map<String, String> map = new HashMap<>();
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
@@ -73,7 +72,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             }
 
             if (!StringUtils.hasText(header)) {
-                log.info("토큰이 없습니다.");
+                log.warn("토큰이 없습니다.");
                 long responseTime = System.currentTimeMillis() - startTime;
                 Map<String, String> map = new HashMap<>();
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
@@ -91,7 +90,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
 
             if (header.equals("E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91")) {
                 return chain.filter(exchange.mutate().build()).then(Mono.fromRunnable(() -> {
-
+                    log.info("테스트");
                 }));
             }
 
@@ -102,7 +101,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 decode = aes128Config.decrypt(header);
                 String[] info =  decode.split("&");
                 if (info.length != 2) {
-                    log.info("잘못된 길이의 토큰입니다.");
+                    log.warn("잘못된 길이의 토큰입니다.");
                     long responseTime = System.currentTimeMillis() - startTime;
                     Map<String, String> map = new HashMap<>();
                     map.put("createdAt", String.valueOf(LocalDateTime.now()));
@@ -119,7 +118,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     return exchange.getResponse().setComplete();
                 }
                 if (!info[0].replace("category", "").equals(categoryId)) {
-                    log.info("잘못된 카테고리 토큰입니다.");
+                    log.warn("잘못된 카테고리 토큰입니다.");
                     long responseTime = System.currentTimeMillis() - startTime;
                     Map<String, String> map = new HashMap<>();
                     map.put("createdAt", String.valueOf(LocalDateTime.now()));
@@ -141,7 +140,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 teamName = info[1].replace("teamName", "");
 
             } catch (BusinessLogicException e) {
-                log.info("잘못된 형식의 토큰입니다.");
+                log.warn("잘못된 형식의 토큰입니다.");
                 long responseTime = System.currentTimeMillis() - startTime;
                 Map<String, String> map = new HashMap<>();
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
@@ -163,15 +162,13 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
             Long finalCategorySeq = categorySeq;
             return chain.filter(exchange.mutate().build()).then(Mono.fromRunnable(() -> {
 
-                log.info("서버 접속 성공");
-//                log.info("ResponseCode " + exchange.getResponse().getStatusCode().value());
-//                log.info("ResponseTime " + responseTime);
-//                log.info("CreatedAt " + LocalDateTime.now());
-//                log.info("endpoint " + config.getPrefix() + exchange.getRequest().getPath());
-//                log.info("method " + exchange.getRequest().getMethod());
-//                log.info("categoryId " + finalCategorySeq);
-//                log.info("remoteAddr " + exchange.getRequest().getLocalAddress());
-//                log.info("remoteAddr " + exchange.getRequest().getRemoteAddress());
+                if (exchange.getResponse().getStatusCode().is2xxSuccessful()) {
+                    log.info("접속 성공");
+                } else if (exchange.getResponse().getStatusCode().is4xxClientError()) {
+                    log.warn("경고 : " + exchange.getResponse().getStatusCode());
+                } else if (exchange.getResponse().getStatusCode().is5xxServerError()) {
+                    log.error("서버 에러");
+                }
                 long responseTime = System.currentTimeMillis() - startTime;
                 Map<String, String> map = new HashMap<>();
                 map.put("createdAt", String.valueOf(LocalDateTime.now()));
