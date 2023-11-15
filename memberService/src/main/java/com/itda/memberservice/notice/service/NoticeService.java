@@ -385,7 +385,9 @@ public class NoticeService {
             log.info("{} SSE 연결 완료", employeeId);
 
         } catch (IOException e) {
-            e.printStackTrace();
+
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+
         }
 
         NoticeController.sseEmitters.put(employeeId, sseEmitter);
@@ -395,6 +397,8 @@ public class NoticeService {
         sseEmitter.onCompletion(() -> NoticeController.sseEmitters.remove(employeeId));
         sseEmitter.onTimeout(() -> NoticeController.sseEmitters.remove(employeeId));
         sseEmitter.onError((e) -> NoticeController.sseEmitters.remove(employeeId));
+
+        log.info("SSE 연결 끝");
 
         return sseEmitter;
 
