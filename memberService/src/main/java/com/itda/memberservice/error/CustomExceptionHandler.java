@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class CustomExceptionHandler extends RuntimeException{
 
-    @ExceptionHandler(CustomExceptionHandler.class)
+    @ExceptionHandler(CustomException.class)
     protected ResponseEntity<ErrorResponseEntity> handleCustomException(CustomException ce) {
         return ErrorResponseEntity.toResponseEntity(ce.errorCode);
     }
