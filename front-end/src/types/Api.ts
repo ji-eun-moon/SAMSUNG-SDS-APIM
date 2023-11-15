@@ -25,6 +25,7 @@ export interface IApiDetail {
   output: string;
   outputExample: string;
   categoryId: number;
+  categoryName: string;
 }
 
 export interface IApiInput {
@@ -54,6 +55,7 @@ export interface IApiTestInfo {
   input: string;
   outputExample: string;
   categoryToken: string;
+  categoryName: string;
 }
 
 export interface ITestResult {

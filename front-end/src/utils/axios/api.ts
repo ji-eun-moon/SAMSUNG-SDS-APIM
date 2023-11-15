@@ -152,9 +152,25 @@ export async function getCategoryName(categoryId: number) {
   try {
     const response = await axiosInstance({
       method: 'GET',
-      url: '/server/category/category-name',
+      url: '/server/category/category-name-object',
       params: {
         categoryId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getCategoryNameByApiId(apiId: number) {
+  try {
+    const response = await axiosInstance({
+      method: 'GET',
+      url: '/server/apis/detail-category',
+      params: {
+        apiId,
       },
     });
     return response.data;

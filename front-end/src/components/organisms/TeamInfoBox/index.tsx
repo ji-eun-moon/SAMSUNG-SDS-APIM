@@ -5,6 +5,7 @@ import TeamTable from '@/components/organisms/TeamTable';
 import TeamToken from '@/components/organisms/TeamToken';
 import CustomSelect from '@/components/atoms/CustomSelect';
 import GoBack from '@/components/atoms/GoBack';
+import { useRouter } from 'next/router';
 
 interface TeamInfoBoxProps {
   type: string;
@@ -15,7 +16,13 @@ interface TeamInfoBoxProps {
 
 function TeamInfoBox({ type, teamList, currentTeam, setTeam }: TeamInfoBoxProps) {
   const list = teamList?.map((team) => team.teamName);
-  const [searchWord, setSearchWord] = useState('');
+  const router = useRouter();
+  const [searchWord, setSearchWord] = useState((router.query.category as string) || '');
+
+  const resetSearchWord = () => {
+    setSearchWord('');
+    router.push('/team/token');
+  };
 
   if (type === 'token') {
     return (
@@ -37,7 +44,7 @@ function TeamInfoBox({ type, teamList, currentTeam, setTeam }: TeamInfoBoxProps)
             {searchWord && (
               <div
                 className="flex items-center cursor-pointer text-sm cursor-pointer itdaSecondary"
-                onClick={() => setSearchWord('')}
+                onClick={resetSearchWord}
                 aria-hidden
               >
                 검색 필터 초기화

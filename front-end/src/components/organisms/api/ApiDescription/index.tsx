@@ -7,17 +7,18 @@ import { useRouter } from 'next/router';
 import useUserStore from '@/store/useUserStore';
 import useUseApply from '@/hooks/useUseApply';
 import { submitUseApply } from '@/utils/axios/apply';
-import { DescriptionProps, ApiProps } from '@/types/props/DescriptionProps';
 import { useMutation } from 'react-query';
+import { DescriptionProps, ApiProps } from '@/types/props/DescriptionProps';
 import Link from 'next/link';
 
-function ApiDescription({ type, categoryId, content, ...props }: DescriptionProps) {
+function ApiDescription({ type, categoryId, content, categoryName, ...props }: DescriptionProps) {
   const { selectedTeam } = useUserStore();
   const { canApply, checkCanApply } = useUseApply({ categoryId, teamName: selectedTeam });
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [textWord, setTextWord] = useState('');
+
   const mutation = useMutation('submitUseApply', submitUseApply, {
     onSuccess: () => {
       setIsModalOpen(false);
@@ -51,14 +52,24 @@ function ApiDescription({ type, categoryId, content, ...props }: DescriptionProp
           <div className="flex flex-col m-2">
             <div>{content}</div>
             <div className="flex justify-end gap-2">
-              {canApply && (
+              {canApply ? (
                 <div className="w-fit">
                   <StyledButton
                     type="button"
-                    label="사용 신청하기"
+                    label="사용 신청"
                     radius="lg"
                     variant="solid"
                     onClick={() => setIsModalOpen(true)}
+                  />
+                </div>
+              ) : (
+                <div className="w-fit">
+                  <StyledButton
+                    type="button"
+                    label="토큰 확인"
+                    radius="lg"
+                    variant="solid"
+                    onClick={() => router.push({ pathname: '/team/token', query: { category: categoryName } })}
                   />
                 </div>
               )}
@@ -118,14 +129,24 @@ function ApiDescription({ type, categoryId, content, ...props }: DescriptionProp
         <div className="flex flex-col m-2">
           <div>{content}</div>
           <div className="flex justify-end gap-2">
-            {canApply && (
+            {canApply ? (
               <div className="w-fit">
                 <StyledButton
                   type="button"
-                  label="사용 신청하기"
+                  label="사용 신청"
                   radius="lg"
                   variant="solid"
                   onClick={() => setIsModalOpen(true)}
+                />
+              </div>
+            ) : (
+              <div className="w-fit">
+                <StyledButton
+                  type="button"
+                  label="토큰 확인"
+                  radius="lg"
+                  variant="solid"
+                  onClick={() => router.push({ pathname: '/team/token', query: { category: categoryName } })}
                 />
               </div>
             )}
