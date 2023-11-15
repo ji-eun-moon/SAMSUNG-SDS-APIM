@@ -28,5 +28,10 @@ export interface ServerModalProps extends BaseModalProps {
   // title: string;
   children: React.ReactNode;
 }
+export interface ProgressModalProps extends BaseModalProps {
+  type: 'progress';
+  // title: string;
+  children: React.ReactNode | [];
+}
 
-export type ModalProps = AlertModalProps | ConfirmModalProps | CustomModalProps | ServerModalProps;
+export type ModalProps = AlertModalProps | ConfirmModalProps | CustomModalProps | ServerModalProps | ProgressModalProps;

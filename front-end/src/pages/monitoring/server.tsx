@@ -19,7 +19,7 @@ const ServerMonitoring: NextPage = () => {
     ResponseCount: 'panelId=4',
     ResponseTime: 'panelId=2',
     ErrorLogsDetail:
-      'https://k9c201.p.ssafy.io/grafana/d/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603573167&to=1699625173167&viewPanel=1',
+      'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1700028083588&to=1700049683588&theme=light&panelId=1',
   };
 
   return (

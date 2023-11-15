@@ -150,6 +150,29 @@ function Modal({ type, onClose, ...props }: ModalProps) {
       </button>
     );
   }
+  if (type === 'progress') {
+    const { children } = props as ServerModalProps;
+    return (
+      <button type="button" className={ModalStyle.overlay} aria-hidden="true" onClick={handleClose}>
+        <button type="button" onClick={(e) => e.stopPropagation()} aria-hidden="true" className="relative">
+          {Array.isArray(children) && children.length > 0 && (
+            <div style={{ width: '100%', paddingLeft: '11px' }}>{children[0]}</div>
+          )}
+          <button
+            type="button"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute"
+            style={{ right: '15px', top: '15px' }}
+          >
+            <Image src="/icons/close.png" alt="close-icon" width={12} height={12} onClick={onClose} />
+          </button>
+          <button type="button" onClick={(e) => e.stopPropagation()}>
+            {Array.isArray(children) && children.length > 0 && <div>{children[1]}</div>}
+          </button>
+        </button>
+      </button>
+    );
+  }
 }
 
 export default Modal;

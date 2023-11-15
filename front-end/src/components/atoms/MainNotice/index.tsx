@@ -1,26 +1,35 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { INotice, INoticeDetail } from '@/types/Notice';
 import Modal from '@/components/organisms/Modal';
 import NoticeDetail from '@/components/organisms/NoticeDetail';
 import { getReceiveNoticeDetail } from '@/utils/axios/notice';
 import styles from '@/components/organisms/UserMainBox/UserMainBox.module.scss';
+import { Progress } from '@nextui-org/react';
 
 interface MainNoticeProps {
   notice: INotice;
 }
 
 function MainNotice({ notice }: MainNoticeProps) {
+  const [value, setValue] = useState(0);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [noticeDetail, setNoticeDetail] = useState<INoticeDetail | null>(null);
 
   const onModalCloseHandler = () => {
     setIsModalOpen(false);
+    setValue(0);
   };
 
   const onModalOpenHandler = async () => {
     const result = await getReceiveNoticeDetail(notice.noticeId);
     setNoticeDetail(result);
     setIsModalOpen(true);
+
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setValue(0);
+    }, 5000);
   };
 
   const formatDate = (date: Date | string) => {
@@ -39,6 +48,30 @@ function MainNotice({ notice }: MainNoticeProps) {
     return `${text?.substring(0, 20)}...`;
   };
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((v) => (v >= 5 ? 1 : v + 1));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [value]);
+
+  React.useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    const clearIntervalAndStartNew = () => {
+      clearInterval(intervalId);
+      setValue(1);
+      // startInterval();
+    };
+
+    clearIntervalAndStartNew();
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen]);
+
   return (
     <div>
       <button
@@ -51,9 +84,21 @@ function MainNotice({ notice }: MainNoticeProps) {
       </button>
 
       {isModalOpen && (
-        <Modal type="server" onClose={onModalCloseHandler}>
-          <NoticeDetail type="main" notice={noticeDetail} />
-        </Modal>
+        <div>
+          <Modal type="progress" onClose={onModalCloseHandler}>
+            <Progress
+              aria-label="timer"
+              size="sm"
+              value={value}
+              maxValue={5}
+              formatOptions={{ style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }}
+              color="primary"
+              // showValueLabel
+              className="max-w-md"
+            />
+            <NoticeDetail type="main" notice={noticeDetail} />
+          </Modal>
+        </div>
       )}
     </div>
   );
