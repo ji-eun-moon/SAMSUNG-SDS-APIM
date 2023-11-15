@@ -41,6 +41,12 @@ public class CategoryController {
     @GetMapping("/category-name")
     @Operation(summary = "카테고리 시퀀스를 통해 이름 조회")
     public ResponseEntity<?> CategoryNameToId(@RequestParam Long categoryId) {
+        return ResponseEntity.ok(categoryService.categoryStringName(categoryId));
+    }
+
+    @GetMapping("/category-name-object")
+    @Operation(summary = "카테고리 시퀀스를 통해 이름 조회")
+    public ResponseEntity<?> CategoryNameToIdObject(@RequestParam Long categoryId) {
         return ResponseEntity.ok(categoryService.categoryName(categoryId));
     }
 

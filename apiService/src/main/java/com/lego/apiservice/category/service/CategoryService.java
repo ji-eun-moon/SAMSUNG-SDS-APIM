@@ -75,4 +75,8 @@ public class CategoryService {
     public CategoryName categoryName(Long categoryId) {
         return new CategoryName(categoryRepository.findById(categoryId).orElseThrow());
     }
+
+    public String categoryStringName(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow().getName();
+    }
 }
