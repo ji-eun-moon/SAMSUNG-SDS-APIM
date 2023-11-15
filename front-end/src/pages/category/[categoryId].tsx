@@ -12,6 +12,7 @@ import PageLoading from '@/components/atoms/PageLoading';
 import useUserStore from '@/store/useUserStore';
 import ApiDescription from '@/components/organisms/api/ApiDescription';
 import useMyApi from '@/hooks/useMyApi';
+import GoStatistics from '@/components/atoms/GoStatistics';
 
 type SSGProps = {
   openCategory: number;
@@ -48,8 +49,21 @@ const CategoryList: NextPage<SSGProps> = ({ openCategory, openMyCategory }: SSGP
         />
         {/* Page Content */}
         <CategoryLayout>
-          <GoBack label={category?.categoryName} />
-          <ApiDescription type="category" content={category?.description} categoryId={category?.categoryId} />
+          <div className="flex justify-between">
+            <GoBack label={category?.categoryName} />
+            <GoStatistics
+              type="category"
+              useCategoryList={useCategoryList}
+              provideCategoryList={provideCategoryList}
+              categoryId={category.categoryId}
+            />
+          </div>
+          <ApiDescription
+            type="category"
+            content={category?.description}
+            categoryId={category?.categoryId}
+            categoryName={category?.categoryName}
+          />
           {category?.apiList?.map((api) => (
             <div className="my-3">
               <ApiCard

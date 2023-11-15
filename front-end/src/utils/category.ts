@@ -1,15 +1,21 @@
-import { TCategoryList, ICategory } from '@/types/Api';
+import { TCategoryList } from '@/types/Api';
 
-// 사용중인지 확인하는 함수
-const shouldShowApplyButton = (category: ICategory, useCategoryList: TCategoryList) => {
-  if (!category || !useCategoryList) {
+// 사용 카테고리인지 확인
+export const isUseCategory = (categoryId: number, useCategoryList: TCategoryList) => {
+  if (!categoryId || !useCategoryList) {
     return false;
   }
-  const { categoryId } = category;
   const isInUseCategoryList = useCategoryList.some((item) => item.categoryId === categoryId);
-  // const isInProvideCategoryList = provideCategoryList.some((item) => item.categoryId === categoryId);
 
-  return !isInUseCategoryList;
+  return isInUseCategoryList;
 };
 
-export default shouldShowApplyButton;
+// 제공 카테고리인지 확인
+export const isProvideCategory = (categoryId: number, provideCategoryList: TCategoryList) => {
+  if (!categoryId || !provideCategoryList) {
+    return false;
+  }
+  const isInProvideCategoryList = provideCategoryList.some((item) => item.categoryId === categoryId);
+
+  return isInProvideCategoryList;
+};
