@@ -386,6 +386,7 @@ public class NoticeService {
 
         } catch (IOException e) {
 
+
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
 
         }
