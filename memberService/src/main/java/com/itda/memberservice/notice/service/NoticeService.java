@@ -111,6 +111,7 @@ public class NoticeService {
                     eventData.put("createdAt", save.getCreatedAt().toString());
                     eventData.put("title", save.getTitle());
                     eventData.put("content", save.getContent());
+                    eventData.put("noticeId", String.valueOf(save.getNoticeId()));
                     eventData.put("noticeNumber", String.valueOf(unreadNoticeCount(employee)));
 
                     log.info("eventData = {}", eventData);
@@ -349,6 +350,7 @@ public class NoticeService {
                     eventData.put("createdAt", saveNotice.getCreatedAt().toString());
                     eventData.put("title", saveNotice.getTitle());
                     eventData.put("content", saveNotice.getContent());
+                    eventData.put("noticeId", String.valueOf(saveNotice.getNoticeId()));
                     eventData.put("noticeNumber", String.valueOf(unreadNoticeCount(receiver.getEmployeeId())));
 
                     log.info("eventData = {}", eventData);
