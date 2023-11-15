@@ -12,6 +12,7 @@ import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.request.NoticeResultRequest;
 import com.itda.memberservice.notice.dto.response.*;
 import com.itda.memberservice.notice.entity.Notice;
+import com.itda.memberservice.notice.repository.EmitterRepository;
 import com.itda.memberservice.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final MemberRepository memberRepository;
     private final MemberTeamRepository memberTeamRepository;
+    private final EmitterRepository emitterRepository;
 
     @Transactional(readOnly = true)
     public long unreadNoticeCount(String employeeId) {
@@ -94,17 +96,11 @@ public class NoticeService {
                     .isReceiverDeleted(false)
                     .build());
 
-            log.info("containsKey = {}", NoticeController.sseEmitters.containsKey(employee));
+            if (emitterRepository.find(employee).isPresent()) {
 
-            if (NoticeController.sseEmitters.containsKey(employee)) {
-                log.info("sseEmitter = {}", NoticeController.sseEmitters.get(employee));
-            }
+                SseEmitter emitter = emitterRepository.find(employee).get();
 
-            if (NoticeController.sseEmitters.containsKey(employee) && NoticeController.sseEmitters.get(employee) != null) {
-
-                log.info("{} 번 사원에게 sseEmitter 전달, sseEmitter = {}", employee, NoticeController.sseEmitters.get(employee));
-
-                SseEmitter sseEmitter = NoticeController.sseEmitters.get(employee);
+                log.info("{} 번 사원에게 sseEmitter 전달, sseEmitter = {}", employee, emitter);
 
                 try {
 
@@ -119,7 +115,7 @@ public class NoticeService {
 
                     log.info("eventData = {}", eventData);
 
-                    sseEmitter.send(SseEmitter.event().name("newNotice").data(eventData, MediaType.APPLICATION_JSON));
+                    emitter.send(SseEmitter.event().name("newNotice").data(eventData, MediaType.APPLICATION_JSON));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -338,11 +334,11 @@ public class NoticeService {
 
             Notice saveNotice = sendResultNotice(sender, receiver, title, content);
 
-            if (NoticeController.sseEmitters.containsKey(receiver.getEmployeeId()) && NoticeController.sseEmitters.get(receiver.getEmployeeId()) != null) {
+            if (emitterRepository.find(receiver.getEmployeeId()).isPresent()) {
 
-                log.info("{} 번 사원에게 sseEmitter 전달", receiver.getEmployeeId());
+                SseEmitter emitter = emitterRepository.find(receiver.getEmployeeId()).get();
 
-                SseEmitter sseEmitter = NoticeController.sseEmitters.get(receiver.getEmployeeId());
+                log.info("{} 번 사원에게 sseEmitter({}) 전달", receiver.getEmployeeId(), emitter);
 
                 try {
 
@@ -357,7 +353,7 @@ public class NoticeService {
 
                     log.info("eventData = {}", eventData);
 
-                    sseEmitter.send(SseEmitter.event().name("newNotice").data(eventData, MediaType.APPLICATION_JSON));
+                    emitter.send(SseEmitter.event().name("newNotice").data(eventData, MediaType.APPLICATION_JSON));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -393,25 +389,25 @@ public class NoticeService {
 
         } catch (IOException e) {
 
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            e.printStackTrace();
 
         }
 
-        NoticeController.sseEmitters.put(employeeId, sseEmitter);
+        emitterRepository.save(employeeId, sseEmitter);
 
-        log.info("{} {} 입력", employeeId, sseEmitter);
+        log.info("{} {} 입력", employeeId, emitterRepository.find(employeeId));
 
         sseEmitter.onCompletion(() -> {
             log.error("onCompletion Callback");
-            NoticeController.sseEmitters.remove(employeeId);
+            emitterRepository.delete(employeeId);
         });
         sseEmitter.onTimeout(() -> {
             log.error("onTimeout Callback");
-            NoticeController.sseEmitters.remove(employeeId);
+            emitterRepository.delete(employeeId);
         });
         sseEmitter.onError((e) -> {
             log.error("onError Callback");
-            NoticeController.sseEmitters.remove(employeeId);
+            emitterRepository.delete(employeeId);
         });
 
         log.info("SSE 연결 설정 완료");
