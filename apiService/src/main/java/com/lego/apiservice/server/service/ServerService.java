@@ -243,10 +243,17 @@ public class ServerService {
                     Map<String, String> parameterInfo = new HashMap<>();
                     Schema schema = (Schema) value;
                     parameterInfo.put("name", key.toString());
-                    parameterInfo.put("description", schema.getDescription());
-                    parameterInfo.put("example", String.valueOf(schema.getExample()));
-                    parameterInfo.put("type", schema.getType());
                     parameterInfo.put("required", String.valueOf(true));
+                    if (schema.getExample() == null) {
+                        Schema schema2 = components.getSchemas().get(schema.get$ref().split("/")[3]);
+                        parameterInfo.put("description", schema2.getDescription());
+                        parameterInfo.put("example", String.valueOf(schema2.getExample()));
+                        parameterInfo.put("type", schema2.getType());
+                    } else {
+                        parameterInfo.put("description", schema.getDescription());
+                        parameterInfo.put("example", String.valueOf(schema.getExample()));
+                        parameterInfo.put("type", schema.getType());
+                    }
 
 
                     parameterInfoList.add(new JSONObject(parameterInfo).toString());
