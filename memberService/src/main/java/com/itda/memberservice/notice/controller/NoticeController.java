@@ -12,6 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @RestController
 @RequestMapping("/notice")
 @RequiredArgsConstructor
@@ -19,14 +24,22 @@ import org.springframework.web.bind.annotation.*;
 public class NoticeController {
 
     private final NoticeService noticeService;
+    public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
+
+    // 실시간 쪽자 확인
+    @GetMapping("/sse-connect")
+    public SseEmitter sseRegister(@RequestHeader("member-id") String employeeId) {
+
+        return noticeService.sseRegister(employeeId);
+
+    }
 
     // 쪽지 보내기
     @PostMapping("/send")
     @Operation(summary = "쪽지 전송", description = "쪽지 전송하기")
     public ResponseEntity<String> sendNotice(@RequestHeader("member-id") String employeeId, @RequestBody NoticeCreateRequest request) {
 
-        log.info(("{NoticeController} : 쪽지 보내기 \n" +
-                "employeeId = " + employeeId));
+        log.info("{} 번 사원 쪽지 전송", employeeId);
 
         noticeService.sendNotice(employeeId, request);
 
@@ -39,8 +52,7 @@ public class NoticeController {
     @Operation(summary = "안읽은 쪽지 개수", description = "읽지 않은 쪽지 개수")
     public ResponseEntity<Long> unreadNoticeCount(@RequestHeader("member-id") String employeeId) {
 
-        log.info("{NoticeController} : 받은 쪽지 - 안읽은 쪽지 개수 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 받은 쪽지 중 읽은 쪽지 갯수 조회", employeeId);
         
         return ResponseEntity.ok(noticeService.unreadNoticeCount(employeeId));
 
@@ -51,8 +63,7 @@ public class NoticeController {
     @Operation(summary = "안읽은 쪽지 리스트", description = "아직 읽지 않은 쪽지 리스트 조회")
     public ResponseEntity<Page<ReceiveUnReadNoticeResponse>> receiveUnReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
-        log.info("{NoticeController} : 받은 쪽지 - 안읽은 쪽지 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 받은 쪽지 중 읽지 않은 쪽지 리스트 조회", employeeId);
         
         return ResponseEntity.ok(noticeService.receiveUnReadNoticeList(employeeId, pageable));
 
@@ -63,8 +74,7 @@ public class NoticeController {
     @Operation(summary = "읽은 쪽지 리스트", description = "읽은 쪽지 리스트 조회")
     public ResponseEntity<Page<ReceiveReadNoticeResponse>> receiveReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
-        log.info("{NoticeController} : 받은 쪽지 - 읽은 쪽지 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 받은 쪽지 중 읽은 쪽지 리스트 조회", employeeId);
         
         return ResponseEntity.ok(noticeService.receiveReadNoticeList(employeeId, pageable));
 
@@ -75,8 +85,7 @@ public class NoticeController {
     @Operation(summary = "전체 쪽지 조회", description = "받은 쪽지 전체 조회")
     public ResponseEntity<Page<ReceiveNoticeListResponse>> receiveAll(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
-        log.info("{NoticeController} : 받은 쪽지 - 전체 쪽지 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 받은 쪽지 전체 리스트 조회", employeeId);
         
         return ResponseEntity.ok(noticeService.receiveAll(employeeId, pageable));
 
@@ -87,8 +96,7 @@ public class NoticeController {
     @Operation(summary = "쪽지 상세 조회", description = "쪽지 상세 조회하기")
     public ResponseEntity<ReceiveNoticeDetailResponse> receiveDetail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
 
-        log.info("{NoticeController} : 쪽지 상세 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 {} 번 쪽지 상세 조회", employeeId, noticeId);
 
         return ResponseEntity.ok(noticeService.receiveDetail(employeeId, noticeId));
 
@@ -97,7 +105,7 @@ public class NoticeController {
     // 받은 쪽지 - 리스트 삭제
     @DeleteMapping("/receive/delete")
     @Operation(summary = "받은 쪽지 삭제", description = "받은 쪽지 리스트로 삭제하기")
-    public ResponseEntity<?> receiveDelete(@RequestBody NoticeListRequest request) {
+    public ResponseEntity<String> receiveDelete(@RequestBody NoticeListRequest request) {
 
         noticeService.receiveDelete(request);
 
@@ -120,8 +128,7 @@ public class NoticeController {
     @Operation(summary = "안읽은 쪽지 리스트", description = "보낸 쪽지 중 읽지 않은 쪽지 리스트 조회")
     public ResponseEntity<Page<SendUnReadNoticeResponse>> sendUnReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
-        log.info("{NoticeController} : 보낸 쪽지 - 안읽은 쪽지 리스트 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 보낸 쪽지 중 읽지 않은 쪽지 리스트 조회", employeeId);
 
         return ResponseEntity.ok(noticeService.sendUnReadNoticeList(employeeId, pageable));
 
@@ -132,8 +139,8 @@ public class NoticeController {
     @Operation(summary = "읽은 쪽지 리스트", description = "보낸 쪽지 중 읽은 쪽지 리스트 조회")
     public ResponseEntity<Page<SendReadNoticeResponse>> sendReadNoticeList(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
-        log.info("{NoticeController} : 보낸 쪽지 - 읽은 쪽지 리스트 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 보낸 쪽지 중 읽은 쪽지 리스트 조회", employeeId);
+
 
         return ResponseEntity.ok(noticeService.sendReadNoticeList(employeeId, pageable));
 
@@ -144,8 +151,8 @@ public class NoticeController {
     @Operation(summary = "전체 쪽지 조회", description = "보낸 쪽지 전체 리스트 조회")
     public ResponseEntity<Page<SendNoticeListResponse>> sendAll(@RequestHeader("member-id") String employeeId, Pageable pageable) {
 
-        log.info("{NoticeController} : 보낸 쪽지 - 전체 쪽지 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 보낸 쪽지 전체 리스트 조회", employeeId);
+
 
         return ResponseEntity.ok(noticeService.sendAll(employeeId, pageable));
 
@@ -156,8 +163,8 @@ public class NoticeController {
     @Operation(summary = "보낸 쪽지 상세 조회", description = "보낸 쪽지 상세 내용 조회")
     public ResponseEntity<SendNoticeDetailResponse> sendDetail(@RequestHeader("member-id") String employeeId, @PathVariable("notice_id") Long noticeId) {
 
-        log.info("{NoticeController} : 보낸 쪽지 상세 조회 \n" +
-                "employeeId = " + employeeId);
+        log.info("{} 번 사원의 보낸 쪽지 중 {} 번 쪽지 상세 조회", employeeId, noticeId);
+
 
         return ResponseEntity.ok(noticeService.sendDetail(employeeId, noticeId));
 
@@ -165,7 +172,7 @@ public class NoticeController {
 
     @DeleteMapping("/send/delete")
     @Operation(summary = "받은 쪽지 삭제", description = "받은 쪽지 리스트로 삭제하기")
-    public ResponseEntity<?> sendDelete(@RequestBody NoticeListRequest request) {
+    public ResponseEntity<String> sendDelete(@RequestBody NoticeListRequest request) {
 
         noticeService.sendDelete(request);
 
@@ -175,7 +182,7 @@ public class NoticeController {
 
     @PostMapping("/send/result")
     @Operation(summary = "신청 결과 전송", description = "사용 신청, 제공 신청 결과 전송")
-    public ResponseEntity<?> sendResult(@RequestHeader("member-id") String employeeId, @RequestBody NoticeResultRequest request) {
+    public ResponseEntity<String> sendResult(@RequestHeader("member-id") String employeeId, @RequestBody NoticeResultRequest request) {
 
         log.info("{} 에 대한 결과 쪽지 전송", request.getApplyName());
 
