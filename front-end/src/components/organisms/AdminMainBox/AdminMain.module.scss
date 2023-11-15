@@ -6,41 +6,16 @@
 }
 
 .bottom {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 40% 59%;
   gap: 10px;
   margin-bottom: 10px;
-}
-.showGraph3 {
   width: 100%;
-  display: grid;
-  // grid-template-columns: 84% 15%;
-  overflow-y: auto;
-
-  gap: 10px;
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #bdbdbd; // 스크롤바 핸들(움직이는 부분)의 배경 색상
-    border-radius: 10px; // 스크롤바 핸들의 둥근 모서리
-
-    &:hover {
-      background: #a1a1a1; // 스크롤바 핸들에 마우스를 올렸을 때의 색상
-    }
-  }
+  height: 88%;
 }
+
 .showGraph2 {
   width: 100%;
-  display: grid;
-  grid-template-columns: 34% 33% 15% 15%;
-
-  gap: 10px;
 }
 
 .showGraph {
@@ -99,4 +74,10 @@
 .title {
   text-align: center;
   font-size: 15px;
+}
+
+.right {
+  display: grid;
+  grid-template-rows: 29% 32% 32%;
+  gap: 10px;
 }

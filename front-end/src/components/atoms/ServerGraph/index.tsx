@@ -42,9 +42,9 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
   };
 
   return (
-    <div className="w-full pb-1 px-1" style={{ overflow: 'hidden' }}>
+    <div className="w-full pb-1 px-1" style={{ overflow: 'hidden', height: '100%' }}>
       <div
-        className="iframeWrapper"
+        className="iframeWrapper h-full"
         onMouseOver={() => {
           setModalSrc(src);
           handleOnMouseOver();
@@ -54,11 +54,7 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
         onBlur={() => {}}
       >
         {src.includes('http') ? (
-          <iframe
-            src="https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603827358&to=1699625427358&theme=light&panelId=1"
-            style={{ width: `${width}`, height: '22vh', border: 'none' }}
-            title="Server Graph"
-          />
+          <iframe src={src} style={{ width: `${width}`, height: '100%', border: 'none' }} title="Server Graph" />
         ) : (
           <iframe
             src={`${defaultSrc}&from=${from}&to=now&refresh=1s&theme=light&${src}`}
@@ -72,11 +68,7 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
         <Modal type="server" onClose={onModalHandler}>
           <div>
             {src.includes('http') ? (
-              <iframe
-                src="https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1699603827358&to=1699625427358&theme=light&panelId=1"
-                style={{ width: '75vw', height: '75vh', borderRadius: '10px' }}
-                title="Server Graph"
-              />
+              <iframe src={src} style={{ width: '75vw', height: '75vh', borderRadius: '10px' }} title="Server Graph" />
             ) : (
               <iframe
                 src={`${defaultSrc}&from=now-30m&to=now&refresh=5s&theme=light&${modalSrc}`}

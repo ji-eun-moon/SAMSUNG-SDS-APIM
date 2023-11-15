@@ -231,7 +231,7 @@ function NavBar({ position }: NavBarProps) {
       <div className={styles.navTopBody}>
         <div className="flex items-center gap-5">
           {router.pathname === '/' ? (
-            <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+            <Image src="/images/test3.png" width={250} height={250} alt="samsung logo" />
           ) : (
             <Link href="/">
               <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
