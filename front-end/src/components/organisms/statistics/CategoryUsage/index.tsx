@@ -52,7 +52,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
           </div>
         </div>
         <div className="w-full h-full">
-          <DonutChart title={`Total${type === 'provide' ? 'Provide' : 'Usage'}`} chartData={chartData} use="main" />
+          <DonutChart title={`총 ${type === 'provide' ? '제공량' : '사용량'}`} chartData={chartData} use="main" />
         </div>
       </div>
     );
@@ -73,7 +73,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
               <Spinner />
             </div>
           ) : (
-            <DonutChart title={`Total ${type === 'provide' ? 'Provide' : 'Usage'}`} chartData={chartData} />
+            <DonutChart title={`총 ${type === 'provide' ? '제공량' : '사용량'}`} chartData={chartData} />
           )}
         </ChartFrame>
       </div>
