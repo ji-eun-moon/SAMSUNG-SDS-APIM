@@ -3,6 +3,8 @@ package com.itda.memberservice.team.service;
 
 import com.itda.memberservice.client.usecheck.UseCheckClient;
 import com.itda.memberservice.client.usecheck.dto.CategoryTokenResponse;
+import com.itda.memberservice.error.CustomException;
+import com.itda.memberservice.error.ErrorCode;
 import com.itda.memberservice.member.dto.response.TeamMemberResponse;
 import com.itda.memberservice.team.dto.response.TeamListResponse;
 import com.itda.memberservice.team.entity.Team;
@@ -13,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +50,7 @@ public class TeamService {
         Page<TeamMemberResponse> members = teamRepository.findMembers(teamName, pageable);
 
         Team team = teamRepository.findByName(teamName)
-                .orElseThrow(() -> new NotFoundException("해당하는 팀은 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
         return TeamListResponse.builder()
                 .teamMembers(members)
