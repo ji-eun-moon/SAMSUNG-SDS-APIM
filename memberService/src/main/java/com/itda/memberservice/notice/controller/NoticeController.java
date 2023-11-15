@@ -27,7 +27,7 @@ public class NoticeController {
     private final NoticeService noticeService;
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
-    // 실시간 쪽지 확인
+    // 실시간 쪽지 확인하기
     @GetMapping(value = "/sse-connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter sseRegister(@RequestHeader("member-id") String employeeId) {
 
