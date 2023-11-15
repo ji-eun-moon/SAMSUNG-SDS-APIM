@@ -38,6 +38,12 @@ public class ApiController {
         return ResponseEntity.ok(apiService.apiDetailName(apiId));
     }
 
+    @GetMapping("detail-category")
+    @Operation(summary = "api 상세 조회 - 카테고리")
+    public ResponseEntity<?> apiCategory(@RequestParam(name = "apiId") Long apiId) {
+        return ResponseEntity.ok(apiService.apiCategory(apiId));
+    }
+
     @GetMapping("/available")
     @Operation(summary = "api 사용 신청 가능 여부 조회")
     public ResponseEntity<?> apiAvailable(@RequestParam(name = "apiId") Long apiId,

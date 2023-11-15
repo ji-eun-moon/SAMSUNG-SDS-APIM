@@ -4,6 +4,7 @@ import com.lego.apiservice.api.entity.domain.Api;
 import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.entity.dto.response.*;
 import com.lego.apiservice.api.repostiory.ApiRepository;
+import com.lego.apiservice.category.entity.dto.response.CategoryName;
 import com.lego.apiservice.category.repository.CategoryRepository;
 import com.lego.apiservice.useCheck.repository.UseCheckRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,11 @@ public class ApiService {
     public ApiDetailNameResponse apiDetailName(Long apiId) {
         Api api = apiRepository.findById(apiId).orElseThrow();
         return new ApiDetailNameResponse(api);
+    }
+
+    public CategoryName apiCategory(Long apiId) {
+        Api api = apiRepository.findById(apiId).orElseThrow();
+        return new CategoryName(api.getCategory());
     }
 
     public boolean apiAvailable(Long apiId, String teamName) {
