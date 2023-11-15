@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -27,7 +28,7 @@ public class NoticeController {
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
     // 실시간 쪽자 확인
-    @GetMapping("/sse-connect")
+    @GetMapping(value = "/sse-connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter sseRegister(@RequestHeader("member-id") String employeeId) {
 
         return noticeService.sseRegister(employeeId);

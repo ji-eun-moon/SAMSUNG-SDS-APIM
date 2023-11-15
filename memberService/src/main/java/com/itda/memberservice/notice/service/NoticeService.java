@@ -93,9 +93,15 @@ public class NoticeService {
                     .isReceiverDeleted(false)
                     .build());
 
-            if (NoticeController.sseEmitters.containsKey(receiver.getEmployeeId()) && NoticeController.sseEmitters.get(receiver.getEmployeeId()) != null) {
+            log.info("containsKey = {}", NoticeController.sseEmitters.containsKey(employee));
 
-                log.info("{} 번 사원에게 sseEmitter 전달, sseEmitter = {}", employee, NoticeController.sseEmitters.get(receiver.getEmployeeId()));
+            if (NoticeController.sseEmitters.containsKey(employee)) {
+                log.info("sseEmitter = {}", NoticeController.sseEmitters.get(employee));
+            }
+
+            if (NoticeController.sseEmitters.containsKey(employee) && NoticeController.sseEmitters.get(employee) != null) {
+
+                log.info("{} 번 사원에게 sseEmitter 전달, sseEmitter = {}", employee, NoticeController.sseEmitters.get(employee));
 
                 SseEmitter sseEmitter = NoticeController.sseEmitters.get(employee);
 
