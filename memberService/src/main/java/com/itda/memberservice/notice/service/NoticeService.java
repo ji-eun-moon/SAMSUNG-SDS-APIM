@@ -384,7 +384,7 @@ public class NoticeService {
 
     public SseEmitter sseRegister(String employeeId) {
 
-        SseEmitter sseEmitter = new SseEmitter(60 * 1000L);
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
 
         try {
             sseEmitter.send(SseEmitter.event().name("connect").data("SSE 연결이 완료되었습니다.", MediaType.APPLICATION_JSON));
