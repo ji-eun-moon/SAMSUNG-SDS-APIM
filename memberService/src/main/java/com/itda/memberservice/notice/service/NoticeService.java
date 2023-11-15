@@ -1,9 +1,12 @@
 package com.itda.memberservice.notice.service;
 
+import com.itda.memberservice.error.CustomException;
+import com.itda.memberservice.error.ErrorCode;
 import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.memberteam.repository.MemberTeamRepository;
+import com.itda.memberservice.notice.controller.NoticeController;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.request.NoticeResultRequest;
@@ -17,9 +20,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -62,30 +68,56 @@ public class NoticeService {
     public void sendNotice(String employeeId, NoticeCreateRequest request) {
 
         Member sender = memberRepository.findByEmployeeId(employeeId)
-                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다."));
+                                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         log.info("sender = " + sender.toString());
 
         for (String employee : request.getEmployeeIds()) {
 
             Member receiver = memberRepository.findByEmployeeId(employee)
-                                    .orElseThrow(() -> new NotFoundException("회원이 존재하지 않습니다."));
+                                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
             if (employeeId.equals(receiver.getEmployeeId())) {
                 continue;
             }
 
-            log.info("receiver = " + receiver.toString());
+            log.info("receiver = " + receiver);
 
-            noticeRepository.save(Notice.builder()
-                            .sender(sender)
-                            .receiver(receiver)
-                            .title(request.getTitle())
-                            .content(request.getContent())
-                            .isRead(false)
-                            .isSenderDeleted(false)
-                            .isReceiverDeleted(false)
+            Notice save = noticeRepository.save(Notice.builder()
+                    .sender(sender)
+                    .receiver(receiver)
+                    .title(request.getTitle())
+                    .content(request.getContent())
+                    .isRead(false)
+                    .isSenderDeleted(false)
+                    .isReceiverDeleted(false)
                     .build());
+
+            if (NoticeController.sseEmitters.containsKey(employee)) {
+
+                log.info("{} 번 사원에게 sseEmitter 전달", employee);
+
+                SseEmitter sseEmitter = NoticeController.sseEmitters.get(employee);
+
+                try {
+
+                    Map<String, String> eventData = new HashMap<>();
+
+                    eventData.put("message", "메시지가 도착했습니다.");
+                    eventData.put("sender", sender.getName());
+                    eventData.put("createdAt", save.getCreatedAt().toString());
+                    eventData.put("title", save.getTitle());
+                    eventData.put("content", save.getContent());
+                    eventData.put("noticeNumber", String.valueOf(unreadNoticeCount(employee)));
+
+                    log.info("eventData = {}", eventData);
+
+                    sseEmitter.send(SseEmitter.event().name("addNotice").data(eventData));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
 
@@ -102,10 +134,10 @@ public class NoticeService {
     public void changeReadNotice(String employeeId, Long noticeId) {
 
         Notice notice = noticeRepository.findById(noticeId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 쪽지입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
 
         if (!notice.getReceiver().getEmployeeId().equals(employeeId)) {
-            throw new IllegalArgumentException("조회할 수 없는 쪽지입니다.");
+            throw new CustomException(ErrorCode.NOTICE_USER_INVALID);
         }
 
         if (!notice.isRead()) {
@@ -152,7 +184,7 @@ public class NoticeService {
         SendNoticeDetailResponse response = noticeRepository.sendDetail(employeeId, noticeId);
 
         if(response == null) {
-            throw new NotFoundException("해당하는 쪽지는 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOTICE_NOT_FOUND);
         }
 
         return response;
@@ -163,7 +195,7 @@ public class NoticeService {
 
         for (Long i : request.getList()) {
             Notice notice = noticeRepository.findById(i)
-                    .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
 
             if (notice.isSenderDeleted()) {
                 noticeRepository.delete(notice);
@@ -192,7 +224,7 @@ public class NoticeService {
 
         for (Long i : request.getList()) {
             Notice notice = noticeRepository.findById(i)
-                    .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
 
             noticeRepository.save(
                     Notice.builder()
@@ -216,7 +248,7 @@ public class NoticeService {
 
         for (Long i : request.getList()) {
             Notice notice = noticeRepository.findById(i)
-                    .orElseThrow(() -> new NotFoundException("해당 쪽지는 존재하지않습니다."));
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
 
             if (notice.isReceiverDeleted()) {
                 noticeRepository.delete(notice);
@@ -244,11 +276,11 @@ public class NoticeService {
     public void sendResult(String employeeId, NoticeResultRequest request) {
 
         if (request.getApplyName().isEmpty() || request.getResult().isEmpty()) {
-            throw new NullPointerException("올바른 형식의 메시지가 아닙니다.");
+            throw new CustomException(ErrorCode.NOTICE_BAD_REQUEST);
         }
 
         Member sender = memberRepository.findByEmployeeId(employeeId)
-                .orElseThrow(() -> new NotFoundException("로그인 정보가 일치하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_USER_INVALID));
 
         if (!sender.getAuthority().equals(Authority.관리자)) {
             throw new AuthorizationServiceException("해당 권한이 존재하지 않습니다.");
@@ -296,22 +328,75 @@ public class NoticeService {
         }
 
         for (Member receiver : list) {
-            sendResultNotice(sender, receiver, title, content);
+
+            Notice saveNotice = sendResultNotice(sender, receiver, title, content);
+
+            if (NoticeController.sseEmitters.containsKey(receiver.getEmployeeId())) {
+
+                log.info("{} 번 사원에게 sseEmitter 전달", receiver.getEmployeeId());
+
+                SseEmitter sseEmitter = NoticeController.sseEmitters.get(receiver.getEmployeeId());
+
+                try {
+
+                    Map<String, String> eventData = new HashMap<>();
+
+                    eventData.put("message", "메시지가 도착했습니다.");
+                    eventData.put("sender", sender.getName());
+                    eventData.put("createdAt", saveNotice.getCreatedAt().toString());
+                    eventData.put("title", saveNotice.getTitle());
+                    eventData.put("content", saveNotice.getContent());
+                    eventData.put("noticeNumber", String.valueOf(unreadNoticeCount(receiver.getEmployeeId())));
+
+                    log.info("eventData = {}", eventData);
+
+                    sseEmitter.send(SseEmitter.event().name("addNotice").data(eventData));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
 
     }
 
-    public void sendResultNotice(Member sender, Member receiver, String title, String content) {
+    public Notice sendResultNotice(Member sender, Member receiver, String title, String content) {
 
-        noticeRepository.save(Notice.builder()
-                        .title(title)
-                        .content(content)
-                        .sender(sender)
-                        .receiver(receiver)
-                        .isRead(false)
-                        .isReceiverDeleted(false)
-                        .isSenderDeleted(false)
+        return noticeRepository.save(Notice.builder()
+                .title(title)
+                .content(content)
+                .sender(sender)
+                .receiver(receiver)
+                .isRead(false)
+                .isReceiverDeleted(false)
+                .isSenderDeleted(false)
                 .build());
+
+    }
+
+    public SseEmitter sseRegister(String employeeId) {
+
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+
+        try {
+            sseEmitter.send(SseEmitter.event().name("SSE 연결").data("SSE 연결이 완료되었습니다."));
+
+            log.info("{} SSE 연결 완료", employeeId);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        NoticeController.sseEmitters.put(employeeId, sseEmitter);
+
+        log.info("{} {} 입력", employeeId, sseEmitter);
+
+        sseEmitter.onCompletion(() -> NoticeController.sseEmitters.remove(employeeId));
+        sseEmitter.onTimeout(() -> NoticeController.sseEmitters.remove(employeeId));
+        sseEmitter.onError((e) -> NoticeController.sseEmitters.remove(employeeId));
+
+        return sseEmitter;
 
     }
 }
