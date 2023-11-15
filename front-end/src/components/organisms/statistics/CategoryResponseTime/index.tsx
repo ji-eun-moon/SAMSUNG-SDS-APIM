@@ -35,7 +35,7 @@ function CategoryResponseTime({ categoryId, teamName, type }: Props) {
   return (
     <div>
       <div className="flex justify-between mb-1">
-        <div>응답 시간</div>
+        <div>Response Time</div>
         <div className="flex gap-2 items-center">
           <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
           <Refresh onClick={refetchResponseTime} />

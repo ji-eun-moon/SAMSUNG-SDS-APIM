@@ -225,15 +225,30 @@ function NavBar({ position }: NavBarProps) {
   }
 
   if (position === 'top') {
+    const currentPath = router.pathname;
+
     return (
       <div className={styles.navTopBody}>
-        {router.pathname === '/' ? (
-          <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-        ) : (
-          <Link href="/">
+        <div className="flex items-center gap-5">
+          {router.pathname === '/' ? (
             <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-          </Link>
-        )}
+          ) : (
+            <Link href="/">
+              <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+            </Link>
+          )}
+          {currentPath === '/monitoring/server' && (
+            <div style={{ fontSize: '20px', fontWeight: '400', paddingBottom: '5px' }}>
+              <span style={{ marginRight: '10px' }}>|</span> Server
+            </div>
+          )}
+          {currentPath === '/monitoring/usage' && (
+            <div style={{ fontSize: '20px', fontWeight: '400', paddingBottom: '5px' }}>
+              <span style={{ marginRight: '10px' }}>|</span> Usage
+            </div>
+          )}
+        </div>
+
         <div className={`${styles.right}`}>
           {searchOpen ? (
             <div className="flex items-center justify-end">
