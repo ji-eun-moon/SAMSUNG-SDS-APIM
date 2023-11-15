@@ -7,11 +7,12 @@ import useUserStore from '@/store/useUserStore';
 import { useQuery, QueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { TCategoryList, IApiTestInfo } from '@/types/Api';
-import { getCategoryList, getUseCategoryList, getProvideCategoryList, getApiTestInfo } from '@/utils/axios/api';
+import { getCategoryList, getApiTestInfo } from '@/utils/axios/api';
 import { dehydrate } from 'react-query/hydration';
 import PageLoading from '@/components/atoms/PageLoading';
 import GoBack from '@/components/atoms/GoBack';
 import useTestStore from '@/store/useTestStore';
+import useMyApi from '@/hooks/useMyApi';
 import { Spinner } from '@nextui-org/react';
 import Editor from '@monaco-editor/react';
 import { isValidJSON, formatJsonToCurl, JsonData, safeJsonParse } from '@/utils/json';
@@ -38,26 +39,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     setTestResponse,
   } = useTestStore();
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
-  const { data: useCategoryList } = useQuery<TCategoryList>(
-    `useCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getUseCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
-  const { data: provideCategoryList } = useQuery<TCategoryList>(
-    `provideCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getProvideCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
+  const { useCategoryList, provideCategoryList } = useMyApi(selectedTeam);
 
   const { data: apiTestInfo } = useQuery<IApiTestInfo>(`apiTestInfo ${apiId}`, async () => {
     const result = await getApiTestInfo(apiId);
@@ -110,7 +92,7 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
                 </tr>
               </tbody>
             </table>
-            <Link href="/team/token">
+            <Link href={{ pathname: '/team/token', query: { category: apiTestInfo.categoryName } }}>
               <div className="flex justify-end text-sm underline itdaSecondary cursor-pointer">키 확인하기</div>
             </Link>
           </div>
