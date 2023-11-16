@@ -22,6 +22,7 @@ import { getUserDropDownList, getAdminDropDownList, getAdminMypageList, getUserM
 import useUrl from '@/hooks/useUrl';
 import useApi from '@/hooks/useApi';
 import CustomSelect from '@/components/atoms/CustomSelect';
+import NewNotice from '../NewNotice';
 import NavBarNotice from '../NavBarNotice';
 import Modal from '../Modal';
 import styles from './NavBar.module.scss';
@@ -70,152 +71,158 @@ function NavBar({ position }: NavBarProps) {
 
   if (position === 'side') {
     return (
-      <div className={styles.navSideBody}>
-        {alertOpen && <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={() => setAlertOpen(false)} />}
+      <div>
+        <NewNotice />
 
-        {router.pathname === '/' ? (
-          <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-        ) : (
-          <button type="button" onClick={() => router.push('/')}>
+        <div className={styles.navSideBody}>
+          {alertOpen && (
+            <Modal type="alert" alertMessage="등록된 API가 없습니다." onClose={() => setAlertOpen(false)} />
+          )}
+
+          {router.pathname === '/' ? (
             <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-          </button>
-        )}
+          ) : (
+            <button type="button" onClick={() => router.push('/')}>
+              <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+            </button>
+          )}
 
-        {/* 프로필 이미지 */}
-        <div className="flex justify-center mt-10 mb-6">
-          <ProfileImg src={userInfo?.imageUrl} width={112} height={112} />
-        </div>
+          {/* 프로필 이미지 */}
+          <div className="flex justify-center mt-10 mb-6">
+            <ProfileImg src={userInfo?.imageUrl} width={112} height={112} />
+          </div>
 
-        {/* 회원 정보 */}
-        <div className="grid grid-cols-1 content-between h-full">
-          <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className={`${styles.info} mb-3`}>
-              <div className="font-semibold itdaSecondary">이름</div>
-              <div className="itdaText">{userInfo?.name}</div>
-            </div>
+          {/* 회원 정보 */}
+          <div className="grid grid-cols-1 content-between h-full">
+            <div className="my-3 col-span-1" style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className={`${styles.info} mb-3`}>
+                <div className="font-semibold itdaSecondary">이름</div>
+                <div className="itdaText">{userInfo?.name}</div>
+              </div>
 
-            <div className={`${styles.info} mb-3`}>
-              <div className="font-semibold itdaSecondary">사번</div>
-              <div className="itdaText">{userInfo?.employeeId}</div>
-            </div>
+              <div className={`${styles.info} mb-3`}>
+                <div className="font-semibold itdaSecondary">사번</div>
+                <div className="itdaText">{userInfo?.employeeId}</div>
+              </div>
 
-            <div className={`${styles.info} mb-2`}>
-              <div className="font-semibold itdaSecondary">부서</div>
-              <div className="flex gap-1 itdaText">
-                <div>{userInfo?.department}</div>
+              <div className={`${styles.info} mb-2`}>
+                <div className="font-semibold itdaSecondary">부서</div>
+                <div className="flex gap-1 itdaText">
+                  <div>{userInfo?.department}</div>
+                </div>
+              </div>
+
+              <div className={`${styles.info}`}>
+                <div className="flex items-center font-semibold itdaSecondary">팀명</div>
+                {teamList && (
+                  <div className="itdaText flex items-center justify-start w-full">
+                    <CustomSelect
+                      items={teamList}
+                      value={selectedTeam}
+                      height="39px"
+                      fontSize="13px"
+                      onChange={handleSelectTeam}
+                    />
+                    {/* <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} /> */}
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className={`${styles.info}`}>
-              <div className="flex items-center font-semibold itdaSecondary">팀명</div>
-              {teamList && (
-                <div className="itdaText flex items-center justify-start w-full">
-                  <CustomSelect
-                    items={teamList}
-                    value={selectedTeam}
-                    height="39px"
-                    fontSize="13px"
-                    onChange={handleSelectTeam}
-                  />
-                  {/* <SelectBox list={teamList} onChange={handleSelectTeam} defaultSelect={selectedTeam} /> */}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-10">
-            {/* 버튼 바로가기 */}
-            <div className="flex flex-col justify-center col-span-1 gap-3">
-              <StyledButton
-                variant="bordered"
-                label="API 전체보기"
-                onClick={() => {
-                  if (firstCategoryId === 0 || firstCategoryId === undefined) {
-                    setAlertOpen(true);
-                  } else {
-                    router.push(`${categoryUrl}`);
-                  }
-                }}
-                aria-hidden
-                radius="full"
-                type="button"
-              />
-
-              <CountBadge count={noticeCount?.toString()}>
+            <div className="flex flex-col gap-10">
+              {/* 버튼 바로가기 */}
+              <div className="flex flex-col justify-center col-span-1 gap-3">
                 <StyledButton
-                  variant="solid"
-                  label="쪽지함"
-                  onClick={() => router.push(`/notice/receive`)}
+                  variant="bordered"
+                  label="API 전체보기"
+                  onClick={() => {
+                    if (firstCategoryId === 0 || firstCategoryId === undefined) {
+                      setAlertOpen(true);
+                    } else {
+                      router.push(`${categoryUrl}`);
+                    }
+                  }}
+                  aria-hidden
                   radius="full"
                   type="button"
                 />
-              </CountBadge>
-            </div>
 
-            {/* 텍스트 바로가기 */}
-            <div className="itdaText flex flex-col gap-3">
-              <div
-                className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
-                onClick={() => router.push('/team/token')}
-                aria-hidden
-              >
-                <div className="text-sm">팀정보</div>
-                <svg
-                  className={`${styles.shortcutBtn} w-4 h-4 text-gray-400 dark:text-white`}
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 18"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"
+                <CountBadge count={noticeCount?.toString()}>
+                  <StyledButton
+                    variant="solid"
+                    label="쪽지함"
+                    onClick={() => router.push(`/notice/receive`)}
+                    radius="full"
+                    type="button"
                   />
-                </svg>
+                </CountBadge>
               </div>
-              <div
-                className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
-                onClick={() => router.push('/mypage/info')}
-                aria-hidden
-              >
-                <div className="text-sm">마이페이지</div>
-                <svg
-                  className="w-4 h-4 text-gray-400 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
+
+              {/* 텍스트 바로가기 */}
+              <div className="itdaText flex flex-col gap-3">
+                <div
+                  className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
+                  onClick={() => router.push('/team/token')}
+                  aria-hidden
                 >
-                  <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-                    <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z" />
-                    <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                  </g>
-                </svg>
-              </div>
-              <div
-                className={`${styles.logoutBtn} flex justify-between cursor-pointer`}
-                onClick={handleLogout}
-                aria-hidden
-              >
-                <div className="text-sm">로그아웃</div>
-                <svg
-                  className="w-4 h-4 text-gray-400 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 16"
+                  <div className="text-sm">팀정보</div>
+                  <svg
+                    className={`${styles.shortcutBtn} w-4 h-4 text-gray-400 dark:text-white`}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 18"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={`${styles.shortcutBtn} flex justify-between cursor-pointer`}
+                  onClick={() => router.push('/mypage/info')}
+                  aria-hidden
                 >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"
-                  />
-                </svg>
+                  <div className="text-sm">마이페이지</div>
+                  <svg
+                    className="w-4 h-4 text-gray-400 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                      <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z" />
+                      <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    </g>
+                  </svg>
+                </div>
+                <div
+                  className={`${styles.logoutBtn} flex justify-between cursor-pointer`}
+                  onClick={handleLogout}
+                  aria-hidden
+                >
+                  <div className="text-sm">로그아웃</div>
+                  <svg
+                    className="w-4 h-4 text-gray-400 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
