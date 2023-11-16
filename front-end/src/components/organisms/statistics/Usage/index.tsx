@@ -5,7 +5,7 @@ import LineChart from '@/components/chart/LineChart';
 import ChartFrame from '@/components/atoms/ChartFrame';
 import { Spinner } from '@nextui-org/react';
 import CustomSelect from '@/components/atoms/CustomSelect';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 
 interface Props {
   apiId: number;
@@ -28,9 +28,9 @@ function Usage({ apiId, teamName, type }: Props) {
     isDailyLoading,
     hourlyData,
     isHourlyLoading,
-    refetchMonthly,
-    refetchDaily,
-    refetchHourly,
+    // refetchMonthly,
+    // refetchDaily,
+    // refetchHourly,
   } = useUsageData({
     apiId,
     teamName,
@@ -88,21 +88,21 @@ function Usage({ apiId, teamName, type }: Props) {
     }
   };
 
-  const refreshData = () => {
-    switch (selectedChart) {
-      case ChartType.Monthly:
-        refetchMonthly();
-        break;
-      case ChartType.Daily:
-        refetchDaily();
-        break;
-      case ChartType.Hourly:
-        refetchHourly();
-        break;
-      default:
-        refetchMonthly();
-    }
-  };
+  // const refreshData = () => {
+  //   switch (selectedChart) {
+  //     case ChartType.Monthly:
+  //       refetchMonthly();
+  //       break;
+  //     case ChartType.Daily:
+  //       refetchDaily();
+  //       break;
+  //     case ChartType.Hourly:
+  //       refetchHourly();
+  //       break;
+  //     default:
+  //       refetchMonthly();
+  //   }
+  // };
 
   return (
     <div>
@@ -117,7 +117,7 @@ function Usage({ apiId, teamName, type }: Props) {
               height="30px"
             />
           </div>
-          <Refresh onClick={refreshData} />
+          {/* <Refresh onClick={refreshData} /> */}
         </div>
       </div>
       <ChartFrame>
