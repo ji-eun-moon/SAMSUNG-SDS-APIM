@@ -27,6 +27,7 @@ export const config = {
     '/login',
     '/',
     '/admin',
+    '/admin/:path*',
     '/apis/search',
     '/apis/status',
     '/apis/:path*',

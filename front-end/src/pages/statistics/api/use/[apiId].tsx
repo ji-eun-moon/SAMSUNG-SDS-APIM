@@ -6,7 +6,6 @@ import Usage from '@/components/organisms/statistics/Usage';
 import ResponseTime from '@/components/organisms/statistics/ResponseTime';
 import ResponseCode from '@/components/organisms/statistics/ResponseCode';
 import useUserStore, { getSelectedTeam } from '@/store/useUserStore';
-import PageLoading from '@/components/atoms/PageLoading';
 import { getUseCategoryList, getApiName } from '@/utils/axios/api';
 import {
   getMonthlyUsage,
@@ -27,21 +26,23 @@ type SSGProps = {
 
 const UseApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data, isLoading } = useQuery<IApiName>(['apiName', apiId], async () => getApiName(apiId));
+  const { data } = useQuery<IApiName>(['apiName', apiId], async () => getApiName(apiId), {
+    enabled: apiId !== 0,
+  });
 
-  if (isLoading || !data) {
-    return <PageLoading />;
-  }
+  // if (isLoading || !data) {
+  //   return <PageLoading />;
+  // }
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="use" openCategoryId={data.categoryId} />
+      <ChartSideBar type="use" openCategoryId={data?.categoryId || 0} />
       {apiId === 0 ? (
         <div className="flex w-full justify-center my-80">사용 중인 API가 없습니다.</div>
       ) : (
         <ChartLayout>
           <div className="flex justify-between">
-            <GoBack label={data.apiName} />
+            <GoBack label={data?.apiName || ''} />
             <Link href={`/apis/detail/${apiId}`}>
               <div className="underline cursor-pointer">API 상세 보기</div>
             </Link>
