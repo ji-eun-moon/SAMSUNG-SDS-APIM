@@ -1,4 +1,4 @@
-import { IPageable, INoticeSend } from '@/types/Notice';
+import { IPageable, INoticeSend, INoticeAdmin } from '@/types/Notice';
 import axiosInstance from './axiosInstance';
 
 export async function getReceiveList({ page, size }: IPageable) {
@@ -247,6 +247,24 @@ export async function getSendUnreadList({ page, size }: IPageable) {
       },
     });
     console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function noticeAdmin({ applyName, teamName, categoryName }: INoticeAdmin) {
+  try {
+    const response = await axiosInstance({
+      method: 'POST',
+      url: '/member/notice/send/apply',
+      data: {
+        applyName,
+        teamName,
+        categoryName,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
