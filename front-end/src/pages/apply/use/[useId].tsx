@@ -90,8 +90,6 @@ const UseDetail: NextPage<SSGProps> = ({ isUser, useId }: SSGProps) => {
   };
 
   const onSubmitHandler = async () => {
-    console.log('action', action);
-    console.log('content', content);
     if (action === 'accept') {
       // 승인 처리
       await putUseApplyAccept(useId);
