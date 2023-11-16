@@ -1,0 +1,18 @@
+.hover {
+  &:hover {
+    border: 2px solid $samsung-logo;
+    color: $samsung-logo;
+    cursor: pointer;
+  }
+}
+
+.hover2 {
+  color: #17468f;
+  background-color: #ffffff;
+
+  &:hover {
+    color: #ffffff;
+    background-color: #17468f;
+    cursor: pointer;
+  }
+}

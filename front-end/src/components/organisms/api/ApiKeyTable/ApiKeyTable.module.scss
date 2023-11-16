@@ -1,0 +1,19 @@
+.header {
+  background-color: $itda-blue;
+  color: #fff;
+}
+
+.th {
+  padding: 10px 0;
+  font-weight: 600;
+}
+
+.tr {
+  padding: 5px;
+  border-bottom: 1px solid $itda-border;
+}
+
+.trOutput {
+  padding: 10px;
+  border-bottom: 1px solid $itda-border;
+}

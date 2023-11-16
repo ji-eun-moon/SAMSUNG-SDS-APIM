@@ -1,0 +1,388 @@
+.mainPageContainer {
+  margin-left: 110px;
+  margin-right: 110px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // flex-direction: column;
+}
+
+.topPageContainer {
+  padding-top: 65px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+}
+
+.serverPageContainer {
+  min-height: 100vh;
+  padding-top: 70px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mainUserContainer {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 45px;
+  margin-bottom: 45px;
+  min-height: 87vh;
+  // width: 40vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.pageContainer {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap: 30px;
+}
+
+.pageContainer2 {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.summaryContainer {
+  display: grid;
+  grid-template-columns: 49% 49%;
+  gap: 20px;
+}
+
+.topLeft {
+  height: 100%;
+}
+
+.firstPart {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  margin: auto;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+
+  &:hover .imgContainer {
+    transform: scale(1.2); /* 호버 상태에서 크기를 확대 */
+    cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+  }
+}
+
+.cardtitle {
+  // margin-top: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  // color: $itda-secondary;
+  color: #ffffff;
+  cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+
+  // cardContainer가 hover일 때 imgContainer에 적용될 스타일
+  & ~ .imgContainer {
+    transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+  }
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  gap: 10px;
+  align-items: center;
+}
+.imgContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+  transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+}
+
+.monitorImgContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: end; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+  transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+  padding-right: 30px;
+}
+.iconImg {
+  width: 30px;
+  height: 32px;
+  margin: 3px;
+}
+.monitorIconImg {
+  width: 180px;
+  height: 190px;
+  margin: 10px;
+}
+.monitorSpan {
+  width: 100%;
+  font-size: 40px;
+  font-weight: 700;
+  color: #5f5f5f;
+  text-align: center;
+  padding-left: 30px;
+}
+.secondPart {
+  color: $itda-text;
+  margin-top: 3px;
+  display: grid;
+  padding: 2px 0px;
+  height: 160px;
+}
+
+.contents {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.secondContent {
+  margin: 2px 0px;
+  padding: 8px 0px;
+  border-bottom: 0.5px solid #eaeaea;
+  font-size: 15px;
+  font-weight: 400;
+}
+.secondInContent {
+  display: grid;
+  grid-template-columns: 55% 10% 5% 30%;
+}
+
+.thirdPart {
+  color: $itda-text;
+  // margin-top: 8px;
+  height: 100%;
+}
+
+.thirdContent {
+  display: grid;
+  // grid-template-columns: 650px 65px 20px 80px 20px 150px;
+  padding: 3px 0px;
+}
+
+.stateContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+}
+.state {
+  padding: 20px;
+  display: grid;
+  grid-template-rows: 25% 75%;
+  align-items: center;
+}
+.stateTitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+.stateBorder {
+  border-right: 1px solid #d0d0d0;
+}
+
+.divider {
+  border-bottom: 0.5px solid #eaeaea;
+  padding: 8px 0;
+}
+
+.thirdInContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.partTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $itda-text;
+
+  .partTitle {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .goDetail {
+    font-size: 13px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+
+    cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+  }
+}
+
+.monitoring {
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.05); /* 호버 상태에서 크기를 확대 */
+    cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+  }
+}
+.monitoringImg {
+  width: 90px;
+  height: 85px;
+  margin: 3px;
+}
+
+.monitoringTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+// .pageContainer {
+//   width: 100%;
+//   height: 100%;
+
+//   display: grid;
+//   grid-template-rows: 0.9fr 0.9fr 0.9fr;
+//   gap: 10px;
+// }
+
+// .firstPart {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+//   gap: 55px;
+//   margin-top: 8px;
+// }
+
+// .cardContainer {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center; /* 가로 가운데 정렬 */
+//   align-items: center; /* 세로 가운데 정렬 */
+
+//   &:hover .imgContainer {
+//     transform: scale(1.1); /* 호버 상태에서 크기를 확대 */
+//     cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+//   }
+// }
+
+// .cardtitle {
+//   margin-top: 10px;
+//   font-size: 15px;
+//   font-weight: 400;
+//   color: $itda-secondary;
+//   cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+
+//   // cardContainer가 hover일 때 imgContainer에 적용될 스타일
+//   & ~ .imgContainer {
+//     transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+//   }
+// }
+
+// .imgContainer {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center; /* 가로 가운데 정렬 */
+//   align-items: center; /* 세로 가운데 정렬 */
+//   transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+// }
+
+// .iconImg {
+//   width: 95px;
+//   height: 92px;
+//   margin: 8px;
+// }
+
+// .secondPart {
+//   color: $itda-text;
+//   margin-top: 8px;
+//   margin-bottom: 20px;
+//   display: grid;
+//   padding: 2px 0px;
+//   height: 170px;
+// }
+
+// .contents {
+//   width: 100%;
+//   height: 100%;
+
+//   display: grid;
+//   grid-template-rows: 1fr 1fr 1fr;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .secondContent {
+//   margin: 2px 0px;
+//   padding: 10px 0px;
+//   border-bottom: 0.5px solid #eaeaea;
+// }
+// .secondInContent {
+//   display: grid;
+//   grid-template-columns: 65% 10% 5% 20%;
+// }
+
+// .thirdPart {
+//   color: $itda-text;
+//   margin-top: 8px;
+// }
+
+// .thirdContent {
+//   display: grid;
+//   grid-template-columns: 650px 65px 20px 80px 20px 150px;
+//   padding: 3px 5px;
+// }
+
+// .divider {
+//   border-bottom: 0.5px solid #eaeaea;
+//   padding: 8px 0;
+// }
+
+// .thirdInContent {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-size: 14px;
+//   font-weight: 500;
+// }
+
+// .partTop {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   color: $itda-text;
+
+//   .partTitle {
+//     font-size: 17px;
+//     font-weight: 500;
+//   }
+//   .goDetail {
+//     font-size: 13px;
+//     font-weight: 400;
+//     display: flex;
+//     align-items: center;
+//     padding-right: 8px;
+//     transition: transform 0.3s; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 설정 */
+
+//     cursor: pointer; /* 호버 시 커서를 손 모양으로 변경 */
+//   }
+// }

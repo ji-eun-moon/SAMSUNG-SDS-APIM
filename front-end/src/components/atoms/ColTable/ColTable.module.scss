@@ -1,0 +1,35 @@
+.table {
+  width: 100%;
+
+  text-align: center;
+}
+
+.header {
+  height: 48px;
+
+  color: $itda-text;
+  font-size: 16px;
+  font-weight: 600;
+
+  background-color: #f6f6f6;
+  border-top: 1px solid $itda-border;
+  border-bottom: 1px solid $itda-border;
+}
+
+.body {
+  height: 44px;
+
+  color: black;
+  font-size: 13px;
+  font-weight: 400;
+
+  // border-bottom: 1px solid #f7f7f7;
+  cursor: pointer;
+}
+
+.hover {
+  &:hover {
+    /* 호버 시 스타일 */
+    background-color: #f0f0f0; /* 호버 시 배경색 변경 (원하는 색상으로 수정 가능) */
+  }
+}

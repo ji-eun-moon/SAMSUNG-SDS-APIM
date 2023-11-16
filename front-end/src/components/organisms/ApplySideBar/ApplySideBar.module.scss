@@ -1,0 +1,26 @@
+.moduleContainer {
+  display: grid;
+  grid-template-rows: 70px 200px 70px;
+  gap: 15px;
+  width: 600px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding: 1px 5px;
+}
+
+.inputTitle {
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.modalContainer {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
