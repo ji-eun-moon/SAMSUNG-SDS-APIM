@@ -12,7 +12,6 @@ import CategoryUsage from '@/components/organisms/statistics/CategoryUsage';
 import CategoryListUsage from '@/components/organisms/statistics/CategoryListUsage';
 import CategoryResponseCode from '@/components/organisms/statistics/CategoryResponseCode';
 import CategoryResponseTime from '@/components/organisms/statistics/CategoryResponseTime';
-import PageLoading from '@/components/atoms/PageLoading';
 
 type SSGProps = {
   categoryId: number;
@@ -20,21 +19,19 @@ type SSGProps = {
 
 const UseCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId));
-
-  if (!data) {
-    return <PageLoading />;
-  }
+  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+    enabled: categoryId !== 0,
+  });
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="use" openCategoryId={data?.categoryId} />
+      <ChartSideBar type="use" openCategoryId={data?.categoryId || 0} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">사용 중인 API가 없습니다.</div>
       ) : (
         <div>
           <CategoryChartLayout>
-            <GoBack label={data?.categoryName} />
+            <GoBack label={data?.categoryName || ''} />
             {/* 월 총 사용량 */}
             <CategoryUsage type="use" categoryId={categoryId} teamName={selectedTeam} />
             {/* 기간별 사용량 */}

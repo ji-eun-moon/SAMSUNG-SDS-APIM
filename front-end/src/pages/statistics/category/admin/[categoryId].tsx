@@ -18,27 +18,25 @@ import {
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { ICategory, ICategoryName } from '@/types/Api';
-import PageLoading from '@/components/atoms/PageLoading';
 
 type SSGProps = {
   categoryId: number;
 };
 
 const AdminCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
-  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId));
+  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+    enabled: categoryId !== 0,
+  });
 
-  if (!data) {
-    return <PageLoading />;
-  }
   return (
     <DrawerLayout>
-      <ChartSideBar type="admin" openCategoryId={data.categoryId} />
+      <ChartSideBar type="admin" openCategoryId={data?.categoryId || 0} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">API가 없습니다.</div>
       ) : (
         <div>
           <CategoryChartLayout>
-            <GoBack label={data.categoryName} />
+            <GoBack label={data?.categoryName || ''} />
             {/* 월 총 사용량 */}
             <CategoryUsage type="provide" categoryId={categoryId} teamName="admin" />
             {/* 기간별 사용량 */}

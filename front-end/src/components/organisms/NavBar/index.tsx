@@ -233,9 +233,9 @@ function NavBar({ position }: NavBarProps) {
 
   if (position === 'top') {
     const currentPath = router.pathname;
-
     return (
       <div className={styles.navTopBody}>
+        <NewNotice />
         <div className="flex items-center gap-5">
           {router.pathname === '/' ? (
             <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />

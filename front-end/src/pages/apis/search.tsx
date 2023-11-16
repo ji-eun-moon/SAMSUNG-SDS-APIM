@@ -5,35 +5,17 @@ import useUserStore from '@/store/useUserStore';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { TCategoryList, TApiSearchList } from '@/types/Api';
-import { getCategoryList, getUseCategoryList, getProvideCategoryList, apiSearch } from '@/utils/axios/api';
+import { getCategoryList, apiSearch } from '@/utils/axios/api';
 import PageLoading from '@/components/atoms/PageLoading';
 import GoBack from '@/components/atoms/GoBack';
 import ApiCard from '@/components/atoms/ApiCard';
+import useMyApi from '@/hooks/useMyApi';
 
 const ApiSearch: NextPage = () => {
   const router = useRouter();
   const { selectedTeam } = useUserStore();
+  const { useCategoryList, provideCategoryList } = useMyApi(selectedTeam);
   const { data: categoryList } = useQuery<TCategoryList>('categoryList', getCategoryList);
-  const { data: useCategoryList } = useQuery<TCategoryList>(
-    `useCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getUseCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
-  const { data: provideCategoryList } = useQuery<TCategoryList>(
-    `provideCategoryList ${selectedTeam}`,
-    async () => {
-      const result = await getProvideCategoryList(selectedTeam || '');
-      return result;
-    },
-    {
-      enabled: Boolean(selectedTeam),
-    },
-  );
 
   // 쿼리 문자열에서 검색어 추출
   const searchQuery = router.query.query as string;
