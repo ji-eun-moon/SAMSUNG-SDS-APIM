@@ -64,18 +64,19 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const col = [10, 30, 15, 15, 20, 10];
   const headerContent = ['구분', '서버명', '신청자', '팀', '신청날짜', '상태'];
 
-  const bodyContent = lists?.map((list) => ({
-    ID: list.provideId,
-    구분: list.applyType,
-    서버명: list.serverName,
-    신청자: list.providerName,
-    팀: list.teamName,
-    신청날짜: formatDate(list.createdAt),
-    상태: list.state,
-  }));
+  let bodyContent =
+    lists?.map((list) => ({
+      ID: list.provideId,
+      구분: list.applyType,
+      서버명: list.serverName,
+      신청자: list.providerName,
+      팀: list.teamName,
+      신청날짜: formatDate(list.createdAt),
+      상태: list.state,
+    })) || [];
 
   // 다음 페이지의 데이터가 적을 경우 빈 값을 추가
-  if (bodyContent.length < 9) {
+  if (bodyContent.length > 0 && bodyContent.length < 9) {
     while (bodyContent.length < 9) {
       bodyContent.push({
         ID: `empty_${bodyContent.length + 1}`,
@@ -88,6 +89,8 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
         상태: '',
       });
     }
+  } else if (bodyContent.length === 0) {
+    bodyContent = [];
   }
 
   const onGoDetailHandler = (provideId: string) => {
@@ -106,7 +109,9 @@ const ProvideList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
           <GoBack label="서버 제공 신청 내역" />
         </div>
         <ColTable col={col} headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
-        <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
+        {lists.length > 0 && (
+          <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
+        )}
       </div>
     </BothLayout>
   );
