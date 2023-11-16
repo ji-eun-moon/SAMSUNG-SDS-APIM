@@ -13,6 +13,7 @@ import { getUserInfo } from '@/utils/axios/user';
 import useUserStore from '@/store/useUserStore';
 import { postProvideApply } from '@/utils/axios/apply';
 // import { useRouter } from 'next/router';
+import { noticeAdmin } from '@/utils/axios/notice';
 import style from './ApplySideBar.module.scss';
 
 interface ApplySideBarProps {
@@ -76,6 +77,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
   const { mutate: provideApply } = useMutation(postProvideApply, {
     onSuccess: async () => {
       await queryClient.invalidateQueries([`provideApplyList${selectedTeam}`]);
+      noticeAdmin({ applyName: '제공', teamName: selectedTeam, categoryName: serverName });
       onModalOpenHandler();
       router.push(`/apply/provide/list`);
     },
