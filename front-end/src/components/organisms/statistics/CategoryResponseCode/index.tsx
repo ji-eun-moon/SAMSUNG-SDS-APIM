@@ -2,7 +2,7 @@ import useCategoryResponseCode from '@/hooks/useCategoryResponseCode';
 import { Spinner } from '@nextui-org/react';
 import { formatCategoryPieChartData } from '@/utils/chartData';
 import CategoryPieChart from '@/components/chart/CategoryPieChart';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 import ChartFrame from '@/components/atoms/ChartFrame';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function CategoryResponseCode({ categoryId, teamName, type }: Props) {
-  const { responseCodeData, isResponseCodeLoading, refetchResponseCode } = useCategoryResponseCode({
+  const { responseCodeData, isResponseCodeLoading } = useCategoryResponseCode({
     categoryId,
     teamName,
     type,
@@ -38,7 +38,7 @@ function CategoryResponseCode({ categoryId, teamName, type }: Props) {
         <div>Response Code</div>
         <div className="flex gap-2 items-center">
           <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
-          <Refresh onClick={refetchResponseCode} />
+          {/* <Refresh onClick={refetchResponseCode} /> */}
         </div>
       </div>
       <ChartFrame>

@@ -1,5 +1,5 @@
 import useCategoryResponseTime from '@/hooks/useCategoryResponseTime';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 import ChartFrame from '@/components/atoms/ChartFrame';
 import { Spinner } from '@nextui-org/react';
 import ScatterChart from '@/components/chart/ScatterChart';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function CategoryResponseTime({ categoryId, teamName, type }: Props) {
-  const { responseTimeData, isResponseTimeLoading, refetchResponseTime } = useCategoryResponseTime({
+  const { responseTimeData, isResponseTimeLoading } = useCategoryResponseTime({
     categoryId,
     teamName,
     type,
@@ -38,7 +38,7 @@ function CategoryResponseTime({ categoryId, teamName, type }: Props) {
         <div>Response Time</div>
         <div className="flex gap-2 items-center">
           <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
-          <Refresh onClick={refetchResponseTime} />
+          {/* <Refresh onClick={refetchResponseTime} /> */}
         </div>
       </div>
       <ChartFrame>

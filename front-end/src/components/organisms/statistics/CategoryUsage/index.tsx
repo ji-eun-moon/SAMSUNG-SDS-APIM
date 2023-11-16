@@ -4,7 +4,7 @@ import ChartFrame from '@/components/atoms/ChartFrame';
 import DonutChart from '@/components/chart/DonutChart';
 import { donutCategoryUsage } from '@/utils/chartData';
 import { Spinner } from '@nextui-org/react';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 import { getCategoryName } from '@/utils/axios/api';
 import { ICategoryName } from '@/types/Api';
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 function CategoryUsage({ categoryId, teamName, type, use }: Props) {
-  const { categoryUsageData, refetchCategoryUsage, categoryUsageLoading } = useCategoryUsage({
+  const { categoryUsageData, categoryUsageLoading } = useCategoryUsage({
     categoryId,
     teamName,
     type,
@@ -65,7 +65,7 @@ function CategoryUsage({ categoryId, teamName, type, use }: Props) {
           <div>
             {month}&apos;s Total {type === 'use' ? 'Usage' : 'Provide'}
           </div>
-          <Refresh onClick={refetchCategoryUsage} />
+          {/* <Refresh onClick={refetchCategoryUsage} /> */}
         </div>
         <ChartFrame>
           {categoryUsageLoading ? (
