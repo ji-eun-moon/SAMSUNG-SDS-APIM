@@ -78,14 +78,14 @@ const ReceiveList: NextPage = () => {
 
   const { mutate: deleteNotice } = useMutation(deleteReceiveNotice, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['receiveList', category, clickPage]);
+      await queryClient.invalidateQueries(['receiveList']);
       setCheckedItems([]);
     },
   });
 
   const { mutate: updateNotice } = useMutation(updateNoticeRead, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['receiveList', category, clickPage]);
+      await queryClient.invalidateQueries(['receiveList']);
       setCheckedItems([]);
     },
   });

@@ -56,7 +56,8 @@ function NewNotice() {
       setNewNotice(newNoticeInfo);
       setAnimationClass(styles['slide-in']);
       queryClient.invalidateQueries('noticeCnt'); // 쪽지수 업데이트
-      queryClient.invalidateQueries(['unreadReceiveList', 0]); // 쪽지리스트 업데이트
+      queryClient.invalidateQueries('noticeList'); // 쪽지리스트 업데이트
+      queryClient.invalidateQueries(['unreadReceiveList', 0]); // 안읽은 쪽지리스트 업데이트
 
       const slideOutTimer = setTimeout(() => {
         setAnimationClass(styles['slide-out']);
@@ -73,14 +74,15 @@ function NewNotice() {
 
     // eslint-disable-next-line
     eventSource.addEventListener('statusChange', (event: any) => {
-      console.log(event.data);
       const newNoticeInfo: IEmergency = JSON.parse(event.data);
       setStatus(newNoticeInfo);
       setAnimationClass(styles['slide-in']);
       queryClient.invalidateQueries('noticeCnt'); // 쪽지수 업데이트
-      queryClient.invalidateQueries(['unreadReceiveList', 0]); // 쪽지리스트 업데이트
+      queryClient.invalidateQueries('noticeList'); // 쪽지리스트 업데이트
+      queryClient.invalidateQueries(['unreadReceiveList']); // 안읽은 쪽지리스트 업데이트
       queryClient.invalidateQueries('apiCount'); // 상태 수 업데이트
       queryClient.invalidateQueries('apiStatuslist 전체'); // 상태 리스트 업데이트
+      queryClient.invalidateQueries(['apiStatus']); // 상태 리스트 업데이트
 
       // 5초 후에 알림 언마운트하고 상태 비우기
       const slideOutTimer = setTimeout(() => {
