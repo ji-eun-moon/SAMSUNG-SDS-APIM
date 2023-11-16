@@ -19,7 +19,6 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { ICategory, ICategoryName } from '@/types/Api';
 import GoBack from '@/components/atoms/GoBack';
-import PageLoading from '@/components/atoms/PageLoading';
 
 type SSGProps = {
   categoryId: number;
@@ -27,21 +26,19 @@ type SSGProps = {
 
 const ProvideCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId));
-
-  if (!data) {
-    return <PageLoading />;
-  }
+  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+    enabled: categoryId !== 0,
+  });
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="provide" openCategoryId={data.categoryId} />
+      <ChartSideBar type="provide" openCategoryId={data?.categoryId || 0} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">제공 중인 API가 없습니다.</div>
       ) : (
         <div>
           <CategoryChartLayout>
-            <GoBack label={data.categoryName} />
+            <GoBack label={data?.categoryName || ''} />
             {/* 월 총 사용량 */}
             <CategoryUsage type="provide" categoryId={categoryId} teamName={selectedTeam} />
             {/* 기간별 사용량 */}

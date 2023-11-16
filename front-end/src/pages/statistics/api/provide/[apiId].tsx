@@ -17,7 +17,6 @@ import {
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { IApi, IApiName, ICategory } from '@/types/Api';
-import PageLoading from '@/components/atoms/PageLoading';
 import GoBack from '@/components/atoms/GoBack';
 import Link from 'next/link';
 
@@ -27,21 +26,19 @@ type SSGProps = {
 
 const ProvideApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data, isLoading } = useQuery<IApiName>(['apiName', apiId], () => getApiName(apiId));
-
-  if (isLoading || !data) {
-    return <PageLoading />;
-  }
+  const { data } = useQuery<IApiName>(['apiName', apiId], () => getApiName(apiId), {
+    enabled: apiId !== 0,
+  });
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="provide" openCategoryId={data.categoryId} />
+      <ChartSideBar type="provide" openCategoryId={data?.categoryId || 0} />
       {apiId === 0 ? (
         <div className="flex w-full justify-center my-80">제공 중인 API가 없습니다.</div>
       ) : (
         <ChartLayout>
           <div className="flex justify-between">
-            <GoBack label={data.apiName} />
+            <GoBack label={data?.apiName || ''} />
             <Link href={`/apis/detail/${apiId}`}>
               <div className="underline cursor-pointer">API 상세 보기</div>
             </Link>

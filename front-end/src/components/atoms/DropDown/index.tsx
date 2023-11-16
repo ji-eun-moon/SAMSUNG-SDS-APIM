@@ -4,8 +4,10 @@ import { DropDownProps, UrlProps, ModalProps } from '@/types/props/DropDownProps
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { logout } from '@/utils/axios/auth';
+import { useQueryClient } from 'react-query';
 
 function DropDown({ type, ...props }: DropDownProps) {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   if (type === 'url') {
@@ -13,6 +15,7 @@ function DropDown({ type, ...props }: DropDownProps) {
 
     const handleLogout = async () => {
       await logout();
+      await queryClient.clear();
       await router.push(`/login`);
     };
 
