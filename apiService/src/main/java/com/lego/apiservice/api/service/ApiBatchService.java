@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class ApiBatchService {
     private final UseCheckRepository useCheckRepository;
     private final RedisService redisService;
     private final KafkaProducer kafkaProducer;
+
+    @Value("${kafka-status-topic}")
+    private String topic;
 
     @Scheduled(cron = "0 0/30 * * * *")
     public void apiHealthCheck() {
@@ -78,6 +82,8 @@ public class ApiBatchService {
                 .toUri();
 
         LocalDateTime first = null;
+        ApiStatus apiStatusBefore = api.getApiStatus();
+
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set("Authorization", "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91");
@@ -100,6 +106,11 @@ public class ApiBatchService {
         api.setResponseTime(String.valueOf(diff.toMillis()));
         api.setUpdatedAt(LocalDateTime.now());
         apiRepository.save(api);
+
+        ApiStatus apiStatusAfter = api.getApiStatus();
+        if (!apiStatusBefore.equals(apiStatusAfter)) {
+            apiStatusChange(api);
+        }
     }
 
     public void postRestTemplate(Api api) throws ParseException {
@@ -166,7 +177,7 @@ public class ApiBatchService {
             map.put("apiName", api.getTitle());
             map.put("teamName", useCheck.getTeamName());
             map.put("status", api.getApiStatus().toString());
-            kafkaProducer.send("api-status-changed", map);
+            kafkaProducer.send(topic, map);
         });
     }
 
