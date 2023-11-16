@@ -16,7 +16,6 @@ function DropDown({ type, ...props }: DropDownProps) {
     const handleLogout = async () => {
       await logout();
       await queryClient.clear();
-      await router.push(`/login`);
     };
 
     const onServerMonitoring = async () => {

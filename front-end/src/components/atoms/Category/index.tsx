@@ -25,7 +25,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
               query: { defaultSelectedKey: defaultKey() },
             }}
             as={`/category/${categoryId}`}
-            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold flex gap-2 items-center ${
               currentPath === `/category/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -34,7 +34,23 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
               }
             }}
           >
-            전체 보기
+            <svg
+              className="w-4 h-4 text-gray-600 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="20"
+              fill="none"
+              viewBox="0 0 18 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2"
+                d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5"
+              />
+            </svg>
+            <span>전체 보기</span>
           </Link>
           <ul>
             {apiList.map((item) => (
@@ -83,7 +99,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             }}
           >
             <svg
-              className="w-4 h-4 text-gray-800 dark:text-white"
+              className="w-4 h-4 text-gray-600 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -143,7 +159,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             }}
           >
             <svg
-              className="w-4 h-4 text-gray-800 dark:text-white"
+              className="w-4 h-4 text-gray-600 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -200,7 +216,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             }}
           >
             <svg
-              className="w-4 h-4 text-gray-800 dark:text-white"
+              className="w-4 h-4 text-gray-600 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
