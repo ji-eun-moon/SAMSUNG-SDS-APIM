@@ -17,7 +17,7 @@ const ApiStatus: NextPage = () => {
   const searchQuery = router.query.query;
   const [searchWord, setSearchWord] = useState('');
   const [clickPage, setClickPage] = useState(1);
-  const { data: apiStatus } = useQuery<IApiStatusInfo>(`apiStatus ${filter} ${clickPage} ${searchQuery}`, async () => {
+  const { data: apiStatus } = useQuery<IApiStatusInfo>(['apiStatus', filter, clickPage, searchQuery], async () => {
     if (filter === undefined) {
       const result = await getApiStatus({ status: '', page: clickPage - 1, size: 5, apiName: searchWord });
       return result;
