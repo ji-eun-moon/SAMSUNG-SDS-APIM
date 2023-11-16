@@ -29,8 +29,8 @@ public class KafkaConsumer {
 
     private final NoticeRepository noticeRepository;
     private final EmitterRepository emitterRepository;
-    private final MemberTeamRepository memberTeamRepository;
     private final MemberRepository memberRepository;
+    private final MemberTeamRepository memberTeamRepository;
 
     @KafkaListener(topics = "${kafka-topic}")
     public void apiStatusChange(String kafkaMessage) {

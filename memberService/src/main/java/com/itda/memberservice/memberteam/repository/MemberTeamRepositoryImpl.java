@@ -45,11 +45,11 @@ public class MemberTeamRepositoryImpl implements MemberTeamQueryRepository {
     public List<String> findEmployeeIdByTeamName(String teamName) {
 
         return queryFactory
-                .select(member.employeeId)
-                .from(member)
-                .leftJoin(member, memberTeam.member)
+                .select(memberTeam.member.employeeId)
+                .from(memberTeam)
                 .where(memberTeam.team.name.eq(teamName))
                 .fetch();
 
     }
+
 }
