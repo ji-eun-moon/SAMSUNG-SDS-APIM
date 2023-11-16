@@ -413,4 +413,53 @@ public class NoticeService {
 
 
     }
+
+    public void sendStatusChange(String categoryName, String apiName, String status, String teamName) {
+
+        log.info("상태 변경 메시지 보내기");
+
+        List<String> employeeIds = memberTeamRepository.findEmployeeIdByTeamName(teamName);
+
+        for (String employeeId : employeeIds) {
+
+            log.info("받을 사람 employeeId = {}", employeeId);
+
+            noticeRepository.save(Notice.builder()
+                    .title("상태 변경 알림")
+                    .content(categoryName + "의 " + apiName + " 상태가 " + status + "으로 변경되었습니다.")
+                    .isRead(false)
+                    .isSenderDeleted(false)
+                    .isReceiverDeleted(false)
+                    .sender(memberRepository.findByEmployeeId("admin")
+                            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                    .receiver(memberRepository.findByEmployeeId(employeeId)
+                            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                    .build());
+
+            if (emitterRepository.find(employeeId).isPresent()) {
+
+                log.info("{} 번 사원 SSE 연결 여부 = {}", employeeId, emitterRepository.find(employeeId).isPresent());
+
+                SseEmitter emitter = emitterRepository.find(employeeId).get();
+
+                Map<String, String> map = new HashMap<>();
+                map.put("categoryName", categoryName);
+                map.put("apiName", apiName);
+                map.put("status", status);
+
+                try {
+                    emitter.send(SseEmitter.event()
+                            .name("statusChange")
+                            .data(map, MediaType.APPLICATION_JSON));
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+
+                }
+
+            }
+
+        }
+
+    }
 }
