@@ -18,9 +18,24 @@ const ServerMonitoring: NextPage = () => {
     ProcessOpenFiles: 'panelId=66',
     ResponseCount: 'panelId=4',
     ResponseTime: 'panelId=2',
-    ErrorLogsDetail:
-      'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1&from=1700028083588&to=1700049683588&theme=light&panelId=1',
+    ErrorLogsDetail: {
+      src: 'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1',
+      panelId: 'panelId=1',
+    },
+    WarnLogCount: {
+      src: 'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1',
+      panelId: 'panelId=3',
+    },
+    ErrorLogCount: {
+      src: 'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1',
+      panelId: 'panelId=4',
+    },
   };
+
+  const randomString = Math.random().toString(36).substring(7);
+  const uniqueErrorLogsDetailURL = `${src.ErrorLogsDetail.src}&random=${randomString}`;
+  const uniqueWarnLogCount = `${src.WarnLogCount.src}&random=${randomString}`;
+  const uniqueErrorLogCount = `${src.ErrorLogCount.src}&random=${randomString}`;
 
   return (
     <TopLayout>
@@ -33,16 +48,17 @@ const ServerMonitoring: NextPage = () => {
                 <ServerGraph src={src.NonHeapUsed} from="2s" />
               </div>
               <div className="flex">
-                <ServerGraph src={src.ErrorLogsDetail} />
+                {/* <ServerGraph src={src.ErrorLogsDetail} /> */}
+                <ServerGraph src={uniqueErrorLogsDetailURL} panelId={src.ErrorLogsDetail.panelId} from="now-1h" />
                 <ServerGraph src={src.InfoLogs} />
-              </div>
-              <div className="flex">
-                <ServerGraph src={src.ErrorLogs} />
-                <ServerGraph src={src.WarnLogs} />
               </div>
               <div className="flex">
                 <ServerGraph src={src.DebugLogs} />
                 <ServerGraph src={src.TraceLogs} />
+              </div>
+              <div className="flex">
+                <ServerGraph src={uniqueWarnLogCount} panelId={src.ErrorLogCount.panelId} from="now-1h" />
+                <ServerGraph src={uniqueErrorLogCount} panelId={src.WarnLogCount.panelId} from="now-1h" />
               </div>
             </div>
             <div className="flex flex-col" style={{ width: '55%' }}>
