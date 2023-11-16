@@ -5,7 +5,10 @@ import com.lego.apiservice.api.entity.domain.ApiMethod;
 import com.lego.apiservice.api.entity.domain.ApiStatus;
 import com.lego.apiservice.api.repostiory.ApiRepository;
 import com.lego.apiservice.category.repository.CategoryRepository;
+import com.lego.apiservice.messageQueue.KafkaProducer;
 import com.lego.apiservice.redis.service.RedisService;
+import com.lego.apiservice.useCheck.entity.domain.UseCheck;
+import com.lego.apiservice.useCheck.repository.UseCheckRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -33,7 +36,9 @@ public class ApiBatchService {
 
     private final ApiRepository apiRepository;
     private final CategoryRepository categoryRepository;
+    private final UseCheckRepository useCheckRepository;
     private final RedisService redisService;
+    private final KafkaProducer kafkaProducer;
 
     @Scheduled(cron = "0 0/30 * * * *")
     public void apiHealthCheck() {
@@ -118,6 +123,7 @@ public class ApiBatchService {
                 .build()
                 .toUri();
 
+        ApiStatus apiStatusBefore = api.getApiStatus();
         LocalDateTime first = null;
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
@@ -128,6 +134,7 @@ public class ApiBatchService {
             first = LocalDateTime.now();
             restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
             api.setApiStatus(ApiStatus.정상);
+
         } catch (RestClientException e) {
             log.info(e.getMessage().substring(0, 1));
             if (e.getMessage().substring(0, 1).equals("4")) {
@@ -136,12 +143,31 @@ public class ApiBatchService {
                 api.setApiStatus(ApiStatus.오류);
             }
         }
+
         LocalDateTime second = LocalDateTime.now();
         Duration diff = Duration.between(first, second);
         log.info("diff " + diff.toMillis());
         api.setResponseTime(String.valueOf(diff.toMillis()));
         api.setUpdatedAt(LocalDateTime.now());
         apiRepository.save(api);
+
+        ApiStatus apiStatusAfter = api.getApiStatus();
+        if (!apiStatusBefore.equals(apiStatusAfter)) {
+            apiStatusChange(api);
+        }
+    }
+
+    public void apiStatusChange(Api api) {
+
+        List<UseCheck> useCheckList = useCheckRepository.findAllByCategory(api.getCategory());
+        useCheckList.forEach(useCheck -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("categoryName", api.getCategory().getName());
+            map.put("apiName", api.getTitle());
+            map.put("teamName", useCheck.getTeamName());
+            map.put("status", api.getApiStatus().toString());
+            kafkaProducer.send("api-status-changed", map);
+        });
     }
 
     @Scheduled(cron = "0 0 1 * * ?")

@@ -26,10 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,19 +37,23 @@ public class ApiTestService {
     private final ApiRepository apiRepository;
 
     public void apiTest(String teamName) {
+        Random random = new Random();
         List<UseCheck> useCheckList = useCheckRepository.findAllByTeamName(teamName);
         useCheckList.forEach(useCheck -> {
             List<Api> apis = apiRepository.findAllByCategoryId(useCheck.getCategory().getId());
             apis.forEach(api -> {
-                try {
-                    if (api.getApiMethod().equals(ApiMethod.GET)) {
-                        getTest(api, useCheck.getSecretKey());
-                    } else {
-                        postTest(api, useCheck.getSecretKey());
+                for (int i = 0; i < random.nextInt(10) + 1; i++) {
+                    log.info(String.valueOf(i));
+                    try {
+                        if (api.getApiMethod().equals(ApiMethod.GET)) {
+                            getTest(api, useCheck.getSecretKey());
+                        } else {
+                            postTest(api, useCheck.getSecretKey());
+                        }
                     }
-                }
-                 catch (ParseException e) {
-                    throw new RuntimeException(e);
+                     catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
         });

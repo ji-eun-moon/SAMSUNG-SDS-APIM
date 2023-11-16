@@ -1,5 +1,6 @@
 package com.lego.apiservice.useCheck.repository;
 
+import com.lego.apiservice.category.entity.domain.Category;
 import com.lego.apiservice.useCheck.entity.domain.UseCheck;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface UseCheckRepository extends JpaRepository<UseCheck, Long> {
             "from UseCheck u, Api a " +
             "where u.teamName = :teamName and u.category.id = :categoryId")
     Optional<UseCheck> findByTeamNameAndCategory(@Param("teamName") String teamName, @Param("categoryId") Long categoryId);
+
+    List<UseCheck> findAllByCategory(Category category);
 }
