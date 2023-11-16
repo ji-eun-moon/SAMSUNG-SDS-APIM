@@ -1,0 +1,11 @@
+.background {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  width: 400px;
+  animation: fadeIn 0.5s ease 0s 1 normal forwards;
+}
