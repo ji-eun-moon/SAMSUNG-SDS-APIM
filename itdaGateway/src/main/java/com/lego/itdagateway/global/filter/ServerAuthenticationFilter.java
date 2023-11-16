@@ -65,7 +65,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("ResponseCode", "404");
                 map.put("teamName", "no team");
                 map.put("categoryId", "no category");
-                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                map.put("remoteAddr", ipCut(String.valueOf(exchange.getRequest().getRemoteAddress())));
                 kafkaProducer.send(topic, map);
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
@@ -82,7 +82,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("categoryId", categoryId);
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", "401");
-                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                map.put("remoteAddr", ipCut(String.valueOf(exchange.getRequest().getRemoteAddress())));
                 kafkaProducer.send(topic, map);
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
@@ -111,7 +111,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     map.put("categoryId", categoryId);
                     map.put("ResponseTime", String.valueOf(responseTime));
                     map.put("ResponseCode", "401");
-                    map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                    map.put("remoteAddr", ipCut(String.valueOf(exchange.getRequest().getRemoteAddress())));
 
                     kafkaProducer.send("topic", map);
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -128,7 +128,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                     map.put("categoryId", categoryId);
                     map.put("ResponseTime", String.valueOf(responseTime));
                     map.put("ResponseCode", "401");
-                    map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                    map.put("remoteAddr", ipCut(String.valueOf(exchange.getRequest().getRemoteAddress())));
 
                     kafkaProducer.send(topic, map);
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -150,7 +150,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("categoryId", categoryId);
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", "401");
-                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                map.put("remoteAddr", ipCut(String.valueOf(exchange.getRequest().getRemoteAddress())));
 
                 kafkaProducer.send(topic, map);
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -178,7 +178,7 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
                 map.put("categoryId", String.valueOf(finalCategorySeq));
                 map.put("ResponseTime", String.valueOf(responseTime));
                 map.put("ResponseCode", String.valueOf(exchange.getResponse().getStatusCode().value()));
-                map.put("remoteAddr", String.valueOf(exchange.getRequest().getRemoteAddress()));
+                map.put("remoteAddr", ipCut(String.valueOf(exchange.getRequest().getRemoteAddress())));
 
                 kafkaProducer.send(topic, map);
             }));
@@ -188,5 +188,11 @@ public class ServerAuthenticationFilter extends AbstractGatewayFilterFactory<Ser
     @Data
     public static class Config {
         private String prefix;
+    }
+
+    public String ipCut(String addr) {
+        addr = addr.replace("/", "");
+        addr = addr.split(":")[0];
+        return addr;
     }
 }
