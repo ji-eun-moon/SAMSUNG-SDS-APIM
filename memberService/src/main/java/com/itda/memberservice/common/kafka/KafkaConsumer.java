@@ -78,7 +78,7 @@ public class KafkaConsumer {
 
                 if (emitterRepository.find(employeeId).isPresent()) {
 
-                    log.info("{} 번 사원에게 emitter 전송", employeeId);
+                    log.info("{} 번 사원 SSE 연결 여부 = {}", employeeId, emitterRepository.find(employeeId).isPresent());
 
                     SseEmitter emitter = emitterRepository.find(employeeId).get();
 

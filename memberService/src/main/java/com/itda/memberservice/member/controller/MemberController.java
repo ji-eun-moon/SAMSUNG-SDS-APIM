@@ -7,6 +7,7 @@ import com.itda.memberservice.member.dto.response.NameSearchResponse;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.service.MemberService;
 import com.itda.memberservice.memberteam.service.MemberTeamService;
+import com.itda.memberservice.notice.repository.EmitterRepository;
 import com.itda.memberservice.team.entity.Team;
 import com.itda.memberservice.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,15 @@ public class MemberController {
     private final MemberService memberService;
     private final TeamService teamService;
     private final MemberTeamService memberTeamService;
+    private final EmitterRepository emitterRepository;
+
+    @GetMapping("/sseList")
+    @Operation(summary = "SSE 확인")
+    public ResponseEntity<?> list(@Param("employeeId") String employeeId) {
+
+        return ResponseEntity.ok().body(emitterRepository.find(employeeId).isPresent());
+
+    }
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원 가입", description = "정해진 정보를 통해 회원 가입")
