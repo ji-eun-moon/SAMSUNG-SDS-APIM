@@ -1,5 +1,6 @@
 package com.itda.memberservice.notice.controller;
 
+import com.itda.memberservice.notice.dto.request.NoticeApplyRequest;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.request.NoticeResultRequest;
@@ -14,9 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/notice")
@@ -189,6 +187,16 @@ public class NoticeController {
         noticeService.sendResult(employeeId, request);
 
         return ResponseEntity.ok("결과 전송이 완료되었습니다.");
+    }
+
+    @PostMapping("/send/apply")
+    @Operation(summary = "신청 전송", description = "사용 신청, 제공 신청 관리자에게 전송")
+    public ResponseEntity<String> sendApply(@RequestHeader("member-id") String employeeId, @RequestBody NoticeApplyRequest request) {
+
+        noticeService.sendApply(employeeId, request);
+
+        return ResponseEntity.ok("신청 전송이 완료되었습니다.");
+
     }
 
 }

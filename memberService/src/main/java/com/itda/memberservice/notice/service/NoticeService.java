@@ -6,6 +6,7 @@ import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.memberteam.repository.MemberTeamRepository;
+import com.itda.memberservice.notice.dto.request.NoticeApplyRequest;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.request.NoticeResultRequest;
@@ -457,6 +458,83 @@ public class NoticeService {
 
                 }
 
+            }
+
+        }
+
+    }
+
+    public void sendApply(String employeeId, NoticeApplyRequest request) {
+
+        if (request.getApplyName().equals("사용")) {
+
+            noticeRepository.save(Notice.builder()
+                            .sender(memberRepository.findByEmployeeId(employeeId)
+                                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                            .receiver(memberRepository.findByEmployeeId("admin")
+                                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                            .isReceiverDeleted(false)
+                            .isSenderDeleted(false)
+                            .isRead(false)
+                            .title("신청 관련 문의입니다.")
+                            .content(request.getTeamName() + "(팀)이 " + request.getCategoryName() + " 에 대해 사용신청했습니다.")
+                    .build());
+
+            log.info("{} 의 {} 사용 신청 완료", request.getTeamName(), request.getApplyName());
+
+            if (emitterRepository.find("admin").isPresent()) {
+
+                log.info("admin emitter 연결되어있는 상태");
+
+                SseEmitter emitter = emitterRepository.find("admin").get();
+
+                Map<String, String> map = new HashMap<>();
+                map.put("teamName", request.getTeamName());
+                map.put("applyName", request.getApplyName());
+                map.put("categoryName", request.getCategoryName());
+
+                try {
+                    emitter.send(SseEmitter.event().name("newApply").data(map, MediaType.APPLICATION_JSON));
+                    log.info("admin emitter에 사용 신청 전송 완료");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        } else if (request.getApplyName().equals("제공")) {
+
+            noticeRepository.save(Notice.builder()
+                    .sender(memberRepository.findByEmployeeId(employeeId)
+                            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                    .receiver(memberRepository.findByEmployeeId("admin")
+                            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                    .isReceiverDeleted(false)
+                    .isSenderDeleted(false)
+                    .isRead(false)
+                    .title("제공 관련 문의입니다.")
+                    .content(request.getTeamName() + "(팀)이 " + request.getCategoryName() + " 에 대해 제공신청했습니다.")
+                    .build());
+
+            log.info("{} 의 {} 제공 신청 완료", request.getTeamName(), request.getApplyName());
+
+            if (emitterRepository.find("admin").isPresent()) {
+
+                log.info("admin emitter 연결되어있는 상태");
+
+                SseEmitter emitter = emitterRepository.find("admin").get();
+
+                Map<String, String> map = new HashMap<>();
+                map.put("teamName", request.getTeamName());
+                map.put("applyName", request.getApplyName());
+                map.put("categoryName", request.getCategoryName());
+
+                try {
+                    emitter.send(SseEmitter.event().name("newApply").data(map, MediaType.APPLICATION_JSON));
+                    log.info("admin emitter에 제공 신청 전송 완료");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }
