@@ -44,7 +44,7 @@ public class RedisController {
     @GetMapping("")
     public ResponseEntity<?> error() {
         log.error("에러 테스트 입니다.");
-        return ResponseEntity.ok("error");
+        throw new IllegalArgumentException("에러 테스트 입니다");
     }
 
 }
