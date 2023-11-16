@@ -5,9 +5,10 @@ interface ServerGraphProps {
   src: string;
   from?: string;
   width?: string;
+  panelId?: string;
 }
 
-function ServerGraph({ src, from, width }: ServerGraphProps) {
+function ServerGraph({ src, from, width, panelId }: ServerGraphProps) {
   const defaultSrc = 'https://k9c201.p.ssafy.io/grafana/d-solo/spring_boot_21/spring-boot-3-x-statistics?orgId=1';
   const [iframeMouseOver, setIframeMouseOver] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,8 +54,12 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
         onFocus={() => {}}
         onBlur={() => {}}
       >
-        {src.includes('http') ? (
-          <iframe src={src} style={{ width: `${width}`, height: '100%', border: 'none' }} title="Server Graph" />
+        {src.includes('https') ? (
+          <iframe
+            src={`${src}&from=${from}&to=now&refresh=1s&theme=light&${panelId}`}
+            style={{ width: `${width}`, height: '22vh', border: 'none' }}
+            title="Server Graph"
+          />
         ) : (
           <iframe
             src={`${defaultSrc}&from=${from}&to=now&refresh=1s&theme=light&${src}`}
@@ -67,8 +72,12 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
       {isModalOpen && (
         <Modal type="server" onClose={onModalHandler}>
           <div>
-            {src.includes('http') ? (
-              <iframe src={src} style={{ width: '75vw', height: '75vh', borderRadius: '10px' }} title="Server Graph" />
+            {src.includes('https') ? (
+              <iframe
+                src={`${src}&from=${from}&to=now&refresh=5s&theme=light&${panelId}`}
+                style={{ width: '75vw', height: '75vh', borderRadius: '10px' }}
+                title="Server Modal Graph"
+              />
             ) : (
               <iframe
                 src={`${defaultSrc}&from=now-30m&to=now&refresh=5s&theme=light&${modalSrc}`}
@@ -86,5 +95,6 @@ function ServerGraph({ src, from, width }: ServerGraphProps) {
 ServerGraph.defaultProps = {
   from: 'now-10m',
   width: '100%',
+  panelId: '',
 };
 export default ServerGraph;
