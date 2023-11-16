@@ -62,6 +62,9 @@ public class MemberController {
 
         for (CreateMemberRequest request : requests) {
 
+            log.info("{} 회원 아이디 회원가입", request.getEmployeeId());
+            log.info("팀 리스트 = {}", request.getTeamList().toString());
+
             // 이미 등록된 회원이라면 스킵
             if (memberService.employeeIdDuplicateCheck(request.getEmployeeId())) {
                 continue;
@@ -71,8 +74,10 @@ public class MemberController {
             Member member = memberService.register(request);
 
             // 리스트에 있는 팀 생성하거나 가져와서 멤버에 추가
-            if (request.getTeamList() != null) {
+            if (request.getTeamList() != null && !request.getTeamList().isEmpty()) {
                 for (String teamName : request.getTeamList()) {
+
+                    log.info("{} 팀 이름 회원가입 등록", teamName);
 
                     if (!StringUtils.hasText(teamName)) {
                         continue;

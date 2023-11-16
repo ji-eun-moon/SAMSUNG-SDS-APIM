@@ -20,14 +20,10 @@ public class MemberTeamService {
 
     public void register(Member member, Team team){
 
-        try {
-            memberTeamRepository.save(MemberTeam.builder()
-                    .member(member)
-                    .team(team)
-                    .build());
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        memberTeamRepository.save(MemberTeam.builder()
+                .member(member)
+                .team(team)
+                .build());
 
     }
 
