@@ -38,7 +38,7 @@ function NoticeSendBox({ sendName, sendId, onSendBoxClose }: NoticeSendBoxProps)
 
   const { mutate: send } = useMutation(sendNotice, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['sendList', '전체보기', 1]);
+      await queryClient.invalidateQueries(['sendList']);
       onSendBoxClose();
       router.push(`/notice/send`);
     },

@@ -71,7 +71,7 @@ const SendList: NextPage = () => {
 
   const { mutate: deleteNotice } = useMutation(deleteSendNotice, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['sendList', category, clickPage]);
+      await queryClient.invalidateQueries(['sendList']);
       setCheckedItems([]);
     },
   });
