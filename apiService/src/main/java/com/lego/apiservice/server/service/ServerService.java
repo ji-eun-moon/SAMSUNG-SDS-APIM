@@ -210,7 +210,6 @@ public class ServerService {
             MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
             Map<String, String> param = new HashMap<>();
             Map<String, String> status = new HashMap<>();
-            ApiMethod apiMethod = null;
             if (pathItem.getGet() != null) {
                 pathItem.getGet().getParameters().forEach(parameter -> {
                     Map<String, String> parameterInfo = new HashMap<>();
