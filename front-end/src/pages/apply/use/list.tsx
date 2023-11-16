@@ -48,6 +48,7 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   }
 
   const lists = responseUse.content;
+  console.log('listssssss', lists);
   const totalPage = responseUse.totalPages;
 
   const formatDate = (date: Date | string) => {
@@ -64,17 +65,18 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   const col = [30, 15, 15, 25, 15];
   const headerContent = ['카테고리명', '신청자', '팀', '신청날짜', '상태'];
 
-  const bodyContent = lists?.map((list) => ({
-    ID: list.useApplyId,
-    카테고리명: list.categoryName,
-    신청자: list.userName,
-    팀: list.teamName,
-    신청날짜: formatDate(list.createdAt),
-    상태: list.state,
-  }));
+  let bodyContent =
+    lists?.map((list) => ({
+      ID: list.useApplyId,
+      카테고리명: list.categoryName,
+      신청자: list.userName,
+      팀: list.teamName,
+      신청날짜: formatDate(list.createdAt),
+      상태: list.state,
+    })) || [];
 
   // 다음 페이지의 데이터가 적을 경우 빈 값을 추가
-  if (bodyContent.length < 9) {
+  if (bodyContent.length > 0 && bodyContent.length < 9) {
     while (bodyContent.length < 9) {
       bodyContent.push({
         ID: `empty_${bodyContent.length + 1}`,
@@ -85,6 +87,8 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
         상태: '',
       });
     }
+  } else if (bodyContent.length === 0) {
+    bodyContent = [];
   }
 
   const onGoDetailHandler = (useId: string) => {
@@ -104,7 +108,9 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
           <GoBack label="서버 사용 신청 내역" />
         </div>
         <ColTable col={col} headerContent={headerContent} bodyContent={bodyContent} onGoDetail={onGoDetailHandler} />
-        <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
+        {lists.length > 0 && (
+          <StyledPagination totalPage={totalPage} clickPage={clickPage} onClickPage={handlePageClick} />
+        )}
       </div>
     </BothLayout>
   );
