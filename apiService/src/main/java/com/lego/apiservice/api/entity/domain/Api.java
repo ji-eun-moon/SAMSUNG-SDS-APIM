@@ -53,4 +53,8 @@ public class Api {
     public void setResponseTime(String responseTime) {
         this.responseTime = responseTime;
     }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
 }

@@ -35,6 +35,7 @@ public class ApiTestService {
 
     private final UseCheckRepository useCheckRepository;
     private final ApiRepository apiRepository;
+    private final ApiBatchService apiBatchService;
 
     public void apiTest() {
         Random random = new Random();
@@ -72,6 +73,19 @@ public class ApiTestService {
             catch (ParseException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void errorMessage() throws ParseException {
+        Api api = apiRepository.findById(1L).orElseThrow();
+        if (api.getInput().equals("[]")) {
+            api.setInput("[{\"name\":\"employeeId\",\"description\":\"사원 번호\",\"type\":\"integer\",\"required\":\"true\",\"example\":\"9999\"}, {\"name\":\"datetime\",\"description\":\"출결 날짜, 시간\",\"type\":\"string\",\"required\":\"true\",\"example\":\"2023-11-08T14:50:18.939Z\"}]");
+            Api savedApi = apiRepository.save(api);
+            apiBatchService.postRestTemplate(savedApi);
+        } else {
+            api.setInput("[]");
+            Api savedApi = apiRepository.save(api);
+            apiBatchService.postRestTemplate(savedApi);
         }
     }
 

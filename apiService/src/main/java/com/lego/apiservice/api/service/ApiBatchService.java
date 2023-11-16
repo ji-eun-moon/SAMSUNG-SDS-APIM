@@ -82,6 +82,8 @@ public class ApiBatchService {
                 .toUri();
 
         LocalDateTime first = null;
+        ApiStatus apiStatusBefore = api.getApiStatus();
+
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set("Authorization", "E3EABEF2F41EFE6894E9CE08A0FF5E52C8E8AF8D2A09AAEDC3BB815B494F8F91");
@@ -104,6 +106,11 @@ public class ApiBatchService {
         api.setResponseTime(String.valueOf(diff.toMillis()));
         api.setUpdatedAt(LocalDateTime.now());
         apiRepository.save(api);
+
+        ApiStatus apiStatusAfter = api.getApiStatus();
+        if (!apiStatusBefore.equals(apiStatusAfter)) {
+            apiStatusChange(api);
+        }
     }
 
     public void postRestTemplate(Api api) throws ParseException {
