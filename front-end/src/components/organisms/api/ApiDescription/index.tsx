@@ -7,11 +7,15 @@ import { useRouter } from 'next/router';
 import useUserStore from '@/store/useUserStore';
 import useUseApply from '@/hooks/useUseApply';
 import { submitUseApply } from '@/utils/axios/apply';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { DescriptionProps, ApiProps } from '@/types/props/DescriptionProps';
 import Link from 'next/link';
+import { IUser } from '@/types/User';
+import { getUserInfo } from '@/utils/axios/user';
 
 function ApiDescription({ type, categoryId, content, categoryName, ...props }: DescriptionProps) {
+  const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
+
   const { selectedTeam } = useUserStore();
   const { canApply, checkCanApply } = useUseApply({ categoryId, teamName: selectedTeam });
   const router = useRouter();
@@ -40,6 +44,18 @@ function ApiDescription({ type, categoryId, content, categoryName, ...props }: D
     await mutation.mutate({ teamName: selectedTeam, content: textWord, categoryId });
   };
 
+  const adminCheck = () =>
+    userInfo && userInfo?.authority === '관리자' ? null : (
+      <div className="w-fit">
+        <StyledButton
+          type="button"
+          label="사용 신청"
+          radius="lg"
+          variant="solid"
+          onClick={() => setIsModalOpen(true)}
+        />
+      </div>
+    );
   useEffect(() => {
     checkCanApply();
   }, [categoryId, selectedTeam, checkCanApply]);
@@ -53,15 +69,7 @@ function ApiDescription({ type, categoryId, content, categoryName, ...props }: D
             <div>{content}</div>
             <div className="flex justify-end gap-2">
               {canApply ? (
-                <div className="w-fit">
-                  <StyledButton
-                    type="button"
-                    label="사용 신청"
-                    radius="lg"
-                    variant="solid"
-                    onClick={() => setIsModalOpen(true)}
-                  />
-                </div>
+                adminCheck()
               ) : (
                 <div className="w-fit">
                   <StyledButton
@@ -130,15 +138,7 @@ function ApiDescription({ type, categoryId, content, categoryName, ...props }: D
           <div>{content}</div>
           <div className="flex justify-end gap-2">
             {canApply ? (
-              <div className="w-fit">
-                <StyledButton
-                  type="button"
-                  label="사용 신청"
-                  radius="lg"
-                  variant="solid"
-                  onClick={() => setIsModalOpen(true)}
-                />
-              </div>
+              adminCheck()
             ) : (
               <div className="w-fit">
                 <StyledButton

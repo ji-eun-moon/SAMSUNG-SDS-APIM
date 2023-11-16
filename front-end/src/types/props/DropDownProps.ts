@@ -4,6 +4,7 @@ export interface UrlProps extends TypeDropDownProps {
   list: IDropdownItem[];
   trigger: React.ReactNode;
   use: string;
+  state: string;
 }
 
 export interface IMember {

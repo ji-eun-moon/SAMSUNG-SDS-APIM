@@ -18,7 +18,7 @@ import { IUser } from '@/types/User';
 import { useQuery } from 'react-query';
 import { getUserInfo } from '@/utils/axios/user';
 import { getNoticeCnt } from '@/utils/axios/notice';
-import { getUserDropDownList, getAdminDropDownList, getAdminMypageList, getUserMypageList } from '@/utils/dropDown';
+import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
 import useUrl from '@/hooks/useUrl';
 import useApi from '@/hooks/useApi';
 import CustomSelect from '@/components/atoms/CustomSelect';
@@ -80,10 +80,10 @@ function NavBar({ position }: NavBarProps) {
           )}
 
           {router.pathname === '/' ? (
-            <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+            <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
           ) : (
             <button type="button" onClick={() => router.push('/')}>
-              <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+              <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
             </button>
           )}
 
@@ -167,18 +167,18 @@ function NavBar({ position }: NavBarProps) {
                 >
                   <div className="text-sm">팀정보</div>
                   <svg
-                    className={`${styles.shortcutBtn} w-4 h-4 text-gray-400 dark:text-white`}
+                    className="w-4 h-4 text-gray-400 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    viewBox="0 0 20 18"
+                    viewBox="0 0 20 20"
                   >
                     <path
                       stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"
+                      d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"
                     />
                   </svg>
                 </div>
@@ -235,144 +235,138 @@ function NavBar({ position }: NavBarProps) {
     const currentPath = router.pathname;
 
     return (
-      <div>
-        <NewNotice />
-        <div className={styles.navTopBody}>
-          <div className="flex items-center gap-5">
-            {router.pathname === '/' ? (
-              <Image src="/images/test3.png" width={250} height={250} alt="samsung logo" />
-            ) : (
-              <Link href="/">
-                <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
-              </Link>
-            )}
-            {currentPath === '/monitoring/server' && (
-              <div style={{ fontSize: '20px', fontWeight: '400', paddingBottom: '5px' }}>
-                <span style={{ marginRight: '10px' }}>|</span> Server
-              </div>
-            )}
-            {currentPath === '/monitoring/usage' && (
-              <div style={{ fontSize: '20px', fontWeight: '400', paddingBottom: '5px' }}>
-                <span style={{ marginRight: '10px' }}>|</span> Usage
-              </div>
-            )}
-          </div>
+      <div className={styles.navTopBody}>
+        <div className="flex items-center gap-5">
+          {router.pathname === '/' ? (
+            <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
+          ) : (
+            <Link href="/">
+              <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
+            </Link>
+          )}
+          {currentPath === '/monitoring/server' && (
+            <div style={{ fontSize: '20px', fontWeight: '400', paddingBottom: '5px' }}>
+              <span style={{ marginRight: '10px' }}>|</span> Server
+            </div>
+          )}
+          {currentPath === '/monitoring/usage' && (
+            <div style={{ fontSize: '20px', fontWeight: '400', paddingBottom: '5px' }}>
+              <span style={{ marginRight: '10px' }}>|</span> Usage
+            </div>
+          )}
+        </div>
 
-          <div className={`${styles.right}`}>
-            {searchOpen ? (
-              <div className="flex items-center justify-end">
-                <div className="mr-5">
-                  <SearchBar
-                    keyword={searchWord}
-                    onChange={setSearchWord}
-                    onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
-                    placeholder="API 검색"
-                  />
-                </div>
-                <div className={styles.updownSearch} />
-                <svg
-                  className="w-5 h-5 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
-                  onClick={() => onClickHandler()}
-                  aria-hidden
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-            ) : (
-              <div className="flex items-center justify-end">
-                {/* 팀 선택 */}
-                {teamList && userInfo.authority !== '관리자' && (
-                  <div className="mr-6" style={{ width: '30%' }}>
-                    <CustomSelect
-                      items={teamList}
-                      value={selectedTeam}
-                      height="39px"
-                      fontSize="13px"
-                      onChange={handleSelectTeam}
-                    />
-                  </div>
-                )}
-                {/* 회원정보 */}
-                <DropDown
-                  trigger={
-                    <div className={`${styles.topInfo} flex px-2 py-1 cursor-pointer`}>
-                      <div className="mr-3">
-                        <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
-                      </div>
-                      <div className="flex flex-col text-sm">
-                        <div className="flex itdaText text-left font-semibold">{userInfo?.name}</div>
-                        <div className="flex itdaSecondary">
-                          <div>{userInfo?.department}</div>
-                        </div>
-                      </div>
-                    </div>
-                  }
-                  list={userInfo?.authority === '관리자' ? getAdminMypageList() : getUserMypageList()}
-                  type="url"
-                  use="mypage"
+        <div className={`${styles.right}`}>
+          {searchOpen ? (
+            <div className="flex items-center justify-end">
+              <div className="mr-5">
+                <SearchBar
+                  keyword={searchWord}
+                  onChange={setSearchWord}
+                  onSearchHandler={() => router.push(`/apis/search?query=${searchWord}`)}
+                  placeholder="API 검색"
                 />
-                <div className={styles.updown} />
-                {/* API 검색 */}
-                <svg
-                  className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                  onClick={() => setSearchOpen(true)}
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
               </div>
-            )}
-            {/* 쪽지 */}
-            <div className="flex justify-end mr-3">
-              <NoticeDropDown
-                trigger={
-                  <button type="button" className="flex justify-center items-center">
-                    <CountBadge count={noticeCount?.toString()}>
-                      <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
-                    </CountBadge>
-                  </button>
-                }
+              <div className={styles.updownSearch} />
+              <svg
+                className="w-5 h-5 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
+                onClick={() => onClickHandler()}
+                aria-hidden
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
               >
-                <div style={{ width: '380px' }} className="w-fit">
-                  <NavBarNotice />
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+            </div>
+          ) : (
+            <div className="flex items-center gap-5 justify-end">
+              {/* 팀 선택 */}
+              {teamList && userInfo.authority !== '관리자' && (
+                <div className="mr-6" style={{ width: '30%' }}>
+                  <CustomSelect
+                    items={teamList}
+                    value={selectedTeam}
+                    height="39px"
+                    fontSize="13px"
+                    onChange={handleSelectTeam}
+                  />
                 </div>
-              </NoticeDropDown>
+              )}
+              {/* 회원정보 */}
+              <div
+                className={`${styles.topInfo} flex px-2 py-1 cursor-pointer`}
+                onClick={() => router.push('/mypage/info')}
+                aria-hidden
+              >
+                <div className="mr-3">
+                  <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
+                </div>
+                <div className="flex flex-col text-sm">
+                  <div className="flex itdaText text-left font-semibold">{userInfo?.name}</div>
+                  <div className="flex itdaSecondary">
+                    <div>{userInfo?.department}</div>
+                  </div>
+                </div>
+              </div>
+              {/* API 검색 */}
+              <svg
+                className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+                onClick={() => setSearchOpen(true)}
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
             </div>
-            {/* 바로가기 드롭다운 */}
-            <div className="flex justify-end mr-2">
-              <DropDown
-                trigger={
-                  <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
-                    <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
-                  </Button>
-                }
-                list={
-                  userInfo?.authority === '관리자'
-                    ? getAdminDropDownList({ adminStatisticsUrl, categoryUrl, userStatisticsUrl })
-                    : getUserDropDownList({ adminStatisticsUrl, userStatisticsUrl, categoryUrl })
-                }
-                type="url"
-                use="shortcut"
-              />
-            </div>
+          )}
+          {/* 쪽지 */}
+          <div className="flex justify-end mr-3">
+            <NoticeDropDown
+              trigger={
+                <button type="button" className="flex justify-center items-center">
+                  <CountBadge count={noticeCount?.toString()}>
+                    <Image src="/icons/notice.png" alt="dropdown-icon" width={20} height={20} />
+                  </CountBadge>
+                </button>
+              }
+            >
+              <div style={{ width: '380px' }} className="w-fit">
+                <NavBarNotice />
+              </div>
+            </NoticeDropDown>
+          </div>
+          {/* 바로가기 드롭다운 */}
+          <div className="flex justify-end mr-2">
+            <DropDown
+              trigger={
+                <Button variant="bordered" style={{ minWidth: '0', borderRadius: '9999px' }}>
+                  <Image src="/icons/dropdown.png" alt="dropdown-icon" width={20} height={20} />
+                </Button>
+              }
+              list={
+                userInfo?.authority === '관리자'
+                  ? getAdminDropDownList({ adminStatisticsUrl, categoryUrl, userStatisticsUrl })
+                  : getUserDropDownList({ adminStatisticsUrl, userStatisticsUrl, categoryUrl })
+              }
+              type="url"
+              use="shortcut"
+              state={userInfo.authority === '관리자' ? 'admin' : 'user'}
+            />
           </div>
         </div>
       </div>

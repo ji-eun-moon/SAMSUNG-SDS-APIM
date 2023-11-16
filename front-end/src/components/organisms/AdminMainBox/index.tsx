@@ -21,9 +21,14 @@ function AdminMainBox() {
   const src = {
     CpuUsage: 'panelId=95',
 
-    WarnLog: 'panelId=14',
-    WarnLogs:
-      'https://k9c201.p.ssafy.io/grafana/d-solo/b3b1ffba-7fb0-43fb-a742-668e19c65d0c/warn-log?orgId=1&from=1700027233930&to=1700048833930&theme=light&panelId=1',
+    WarnLogCount: {
+      src: 'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1',
+      panelId: 'panelId=3',
+    },
+    WarnLogs: {
+      src: 'https://k9c201.p.ssafy.io/grafana/d-solo/b4d29df7-664b-4ea1-82ba-022f535c0356/error-log?orgId=1',
+      panelId: 'panelId=2',
+    },
   };
 
   const urlList = {
@@ -35,7 +40,7 @@ function AdminMainBox() {
   };
 
   return (
-    <div className="px-8 py-3 w-full h-full" style={{ paddingTop: '60px' }}>
+    <div className="px-8 py-3 w-full h-full" style={{ paddingTop: '50px' }}>
       <div className="items-baseline w-full h-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
           <div style={{ display: 'flex', gap: '10px', width: '50%', marginBottom: '10px' }}>
@@ -139,7 +144,7 @@ function AdminMainBox() {
             }}
           >
             <Link href="/monitoring/server" target="_blank">
-              <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
+              <ShadowCard type="monitoring" border="3px solid #17468f">
                 <div className={style.shortcut}>
                   <Image src="/images/desktop.png" alt="itda logo" width={22} height={22} />
                   <span>서버 모니터링</span>
@@ -148,7 +153,7 @@ function AdminMainBox() {
             </Link>
 
             <Link href="/monitoring/usage" target="_blank">
-              <ShadowCard type="monitoring" border="2px solid rgba(23, 70, 143, 0.2)">
+              <ShadowCard type="monitoring" border="3px solid #17468f">
                 <div className={style.shortcut}>
                   <Image src="/images/database.png" alt="itda logo" width={22} height={22} />
 
@@ -160,16 +165,16 @@ function AdminMainBox() {
         </div>
 
         <div className={`${style.bottom}`}>
-          <div style={{ height: '100%' }} className={`${style.right}`}>
+          <div style={{ height: '100%' }} className={`${style.left}`}>
             <ShadowCard type="small">
               <div style={{ height: '100%' }}>
-                <ServerGraph src={src.WarnLog} from="5m" />
+                <ServerGraph src={src.WarnLogCount.src} panelId={src.WarnLogCount.panelId} from="now-1h" />
               </div>
             </ShadowCard>
 
             <ShadowCard type="small">
               <div style={{ height: '100%' }}>
-                <ServerGraph src={src.WarnLogs} from="5m" />
+                <ServerGraph src={src.WarnLogs.src} panelId={src.WarnLogs.panelId} from="now-1h" />
               </div>
             </ShadowCard>
 
@@ -181,7 +186,7 @@ function AdminMainBox() {
           </div>
           <div className={`${style.showGraph2}`}>
             <iframe
-              src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/ce31a490-82b7-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:'30minute-usage',viewMode:view)"
+              src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/ce31a490-82b7-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:3000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:'30minute-usage',viewMode:view)"
               height="100%"
               width="100%"
               title="usage"
