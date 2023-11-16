@@ -40,4 +40,16 @@ public class MemberTeamRepositoryImpl implements MemberTeamQueryRepository {
                 .fetch();
 
     }
+
+    @Override
+    public List<String> findEmployeeIdByTeamName(String teamName) {
+
+        return queryFactory
+                .select(member.employeeId)
+                .from(member)
+                .leftJoin(member, memberTeam.member)
+                .where(memberTeam.team.name.eq(teamName))
+                .fetch();
+
+    }
 }
