@@ -10,4 +10,5 @@ public interface MemberTeamQueryRepository {
 
     List<Member> findMembersByTeam(String teamName);
 
+    List<String> findEmployeeIdByTeamName(String teamName);
 }
