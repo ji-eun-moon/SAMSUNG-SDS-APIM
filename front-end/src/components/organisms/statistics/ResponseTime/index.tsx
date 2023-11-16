@@ -2,7 +2,7 @@ import useResponseTime from '@/hooks/useResponseTime';
 import { responseData } from '@/utils/chartData';
 import ResponseTimeLine from '@/components/chart/ResponseTimeLine';
 import { Spinner } from '@nextui-org/react';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 import ChartFrame from '@/components/atoms/ChartFrame';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function ResponseTime({ apiId, teamName, type }: Props) {
-  const { responseTimeData, isResponseTimeLoading, refetchResponseTime } = useResponseTime({
+  const { responseTimeData, isResponseTimeLoading } = useResponseTime({
     apiId,
     teamName,
     type,
@@ -38,7 +38,7 @@ function ResponseTime({ apiId, teamName, type }: Props) {
         <div>Response Time</div>
         <div className="flex gap-2 items-center">
           <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
-          <Refresh onClick={refetchResponseTime} />
+          {/* <Refresh onClick={refetchResponseTime} /> */}
         </div>
       </div>
       <ChartFrame>

@@ -2,7 +2,7 @@ import useResponseCode from '@/hooks/useResponseCode';
 import { Spinner } from '@nextui-org/react';
 import PieChart from '@/components/chart/PieChart';
 import BarChart from '@/components/chart/BarChart';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 import ChartFrame from '@/components/atoms/ChartFrame';
 import { transformResponseCodeData, barResponseCode } from '@/utils/chartData';
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 function ResponseCode({ apiId, teamName, type }: Props) {
-  const { responseCodeData, isResponseCodeLoading, refetchResponseCode } = useResponseCode({
+  const { responseCodeData, isResponseCodeLoading } = useResponseCode({
     apiId,
     teamName,
     type,
@@ -40,7 +40,7 @@ function ResponseCode({ apiId, teamName, type }: Props) {
         <div>Response Code</div>
         <div className="flex gap-2 items-center">
           <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
-          <Refresh onClick={refetchResponseCode} />
+          {/* <Refresh onClick={refetchResponseCode} /> */}
         </div>
       </div>
       <ChartFrame>

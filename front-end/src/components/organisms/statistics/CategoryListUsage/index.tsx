@@ -4,7 +4,7 @@ import { formatCategoryChartData } from '@/utils/chartData';
 import ChartFrame from '@/components/atoms/ChartFrame';
 import ThreeLineChart from '@/components/chart/ThreeLineChart';
 import CustomSelect from '@/components/atoms/CustomSelect';
-import Refresh from '@/components/atoms/Refresh';
+// import Refresh from '@/components/atoms/Refresh';
 import { Spinner } from '@nextui-org/react';
 
 interface Props {
@@ -28,9 +28,9 @@ function CategoryListUsage({ categoryId, teamName, type }: Props) {
     isDailyLoading,
     hourlyData,
     isHourlyLoading,
-    refetchMonthly,
-    refetchDaily,
-    refetchHourly,
+    // refetchMonthly,
+    // refetchDaily,
+    // refetchHourly,
   } = useCategoryListUsage({
     categoryId,
     teamName,
@@ -88,21 +88,21 @@ function CategoryListUsage({ categoryId, teamName, type }: Props) {
     }
   };
 
-  const refreshData = () => {
-    switch (selectedChart) {
-      case ChartType.Monthly:
-        refetchMonthly();
-        break;
-      case ChartType.Daily:
-        refetchDaily();
-        break;
-      case ChartType.Hourly:
-        refetchHourly();
-        break;
-      default:
-        refetchMonthly();
-    }
-  };
+  // const refreshData = () => {
+  //   switch (selectedChart) {
+  //     case ChartType.Monthly:
+  //       refetchMonthly();
+  //       break;
+  //     case ChartType.Daily:
+  //       refetchDaily();
+  //       break;
+  //     case ChartType.Hourly:
+  //       refetchHourly();
+  //       break;
+  //     default:
+  //       refetchMonthly();
+  //   }
+  // };
 
   return (
     <div>
@@ -117,7 +117,7 @@ function CategoryListUsage({ categoryId, teamName, type }: Props) {
               onChange={handleSelectChange}
             />
           </div>
-          <Refresh onClick={refreshData} />
+          {/* <Refresh onClick={refreshData} /> */}
         </div>
       </div>
       <ChartFrame>

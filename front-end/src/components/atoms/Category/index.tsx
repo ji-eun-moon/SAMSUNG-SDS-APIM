@@ -73,7 +73,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             href={{
               pathname: `/statistics/category/use/${categoryId}`,
             }}
-            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold  flex gap-2 ${
               currentPath === `/statistics/category/use/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -133,7 +133,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             href={{
               pathname: `/statistics/category/provide/${categoryId}`,
             }}
-            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold  flex gap-2  ${
               currentPath === `/statistics/category/provide/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {

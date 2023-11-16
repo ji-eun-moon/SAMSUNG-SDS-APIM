@@ -29,6 +29,7 @@ import styles from './NavBar.module.scss';
 
 function NavBar({ position }: NavBarProps) {
   const router = useRouter();
+
   // const { setNoticeCount, noticeCount } = useNoticeStore((state) => state);
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
   const { data: noticeCount } = useQuery<number>('noticeCnt', getNoticeCnt, {
@@ -233,6 +234,7 @@ function NavBar({ position }: NavBarProps) {
 
   if (position === 'top') {
     const currentPath = router.pathname;
+
     return (
       <div className={styles.navTopBody}>
         <NewNotice />
@@ -257,7 +259,7 @@ function NavBar({ position }: NavBarProps) {
         </div>
 
         <div className={`${styles.right}`}>
-          {userInfo.authority !== '관리자' && searchOpen ? (
+          {searchOpen ? (
             <div className="flex items-center justify-end">
               <div className="mr-5">
                 <SearchBar
@@ -316,7 +318,7 @@ function NavBar({ position }: NavBarProps) {
                 </div>
               </div>
               {/* API 검색 */}
-              {teamList && userInfo.authority !== '관리자' && (
+              {teamList && !currentPath.includes('monitoring') && (
                 <svg
                   className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
                   aria-hidden="true"
