@@ -18,7 +18,7 @@ import { IUser } from '@/types/User';
 import { useQuery } from 'react-query';
 import { getUserInfo } from '@/utils/axios/user';
 import { getNoticeCnt } from '@/utils/axios/notice';
-import { getUserDropDownList, getAdminDropDownList, getAdminMypageList, getUserMypageList } from '@/utils/dropDown';
+import { getUserDropDownList, getAdminDropDownList } from '@/utils/dropDown';
 import useUrl from '@/hooks/useUrl';
 import useApi from '@/hooks/useApi';
 import CustomSelect from '@/components/atoms/CustomSelect';
@@ -167,18 +167,18 @@ function NavBar({ position }: NavBarProps) {
                 >
                   <div className="text-sm">팀정보</div>
                   <svg
-                    className={`${styles.shortcutBtn} w-4 h-4 text-gray-400 dark:text-white`}
+                    className="w-4 h-4 text-gray-400 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    viewBox="0 0 20 18"
+                    viewBox="0 0 20 20"
                   >
                     <path
                       stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"
+                      d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"
                     />
                   </svg>
                 </div>
@@ -286,7 +286,7 @@ function NavBar({ position }: NavBarProps) {
               </svg>
             </div>
           ) : (
-            <div className="flex items-center justify-end">
+            <div className="flex items-center gap-5 justify-end">
               {/* 팀 선택 */}
               {teamList && userInfo.authority !== '관리자' && (
                 <div className="mr-6" style={{ width: '30%' }}>
@@ -300,25 +300,21 @@ function NavBar({ position }: NavBarProps) {
                 </div>
               )}
               {/* 회원정보 */}
-              <DropDown
-                trigger={
-                  <div className={`${styles.topInfo} flex px-2 py-1 cursor-pointer`}>
-                    <div className="mr-3">
-                      <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
-                    </div>
-                    <div className="flex flex-col text-sm">
-                      <div className="flex itdaText text-left font-semibold">{userInfo?.name}</div>
-                      <div className="flex itdaSecondary">
-                        <div>{userInfo?.department}</div>
-                      </div>
-                    </div>
+              <div
+                className={`${styles.topInfo} flex px-2 py-1 cursor-pointer`}
+                onClick={() => router.push('/mypage/info')}
+                aria-hidden
+              >
+                <div className="mr-3">
+                  <ProfileImg src={userInfo?.imageUrl} width={35} height={35} />
+                </div>
+                <div className="flex flex-col text-sm">
+                  <div className="flex itdaText text-left font-semibold">{userInfo?.name}</div>
+                  <div className="flex itdaSecondary">
+                    <div>{userInfo?.department}</div>
                   </div>
-                }
-                list={userInfo?.authority === '관리자' ? getAdminMypageList() : getUserMypageList()}
-                type="url"
-                use="mypage"
-              />
-              <div className={styles.updown} />
+                </div>
+              </div>
               {/* API 검색 */}
               <svg
                 className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
@@ -369,6 +365,7 @@ function NavBar({ position }: NavBarProps) {
               }
               type="url"
               use="shortcut"
+              state={userInfo.authority === '관리자' ? 'admin' : 'user'}
             />
           </div>
         </div>

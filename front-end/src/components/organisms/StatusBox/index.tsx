@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import Status from '@/components/atoms/Status';
 import StatusTable from '@/components/organisms/StatusTable';
 import SearchBar from '@/components/atoms/SearchBar';
+import { getStatusCount } from '@/utils/axios/api';
+import { useQuery } from 'react-query';
 
 interface StatusBoxProps {
   statusList: IApiStatus[];
@@ -11,8 +13,16 @@ interface StatusBoxProps {
   changeSearchWord: (searchWord: string) => void;
 }
 
+interface IApiCount {
+  success: number;
+  warning: number;
+  error: number;
+}
+
 function StatusBox({ statusList, searchWord, changeSearchWord }: StatusBoxProps) {
   const router = useRouter();
+
+  const { data: apiCount } = useQuery<IApiCount>('apiCount', getStatusCount);
 
   // API 검색
   const onSearchHandler = () => {
@@ -60,18 +70,22 @@ function StatusBox({ statusList, searchWord, changeSearchWord }: StatusBoxProps)
             </div>
           )}
         </div>
-        <div className="flex gap-5">
+        <div className="flex gap-2">
           <button type="button" className="flex items-center" onClick={() => router.push('/apis/status?filter=정상')}>
             <Status status="정상" />
-            &nbsp;&nbsp;정상작동
+            &nbsp;&nbsp;정상작동 <div style={{ marginLeft: '10px' }}>{apiCount?.success}</div>
           </button>
+          <div>&nbsp;|&nbsp;</div>
+
           <button type="button" className="flex items-center" onClick={() => router.push('/apis/status?filter=점검')}>
             <Status status="점검" />
-            &nbsp;&nbsp;점검중
+            &nbsp;&nbsp;점검중 <div style={{ marginLeft: '10px' }}>{apiCount?.warning}</div>
           </button>
+          <div>&nbsp;|&nbsp;</div>
+
           <button type="button" className="flex items-center" onClick={() => router.push('/apis/status?filter=오류')}>
             <Status status="오류" />
-            &nbsp;&nbsp;오류발생
+            &nbsp;&nbsp;오류발생 <div style={{ marginLeft: '10px' }}>{apiCount?.error}</div>
           </button>
         </div>
       </div>

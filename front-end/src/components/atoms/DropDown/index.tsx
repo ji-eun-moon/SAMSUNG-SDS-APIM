@@ -9,11 +9,18 @@ function DropDown({ type, ...props }: DropDownProps) {
   const router = useRouter();
 
   if (type === 'url') {
-    const { trigger, list, use } = props as UrlProps;
+    const { trigger, list, use, state } = props as UrlProps;
 
     const handleLogout = async () => {
       await logout();
       await router.push(`/login`);
+    };
+
+    const onServerMonitoring = async () => {
+      await window.open('/monitoring/server');
+    };
+    const onUsageMonitoring = async () => {
+      await window.open('/monitoring/usage');
     };
 
     return (
@@ -22,11 +29,18 @@ function DropDown({ type, ...props }: DropDownProps) {
         <DropdownMenu variant="flat">
           {list?.map((item, index) => (
             <DropdownItem
-              showDivider={use === 'mypage' && index === list.length - 2}
+              showDivider={
+                use === 'shortcut' &&
+                (state === 'admin' ? index === list.length - 2 || index === list.length - 4 : index === list.length - 2)
+              }
               key={item.title}
               onClick={() => {
                 if (item.onClickHandler === 'logout') {
                   handleLogout();
+                } else if (item.onClickHandler === 'server') {
+                  onServerMonitoring();
+                } else if (item.onClickHandler === 'usage') {
+                  onUsageMonitoring();
                 } else {
                   router.push(`${item.onClickHandler}`);
                 }
