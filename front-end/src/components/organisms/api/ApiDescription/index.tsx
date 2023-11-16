@@ -12,6 +12,7 @@ import { DescriptionProps, ApiProps } from '@/types/props/DescriptionProps';
 import Link from 'next/link';
 import { IUser } from '@/types/User';
 import { getUserInfo } from '@/utils/axios/user';
+import { noticeAdmin } from '@/utils/axios/notice';
 
 function ApiDescription({ type, categoryId, content, categoryName, ...props }: DescriptionProps) {
   const { data: userInfo } = useQuery<IUser>('userInfo', getUserInfo);
@@ -28,6 +29,7 @@ function ApiDescription({ type, categoryId, content, categoryName, ...props }: D
       setIsModalOpen(false);
       setTextWord('');
       setIsAlertOpen(true);
+      noticeAdmin({ applyName: '사용', categoryName, teamName: selectedTeam });
     },
   });
 
