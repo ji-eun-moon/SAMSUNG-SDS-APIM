@@ -87,9 +87,36 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
             <table className="w-full">
               <thead>
                 <tr>
-                  <th className="bgItdaBlue text-white pl-3 py-2">이름</th>
-                  <th className="bgItdaBlue text-white">설명</th>
-                  <th className="bgItdaBlue text-white pr-3">필수</th>
+                  <th
+                    className=" itdaText pl-3 py-2 "
+                    style={{
+                      backgroundColor: '#f6f6f6',
+                      borderTop: '1px solid #dddddd',
+                      borderBottom: '1px solid #dddddd',
+                    }}
+                  >
+                    이름
+                  </th>
+                  <th
+                    className="  itdaText"
+                    style={{
+                      backgroundColor: '#f6f6f6',
+                      borderTop: '1px solid #dddddd',
+                      borderBottom: '1px solid #dddddd',
+                    }}
+                  >
+                    설명
+                  </th>
+                  <th
+                    className="  itdaText pr-3"
+                    style={{
+                      backgroundColor: '#f6f6f6',
+                      borderTop: '1px solid #dddddd',
+                      borderBottom: '1px solid #dddddd',
+                    }}
+                  >
+                    필수
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white w-full border-b">

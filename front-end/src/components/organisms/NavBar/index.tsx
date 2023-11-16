@@ -80,10 +80,10 @@ function NavBar({ position }: NavBarProps) {
           )}
 
           {router.pathname === '/' ? (
-            <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+            <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
           ) : (
             <button type="button" onClick={() => router.push('/')}>
-              <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+              <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
             </button>
           )}
 
@@ -238,10 +238,10 @@ function NavBar({ position }: NavBarProps) {
       <div className={styles.navTopBody}>
         <div className="flex items-center gap-5">
           {router.pathname === '/' ? (
-            <Image src="/images/samsung_sds_logo_2.png" width={200} height={200} alt="samsung logo" />
+            <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
           ) : (
             <Link href="/">
-              <Image src="/images/samsung_sds_logo.png" width={150} height={150} alt="samsung logo" />
+              <Image src="/images/samsungSDS_logo.png" width={150} height={150} alt="samsung logo" />
             </Link>
           )}
           {currentPath === '/monitoring/server' && (
