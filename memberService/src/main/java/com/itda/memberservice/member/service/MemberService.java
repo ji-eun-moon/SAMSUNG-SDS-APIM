@@ -165,19 +165,22 @@ public class MemberService {
 
         String emailMsg = "";
         emailMsg += "<div style='margin:20px; display: flex; flex-direction: column; justify-content: center; align-items: center;'> \n" +
-//                "      <img src=\"https://findmyguide.s3.amazonaws.com/logo-nobg.png\" alt=\"ASAP Logo Img\" style=\"width:380px;\">\n" +
-                "      <h1 style='font-weight: 900;'> ITDA 임시 비밀번호 발급 안내 </h1> \n" +
+                "      <img src=\"https://littleplanet.s3.ap-northeast-2.amazonaws.com/SDS.png\" alt=\"SAMSUNG SDS APIM Img\" style=\"width:380px;\">\n" +
                 "\n" +
                 "      <br> \n" +
-                "      <h4 style='font-weight: 600;'>로그인을 위한 임시 비밀번호입니다.</h4> \n" +
-                "      <h4 style='font-weight: 600;'>아래 임시 비밀번호를 통해 로그인을 진행해주시기바랍니다.<h4> \n" +
+                "      <h4 style='font-weight: 600;'>첫 로그인 시 사용할 비밀번호 입니다.</h4> \n" +
+                "      <h4 style='font-weight: 600;'>로그인 후 반드시 비밀번호를 변경하시기 바랍니다. <h4> \n" +
                 "      <br> \n" +
-//                "        <h2 style='color:blue; font-weight: 800;'>회원가입 인증 코드입니다.</h2> \n" +
-                "        <div style='font-size:50px'>\n" + password +"   \n" +
-                "        </div>\n" +
+                "        <h2 style='color:blue; font-weight: 800;'>비밀번호</h2> \n" +
+                "\n" +
                 "     <br>  \n" +
-                "     <h4 style='font-weight: 600;'>인증 코드 오류가 생긴 경우 고객센터로 문의바랍니다</h4> \n" +
-                "     <button style=\"margin-top: 10px; background-color: white; border-radius: 4px; border: none;\"><a href=\"https://k9c201.p.ssafy.io/\" style=\"text-decoration: none; color: blue;\">홈페이지 바로가기</a></button>\n ";
+                "     <h4 style='font-weight: 600;'>로그인 오류가 생긴 경우 관리자에게 문의바랍니다</h4>\n" +
+                "     \"     <button style=\\\"margin-top: 10px; background-color: white; border-radius: 4px; border: none;\\\">\n" +
+                "      <a href=\\\"https://k9c201.p.ssafy.io/\\\" style=\\\"text-decoration: none; color: blue;\\\">홈페이지 바로가기</a>\n" +
+                "    </button>\\n \";\n" +
+                "    </h4>\n" +
+                "    </h4>\n" +
+                "  </div>";
 
         message.setText(emailMsg, "utf-8", "html");
 
