@@ -41,7 +41,6 @@ export async function ChangePassword(props: object) {
       url: 'https://k9c201.p.ssafy.io/api/member/auth/change-password',
       data: props,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

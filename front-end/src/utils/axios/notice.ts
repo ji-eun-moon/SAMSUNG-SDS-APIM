@@ -11,7 +11,6 @@ export async function getReceiveList({ page, size }: IPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -29,7 +28,6 @@ export async function getSendList({ page, size }: IPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -46,7 +44,6 @@ export async function updateNoticeRead(noticeIds: number[]) {
         list: noticeIds,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -63,7 +60,6 @@ export async function deleteReceiveNotice(noticeIds: number[]) {
         list: noticeIds,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -80,7 +76,6 @@ export async function deleteSendNotice(noticeIds: number[]) {
         list: noticeIds,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -94,7 +89,6 @@ export async function getReceiveNoticeDetail(noticeId: number) {
       method: 'GET',
       url: `/member/notice/receive/${noticeId}`,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -108,7 +102,6 @@ export async function getSendNoticeDetail(noticeId: number) {
       method: 'GET',
       url: `/member/notice/send/${noticeId}`,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -147,7 +140,6 @@ export async function getUnreadReceiveNotice({ page, size }: IPageable) {
 }
 
 export async function sendNotice({ employeeIds, title, content }: INoticeSend) {
-  console.log(employeeIds, title, content);
   try {
     const response = await axiosInstance({
       method: 'POST',
@@ -158,7 +150,6 @@ export async function sendNotice({ employeeIds, title, content }: INoticeSend) {
         content,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -192,7 +183,6 @@ export async function getReceiveReadList({ page, size }: IPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -210,7 +200,6 @@ export async function getReceiveUnreadList({ page, size }: IPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -228,7 +217,6 @@ export async function getSendReadList({ page, size }: IPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -246,7 +234,6 @@ export async function getSendUnreadList({ page, size }: IPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

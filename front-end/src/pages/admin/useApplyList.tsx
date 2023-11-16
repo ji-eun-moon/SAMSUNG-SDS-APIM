@@ -86,7 +86,6 @@ const UseList: NextPage<SSRProps> = ({ isUser }: SSRProps) => {
   }
 
   const onGoDetailHandler = (useId: string) => {
-    console.log(useId, clickPage);
     router.push(`/apply/use/${useId}`);
   };
 
