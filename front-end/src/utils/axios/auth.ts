@@ -26,7 +26,10 @@ export async function logout() {
       url: 'https://k9c201.p.ssafy.io/api/member/auth/logout',
     });
     Cookies.remove('accessToken');
-    localStorage.clear();
+    await localStorage.clear();
+    window.location.href = '/login';
+    window.location.reload();
+
     return response.data;
   } catch (error) {
     console.error(error);
