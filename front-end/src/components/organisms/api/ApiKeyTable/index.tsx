@@ -13,7 +13,15 @@ function ApiKeyTable({ type, ...props }: ApiKeyTableProps) {
           <thead>
             <tr>
               {inputHeaders.map((header) => (
-                <th key={header} className="bgItdaBlue text-white pr-3 py-2">
+                <th
+                  key={header}
+                  className=" pr-3 py-2"
+                  style={{
+                    backgroundColor: '#f6f6f6',
+                    borderTop: '1px solid #dddddd',
+                    borderBottom: '1px solid #dddddd',
+                  }}
+                >
                   {header}
                 </th>
               ))}
@@ -50,7 +58,15 @@ function ApiKeyTable({ type, ...props }: ApiKeyTableProps) {
           <thead>
             <tr>
               {outputHeaders.map((header) => (
-                <th key={header} className="bgItdaBlue text-white py-2">
+                <th
+                  key={header}
+                  className="py-2"
+                  style={{
+                    backgroundColor: '#f6f6f6',
+                    borderTop: '1px solid #dddddd',
+                    borderBottom: '1px solid #dddddd',
+                  }}
+                >
                   {header}
                 </th>
               ))}
