@@ -32,7 +32,7 @@ public class KafkaConsumer {
     private final MemberTeamRepository memberTeamRepository;
     private final MemberRepository memberRepository;
 
-    @KafkaListener(topics = "api-status-changed")
+    @KafkaListener(topics = "${kafka-topic}")
     public void apiStatusChange(String kafkaMessage) {
 
         log.info("KafkaListener 동작");
