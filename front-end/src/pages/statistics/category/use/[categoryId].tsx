@@ -12,6 +12,7 @@ import CategoryUsage from '@/components/organisms/statistics/CategoryUsage';
 import CategoryListUsage from '@/components/organisms/statistics/CategoryListUsage';
 import CategoryResponseCode from '@/components/organisms/statistics/CategoryResponseCode';
 import CategoryResponseTime from '@/components/organisms/statistics/CategoryResponseTime';
+import PageLoading from '@/components/atoms/PageLoading';
 
 type SSGProps = {
   categoryId: number;
@@ -19,13 +20,17 @@ type SSGProps = {
 
 const UseCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+  const { data, isLoading } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
     enabled: categoryId !== 0,
   });
 
+  if (isLoading) {
+    return <PageLoading />;
+  }
+
   return (
     <DrawerLayout>
-      <ChartSideBar type="use" openCategoryId={data?.categoryId || 0} />
+      <ChartSideBar type="use" openCategoryId={data?.categoryId || categoryId} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">사용 중인 API가 없습니다.</div>
       ) : (

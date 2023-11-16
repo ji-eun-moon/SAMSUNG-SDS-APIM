@@ -28,6 +28,10 @@ const AdminApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     enabled: apiId !== 0,
   });
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <DrawerLayout>
       <ChartSideBar type="admin" openCategoryId={data?.categoryId || 0} />

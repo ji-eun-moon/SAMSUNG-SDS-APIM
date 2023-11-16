@@ -75,7 +75,7 @@ function ApplySideBar({ isUser }: ApplySideBarProps) {
 
   const { mutate: provideApply } = useMutation(postProvideApply, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries([`provideApplyList${selectedTeam}`, 1, '']);
+      await queryClient.invalidateQueries([`provideApplyList${selectedTeam}`]);
       onModalOpenHandler();
       router.push(`/apply/provide/list`);
     },

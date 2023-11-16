@@ -19,6 +19,7 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { ICategory, ICategoryName } from '@/types/Api';
 import GoBack from '@/components/atoms/GoBack';
+import PageLoading from '@/components/atoms/PageLoading';
 
 type SSGProps = {
   categoryId: number;
@@ -26,13 +27,17 @@ type SSGProps = {
 
 const ProvideCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
   const { selectedTeam } = useUserStore();
-  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+  const { data, isLoading } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
     enabled: categoryId !== 0,
   });
 
+  if (isLoading) {
+    return <PageLoading />;
+  }
+
   return (
     <DrawerLayout>
-      <ChartSideBar type="provide" openCategoryId={data?.categoryId || 0} />
+      <ChartSideBar type="provide" openCategoryId={data?.categoryId || categoryId} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">제공 중인 API가 없습니다.</div>
       ) : (

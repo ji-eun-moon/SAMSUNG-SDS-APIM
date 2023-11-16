@@ -7,6 +7,7 @@ import CategoryUsage from '@/components/organisms/statistics/CategoryUsage';
 import CategoryListUsage from '@/components/organisms/statistics/CategoryListUsage';
 import CategoryResponseCode from '@/components/organisms/statistics/CategoryResponseCode';
 import CategoryResponseTime from '@/components/organisms/statistics/CategoryResponseTime';
+import PageLoading from '@/components/atoms/PageLoading';
 import { getCategoryList, getCategoryName } from '@/utils/axios/api';
 import {
   getCategoryMonthlyUsage,
@@ -24,9 +25,13 @@ type SSGProps = {
 };
 
 const AdminCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
-  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+  const { data, isLoading } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
     enabled: categoryId !== 0,
   });
+
+  if (isLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <DrawerLayout>
