@@ -1,0 +1,31 @@
+.goDetail {
+  color: $itda-secondary;
+  font-size: 13px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  padding-right: 5px;
+  transition: transform 0.3s;
+
+  cursor: pointer;
+}
+
+.scroll {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #bdbdbd; // 스크롤바 핸들(움직이는 부분)의 배경 색상
+    border-radius: 10px; // 스크롤바 핸들의 둥근 모서리
+
+    &:hover {
+      background: #a1a1a1; // 스크롤바 핸들에 마우스를 올렸을 때의 색상
+    }
+  }
+
+}

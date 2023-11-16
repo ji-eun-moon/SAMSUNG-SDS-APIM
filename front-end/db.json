@@ -1,0 +1,39 @@
+{
+  "categoryList": [
+    {
+      "categoryName": "지도",
+      "categoryId": 1,
+      "description": "지도 API는 Web(JavaScript)과 모바일 애플리케이션(iOS, Android)에서 지도를 이용한 서비스를 제작할 수 있도록 다양한 기능을 제공하고 있습니다.",
+      "apiList": [
+        { "apiName": "주소 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 1 },
+        { "apiName": "카테고리 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 2 },
+        { "apiName": "키워드 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 3 },
+        { "apiName": "좌표로 주소 변환하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 4 }
+      ]
+    },
+
+    {
+      "categoryName": "Daum 검색",
+      "description": "Daum 검색 API는 포털 사이트 Daum에서 방대한 웹 문서, 동영상, 이미지, 블로그, 책, 카페를 검색하는 기능을 제공합니다. 검색 결과는 JSON 객체로 전달돼 서비스에서 자유롭게 출력하거나 활용할 수 있습니다.",
+      "categoryId": 2,
+      "apiList": [
+        { "apiName": "웹문서 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 5 },
+        { "apiName": "동영상 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 6 },
+        { "apiName": "이미지 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 7 },
+        { "apiName": "블로그 검색하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 8 }
+      ]
+    },
+
+    {
+      "categoryName": "KoGPT에게 요청",
+      "description": "KoGPT API는 다양한 한국어 과제를 수행할 수 있는 기능을 제공합니다. 카카오브레인의 KoGPT는 방대한 데이터로 훈련된 GPT-3 기반의 인공지능(Artifical Intelligence, AI) 한국어 언어 모델입니다. KoGPT API로 KoGPT가 제공하는 기능을 REST API 방식으로 손쉽게 사용할 수 있습니다.",
+      "categoryId": 3,
+      "apiList": [
+        { "apiName": "다음 문장 만들기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 9 },
+        { "apiName": "문장 분류하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 10 },
+        { "apiName": "뉴스 한 줄 요약하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 11 },
+        { "apiName": "질문에 답변하기", "apiAddress": "https://dapi.kakao.com/v2/search/web", "apiId": 12 }
+      ]
+    }
+  ]
+}
