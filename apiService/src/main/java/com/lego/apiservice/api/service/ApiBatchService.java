@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class ApiBatchService {
     private final UseCheckRepository useCheckRepository;
     private final RedisService redisService;
     private final KafkaProducer kafkaProducer;
+
+    @Value("${kafka-status-topic}")
+    private String topic;
 
     @Scheduled(cron = "0 0/30 * * * *")
     public void apiHealthCheck() {
@@ -166,7 +170,7 @@ public class ApiBatchService {
             map.put("apiName", api.getTitle());
             map.put("teamName", useCheck.getTeamName());
             map.put("status", api.getApiStatus().toString());
-            kafkaProducer.send("api-status-changed", map);
+            kafkaProducer.send(topic, map);
         });
     }
 

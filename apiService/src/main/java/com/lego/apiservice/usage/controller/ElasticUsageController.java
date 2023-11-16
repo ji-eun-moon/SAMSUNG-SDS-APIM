@@ -35,6 +35,12 @@ public class ElasticUsageController {
         return ResponseEntity.ok(usageService.findAll());
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateAll() {
+        usageService.updateRemoteAddr();
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/test")
     public ResponseEntity<?> findTest() {
         return ResponseEntity.ok(elasticUsageRepository.findAllByEndpointAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(

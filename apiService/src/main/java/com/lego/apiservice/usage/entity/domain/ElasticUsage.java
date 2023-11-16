@@ -37,4 +37,8 @@ public class ElasticUsage {
     private Long responseTime;
     private String responseCode;
     private String remoteAddr;
+
+    public void setRemoteAddr(String remoteAddr) {
+        this.remoteAddr = remoteAddr;
+    }
 }
