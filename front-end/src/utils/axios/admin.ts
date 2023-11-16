@@ -10,7 +10,6 @@ export async function putUseApplyAccept(useId: number) {
         useId,
       },
     });
-    console.log('사용신청승인', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -29,7 +28,6 @@ export async function putUseApplyDeny(useId: number, denyReason: string) {
         denyReason,
       },
     });
-    console.log('사용신청거절', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -50,7 +48,6 @@ export async function putProvideApplyAccept(provideId: number, endpoint: string)
         endpoint,
       },
     });
-    console.log('제공신청승인', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -69,7 +66,6 @@ export async function putProvideApplyDeny(provideId: number, denyReason: string)
         denyReason,
       },
     });
-    console.log('제공신청거절', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -90,7 +86,6 @@ export async function postNoticeResult(applyName: string, teamName: string, appl
         result,
       },
     });
-    console.log('사용,제공 신청 결과', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);

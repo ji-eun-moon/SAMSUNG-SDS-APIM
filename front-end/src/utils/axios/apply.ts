@@ -14,7 +14,6 @@ export async function getUseApplyList(teamName: string, clickPage: number, state
         size: 9,
       },
     });
-    console.log('사용신청내역', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -29,7 +28,6 @@ export async function getUseApplyDetail(useId: number) {
       method: 'GET',
       url: `/submit/use/${useId}`,
     });
-    console.log('사용신청내역상세', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -49,7 +47,6 @@ export async function getAdminUseApplyList(clickPage: number, state: string) {
         size: 9,
       },
     });
-    console.log('사용신청내역(관리자)', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -79,7 +76,6 @@ export async function postProvideApply({ teamName, serverName, description, endp
         endpoint,
       },
     });
-    console.log('제공신청하기', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -100,7 +96,6 @@ export async function getProvideApplyList(teamName: string, clickPage: number, s
         size: 9,
       },
     });
-    console.log('제공신청내역', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -115,7 +110,6 @@ export async function getProvideApplyDetail(provideId: number) {
       method: 'GET',
       url: `/submit/provide/${provideId}`,
     });
-    console.log('제공신청내역상세', response.data.content);
     return response.data;
   } catch (error) {
     console.error('error', error);
@@ -135,7 +129,6 @@ export async function getAdminProvideApplyList(clickPage: number, state: string)
         size: 9,
       },
     });
-    console.log('제공신청내역(관리자)', response.data);
     return response.data;
   } catch (error) {
     console.error('error', error);

@@ -124,7 +124,6 @@ export async function apiSearch(apiName: string) {
         apiName,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -186,7 +185,6 @@ export async function getStatusCount() {
       method: 'GET',
       url: '/server/apis/status-count',
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

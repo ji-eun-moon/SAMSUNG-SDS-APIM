@@ -54,7 +54,6 @@ function ChangePasswordBox() {
     event.preventDefault();
     if (checkOriginal && checkChange && checkConfirm) {
       const res = await ChangePassword({ originalPassword, changePassword });
-      console.log(res);
       if (res === '비밀번호 변경') {
         setAlertMessage('비밀번호가 변경되었습니다');
         setOriginalPassword('');

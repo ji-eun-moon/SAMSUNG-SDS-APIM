@@ -7,7 +7,6 @@ export async function getUserInfo() {
       method: 'GET',
       url: '/member/auth/mypage',
     });
-    console.log('userInfo', response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -25,7 +24,6 @@ export async function getMembers({ page, size }: Pageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -40,7 +38,6 @@ export async function createMembers(props: TUserDataList) {
       url: '/member/auth/sign-up',
       data: props,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -59,7 +56,6 @@ export async function getTeamInfo({ teamName, page, size }: TeamPageable) {
         size,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -76,7 +72,6 @@ export async function getTeamToken(teamName: string) {
         teamName,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

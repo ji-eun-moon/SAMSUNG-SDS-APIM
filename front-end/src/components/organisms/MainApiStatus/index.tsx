@@ -41,7 +41,6 @@ function MainApiStatus() {
     if (item === '전체') {
       const result = await getApiStatus({ status: '', page: 0, size: all, apiName: '' });
       setMainApiStatus(result);
-      console.log(result.content);
     }
     if (item === '정상') {
       const result = await getApiStatus({ status: '정상', page: 0, size: all, apiName: '' });

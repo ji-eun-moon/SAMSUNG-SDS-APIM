@@ -15,8 +15,6 @@ function TeamSelect({ list }: TeamSelectProps) {
     setIsModalOpen(!isModalOpen);
   };
 
-  console.log(team);
-
   return (
     <div className="w-full flex items-center">
       <div className="w-4/12">
