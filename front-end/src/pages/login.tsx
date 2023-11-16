@@ -71,7 +71,7 @@ export default function Login() {
             <div className="flex flex-col items-center px-8 py-10">
               {/* <div className="itdaBlue flex flex-col text-5xl font-bold">LOGIN</div> */}
               <div className="flex items-center mb-10">
-                <Image src="/images/samsung_sds_logo_2.png" width={250} height={250} alt="samsung logo" />
+                <Image src="/images/samsungSDS_logo.png" width={250} height={250} alt="samsung logo" />
               </div>
               <div className="mt-5">
                 <p className="itdaText font-medium text-lg">사번</p>

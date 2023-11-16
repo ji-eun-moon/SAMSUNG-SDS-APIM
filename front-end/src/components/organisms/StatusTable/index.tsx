@@ -35,7 +35,15 @@ function StatusTable({ statusList }: StatusTableProps) {
         <thead className={`w-full ${styles.header}`}>
           <tr>
             {headers?.map((header) => (
-              <th key={header} className={styles.th}>
+              <th
+                key={header}
+                className={styles.th}
+                style={{
+                  backgroundColor: '#f6f6f6',
+                  borderTop: '1px solid #dddddd',
+                  borderBottom: '1px solid #dddddd',
+                }}
+              >
                 {header}
               </th>
             ))}
