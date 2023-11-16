@@ -10,7 +10,7 @@ import java.util.Map;
 @FeignClient("member-service")
 public interface UseCheck {
 
-    @GetMapping("/auth/get-MemberId")
+    @GetMapping("/auth/get-Member")
     Member getMemberId(@SpringQueryMap Map<String, String> map);
 
 }
