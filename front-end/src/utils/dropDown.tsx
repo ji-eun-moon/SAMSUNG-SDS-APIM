@@ -218,7 +218,7 @@ export const getAdminDropDownList = ({ adminStatisticsUrl, categoryUrl }: IParam
         </svg>
       ),
       type: 'common',
-      onClickHandler: '/member',
+      onClickHandler: '/member/list',
     },
     {
       title: '통계',

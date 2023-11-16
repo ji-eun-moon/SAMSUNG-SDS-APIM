@@ -82,7 +82,22 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
               }
             }}
           >
-            카테고리 통계
+            <svg
+              className="w-4 h-4 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 12v5m5-9v9m5-5v5m5-9v9M1 7l5-6 5 6 5-6"
+              />
+            </svg>
+            <span>카테고리 통계</span>{' '}
           </Link>
           <ul>
             {apiList.map((item) => (
@@ -127,7 +142,22 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
               }
             }}
           >
-            카테고리 통계
+            <svg
+              className="w-4 h-4 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 12v5m5-9v9m5-5v5m5-9v9M1 7l5-6 5 6 5-6"
+              />
+            </svg>
+            <span>카테고리 통계</span>{' '}
           </Link>
           <ul>
             {apiList.map((item) => (
@@ -160,7 +190,7 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
             href={{
               pathname: `/statistics/category/admin/${categoryId}`,
             }}
-            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold ${
+            className={`my-2 itdaText cursor-pointer text-sm hover:font-semibold flex gap-2 ${
               currentPath === `/statistics/category/admin/${categoryId}` ? 'font-semibold' : ''
             }`}
             onClick={(e) => {
@@ -169,7 +199,22 @@ function Category({ categoryName, categoryId, apiList, isOpen, my, type }: Categ
               }
             }}
           >
-            카테고리 통계
+            <svg
+              className="w-4 h-4 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 12v5m5-9v9m5-5v5m5-9v9M1 7l5-6 5 6 5-6"
+              />
+            </svg>
+            <span>카테고리 통계</span>
           </Link>
           <ul>
             {apiList.map((item) => (

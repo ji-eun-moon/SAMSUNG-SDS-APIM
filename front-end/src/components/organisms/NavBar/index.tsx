@@ -257,7 +257,7 @@ function NavBar({ position }: NavBarProps) {
         </div>
 
         <div className={`${styles.right}`}>
-          {searchOpen ? (
+          {userInfo.authority !== '관리자' && searchOpen ? (
             <div className="flex items-center justify-end">
               <div className="mr-5">
                 <SearchBar
@@ -301,7 +301,7 @@ function NavBar({ position }: NavBarProps) {
               )}
               {/* 회원정보 */}
               <div
-                className={`${styles.topInfo} flex px-2 py-1 cursor-pointer`}
+                className={`${styles.topInfo} flex px-2 py-1 cursor-pointer mr-4`}
                 onClick={() => router.push('/mypage/info')}
                 aria-hidden
               >
@@ -316,22 +316,24 @@ function NavBar({ position }: NavBarProps) {
                 </div>
               </div>
               {/* API 검색 */}
-              <svg
-                className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-                onClick={() => setSearchOpen(true)}
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
+              {teamList && userInfo.authority !== '관리자' && (
+                <svg
+                  className="w-6 h-6 mr-6 cursor-pointer text-gray-400 dark:text-white self-center"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                  onClick={() => setSearchOpen(true)}
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              )}
             </div>
           )}
           {/* 쪽지 */}

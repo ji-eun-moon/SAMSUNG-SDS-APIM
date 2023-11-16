@@ -40,7 +40,7 @@ function AdminMainBox() {
   };
 
   return (
-    <div className="px-8 py-3 w-full h-full" style={{ paddingTop: '50px' }}>
+    <div className="px-8 py-3 w-full h-full" style={{ paddingTop: '30px' }}>
       <div className="items-baseline w-full h-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
           <div style={{ display: 'flex', gap: '10px', width: '50%', marginBottom: '10px' }}>
@@ -144,7 +144,7 @@ function AdminMainBox() {
             }}
           >
             <Link href="/monitoring/server" target="_blank">
-              <ShadowCard type="monitoring" border="3px solid #17468f">
+              <ShadowCard type="monitoring" border="2px solid #17468f">
                 <div className={style.shortcut}>
                   <Image src="/images/desktop.png" alt="itda logo" width={22} height={22} />
                   <span>서버 모니터링</span>
@@ -153,7 +153,7 @@ function AdminMainBox() {
             </Link>
 
             <Link href="/monitoring/usage" target="_blank">
-              <ShadowCard type="monitoring" border="3px solid #17468f">
+              <ShadowCard type="monitoring" border="2px solid #17468f">
                 <div className={style.shortcut}>
                   <Image src="/images/database.png" alt="itda logo" width={22} height={22} />
 
