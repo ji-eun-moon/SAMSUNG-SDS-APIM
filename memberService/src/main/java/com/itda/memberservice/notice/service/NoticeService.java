@@ -6,7 +6,6 @@ import com.itda.memberservice.member.entity.Authority;
 import com.itda.memberservice.member.entity.Member;
 import com.itda.memberservice.member.repository.MemberRepository;
 import com.itda.memberservice.memberteam.repository.MemberTeamRepository;
-import com.itda.memberservice.notice.controller.NoticeController;
 import com.itda.memberservice.notice.dto.request.NoticeCreateRequest;
 import com.itda.memberservice.notice.dto.request.NoticeListRequest;
 import com.itda.memberservice.notice.dto.request.NoticeResultRequest;
@@ -106,11 +105,9 @@ public class NoticeService {
 
                     Map<String, String> eventData = new HashMap<>();
 
-                    eventData.put("message", "메시지가 도착했습니다.");
                     eventData.put("sender", sender.getName());
-                    eventData.put("createdAt", save.getCreatedAt().toString());
                     eventData.put("title", save.getTitle());
-                    eventData.put("content", save.getContent());
+                    eventData.put("image", sender.getImageUrl());
                     eventData.put("noticeId", String.valueOf(save.getNoticeId()));
                     eventData.put("noticeNumber", String.valueOf(unreadNoticeCount(employee)));
 
@@ -345,11 +342,9 @@ public class NoticeService {
 
                     Map<String, String> eventData = new HashMap<>();
 
-                    eventData.put("message", "메시지가 도착했습니다.");
                     eventData.put("sender", sender.getName());
-                    eventData.put("createdAt", saveNotice.getCreatedAt().toString());
+                    eventData.put("image", sender.getImageUrl());
                     eventData.put("title", saveNotice.getTitle());
-                    eventData.put("content", saveNotice.getContent());
                     eventData.put("noticeId", String.valueOf(saveNotice.getNoticeId()));
                     eventData.put("noticeNumber", String.valueOf(unreadNoticeCount(receiver.getEmployeeId())));
 
