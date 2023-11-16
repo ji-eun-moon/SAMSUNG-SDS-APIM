@@ -6,7 +6,7 @@ const Custom404 = () => {
   const router = useRouter();
   return (
     <TopLayout>
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-screen">
         <div className="flex flex-col">
           <p className="text-7xl font-bold itdaBlue">404 Not Found</p>
           <p className="text-center text-xl font-semibold color-blue mt-2">페이지를 찾을 수 없습니다.</p>

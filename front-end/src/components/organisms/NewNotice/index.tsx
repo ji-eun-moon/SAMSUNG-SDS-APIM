@@ -79,6 +79,8 @@ function NewNotice() {
       setAnimationClass(styles['slide-in']);
       queryClient.invalidateQueries('noticeCnt'); // 쪽지수 업데이트
       queryClient.invalidateQueries(['unreadReceiveList', 0]); // 쪽지리스트 업데이트
+      queryClient.invalidateQueries('apiCount'); // 상태 수 업데이트
+      queryClient.invalidateQueries('apiStatuslist 전체'); // 상태 리스트 업데이트
 
       // 5초 후에 알림 언마운트하고 상태 비우기
       const slideOutTimer = setTimeout(() => {
@@ -115,7 +117,7 @@ function NewNotice() {
         <div
           aria-hidden
           id="toast-notification"
-          className="w-full p-4 text-gray-900 bg-white rounded-lg shadow border border-blue-800"
+          className="w-full p-4 text-gray-900 bg-white rounded-lg shadow border-2 border-blue-800"
           role="alert"
         >
           <div className="flex items-center mb-3 gap-2 justify-between">
@@ -175,13 +177,13 @@ function NewNotice() {
         <div
           aria-hidden
           id="toast-notification"
-          className="w-full p-4 text-gray-900 bg-white rounded-lg shadow border border-red-800"
+          className="w-full p-4 text-gray-900 bg-white rounded-lg shadow border-2 border-yellow-500"
           role="alert"
         >
           <div className="flex items-center mb-3 gap-2 justify-between">
             <div className="flex gap-2">
               <svg
-                className="w-6 h-6 text-red-700 dark:text-white"
+                className="w-6 h-6 text-yellow-500 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -189,7 +191,7 @@ function NewNotice() {
               >
                 <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z" />
               </svg>
-              <p className="mb-1 text-base font-semibold text-red-700 dark:text-white">새로운 메시지가 도착했습니다.</p>
+              <p className="mb-1 text-base font-semibold text-yellow-500 dark:text-white">API 상태 변경 알림</p>
             </div>
             <div onClick={handleClose} aria-hidden>
               <svg
@@ -209,19 +211,12 @@ function NewNotice() {
               </svg>
             </div>
           </div>
-          <div
-            className="flex items-center"
-            onClick={() => router.push(`/apis/status/?query=${newStatus.apiName}`)}
-            aria-hidden
-          >
-            <div className="relative inline-block shrink-0">
-              {/* <ProfileImg width={40} height={40} src={newNotice.image} /> */}
-            </div>
+          <div className="flex items-center">
             <div className="ms-3 flex flex-col gap-1">
-              <div className="text-base font-semibold dark:text-white">
-                {newStatus.categoryName} {newStatus.apiName} 상태 변경 알림
+              <div className="text-base font-medium">
+                &#91;{newStatus.categoryName}&#93; {newStatus.apiName} 상태가 변경 되었습니다.
               </div>
-              <div className="text-base font-normal text-gray-800">{newStatus.status}</div>
+              <div className="text-base font-normal text-gray-800">상태 : {newStatus.status}</div>
             </div>
           </div>
         </div>
