@@ -24,21 +24,19 @@ type SSGProps = {
 };
 
 const AdminApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
-  const { data, isLoading } = useQuery<IApiName>(['apiName', apiId], () => getApiName(apiId));
-
-  if (!data) {
-    return null;
-  }
+  const { data } = useQuery<IApiName>(['apiName', apiId], () => getApiName(apiId), {
+    enabled: apiId !== 0,
+  });
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="admin" openCategoryId={data.categoryId} />
+      <ChartSideBar type="admin" openCategoryId={data?.categoryId || 0} />
       {apiId === 0 ? (
         <div className="flex w-full justify-center my-80">API가 없습니다.</div>
       ) : (
         <ChartLayout>
           <div className="flex justify-between">
-            <GoBack label={isLoading ? 'loading...' : data.apiName} />
+            <GoBack label={data?.apiName || ''} />
             <Link href={`/apis/detail/${apiId}`}>
               <div className="underline cursor-pointer">API 상세 보기</div>
             </Link>
