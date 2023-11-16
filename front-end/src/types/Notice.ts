@@ -84,3 +84,9 @@ export interface INoticeSend {
   title: string;
   content: string;
 }
+
+export interface INoticeAdmin {
+  applyName: '제공' | '사용';
+  teamName: string;
+  categoryName: string;
+}
