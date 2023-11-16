@@ -58,7 +58,7 @@ export default function Login() {
         style={{
           width: '100%',
           height: '100%',
-          background: 'url(/images/login2.png)',
+          background: 'url(/images/logina.png)',
           backgroundSize: 'contain',
           filter: 'brightness(0.7)',
         }}
@@ -68,10 +68,10 @@ export default function Login() {
         {/* 로그인 폼 */}
         <div className="col-span-1" style={{ position: 'relative', zIndex: '1' }}>
           <form onSubmit={handleLogin}>
-            <div className="flex flex-col items-center px-10 py-10">
+            <div className="flex flex-col items-center px-8 py-10">
               {/* <div className="itdaBlue flex flex-col text-5xl font-bold">LOGIN</div> */}
               <div className="flex items-center mb-10">
-                <Image src="/images/samsung_sds_logo.png" width={200} height={200} alt="samsung logo" />
+                <Image src="/images/samsung_sds_logo_2.png" width={250} height={250} alt="samsung logo" />
               </div>
               <div className="mt-5">
                 <p className="itdaText font-medium text-lg">사번</p>

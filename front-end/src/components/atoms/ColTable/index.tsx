@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import style from './ColTable.module.scss';
 
 interface ColTableProps {
@@ -17,7 +18,10 @@ interface ColTableProps {
  */
 
 function ColTable({ col, headerContent, bodyContent, onGoDetail }: ColTableProps) {
-  console.log('-----------------------', col);
+  const router = useRouter();
+  const currentPath = router.asPath;
+  const decodedPath = decodeURIComponent(currentPath);
+
   const [headers, setHeaders] = useState<Array<{ text: string; value: string }>>([]);
   const [bodys, setBodys] = useState<
     null | (string[] | number[] | Date[] | { [key: string]: string | number | Date })[]
@@ -59,7 +63,7 @@ function ColTable({ col, headerContent, bodyContent, onGoDetail }: ColTableProps
         <tr>{headers && headers.map((header) => <th key={header.text}>{header.text}</th>)}</tr>
       </thead>
       <tbody className="bg-white">
-        {bodys &&
+        {bodys && bodys.length !== 0 ? (
           bodys.map((body) => (
             <tr
               key={JSON.stringify(body)}
@@ -101,7 +105,17 @@ function ColTable({ col, headerContent, bodyContent, onGoDetail }: ColTableProps
                   );
                 })}
             </tr>
-          ))}
+          ))
+        ) : (
+          <tr>
+            <td colSpan={headers.length} style={{ textAlign: 'center', padding: '30px 0px' }}>
+              {decodedPath === '/apply/use/list' && <span>신청 내역이 없습니다</span>}
+              {decodedPath.includes('대기') && <span>신청 대기 내역이 없습니다</span>}
+              {decodedPath.includes('승인') && <span>신청 승인 내역이 없습니다</span>}
+              {decodedPath.includes('거절') && <span>신청 거절 내역이 없습니다</span>}
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
