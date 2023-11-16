@@ -8,11 +8,11 @@
 
 .hover2 {
   color: #17468f;
-  background-color: rgba(23, 70, 143, 0.2);
+  background-color: #ffffff;
 
   &:hover {
     color: #ffffff;
-    background-color: rgba(23, 70, 143, 0.8);
+    background-color: #17468f;
     cursor: pointer;
   }
 }
