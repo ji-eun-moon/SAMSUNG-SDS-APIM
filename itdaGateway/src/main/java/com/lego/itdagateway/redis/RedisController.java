@@ -47,4 +47,17 @@ public class RedisController {
         throw new IllegalArgumentException("에러 테스트 입니다");
     }
 
+    @GetMapping("/cpu-load")
+    public String simulateCpuLoad() {
+        int fibonacciResult = calculateFibonacci(35);
+        return "Fibonacci result: " + fibonacciResult;
+    }
+
+    private int calculateFibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        return calculateFibonacci(n - 1) + calculateFibonacci(n - 2);
+    }
+
 }
