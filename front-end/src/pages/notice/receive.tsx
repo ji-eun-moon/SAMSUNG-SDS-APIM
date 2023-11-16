@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import NoticeList from '@/components/organisms/NoticeList';
@@ -20,6 +20,7 @@ import style from '@/styles/ProvideList.module.scss';
 
 const ReceiveList: NextPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [clickPage, setClickPage] = useState(1);
   const [category, setCategory] = useState('전체보기');
   const [totalPages, setTotalPages] = useState(1);
@@ -58,6 +59,7 @@ const ReceiveList: NextPage = () => {
 
   const handlePageClick = (clickedPage: number) => {
     setClickPage(clickedPage);
+    setCheckedItems([]);
   };
 
   const onClickHandler = async (item: string) => {
@@ -74,20 +76,26 @@ const ReceiveList: NextPage = () => {
     }
   };
 
-  const selectDelete = async (items: number[]) => {
-    const res = await deleteReceiveNotice(items);
-    if (res === '삭제 완료') {
+  const { mutate: deleteNotice } = useMutation(deleteReceiveNotice, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['receiveList', category, clickPage]);
       setCheckedItems([]);
-      onClickHandler(category);
-    }
+    },
+  });
+
+  const { mutate: updateNotice } = useMutation(updateNoticeRead, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['receiveList', category, clickPage]);
+      setCheckedItems([]);
+    },
+  });
+
+  const selectDelete = async (items: number[]) => {
+    await deleteNotice(items);
   };
 
   const selectRead = async (items: number[]) => {
-    const res = await updateNoticeRead(items);
-    if (res === '읽음 처리 완료') {
-      setCheckedItems([]);
-      onClickHandler(category);
-    }
+    await updateNotice(items);
   };
 
   if (receiveList === undefined) {
