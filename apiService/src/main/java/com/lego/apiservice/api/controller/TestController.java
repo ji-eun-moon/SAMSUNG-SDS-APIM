@@ -21,8 +21,15 @@ public class TestController {
 
     @GetMapping("")
     @Operation(summary = "api 한번씩 사용하기")
-    public ResponseEntity<?> useApi(@RequestParam(name = "teamName") String teamName) {
-        apiTestService.apiTest(teamName);
+    public ResponseEntity<?> useApi() {
+        apiTestService.apiTest();
+        return ResponseEntity.ok("성공적");
+    }
+
+    @GetMapping("warning")
+    @Operation(summary = "401에러 보내기")
+    public ResponseEntity<?> warnApi() {
+        apiTestService.warningTest();
         return ResponseEntity.ok("성공적");
     }
 }

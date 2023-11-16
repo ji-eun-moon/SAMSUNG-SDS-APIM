@@ -14,3 +14,4 @@ eureka:
     fetch-registry: true
 
 kafka-topic: usage-register-topic-local
+kafka-status-topic: api-status-changed-local

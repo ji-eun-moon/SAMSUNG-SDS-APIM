@@ -94,6 +94,16 @@ public class ElasticUsageService {
     }
 
     @Transactional
+    public void updateRemoteAddr() {
+        List<ElasticUsage> elasticUsages = new ArrayList<>();
+        elasticUsages.forEach(usage -> {
+            String addr = usage.getRemoteAddr().replace("/", "").split(":")[0];
+            usage.setRemoteAddr(addr);
+            elasticUsageRepository.save(usage);
+        });
+    }
+
+    @Transactional
     public void deleteAll() {
         elasticUsageRepository.deleteAll(elasticUsageRepository.findAllByCreatedAtGreaterThanEqual(LocalDateTime.of(2023, 11, 17, 3, 0, 0, 0)));
     }

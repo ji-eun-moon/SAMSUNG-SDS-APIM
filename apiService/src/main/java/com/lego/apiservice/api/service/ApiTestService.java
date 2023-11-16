@@ -36,9 +36,9 @@ public class ApiTestService {
     private final UseCheckRepository useCheckRepository;
     private final ApiRepository apiRepository;
 
-    public void apiTest(String teamName) {
+    public void apiTest() {
         Random random = new Random();
-        List<UseCheck> useCheckList = useCheckRepository.findAllByTeamName(teamName);
+        List<UseCheck> useCheckList = useCheckRepository.findAll();
         useCheckList.forEach(useCheck -> {
             List<Api> apis = apiRepository.findAllByCategoryId(useCheck.getCategory().getId());
             apis.forEach(api -> {
@@ -57,6 +57,22 @@ public class ApiTestService {
                 }
             });
         });
+    }
+
+    public void warningTest() {
+        Api api = apiRepository.findById(25L).orElseThrow();
+        for (int i = 0; i < 100; i++) {
+            try {
+                if (api.getApiMethod().equals(ApiMethod.GET)) {
+                    getTest(api, "token");
+                } else {
+                    postTest(api, "token");
+                }
+            }
+            catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void getTest(Api api, String token) throws ParseException {
