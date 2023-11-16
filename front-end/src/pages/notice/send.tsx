@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import GoBack from '@/components/atoms/GoBack';
@@ -13,6 +13,7 @@ import NoticeSideBar from '@/components/organisms/NoticeSideBar';
 
 const SendList: NextPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [clickPage, setClickPage] = useState(1);
   const [category, setCategory] = useState('전체보기');
   const [totalPages, setTotalPages] = useState(1);
@@ -65,14 +66,18 @@ const SendList: NextPage = () => {
 
   const handlePageClick = (clickedPage: number) => {
     setClickPage(clickedPage);
+    setCheckedItems([]);
   };
 
-  const selectDelete = async (items: number[]) => {
-    const res = await deleteSendNotice(items);
-    if (res === '삭제 완료') {
+  const { mutate: deleteNotice } = useMutation(deleteSendNotice, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['sendList', category, clickPage]);
       setCheckedItems([]);
-      onClickHandler(category);
-    }
+    },
+  });
+
+  const selectDelete = async (items: number[]) => {
+    await deleteNotice(items);
   };
 
   if (sendList === undefined) {
