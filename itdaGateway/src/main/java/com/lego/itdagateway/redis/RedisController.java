@@ -53,6 +53,18 @@ public class RedisController {
         return "Fibonacci result: " + fibonacciResult;
     }
 
+    @GetMapping("/cpu-load2")
+    public String simulateCpuLoad1() {
+        int fibonacciResult = calculateFibonacci(45);
+        return "Fibonacci result: " + fibonacciResult;
+    }
+
+    @GetMapping("/cpu-load3")
+    public String simulateCpuLoad2() {
+        int fibonacciResult = calculateFibonacci(55);
+        return "Fibonacci result: " + fibonacciResult;
+    }
+
     private int calculateFibonacci(int n) {
         if (n <= 1) {
             return n;
