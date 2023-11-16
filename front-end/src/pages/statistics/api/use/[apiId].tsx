@@ -30,9 +30,9 @@ const UseApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     enabled: apiId !== 0,
   });
 
-  // if (isLoading || !data) {
-  //   return <PageLoading />;
-  // }
+  if (!data) {
+    return null;
+  }
 
   return (
     <DrawerLayout>

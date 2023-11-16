@@ -30,6 +30,10 @@ const ProvideApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     enabled: apiId !== 0,
   });
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <DrawerLayout>
       <ChartSideBar type="provide" openCategoryId={data?.categoryId || 0} />
@@ -38,7 +42,7 @@ const ProvideApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
       ) : (
         <ChartLayout>
           <div className="flex justify-between">
-            <GoBack label={data?.apiName || ''} />
+            <GoBack label={data.apiName} />
             <Link href={`/apis/detail/${apiId}`}>
               <div className="underline cursor-pointer">API 상세 보기</div>
             </Link>
