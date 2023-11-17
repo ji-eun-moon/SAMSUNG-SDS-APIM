@@ -1,0 +1,27 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+eureka:
+  instance:
+    hostname: k9c201.p.ssafy.io
+
+  client:
+    service-url:
+      defaultZone: https://k9c201.p.ssafy.io/discovery/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpExchanges, busRefresh, prometheus, metrics, logfile
+  server:
+    port: 8000
+  endpoint:
+    logfile:
+      external-file: ./logs/my.log
+
+kafka-topic: usage-register-topic-dev
