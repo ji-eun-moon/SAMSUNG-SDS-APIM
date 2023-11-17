@@ -1,0 +1,34 @@
+server:
+  port: 9100
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: submit-service
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://k9c201.p.ssafy.io:3306/itda_submit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: itda1235!@#%
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+  data:
+    redis:
+      password: itda1235!@#%
+      port: '6379'
+      host: k9c202.p.ssafy.io
+
+
+logging:
+  level:
+    com.lego.submitservice.client: DEBUG
