@@ -109,3 +109,13 @@ spring:
             - name: ServerAuthenticationFilter
               args:
                 prefix: /MES
+        
+        - id: third-submit
+          uri: lb://THIRD-SUBMIT-SERVICE
+          predicates:
+            - Path=/facility/**
+          filters:
+            - RewritePath=/facility/(?<segment>.*), /${segment}
+            - name: ServerAuthenticationFilter
+              args:
+                prefix: /facility
