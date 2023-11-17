@@ -1,0 +1,129 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.5'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
+group = 'com.itda'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2022.0.4")
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.3'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // queryDSL
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // simple-json
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // 스웨거 dependency
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    // actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Junit5
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.9.1'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.1.5'
+
+    // restdocs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // config
+    implementation 'org.springframework.cloud:spring-cloud-starter-config:4.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.3'
+
+    // 스프링 클라우드 버스
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp:4.0.1'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // Feign Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+// test task 실행 시, API 문서 생성 Snippet 디렉토리 경로를 설정
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+// asciidoctor task 실행 시, Asciidoctor 기능을 사용하기 위해
+// asciidoctor task에 asciidoctorExtensions 을 설정
+tasks.named('asciidoctor') {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+asciidoctor { // asciidoctor 설정 task
+    inputs.dir snippetsDir // snippets 디렉토리를 입력으로 함
+    dependsOn test // test task를 의존하도록 하여, 문서 생성 전에 test를 수행하도록 함
+}
+
+bootJar { // spring boot를 이용한 jar 파일 생성 시 필요한 설정 task
+    dependsOn asciidoctor // asciidoctor를 의존하도록 하여, bootJar 생성 전에 asciidoctor task를 수행하도록 함
+    doLast {
+        copy {
+            from 'build/docs/asciidoc' // 문서 생성 시, Jar 파일 내 static/docs에도 복사되도록 함
+            into 'src/main/resources/static/docs'
+        }
+    }
+}

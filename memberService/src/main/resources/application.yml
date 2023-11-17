@@ -1,0 +1,46 @@
+server:
+  port: 9000
+
+spring:
+  rabbitmq:
+    host: k9c201.p.ssafy.io
+    port: 5672
+    username: guest
+    password: guest
+
+  profiles:
+    default: dev
+  application:
+    name: member-service
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://k9c201.p.ssafy.io:3306/itda_member?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: itda1235!@#%
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+
+#security:
+#  jwt:
+#    secret:
+#      key: c201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itdac201_team_itda
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpExchanges, busRefresh
+
+mail:
+  admin:
+    id: victoryddh
+    password: mkvmzeimhdsomlvy
