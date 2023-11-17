@@ -1,0 +1,12 @@
+.border {
+  border: 1px solid $itda-secondary;
+
+  &:hover {
+    border: 1px solid $itda-blue;
+  }
+}
+
+.iconImg {
+  height: 13px;
+  // width: 100%;
+}

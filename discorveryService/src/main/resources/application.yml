@@ -1,0 +1,13 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discoveryService
+
+eureka:
+  client:
+#    서버 등록 할 것인지?
+    fetch-registry: false
+    register-with-eureka: false
+

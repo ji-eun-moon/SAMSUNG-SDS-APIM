@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+eureka:
+  instance:
+    hostname: k9c201.p.ssafy.io
+
+  client:
+    service-url:
+      defaultZone: https://k9c201.p.ssafy.io/discovery/eureka
+    register-with-eureka: true
+    fetch-registry: true
