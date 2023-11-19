@@ -73,10 +73,10 @@ const ApiDetail: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
       <ApiSideBar
         useCategoryList={useCategoryList}
         provideCategoryList={provideCategoryList}
-        openCategory={1}
+        openCategory={apiTestInfo.categoryId}
         categoryList={categoryList}
         defaultSelectedKey={(router.query.defaultSelectedKey as string) || 'all'}
-        openMyCategory={1}
+        openMyCategory={apiTestInfo.categoryId}
       />
       <div>
         <GoBack label={`${apiTestInfo?.title} API 테스트`} />

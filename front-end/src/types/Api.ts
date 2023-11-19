@@ -56,6 +56,7 @@ export interface IApiTestInfo {
   outputExample: string;
   categoryToken: string;
   categoryName: string;
+  categoryId: number;
 }
 
 export interface ITestResult {
