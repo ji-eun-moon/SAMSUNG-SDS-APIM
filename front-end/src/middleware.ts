@@ -34,10 +34,10 @@ export const config = {
     '/apply/:path*',
     '/category/:path*',
     '/member/:path*',
+    '/monitoring/:path*',
+    '/mypage/:path*',
     '/notice/:path*',
     '/statistics/:path*',
-    '/loadtest',
-    '/monitoring',
-    '/mypage',
+    '/team/:path*',
   ],
 };

@@ -38,7 +38,7 @@ const Monitoring: NextPage = () => {
       <div className={`${style.topPageContainer}`}>
         <div style={{ width: `${w}px`, height: `${h}px` }}>
           <iframe
-            src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/9e206b90-8147-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:5000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-dashboard,viewMode:view)"
+            src="https://k9c201.p.ssafy.io/kibana/app/dashboards#/view/9e206b90-8147-11ee-b5b1-05720a5cfdb7?embed=true&_g=(filters:!(),refreshInterval:(pause:!f,value:3000),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:usage-dashboard,viewMode:view)"
             height="100%"
             width="100%"
             title="monitoring"
