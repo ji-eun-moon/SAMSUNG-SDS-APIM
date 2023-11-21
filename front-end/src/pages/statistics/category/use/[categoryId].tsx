@@ -24,7 +24,7 @@ const UseCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
     enabled: categoryId !== 0,
   });
 
-  if (isLoading) {
+  if (!data || isLoading) {
     return <PageLoading />;
   }
 

@@ -29,13 +29,13 @@ const AdminCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
     enabled: categoryId !== 0,
   });
 
-  if (isLoading) {
+  if (!data || isLoading) {
     return <PageLoading />;
   }
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="admin" openCategoryId={data?.categoryId || 0} />
+      <ChartSideBar type="admin" openCategoryId={data?.categoryId || categoryId} />
       {categoryId === 0 ? (
         <div className="flex w-full justify-center my-80">API가 없습니다.</div>
       ) : (

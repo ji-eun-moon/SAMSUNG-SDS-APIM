@@ -37,8 +37,11 @@ function ResponseTime({ apiId, teamName, type }: Props) {
       <div className="flex justify-between mb-1">
         <div>Response Time</div>
         <div className="flex gap-2 items-center">
-          <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
           {/* <Refresh onClick={refetchResponseTime} /> */}
+          <div aria-hidden className="p-1 border-1 border-transparent">
+            <svg className="w-5 h-5" />
+          </div>
+          <div className="itdaSecondary text-sm">* 최근 24시간 기준</div>
         </div>
       </div>
       <ChartFrame>
