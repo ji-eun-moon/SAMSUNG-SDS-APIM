@@ -28,31 +28,36 @@ const AdminApiChart: NextPage<SSGProps> = ({ apiId }: SSGProps) => {
     enabled: apiId !== 0,
   });
 
+  if (apiId === 0) {
+    return (
+      <DrawerLayout>
+        <ChartSideBar type="admin" openCategoryId={0} />
+        <div className="flex w-full justify-center my-80">API가 없습니다.</div>
+      </DrawerLayout>
+    );
+  }
+
   if (!data) {
     return null;
   }
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="admin" openCategoryId={data?.categoryId || 0} />
-      {apiId === 0 ? (
-        <div className="flex w-full justify-center my-80">API가 없습니다.</div>
-      ) : (
-        <ChartLayout>
-          <div className="flex justify-between">
-            <GoBack label={data?.apiName || ''} />
-            <Link href={`/apis/detail/${apiId}`}>
-              <div className="underline cursor-pointer">API 상세 보기</div>
-            </Link>
-          </div>
-          {/* 사용량 */}
-          <Usage apiId={apiId} teamName="admin" type="provide" />
-          {/* 응답시간 */}
-          <ResponseTime apiId={apiId} teamName="admin" type="provide" />
-          {/* 응답코드 */}
-          <ResponseCode apiId={apiId} teamName="admin" type="provide" />
-        </ChartLayout>
-      )}
+      <ChartSideBar type="admin" openCategoryId={data.categoryId} />
+      <ChartLayout>
+        <div className="flex justify-between">
+          <GoBack label={data.apiName} />
+          <Link href={`/apis/detail/${apiId}`}>
+            <div className="underline cursor-pointer">API 상세 보기</div>
+          </Link>
+        </div>
+        {/* 사용량 */}
+        <Usage apiId={apiId} teamName="admin" type="provide" />
+        {/* 응답시간 */}
+        <ResponseTime apiId={apiId} teamName="admin" type="provide" />
+        {/* 응답코드 */}
+        <ResponseCode apiId={apiId} teamName="admin" type="provide" />
+      </ChartLayout>
     </DrawerLayout>
   );
 };

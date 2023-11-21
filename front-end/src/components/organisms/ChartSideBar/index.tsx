@@ -17,7 +17,7 @@ function ChartSideBar({ type, openCategoryId }: Props) {
   const { selectedTeam } = useUserStore();
   const { useCategoryList, provideCategoryList, firstProvideCategoryId, firstUseCategoryId } = useMyApi(selectedTeam);
   const { categoryList } = useApi();
-
+  console.log(openCategoryId, '*******');
   const sideBarBody = () => {
     if (type === 'use') {
       if (useCategoryList === undefined) {

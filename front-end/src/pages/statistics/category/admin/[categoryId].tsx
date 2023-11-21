@@ -25,34 +25,37 @@ type SSGProps = {
 };
 
 const AdminCategoryChart: NextPage<SSGProps> = ({ categoryId }: SSGProps) => {
-  const { data, isLoading } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
+  const { data } = useQuery<ICategoryName>(['categoryName', categoryId], () => getCategoryName(categoryId), {
     enabled: categoryId !== 0,
   });
 
-  if (!data || isLoading) {
+  if (categoryId === 0) {
+    return (
+      <DrawerLayout>
+        <ChartSideBar type="admin" openCategoryId={0} />
+        <div className="flex w-full justify-center my-80">API가 없습니다.</div>
+      </DrawerLayout>
+    );
+  }
+
+  if (!data) {
     return <PageLoading />;
   }
 
   return (
     <DrawerLayout>
-      <ChartSideBar type="admin" openCategoryId={data?.categoryId || categoryId} />
-      {categoryId === 0 ? (
-        <div className="flex w-full justify-center my-80">API가 없습니다.</div>
-      ) : (
-        <div>
-          <CategoryChartLayout>
-            <GoBack label={data?.categoryName || ''} />
-            {/* 월 총 사용량 */}
-            <CategoryUsage type="provide" categoryId={categoryId} teamName="admin" />
-            {/* 기간별 사용량 */}
-            <CategoryListUsage type="provide" categoryId={categoryId} teamName="admin" />
-            {/* 응답 코드 */}
-            <CategoryResponseCode type="provide" categoryId={categoryId} teamName="admin" />
-            {/* 응답 시간 */}
-            <CategoryResponseTime type="provide" categoryId={categoryId} teamName="admin" />
-          </CategoryChartLayout>
-        </div>
-      )}
+      <ChartSideBar type="admin" openCategoryId={data.categoryId} />
+      <CategoryChartLayout>
+        <GoBack label={data.categoryName} />
+        {/* 월 총 사용량 */}
+        <CategoryUsage type="provide" categoryId={categoryId} teamName="admin" />
+        {/* 기간별 사용량 */}
+        <CategoryListUsage type="provide" categoryId={categoryId} teamName="admin" />
+        {/* 응답 코드 */}
+        <CategoryResponseCode type="provide" categoryId={categoryId} teamName="admin" />
+        {/* 응답 시간 */}
+        <CategoryResponseTime type="provide" categoryId={categoryId} teamName="admin" />
+      </CategoryChartLayout>
     </DrawerLayout>
   );
 };
